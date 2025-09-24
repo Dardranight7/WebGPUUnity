@@ -273,61 +273,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3341752633814986369, guid: 4ea39a51ee267154998dd509fc60bbea, type: 3}
---- !u!4 &126177775 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4ea39a51ee267154998dd509fc60bbea, type: 3}
-  m_PrefabInstance: {fileID: 1975577985}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &167867682
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 167867684}
-  - component: {fileID: 167867683}
-  m_Layer: 0
-  m_Name: InputManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &167867683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 167867682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd82397827027b14db47f4a1fbbc14d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Alpina::InputManager
-  enableKeyboard: 1
-  enableTouch: 1
-  enableJoysticks: 1
-  playerController: {fileID: 1660367395}
-  touchDeadZone: 50
-  showDebug: 1
---- !u!4 &167867684
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 167867682}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.70567, y: 0.36863, z: -0.19285}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &199414991
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,11 +348,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 199414991}
   m_CullTransparentMesh: 1
---- !u!1 &266221780 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8817729724262320634, guid: 18af4d9a885539645b50f99d38d1a0df, type: 3}
-  m_PrefabInstance: {fileID: 1326356543}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &267534632
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +360,6 @@ GameObject:
   - component: {fileID: 267534634}
   - component: {fileID: 267534633}
   - component: {fileID: 267534636}
-  - component: {fileID: 267534637}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -496,11 +435,11 @@ Transform:
   m_GameObject: {fileID: 267534632}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 5.63827, y: 2.12657, z: -15.00323}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 412566282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &267534636
 MonoBehaviour:
@@ -546,31 +485,59 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &267534637
+--- !u!1 &412566280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412566282}
+  - component: {fileID: 412566281}
+  m_Layer: 0
+  m_Name: CamaraController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &412566281
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267534632}
+  m_GameObject: {fileID: 412566280}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c95a1d94eb2431e4584c0461935e48ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Alpina::CameraFollow
   target: {fileID: 1660367393}
-  followSpeed: 5
-  offset: {x: 0, y: 5, z: -12}
-  cameraHeight: 4
-  cameraDistance: -8
-  minY: 2
-  lockX: 1
+  followSpeed: 3
+  offset: {x: 0, y: 6, z: -12}
+  minY: 0
+  lockX: 0
   lockZ: 1
-  onlyFollowUp: 1
   smoothFollow: 1
-  smoothTime: 0.15
-  lookAheadDistance: 2
-  lookAheadSpeed: 2
+  smoothTime: 0.25
+--- !u!4 &412566282
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412566280}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.63827, y: -1.12657, z: 5.00323}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 267534635}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &482831753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -579,10 +546,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2015391585}
     m_Modifications:
-    - target: {fileID: 116042483520143167, guid: 8134a9804ee0a944fa53cb402d09fd2d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.05
-      objectReference: {fileID: 0}
     - target: {fileID: 116042483520143167, guid: 8134a9804ee0a944fa53cb402d09fd2d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.1392498
@@ -634,84 +597,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6476862681671489574, guid: 8134a9804ee0a944fa53cb402d09fd2d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 575577434}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8134a9804ee0a944fa53cb402d09fd2d, type: 3}
 --- !u!4 &482831754 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 116042483520143167, guid: 8134a9804ee0a944fa53cb402d09fd2d, type: 3}
   m_PrefabInstance: {fileID: 482831753}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &575577430 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6476862681671489574, guid: 8134a9804ee0a944fa53cb402d09fd2d, type: 3}
-  m_PrefabInstance: {fileID: 482831753}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &575577434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 575577430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a59bfc0a372e5f14ebe9741a1478bf55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Alpina::Platform
-  platformType: 0
-  breakDelay: 0.5
-  hasBeenUsed: 0
-  enableVisualEffects: 1
-  originalColor: {r: 1, g: 1, b: 1, a: 1}
-  autoDetectPlayerStart: 1
-  playerTransform: {fileID: 0}
---- !u!1 &630730540
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 630730542}
-  - component: {fileID: 630730541}
-  m_Layer: 0
-  m_Name: PlatformPositioner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &630730541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 630730540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6602f9d3e073b2344a47a345207cb5ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Alpina::PlatformPositioner
---- !u!4 &630730542
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 630730540}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.63827, y: -1.12657, z: 5.00323}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &700024524
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,8 +762,7 @@ MonoBehaviour:
   joystickHandle: {fileID: 199414992}
   handleRange: 100
   deadZone: 0.3
-  playerController: {fileID: 1660367395}
-  inputManager: {fileID: 0}
+  playerController: {fileID: 0}
   isLeftJoystick: 1
   jumpOnPress: 1
   restrictToScreenHalf: 1
@@ -923,21 +814,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2015391585}
     m_Modifications:
-    - target: {fileID: 1662840877299387021, guid: 18af4d9a885539645b50f99d38d1a0df, type: 3}
-      propertyPath: m_Size.y
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 2545640134816217942, guid: 18af4d9a885539645b50f99d38d1a0df, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.05
-      objectReference: {fileID: 0}
     - target: {fileID: 2545640134816217942, guid: 18af4d9a885539645b50f99d38d1a0df, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.0927501
       objectReference: {fileID: 0}
     - target: {fileID: 2545640134816217942, guid: 18af4d9a885539645b50f99d38d1a0df, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.19009
+      value: 0.19009
       objectReference: {fileID: 0}
     - target: {fileID: 2545640134816217942, guid: 18af4d9a885539645b50f99d38d1a0df, type: 3}
       propertyPath: m_LocalPosition.z
@@ -982,35 +865,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8817729724262320634, guid: 18af4d9a885539645b50f99d38d1a0df, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1326356548}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18af4d9a885539645b50f99d38d1a0df, type: 3}
 --- !u!4 &1326356544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2545640134816217942, guid: 18af4d9a885539645b50f99d38d1a0df, type: 3}
   m_PrefabInstance: {fileID: 1326356543}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1326356548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 266221780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a59bfc0a372e5f14ebe9741a1478bf55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Alpina::Platform
-  platformType: 1
-  breakDelay: 0.5
-  hasBeenUsed: 0
-  enableVisualEffects: 1
-  originalColor: {r: 1, g: 1, b: 1, a: 1}
-  autoDetectPlayerStart: 1
-  playerTransform: {fileID: 0}
 --- !u!1 &1329292935
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,62 +919,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.63827, y: -1.12657, z: 5.00323}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1345115775
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1345115777}
-  - component: {fileID: 1345115776}
-  m_Layer: 0
-  m_Name: SetupGuide
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1345115776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1345115775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9d6dd8dea8f4f4982d41b520a15dfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Alpina::GameSetupGuide
-  playerController: {fileID: 1660367395}
-  playerHasRigidbody: 1
-  playerHasCollider: 1
-  groundCheckConfigured: 0
-  inputManager: {fileID: 0}
-  leftJoystick: {fileID: 855722004}
-  rightJoystick: {fileID: 1891829537}
-  cameraFollow: {fileID: 267534637}
-  platformGenerator: {fileID: 2015391584}
-  uiCanvas: {fileID: 700024527}
-  canvasHasGraphicRaycaster: 1
-  showDebugLogs: 1
---- !u!4 &1345115777
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1345115775}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.70567, y: 0.36863, z: -0.19285}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1187,10 +992,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: d516bd5ee97f29c4fb42ef7f43980ce5, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1250,15 +1051,6 @@ MonoBehaviour:
   normalSensitivityKey: 110
   lowSensitivityKey: 109
   testJoysticksKey: 120
-  player: {fileID: 0}
-  platformGenerator: {fileID: 0}
-  joystickManager: {fileID: 0}
-  mainCamera: {fileID: 0}
-  debugStartTime: 0
-  totalJumps: 0
-  maxHeight: 0
-  platformsCreated: 0
-  isSubscribedToEvents: 0
 --- !u!4 &1605168889
 Transform:
   m_ObjectHideFlags: 0
@@ -1368,35 +1160,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855e1ccd58d8615409ac32fce00cf240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Alpina::PlayerController
-  moveSpeed: 5
   jumpForce: 15
   horizontalForce: 6
   maxHorizontalSpeed: 8
+  gridSize: 2.5
   jumpHeight: 2
   jumpDuration: 0.6
-  gravityScale: 3
-  airControl: 0.5
-  autoJump: 1
-  autoJumpDelay: 0.1
   enableKeyboardInput: 1
   enableTouchInput: 1
   enableJoystickInput: 1
-  groundCheck: {fileID: 126177775}
-  groundCheckRadius: 0.1
-  groundCheckDistance: 0.3
   groundLayer:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 1
+  groundCheckDistance: 0.3
+  groundCheckRadius: 0.3
+  gravityScale: 3
+  airControl: 0.5
   OnJump:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDie:
     m_PersistentCalls:
       m_Calls: []
   OnLand:
     m_PersistentCalls:
       m_Calls: []
-  isJumping: 0
+  OnDie:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1691896413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1527,8 +1315,7 @@ MonoBehaviour:
   joystickHandle: {fileID: 1691896414}
   handleRange: 100
   deadZone: 0.3
-  playerController: {fileID: 1660367395}
-  inputManager: {fileID: 0}
+  playerController: {fileID: 0}
   isLeftJoystick: 0
   jumpOnPress: 1
   restrictToScreenHalf: 1
@@ -1580,14 +1367,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2015391585}
     m_Modifications:
-    - target: {fileID: 1057882279577784208, guid: bee132520c4cd0a4a9c967cd8a0cce45, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6237468056916842759, guid: bee132520c4cd0a4a9c967cd8a0cce45, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.05
-      objectReference: {fileID: 0}
     - target: {fileID: 6237468056916842759, guid: bee132520c4cd0a4a9c967cd8a0cce45, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.18574
@@ -1639,94 +1418,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7311086165801608608, guid: bee132520c4cd0a4a9c967cd8a0cce45, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1944511040}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bee132520c4cd0a4a9c967cd8a0cce45, type: 3}
 --- !u!4 &1921557636 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6237468056916842759, guid: bee132520c4cd0a4a9c967cd8a0cce45, type: 3}
   m_PrefabInstance: {fileID: 1921557635}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1944511036 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7311086165801608608, guid: bee132520c4cd0a4a9c967cd8a0cce45, type: 3}
-  m_PrefabInstance: {fileID: 1921557635}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1944511040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944511036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a59bfc0a372e5f14ebe9741a1478bf55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Alpina::Platform
-  platformType: 2
-  breakDelay: 0.5
-  hasBeenUsed: 0
-  enableVisualEffects: 1
-  originalColor: {r: 1, g: 1, b: 1, a: 1}
-  autoDetectPlayerStart: 1
-  playerTransform: {fileID: 0}
---- !u!1 &1952926078
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1952926080}
-  - component: {fileID: 1952926079}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1952926079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952926078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b7274cec01eb124fb2d91caeb3949d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Alpina::GameManager
-  isPaused: 0
-  targetFrameRate: 60
-  scoreText: {fileID: 0}
-  highScoreText: {fileID: 0}
-  pausePanel: {fileID: 0}
-  gameOverPanel: {fileID: 0}
-  player: {fileID: 0}
-  platformGenerator: {fileID: 0}
-  scoreMultiplier: 10
-  jumpBonus: 5
---- !u!4 &1952926080
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952926078}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.70567, y: 0.36863, z: -0.19285}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1975577985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1790,14 +1488,6 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4ea39a51ee267154998dd509fc60bbea, type: 3}
       propertyPath: m_Name
       value: LobbyLow
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4ea39a51ee267154998dd509fc60bbea, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 4ea39a51ee267154998dd509fc60bbea, type: 3}
-      propertyPath: m_TagString
-      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1938,14 +1628,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d53af59db8afcc247a76370406749b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Alpina::PlatformGenerator
-  normalPlatformPrefabs:
-  - {fileID: 575577430}
-  breakablePlatformPrefabs:
-  - {fileID: 266221780}
-  fakePlatformPrefabs:
-  - {fileID: 1944511036}
+  normalPlatformPrefabs: []
+  breakablePlatformPrefabs: []
+  fakePlatformPrefabs: []
   spikePlatformPrefabs: []
-  platformSpacing: 1.5
+  platformPoolParent: {fileID: 0}
+  useScenePlatforms: 1
+  createNewIfNeeded: 1
+  platformSpacing: 1.8
+  horizontalSpread: 4
+  minHorizontalDistance: 1.5
+  maxHorizontalDistance: 2.5
+  platformsAhead: 15
+  autoDetectPlayerStart: 1
+  firstPlatformOffset: 2
+  normalProbability: 0.75
+  breakableProbability: 0.2
+  fakeProbability: 0.04
+  spikeProbability: 0.01
+  difficultyIncreaseRate: 0.01
+  maxDifficultyHeight: 100
+  useHappyHopPattern: 1
+  ensureReachability: 1
+  maxJumpDistance: 3.2
+  minJumpDistance: 1.2
+  generateInRows: 1
+  platformsPerRow: 3
+  rowSpacing: 2.2
+  cleanupDistance: 30
 --- !u!4 &2015391585
 Transform:
   m_ObjectHideFlags: 0
@@ -1968,7 +1678,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 267534635}
+  - {fileID: 412566282}
   - {fileID: 66180439}
   - {fileID: 1975577985}
   - {fileID: 1362665236}
@@ -1977,7 +1687,3 @@ SceneRoots:
   - {fileID: 1605168889}
   - {fileID: 2015391585}
   - {fileID: 1329292937}
-  - {fileID: 1952926080}
-  - {fileID: 1345115777}
-  - {fileID: 167867684}
-  - {fileID: 630730542}
