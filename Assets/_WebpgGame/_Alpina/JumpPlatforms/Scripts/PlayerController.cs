@@ -1,319 +1,254 @@
 using UnityEngine;
+using UnityEngine.Events;
+using System.Collections;  // Necesario para IEnumerator
 
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Salto Direccional")]
-    public float jumpForce = 15f;
-    public float lateralJumpForce = 8f; // Fuerza lateral del salto
-    public float jumpCooldown = 0.3f;
+    // Métodos públicos para compatibilidad con VirtualJoystick
+    public void JumpLeft()
+    {
+            if (!isJumping && !isDead)
+        {
+            isJumping = true;
+            StartCoroutine(JumpLeftCoroutine());
+        }
+    }
+
+    public void JumpRight()
+    {
+            if (!isJumping && !isDead)
+        {
+            isJumping = true;
+            StartCoroutine(JumpRightCoroutine());
+        }
+    }
+    // MÉTODO PERSONALIZADO PARA DERROTA CON MENSAJE
+    public void DieWithMessage(string message)
+    {
+        if (isDead) return;
+        isDead = true;
+        isJumping = false;
+        Debug.Log($"💀 {message}");
+        OnDie?.Invoke();
+        // Aquí puedes agregar UI para mostrar el mensaje en pantalla
+        // Por ahora solo loguea y reinicia
+        Invoke("RestartLevel", 2f);
+    }
+    [Header("Movement Settings")]
+    public float moveSpeed = 5f;
+    public float jumpForce = 2.0f;       // EXTREMADAMENTE REDUCIDO para mini-salto tipo "cuadrícula"
+    public float horizontalForce = 1.0f;  // EXTREMADAMENTE REDUCIDO para mini-movimiento tipo "cuadrícula"
+    public float maxHorizontalSpeed = 1.5f; // Muy limitado para control preciso
+    public float jumpHeight = 0.5f;      // Altura muy pequeña para salto casi imperceptible
+    public float jumpDuration = 0.2f;    // Super rápido para inmediatez
+    public float gravityScale = 1.0f;    // Gravedad mínima
+    public float airControl = 0.1f;      // Control mínimo para movimiento predecible
     
-    [Header("Movimiento")]
-    public float moveSpeed = 10f;
-    public float maxSpeed = 8f;
-    public float moveRange = 5f;
-    public float airControl = 0.5f;
+    [Header("Auto Jump Settings")]
+    public bool autoJump = false;  // Desactivado por defecto para mejor control manual
+    public float autoJumpDelay = 0.1f;
     
-    [Header("Estabilidad")]
-    public float stabilityForce = 50f;
-    public float maxTiltAngle = 15f;
+    [Header("Input Settings")]
+    public bool enableKeyboardInput = true;
+    public bool enableTouchInput = true;
+    public bool enableJoystickInput = true;
     
-    [Header("Detección de Suelo")]
-    public LayerMask groundLayer = 1;
-    public float groundCheckDistance = 0.3f;
+    [Header("Ground Check")]
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.3f;
+    public float groundCheckDistance = 0.5f;
+    public LayerMask groundLayer;
     
-    [Header("Referencias")]
-    public Animator animator;
-    public Transform model3D;
+    [Header("Events")]
+    public UnityEvent OnJump = new UnityEvent();
+    public UnityEvent OnDie = new UnityEvent();
+    public UnityEvent OnLand = new UnityEvent();
     
-    [Header("Touch Controls")]
-    public TouchJoystick movementJoystick; // Para movimiento Y salto direccional
-    public TouchButton jumpButton;         // Para salto hacia adelante
-    
-    [Header("Animaciones")]
-    public float animationSmoothTime = 0.1f;
-    public float movementThreshold = 0.1f;
-    public bool showDebug = false;
-    
-    // Components
     private Rigidbody rb;
+    private bool isDead = false;
+    private bool wasGrounded = false;
+    private float landingTime = 0f;
+    public bool isJumping = false;
     
-    // States
-    private float lastJumpTime = 0f;
-    private bool isGrounded = false;
-    private bool isAlive = true;
+    // Public properties for other scripts
+    public bool IsAlive => !isDead;
+    public bool IsJumping => isJumping;
+    public bool IsMoving => Mathf.Abs(rb.linearVelocity.x) > 0.1f;
+    public Vector3 CurrentVelocity => rb.linearVelocity;
+    public float CurrentHeight => transform.position.y;
     
-    // Input and Animation
-    private float horizontalInput = 0f;
-    private float currentAnimVelocity = 0f;
-    private float velocityDampening;
-    
+    void Awake()
+    {
+        // Asegurar que el PlayerController esté activo y referenciado
+        this.enabled = true;
+        
+        InputManager inputManager = FindObjectOfType<InputManager>();
+        if (inputManager != null && inputManager.playerController == null)
+        {
+            inputManager.playerController = this;
+            Debug.Log("🎮 PlayerController se ha auto-asignado al InputManager.");
+        }
+    }
+
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+    rb = GetComponent<Rigidbody>();
+    // Aparecer en el suelo (Y=0)
+    transform.position = new Vector3(0, 0, 0);
         
-        rb.freezeRotation = false;
-        rb.angularDamping = 10f;
-        rb.centerOfMass = new Vector3(0, -0.5f, 0);
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        
-        if (animator == null)
-            animator = GetComponent<Animator>();
-            
-        Debug.Log("🎮 Player Controller initialized!");
+        // Auto-create ground check if not assigned
+        if (groundCheck == null)
+        {
+            GameObject groundCheckObj = new GameObject("GroundCheck");
+            groundCheckObj.transform.SetParent(transform);
+            groundCheckObj.transform.localPosition = Vector3.down * 0.5f;
+            groundCheck = groundCheckObj.transform;
+        }
     }
     
     void Update()
     {
-        if (!isAlive) return;
-        
-        GetInput();
-        HandleJumpInput();
-        UpdateAnimations();
-    }
-    
-    void GetInput()
-    {
-        horizontalInput = 0f;
-        
-        // 1. Teclado
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            horizontalInput = -1f;
-        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            horizontalInput = 1f;
-        
-        // 2. Movement Joystick
-        if (movementJoystick != null && movementJoystick.IsActive())
+        if (isDead) return;
+        // Input de teclado para saltar izquierda/derecha
+        // Solo permite un salto por vez, ignorando cualquier input mientras isJumping
+        if (!isJumping && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)))
         {
-            float touchInput = movementJoystick.GetHorizontalInput();
-            if (Mathf.Abs(touchInput) > 0.1f)
+            JumpLeft();
+        }
+        if (!isJumping && (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)))
+        {
+            JumpRight();
+        }
+        // Si se presiona dos veces rápido, solo se ejecuta el primer salto y se ignoran los siguientes hasta terminar la animación
+    }
+
+    // Eliminar CheckGrounded()
+    // Eliminar cualquier referencia a isGrounded en JumpLeft, JumpRight, Jump
+
+    IEnumerator JumpLeftCoroutine()
+    {
+        rb.linearVelocity = Vector3.zero;
+        float nextY = transform.position.y + 1.5f;
+        // Buscar plataforma más cercana en la siguiente fila hacia la izquierda
+        GameObject nextPlatform = FindClosestPlatform(transform.position.x - 1.5f, nextY);
+        if (nextPlatform != null)
+        {
+            Vector3 targetPosition = new Vector3(nextPlatform.transform.position.x, nextPlatform.transform.position.y, transform.position.z);
+            yield return StartCoroutine(AnimateJump(targetPosition));
+            OnJump?.Invoke();
+            Debug.Log($"🚀 Perfect Jump Left to position: {targetPosition}");
+        }
+        else
+        {
+            DieWithMessage("Has perdido: salto inválido, no hay plataforma en la siguiente fila a la izquierda.");
+        }
+        isJumping = false;
+    }
+
+    IEnumerator JumpRightCoroutine()
+    {
+        rb.linearVelocity = Vector3.zero;
+        float nextY = transform.position.y + 1.5f;
+        // Buscar plataforma más cercana en la siguiente fila hacia la derecha
+        GameObject nextPlatform = FindClosestPlatform(transform.position.x + 1.5f, nextY);
+        if (nextPlatform != null)
+        {
+            Vector3 targetPosition = new Vector3(nextPlatform.transform.position.x, nextPlatform.transform.position.y, transform.position.z);
+            yield return StartCoroutine(AnimateJump(targetPosition));
+            OnJump?.Invoke();
+            Debug.Log($"🚀 Perfect Jump Right to position: {targetPosition}");
+        }
+        else
+        {
+            DieWithMessage("Has perdido: salto inválido, no hay plataforma en la siguiente fila a la derecha.");
+        }
+        isJumping = false;
+    }
+
+    public void Jump()
+    {
+        // No se permite salto vertical, solo derecha o izquierda
+        DieWithMessage("Has perdido: salto vertical no permitido.");
+
+    }
+
+    // Buscar la plataforma más cercana en la siguiente fila
+    GameObject FindClosestPlatform(float targetX, float targetY)
+    {
+        float minDist = 1.0f;
+        GameObject closest = null;
+        foreach (var platform in GameObject.FindGameObjectsWithTag("Platform"))
+        {
+            float dx = Mathf.Abs(platform.transform.position.x - targetX);
+            float dy = Mathf.Abs(platform.transform.position.y - targetY);
+            if (dy < 0.8f && dx < minDist)
             {
-                horizontalInput = touchInput;
+                minDist = dx;
+                closest = platform;
             }
         }
+        return closest;
     }
     
-    void HandleJumpInput()
+    // Animación suave de salto para ir exactamente a la posición deseada
+    IEnumerator AnimateJump(Vector3 targetPosition)
     {
-        bool jumpPressed = false;
+        Vector3 startPosition = transform.position;
+        float jumpTime = 0.3f; // Duración de salto corta para sensación ágil
+        float elapsedTime = 0f;
         
-        // 1. Teclado - Spacebar
-        if (Input.GetKeyDown(KeyCode.Space))
-            jumpPressed = true;
-        
-        // 2. Touch Jump Button  
-        if (jumpButton != null && jumpButton.IsPressed())
-            jumpPressed = true;
-        
-        // 3. Ejecutar salto direccional
-        if (jumpPressed && CanJump())
+        while (elapsedTime < jumpTime)
         {
-            JumpWithDirection();
+            float t = elapsedTime / jumpTime;
+            float height = Mathf.Sin(t * Mathf.PI) * 0.5f;
+            Vector3 currentPos = Vector3.Lerp(startPosition, targetPosition, t);
+            currentPos.y += height;
+            transform.position = currentPos;
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
-    }
-    
-    bool CanJump()
-    {
-        return isGrounded && (Time.time - lastJumpTime) >= jumpCooldown;
-    }
-    
-    void JumpWithDirection()
-    {
-        // SALTO DIRECCIONAL
-        Vector3 jumpDirection = Vector3.up * jumpForce;
-        
-        // Agregar componente lateral según input
-        if (Mathf.Abs(horizontalInput) > 0.1f)
-        {
-            jumpDirection += Vector3.right * horizontalInput * lateralJumpForce;
-        }
-        
-        // Reset velocidad Y y aplicar salto
-        Vector3 currentVel = rb.linearVelocity;
-        rb.linearVelocity = new Vector3(currentVel.x * 0.5f, 0f, currentVel.z);
-        rb.AddForce(jumpDirection, ForceMode.Impulse);
-        
-        lastJumpTime = Time.time;
-        
-        // Rotar hacia dirección de salto
-        if (Mathf.Abs(horizontalInput) > 0.1f)
-        {
-            RotateCharacter(horizontalInput);
-        }
-        
-        if (showDebug)
-        {
-            Debug.Log($"🚀 Directional Jump! Direction: {jumpDirection} | Input: {horizontalInput:F2}");
-        }
-        
-        // Animation trigger
-        if (animator != null)
-        {
-            animator.SetTrigger("Jump");
-        }
-    }
-    
-    void UpdateAnimations()
-    {
-        if (animator == null) return;
-        
-        // Velocity para Idle/Movement
-        float targetVelocity = Mathf.Abs(horizontalInput) > movementThreshold ? 1f : 0f;
-        
-        currentAnimVelocity = Mathf.SmoothDamp(
-            currentAnimVelocity, 
-            targetVelocity, 
-            ref velocityDampening, 
-            animationSmoothTime
-        );
-        
-        animator.SetFloat("Velocity", currentAnimVelocity);
-        animator.SetBool("IsGrounded", isGrounded);
-        animator.SetFloat("VerticalSpeed", rb.linearVelocity.y);
-        
-        if (showDebug)
-        {
-            Debug.Log($"🎭 Anim: {currentAnimVelocity:F2} | Input: {horizontalInput:F2} | Grounded: {isGrounded}");
-        }
-    }
-    
-    void FixedUpdate()
-    {
-        if (!isAlive) return;
-        
-        CheckGrounded();
-        HandleAirMovement();
-        ApplyStabilityForce();
-        CheckBounds();
-    }
-    
-    void HandleAirMovement()
-    {
-        // Control menor en el aire
-        if (!isGrounded && Mathf.Abs(horizontalInput) > 0.1f)
-        {
-            Vector3 airForce = Vector3.right * horizontalInput * moveSpeed * airControl;
-            rb.AddForce(airForce, ForceMode.Force);
-            
-            // Limitar velocidad lateral
-            Vector3 velocity = rb.linearVelocity;
-            velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
-            rb.linearVelocity = velocity;
-        }
-    }
-    
-    void RotateCharacter(float direction)
-    {
-        if (model3D != null && Mathf.Abs(direction) > 0.1f)
-        {
-            float targetRotation = direction > 0 ? 90f : -90f;
-            Quaternion targetRot = Quaternion.Euler(0, targetRotation, 0);
-            model3D.rotation = Quaternion.Lerp(model3D.rotation, targetRot, Time.fixedDeltaTime * 10f);
-        }
-    }
-    
-    void ApplyStabilityForce()
-    {
-        Vector3 currentRotation = transform.eulerAngles;
-        float xAngle = currentRotation.x > 180 ? currentRotation.x - 360 : currentRotation.x;
-        float zAngle = currentRotation.z > 180 ? currentRotation.z - 360 : currentRotation.z;
-        
-        if (Mathf.Abs(xAngle) > maxTiltAngle || Mathf.Abs(zAngle) > maxTiltAngle)
-        {
-            Vector3 correctionTorque = Vector3.zero;
-            
-            if (Mathf.Abs(xAngle) > maxTiltAngle)
-                correctionTorque.x = -xAngle * stabilityForce;
-                
-            if (Mathf.Abs(zAngle) > maxTiltAngle)
-                correctionTorque.z = -zAngle * stabilityForce;
-            
-            rb.AddTorque(correctionTorque, ForceMode.Force);
-        }
-        
-        rb.angularVelocity = Vector3.Lerp(rb.angularVelocity, Vector3.zero, Time.fixedDeltaTime * 5f);
-    }
-    
-    void CheckGrounded()
-    {
-        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
-        RaycastHit hit;
-        
-        bool centerGrounded = Physics.Raycast(rayOrigin, Vector3.down, out hit, groundCheckDistance, groundLayer);
-        bool leftGrounded = Physics.Raycast(rayOrigin + Vector3.left * 0.3f, Vector3.down, groundCheckDistance, groundLayer);
-        bool rightGrounded = Physics.Raycast(rayOrigin + Vector3.right * 0.3f, Vector3.down, groundCheckDistance, groundLayer);
-        
-        isGrounded = centerGrounded || leftGrounded || rightGrounded;
-        
-        // Debug visual
-        Debug.DrawRay(rayOrigin, Vector3.down * groundCheckDistance, isGrounded ? Color.green : Color.red);
-        Debug.DrawRay(rayOrigin + Vector3.left * 0.3f, Vector3.down * groundCheckDistance, leftGrounded ? Color.green : Color.red);
-        Debug.DrawRay(rayOrigin + Vector3.right * 0.3f, Vector3.down * groundCheckDistance, rightGrounded ? Color.green : Color.red);
-    }
-    
-    void CheckBounds()
-    {
-        Vector3 pos = transform.position;
-        pos.x = Mathf.Clamp(pos.x, -moveRange, moveRange);
-        transform.position = pos;
-        
-        if (pos.y < -20f)
-        {
-            Die();
-        }
-    }
-    
-    public void Die()
-    {
-        if (!isAlive) return;
-        
-        isAlive = false;
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        
-        currentAnimVelocity = 0f;
-        if (animator != null)
-            animator.SetFloat("Velocity", 0f);
-        
-        Debug.Log("💀 Player died!");
+        transform.position = targetPosition;
+        isJumping = false; // <-- Reforzado aquí
+        // isGrounded eliminado
     }
     
     public void Restart()
     {
-        isAlive = true;
+        isDead = false;
+        isJumping = false;
+        transform.position = Vector3.zero;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        transform.rotation = Quaternion.identity;
-        
-        lastJumpTime = 0f;
-        currentAnimVelocity = 0f;
-        horizontalInput = 0f;
-        
-        if (animator != null)
-            animator.SetFloat("Velocity", 0f);
-        
-        Debug.Log(" Player restarted!");
     }
     
-    // Propiedades públicas
-    public bool IsAlive => isAlive;
-    public bool IsGroundedPublic => isGrounded;
-    public float CurrentAnimationVelocity => currentAnimVelocity;
-    public bool IsMoving => Mathf.Abs(horizontalInput) > movementThreshold;
-    public Vector3 CurrentVelocity => rb.linearVelocity;
-    
-    // Debug
-    void OnGUI()
+    public void Die()
     {
-        if (!showDebug || !Application.isPlaying) return;
+        if (isDead) return;
         
-        GUILayout.BeginArea(new Rect(10, 10, 300, 150));
-        GUILayout.Box("🎮 Player Controller Debug");
-        GUILayout.Label($"Input: {horizontalInput:F2}");
-        GUILayout.Label($"Grounded: {isGrounded}");
-        GUILayout.Label($"Velocity: {rb.linearVelocity}");
-        GUILayout.Label($"Can Jump: {CanJump()}");
-        GUILayout.Label($"Animation: {currentAnimVelocity:F2}");
-        GUILayout.EndArea();
+        isDead = true;
+        isJumping = false;
+        Debug.Log("💀 Player died!");
+        OnDie?.Invoke();
+        
+        // Add death effects here
+        // For now, just restart the level after a delay
+        Invoke("RestartLevel", 2f);
+    }
+    
+    void RestartLevel()
+    {
+        isDead = false;
+        // Reset player position or reload scene
+        transform.position = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
+    }
+    
+    void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
     }
 }
