@@ -9,7 +9,7 @@ public class ButtonTeleport : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         TeleportEvents.SelectScene(toScene);
-        TeleportEvents.SelectScene();
+        TeleportEvents.ActivePortal();
 
     }
 }
