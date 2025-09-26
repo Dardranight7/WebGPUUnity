@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
 public class PlatformGenerator : MonoBehaviour
 {
     public GameObject[] normalPlatformPrefabs;
@@ -11,8 +10,12 @@ public class PlatformGenerator : MonoBehaviour
 
     private List<GameObject> activePlatforms = new List<GameObject>();
     private Transform playerTransform;
+    public float startHeight = 0f;
     private float currentHeight = 0f;
-    public float platformSpacing = 0.02f;
+    public float platformSpacing = 0.1f;
+    [Header("Plataformas por fila")]
+    public int plataformasPorFila = 6;
+    public float separacionEntrePlataformas = 1.0f;
 
     void Start()
     {
@@ -21,70 +24,60 @@ public class PlatformGenerator : MonoBehaviour
         {
             playerTransform = player.transform;
         }
-        currentHeight = playerTransform != null ? playerTransform.position.y - 1.5f : 0f;
+        currentHeight = 0f;
         GenerateInitialPlatforms();
     }
 
-    // Genera las primeras plataformas con patrón Happy Hop
     private void GenerateInitialPlatforms()
     {
-    float startY = currentHeight;
-    int filas = 40;
-    int plataformasPorFila = 20;
-    float minX = -3.0f;
-    float maxX = 3.0f;
-    float minDist = 1.2f;
-
-    for (int fila = 0; fila < filas; fila++)
-    {
-        float y = startY + fila * platformSpacing;
-        float platformWidth = 1.0f; // Ajusta según el ancho real del prefab
-        float totalWidth = plataformasPorFila * platformWidth + (plataformasPorFila - 1) * platformWidth;
-        float startX = -(totalWidth / 2) + platformWidth / 2;
-        float zigzagOffset = (fila % 2 == 0) ? 0 : platformWidth;
-        for (int col = 0; col < plataformasPorFila; col++)
+        float startY = startHeight;
+        int filas = 40;
+        float platformWidth = separacionEntrePlataformas;
+        // Si hay prefabs, usa el ancho real del primero
+        if (normalPlatformPrefabs != null && normalPlatformPrefabs.Length > 0)
         {
-            float x = startX + col * platformWidth * 2 + zigzagOffset;
-            // No crear plataformas en Y=0 (suelo) para evitar colisión inicial
-            if (fila == 0) continue;
-            if (fila < 3) {
-                // Primeras 3 filas: solo plataformas estáticas y normales, muchas para facilitar el inicio
-                if (Random.value < 0.8f) {
-                    PlatformType tipo = (Random.value < 0.5f) ? PlatformType.Static : PlatformType.Normal;
-                    GameObject prefab = GetPlatformPrefab(tipo);
-                    if (prefab != null) {
-                        Vector3 pos = new Vector3(x, y, 0);
-                        GameObject platform = Instantiate(prefab, pos, Quaternion.identity, transform);
-                        platform.SetActive(true);
-                        activePlatforms.Add(platform);
-                    }
+            var rend = normalPlatformPrefabs[0].GetComponent<Renderer>();
+            if (rend != null)
+                platformWidth = rend.bounds.size.x + separacionEntrePlataformas;
+        }
+        for (int fila = 0; fila < filas; fila++)
+        {
+            float y = startY + fila * platformSpacing;
+            float totalWidth = (plataformasPorFila - 1) * platformWidth;
+            // Zigzag: desplaza toda la fila medio ancho a la derecha en filas impares
+            float zigzagOffset = (fila % 2 == 0) ? 0 : platformWidth / 2;
+            float startX = -totalWidth / 2 + zigzagOffset;
+            for (int col = 0; col < plataformasPorFila; col++)
+            {
+                float x = startX + col * platformWidth;
+                if (Mathf.Abs(y) < 0.01f) continue;
+                PlatformType tipo;
+                if (fila < 3)
+                {
+                    tipo = (Random.value < 0.5f) ? PlatformType.Static : PlatformType.Normal;
                 }
-            } else {
-                // Resto de filas: patrón aleatorio y zigzag
-                if (Random.value < 0.6f) {
-                    PlatformType tipo;
+                else
+                {
                     float r = Random.value;
-                    if (r < 0.3f)
-                        tipo = PlatformType.Static;
-                    else if (r < 0.6f)
+                    if (r < 0.7f)
                         tipo = PlatformType.Normal;
                     else if (r < 0.8f)
+                        tipo = PlatformType.Static;
+                    else if (r < 0.9f)
                         tipo = PlatformType.Fake;
                     else
                         tipo = PlatformType.Breakable;
-                    GameObject prefab = GetPlatformPrefab(tipo);
-                    if (prefab != null) {
-                        Vector3 pos = new Vector3(x, y, 0);
-                        GameObject platform = Instantiate(prefab, pos, Quaternion.identity, transform);
-                        platform.SetActive(true);
-                        activePlatforms.Add(platform);
-                    }
+                }
+                GameObject prefab = GetPlatformPrefab(tipo);
+                if (prefab != null)
+                {
+                    Vector3 pos = new Vector3(x, y, 0);
+                    GameObject platform = Instantiate(prefab, pos, Quaternion.identity, transform);
+                    platform.SetActive(true);
+                    activePlatforms.Add(platform);
                 }
             }
         }
-    }
-    currentHeight = startY + filas * platformSpacing;
-
     }
 
     void Update()
@@ -113,22 +106,24 @@ public class PlatformGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateNextPlatform()
+    public void GenerateNextPlatform()
     {
-        float minX = -3.0f, maxX = 3.0f;
-    float minDist = 1.2f;
-        int platformsThisRow = 8; // Muchas plataformas por fila
         float y = currentHeight;
-        List<float> usedPositions = new List<float>();
-        int attempts = 0;
-        int maxAttempts = platformsThisRow * 10;
-        float platformWidth = 1.0f; // Ajusta según el ancho real del prefab
-        float totalWidth = platformsThisRow * platformWidth;
-        float playerX = playerTransform != null ? playerTransform.position.x : 0f;
-        float startX = playerX - (totalWidth / 2) + (platformWidth / 2);
-        for (int i = 0; i < platformsThisRow; i++)
+        float platformWidth = separacionEntrePlataformas;
+        if (normalPlatformPrefabs != null && normalPlatformPrefabs.Length > 0)
         {
-            float x = startX + i * platformWidth;
+            var rend = normalPlatformPrefabs[0].GetComponent<Renderer>();
+            if (rend != null)
+                platformWidth = rend.bounds.size.x + separacionEntrePlataformas;
+        }
+        float totalWidth = (plataformasPorFila - 1) * platformWidth;
+        float playerX = playerTransform != null ? playerTransform.position.x : 0f;
+        float startX = playerX - (totalWidth / 2);
+        float zigzagOffset = ((int)(currentHeight/platformSpacing) % 2 == 0) ? 0 : platformWidth / 2;
+        float startXZigzag = startX + zigzagOffset;
+        for (int i = 0; i < plataformasPorFila; i++)
+        {
+            float x = startXZigzag + i * platformWidth;
             PlatformType type;
             float r = Random.value;
             if (r < 0.3f)
@@ -149,7 +144,7 @@ public class PlatformGenerator : MonoBehaviour
                 activePlatforms.Add(platform);
             }
         }
-    currentHeight += platformSpacing;
+        currentHeight += platformSpacing;
     }
 
     private GameObject GetPlatformPrefab(PlatformType type)
@@ -173,4 +168,4 @@ public class PlatformGenerator : MonoBehaviour
         return null;
     }
 }
-    
+

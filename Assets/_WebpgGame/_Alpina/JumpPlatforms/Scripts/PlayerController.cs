@@ -4,36 +4,7 @@ using System.Collections;  // Necesario para IEnumerator
 
 public class PlayerController : MonoBehaviour
 {
-    // Métodos públicos para compatibilidad con VirtualJoystick
-    public void JumpLeft()
-    {
-            if (!isJumping && !isDead)
-        {
-            isJumping = true;
-            StartCoroutine(JumpLeftCoroutine());
-        }
-    }
-
-    public void JumpRight()
-    {
-            if (!isJumping && !isDead)
-        {
-            isJumping = true;
-            StartCoroutine(JumpRightCoroutine());
-        }
-    }
-    // MÉTODO PERSONALIZADO PARA DERROTA CON MENSAJE
-    public void DieWithMessage(string message)
-    {
-        if (isDead) return;
-        isDead = true;
-        isJumping = false;
-        Debug.Log($"💀 {message}");
-        OnDie?.Invoke();
-        // Aquí puedes agregar UI para mostrar el mensaje en pantalla
-        // Por ahora solo loguea y reinicia
-        Invoke("RestartLevel", 2f);
-    }
+    
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpForce = 2.0f;       // EXTREMADAMENTE REDUCIDO para mini-salto tipo "cuadrícula"
@@ -65,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public UnityEvent OnLand = new UnityEvent();
     
     private Rigidbody rb;
-    private bool isDead = false;
+    public bool isDead = false;
     private bool wasGrounded = false;
     private float landingTime = 0f;
     public bool isJumping = false;
@@ -82,7 +53,7 @@ public class PlayerController : MonoBehaviour
         // Asegurar que el PlayerController esté activo y referenciado
         this.enabled = true;
         
-        InputManager inputManager = FindObjectOfType<InputManager>();
+    InputManager inputManager = FindFirstObjectByType<InputManager>();
         if (inputManager != null && inputManager.playerController == null)
         {
             inputManager.playerController = this;
@@ -93,7 +64,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
     rb = GetComponent<Rigidbody>();
-    // Aparecer en el suelo (Y=0)
+    // Aparecer en Y=0 (suelo)
     transform.position = new Vector3(0, 0, 0);
         
         // Auto-create ground check if not assigned
@@ -109,8 +80,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (isDead) return;
-        // Input de teclado para saltar izquierda/derecha
-        // Solo permite un salto por vez, ignorando cualquier input mientras isJumping
+        // Permitir input de teclado para saltar izquierda/derecha
         if (!isJumping && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)))
         {
             JumpLeft();
@@ -119,7 +89,38 @@ public class PlayerController : MonoBehaviour
         {
             JumpRight();
         }
-        // Si se presiona dos veces rápido, solo se ejecuta el primer salto y se ignoran los siguientes hasta terminar la animación
+        // Permitir salto con joystick touch si tienes método público
+    }
+    
+    // Métodos públicos para compatibilidad con VirtualJoystick
+    public void JumpLeft()
+    {
+        if (!isJumping && !isDead)
+        {
+            isJumping = true;
+            StartCoroutine(JumpLeftCoroutine());
+        }
+    }
+
+    public void JumpRight()
+    {
+        if (!isJumping && !isDead)
+        {
+            isJumping = true;
+            StartCoroutine(JumpRightCoroutine());
+        }
+    }
+    // MÉTODO PERSONALIZADO PARA DERROTA CON MENSAJE
+    public void DieWithMessage(string message)
+    {
+        if (isDead) return;
+        isDead = true;
+        isJumping = false;
+        Debug.Log($"💀 {message}");
+        OnDie?.Invoke();
+        // Aquí puedes agregar UI para mostrar el mensaje en pantalla
+        // Por ahora solo loguea y reinicia
+        Invoke("RestartLevel", 2f);
     }
 
     // Eliminar CheckGrounded()
@@ -127,7 +128,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator JumpLeftCoroutine()
     {
-        rb.linearVelocity = Vector3.zero;
+    rb.linearVelocity = Vector3.zero;
         float nextY = transform.position.y + 1.5f;
         // Buscar plataforma más cercana en la siguiente fila hacia la izquierda
         GameObject nextPlatform = FindClosestPlatform(transform.position.x - 1.5f, nextY);
@@ -140,14 +141,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            DieWithMessage("Has perdido: salto inválido, no hay plataforma en la siguiente fila a la izquierda.");
+            // No muere, simplemente no hace nada si no hay plataforma
+            Debug.Log("No hay plataforma en la siguiente fila a la izquierda, pero el personaje no muere.");
         }
         isJumping = false;
     }
 
     IEnumerator JumpRightCoroutine()
     {
-        rb.linearVelocity = Vector3.zero;
+    rb.linearVelocity = Vector3.zero;
         float nextY = transform.position.y + 1.5f;
         // Buscar plataforma más cercana en la siguiente fila hacia la derecha
         GameObject nextPlatform = FindClosestPlatform(transform.position.x + 1.5f, nextY);
@@ -160,22 +162,23 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            DieWithMessage("Has perdido: salto inválido, no hay plataforma en la siguiente fila a la derecha.");
+            // No muere, simplemente no hace nada si no hay plataforma
+            Debug.Log("No hay plataforma en la siguiente fila a la derecha, pero el personaje no muere.");
         }
         isJumping = false;
     }
 
     public void Jump()
     {
-        // No se permite salto vertical, solo derecha o izquierda
-        DieWithMessage("Has perdido: salto vertical no permitido.");
+    // No se permite salto vertical, solo derecha o izquierda
+    Debug.Log("Salto vertical no permitido, pero el personaje no muere.");
 
     }
 
     // Buscar la plataforma más cercana en la siguiente fila
     GameObject FindClosestPlatform(float targetX, float targetY)
     {
-        float minDist = 1.0f;
+        float minDist = 2.0f;
         GameObject closest = null;
         foreach (var platform in GameObject.FindGameObjectsWithTag("Platform"))
         {
@@ -217,7 +220,7 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         isJumping = false;
         transform.position = Vector3.zero;
-        rb.linearVelocity = Vector3.zero;
+    rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
     
@@ -240,7 +243,7 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         // Reset player position or reload scene
         transform.position = Vector3.zero;
-        rb.linearVelocity = Vector3.zero;
+    rb.linearVelocity = Vector3.zero;
     }
     
     void OnDrawGizmosSelected()

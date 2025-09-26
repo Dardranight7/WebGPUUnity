@@ -39,14 +39,9 @@ public class InputManager : MonoBehaviour
     
     void Update()
     {
-        // ACTIVADO SOLO PARA JOYSTICKS!
-        // El PlayerController maneja su propio input de teclado
-        // Este InputManager solo procesa joysticks virtuales
-        
-        // Los joysticks llaman directamente a OnJoystickLeft/Right
-        // No hacemos nada aquí para evitar interferencia
-        
-        // Dejamos esto vacío a propósito
+    // Procesar input de teclado, touch y joystick
+    ProcessInput();
+    ApplyInput();
     }
     
     void ProcessInput()
