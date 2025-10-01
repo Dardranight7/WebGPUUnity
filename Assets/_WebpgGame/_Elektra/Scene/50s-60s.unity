@@ -1242,14 +1242,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230813921}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2011370707}
   m_Father: {fileID: 145299587}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.1387, y: 1.1447}
@@ -2588,9 +2588,9 @@ MonoBehaviour:
   button: {fileID: 1985823237}
   player: {fileID: 1919448824}
   uiCamera: {fileID: 330585545}
-  FollowCameraToPlayer: 0
-  triggerRadius: 0.5
+  isFollow: 0
   facingTarget: 0
+  triggerRadius: 0.5
   onButtonClick:
     m_PersistentCalls:
       m_Calls:
@@ -2606,6 +2606,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  groupWeight: 0
+  groupRadius: 0
+  inputAxisController: {fileID: 0}
+  fadeSmoothTime: 0.2
+  canvasGroup: {fileID: 0}
 --- !u!135 &743307098
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4020,6 +4025,7 @@ GameObject:
   - component: {fileID: 1115483573}
   - component: {fileID: 1115483572}
   - component: {fileID: 1115483571}
+  - component: {fileID: 1115483574}
   m_Layer: 0
   m_Name: World_Space_Canvas
   m_TagString: Untagged
@@ -4111,6 +4117,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &1115483574
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115483569}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1125365709
 GameObject:
   m_ObjectHideFlags: 0
@@ -5312,9 +5330,9 @@ MonoBehaviour:
   button: {fileID: 230813922}
   player: {fileID: 1919448824}
   uiCamera: {fileID: 330585545}
-  FollowCameraToPlayer: 0
-  triggerRadius: 0.5
+  isFollow: 1
   facingTarget: 0
+  triggerRadius: 0.5
   onButtonClick:
     m_PersistentCalls:
       m_Calls:
@@ -5330,6 +5348,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  groupWeight: 0
+  groupRadius: 0
+  inputAxisController: {fileID: 2140605969}
+  fadeSmoothTime: 0.2
+  canvasGroup: {fileID: 0}
 --- !u!135 &1295401071
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5467,9 +5490,9 @@ MonoBehaviour:
   button: {fileID: 1528433846}
   player: {fileID: 1919448824}
   uiCamera: {fileID: 330585545}
-  FollowCameraToPlayer: 0
+  isFollow: 1
+  facingTarget: 1
   triggerRadius: 0.5
-  facingTarget: 0
   onButtonClick:
     m_PersistentCalls:
       m_Calls:
@@ -5485,6 +5508,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  groupWeight: 0
+  groupRadius: 0
+  inputAxisController: {fileID: 2140605969}
+  fadeSmoothTime: 0.2
+  canvasGroup: {fileID: 0}
 --- !u!135 &1306061838
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6818,14 +6846,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1528433845}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 28816733}
   m_Father: {fileID: 1115483570}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.1387, y: 1.1447}
@@ -8787,14 +8815,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985823236}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1361165647}
   m_Father: {fileID: 2115973878}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.1387, y: 1.1447}

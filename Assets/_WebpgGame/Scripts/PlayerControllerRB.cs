@@ -22,6 +22,8 @@ public class PlayerControllerRB : MonoBehaviour
     private float animVelocity; // valor interpolado entre 0 y 1
     ThirdPerson inputActions;
 
+    [SerializeField] MochiAnimationManager mochiAnimationManager;
+
     private void Awake()
     {
         inputActions = new ThirdPerson();
@@ -98,6 +100,11 @@ public class PlayerControllerRB : MonoBehaviour
         if (animator != null)
         {
             animator.SetFloat("Velocity", animVelocity);
+        }
+
+        if (mochiAnimationManager != null)
+        {
+            mochiAnimationManager.SetVelocityOnActiveChildren(animVelocity);
         }
 
         // Aplicar drag en el plano XZ (sin afectar la gravedad)
