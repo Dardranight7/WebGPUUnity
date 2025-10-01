@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.linearVelocity = Vector3.zero;
 
-        float  horizontaDistance = platformGenerator.spacingX;
+        float  horizontaDistance = platformGenerator.separacionEntrePlataformas;
         
         float nextX = transform.position.x - horizontaDistance;
         float nextY = transform.position.y + platformGenerator.platformSpacing;
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.linearVelocity = Vector3.zero;
         
-        float horizontalDistance = platformGenerator.spacingX;
+        float horizontalDistance = platformGenerator.separacionEntrePlataformas;
         
         float nextX = transform.position.x + horizontalDistance;
         float nextY = transform.position.y + platformGenerator.platformSpacing;
@@ -179,13 +179,16 @@ public class PlayerController : MonoBehaviour
     // Buscar la plataforma más cercana en la siguiente fila
     GameObject FindClosestPlatform(float targetX, float targetY, float searchRadius)
     {
-        float minDist = searchRadius * testJump;
         GameObject closest = null;
-        foreach (var platform in GameObject.FindGameObjectsWithTag("Platform"))
+        float minDist = float.MaxValue;
+        GameObject[] platforms = GameObject.FindGameObjectsWithTag("Platform");
+        
+        foreach (var platform in platforms)
         {
+            Vector3 plaPos = platform.transform.position;
             float dx = Mathf.Abs(platform.transform.position.x - targetX);
             float dy = Mathf.Abs(platform.transform.position.y - targetY);
-            if (dy < platformGenerator.platformSpacing * platformSearchTolerance && dx < minDist)
+            if (dy < platformGenerator.platformSpacing * 0.6  && dx < minDist)
             {
                 minDist = dx;
                 closest = platform;
@@ -197,6 +200,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator AnimateJump(Vector3 targetPosition)
     {
         Vector3 startPosition = transform.position;
+        float jumpTime = 0.3f;
         float elapsedTime = 0f;
         
         while (elapsedTime < jumpTime)
