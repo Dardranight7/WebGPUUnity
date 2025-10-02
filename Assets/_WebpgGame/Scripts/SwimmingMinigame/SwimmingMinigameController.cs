@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SwimmingMinigameController : MonoBehaviour
@@ -13,9 +14,36 @@ public class SwimmingMinigameController : MonoBehaviour
     public Vector2 movementLimits = new Vector2(10f, 5f);
     public bool isBot = false;
     public int Lifes = 3;
+    public int index = 0;
+    bool isDead = false;
 
     private Rigidbody rb;
     [SerializeField] GameObject modelParent;
+    ThirdPerson inputActions;
+
+    private void Awake()
+    {
+        inputActions = new ThirdPerson();
+        inputActions.Enable();
+        inputActions.Player.Move.performed += OnMove;
+        inputActions.Player.Move.canceled += OnMove;
+    }
+
+    private void OnDestroy()
+    {
+        inputActions.Player.Move.performed -= OnMove;
+        inputActions.Player.Move.canceled -= OnMove;
+    }
+
+    float h = 0;
+    float v = 0;
+
+    public void OnMove(InputAction.CallbackContext movement)
+    {
+        Vector2 vector2 = movement.ReadValue<Vector2>();
+        h = vector2.x;
+        v = vector2.y;
+    }
 
     void Start()
     {
@@ -30,10 +58,15 @@ public class SwimmingMinigameController : MonoBehaviour
 
     void Update()
     {
-        if (Lifes <= 0)
+        if (isDead)
         {
             DeadMovement();
             return;
+        }
+        if (Lifes <= 0)
+        {
+            isDead = true;
+            FindFirstObjectByType<InfiniteRunnerObstacles>()?.ReportLoose?.Invoke(index);
         }
         if (isBot)
         {
@@ -50,8 +83,8 @@ public class SwimmingMinigameController : MonoBehaviour
 
     private void PlayerMovement()
     {
-        float moveZ = Input.GetAxis("Horizontal"); // ahora mueve en Y
-        float moveY = Input.GetAxis("Vertical");   // ahora mueve en Z
+        float moveZ = h;   // ahora mueve en Y
+        float moveY = v;   // ahora mueve en Z
 
         Vector3 force = new Vector3(0f, moveY, moveZ) * moveForce;
         rb.AddForce(force);

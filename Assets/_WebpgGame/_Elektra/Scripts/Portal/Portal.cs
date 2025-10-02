@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
-    public SceneAsset toScene;
+    public string toScene;
     public MeshRenderer meshRenderer;
 
     public new Collider collider;
@@ -29,10 +29,10 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene(toScene.name);
+        SceneManager.LoadScene(toScene);
     }
 
-    private void ChanceScene(SceneAsset nextScene)
+    private void ChanceScene(string nextScene)
     {
         toScene = nextScene;
     }

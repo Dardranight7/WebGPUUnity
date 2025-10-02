@@ -1,7 +1,9 @@
 using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InfiniteRunnerObstacles : MonoBehaviour
 {
@@ -62,9 +64,9 @@ public class InfiniteRunnerObstacles : MonoBehaviour
         }
         List<bool> filteredPlayers = new List<bool>();
         filteredPlayers = players.Where(a => a == false).ToList();
-        if (players.Count <= 1)
+        if (filteredPlayers.Count <= 1)
         {
-            if (players.Count <= 0)
+            if (filteredPlayers.Count <= 0)
             {
                 //Empate
                 //Indexes of winners
@@ -79,6 +81,7 @@ public class InfiniteRunnerObstacles : MonoBehaviour
             PlayerPrefs.SetString("WinnerYogoNado", JsonConvert.SerializeObject(winnerIndexes));
                 //Endgame
             obstaclesParent.gameObject.SetActive(false);
+            StartCoroutine(LoadAfterTime());
             endgame = true;
         }
 
@@ -95,6 +98,12 @@ public class InfiniteRunnerObstacles : MonoBehaviour
 
         // Revisar obstáculos activos para desactivar
         CheckDespawn();
+    }
+
+    IEnumerator LoadAfterTime()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("YogoNadoOutro");
     }
 
     void SpawnObstacle()

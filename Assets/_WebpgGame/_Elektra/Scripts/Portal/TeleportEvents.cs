@@ -1,16 +1,15 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 
 public static class TeleportEvents
 {
-    public static event Action<SceneAsset> OnSceneSeleted;
+    public static event Action<string> OnSceneSeleted;
     public static event Action<Texture> OnPostalActive;
     public static event Action OnPostalDesactive;
     
     
 
-    public static void SelectScene(SceneAsset nameScene)
+    public static void SelectScene(string nameScene)
     {
         OnSceneSeleted?.Invoke(nameScene);
     }
