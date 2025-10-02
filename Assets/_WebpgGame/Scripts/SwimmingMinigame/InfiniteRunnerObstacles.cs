@@ -34,7 +34,7 @@ public class InfiniteRunnerObstacles : MonoBehaviour
         {
             AddNewObstacleToPool();
         }
-
+        obstaclesParent.gameObject.SetActive(true);
         ResetSpawnTimer();
     }
 
@@ -60,8 +60,8 @@ public class InfiniteRunnerObstacles : MonoBehaviour
         {
             return;
         }
-        List<bool> players = new List<bool>();
-        players = players.Where(a => a == false).ToList();
+        List<bool> filteredPlayers = new List<bool>();
+        filteredPlayers = players.Where(a => a == false).ToList();
         if (players.Count <= 1)
         {
             if (players.Count <= 0)
