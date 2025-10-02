@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     public bool IsMoving => Mathf.Abs(rb.linearVelocity.x) > 0.1f;
     public Vector3 CurrentVelocity => rb.linearVelocity;
     public float CurrentHeight => transform.position.y;
-    
+    GameObject[] platforms;
     void Awake()
     {
         // Asegurar que el PlayerController esté activo y referenciado
@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(WaitAndLand());
         rb = GetComponent<Rigidbody>();
         
         if (gameManager == null)
@@ -69,6 +70,14 @@ public class PlayerController : MonoBehaviour
             victoryHeight = platformGenerator.platformSpacing * (platformGenerator.maxFilas - 1);
         else
             victoryHeight = 73.5f; // Valor por defecto si no hay PlatformGenerator
+    }
+    
+    IEnumerator WaitAndLand() 
+    {
+        
+        yield return new WaitForSeconds(1f);
+        platforms = GameObject.FindGameObjectsWithTag("Platform");
+        
     }
     
     void Update()
@@ -102,6 +111,7 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = true;
             StartCoroutine(JumpLeftCoroutine());
+            Debug.Log("JumpLeft");
         }
     }
 
@@ -111,6 +121,7 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = true;
             StartCoroutine(JumpRightCoroutine());
+            Debug.Log("Jumpright");
         }
     }
     
@@ -121,8 +132,12 @@ public class PlayerController : MonoBehaviour
         isJumping = false;
         Debug.Log($" {message}");
         OnDie?.Invoke();
-        // Aquí puedes agregar UI para mostrar el mensaje en pantalla
+
+        if (gameManager != null) ;
+        
         Invoke("RestartLevel", 2f);
+        
+        
     }
     
 
@@ -132,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
         float  horizontaDistance = platformGenerator.separacionEntrePlataformas;
         
-        float nextX = transform.position.x - horizontaDistance;
+        float nextX = transform.position.x - (horizontaDistance / 2);
         float nextY = transform.position.y + platformGenerator.platformSpacing;
         
         // Buscar plataforma más cercana en la siguiente fila hacia la izquierda
@@ -153,7 +168,7 @@ public class PlayerController : MonoBehaviour
         
         float horizontalDistance = platformGenerator.separacionEntrePlataformas;
         
-        float nextX = transform.position.x + horizontalDistance;
+        float nextX = transform.position.x + (horizontalDistance / 2);
         float nextY = transform.position.y + platformGenerator.platformSpacing;
         
         GameObject nextPlatform = FindClosestPlatform(nextX, nextY, horizontalDistance);
@@ -180,22 +195,24 @@ public class PlayerController : MonoBehaviour
     GameObject FindClosestPlatform(float targetX, float targetY, float searchRadius)
     {
         GameObject closest = null;
-        float minDist = float.MaxValue;
-        GameObject[] platforms = GameObject.FindGameObjectsWithTag("Platform");
+        float minDist = testJump;
+        //GameObject[] platforms = GameObject.FindGameObjectsWithTag("Platform");
         
         foreach (var platform in platforms)
         {
             Vector3 plaPos = platform.transform.position;
             float dx = Mathf.Abs(platform.transform.position.x - targetX);
             float dy = Mathf.Abs(platform.transform.position.y - targetY);
-            if (dy < platformGenerator.platformSpacing * 0.6  && dx < minDist)
+            if (dy < platformGenerator.platformSpacing * 0.6f  && dx < minDist)
             {
-                minDist = dx;
+                //minDist = dx;
                 closest = platform;
+                Debug.Log($"Dx {dx}");
             }
         }
         return closest;
     }
+    
     
     IEnumerator AnimateJump(Vector3 targetPosition)
     {
