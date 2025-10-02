@@ -1,34 +1,24 @@
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;  // Necesario para IEnumerator
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    
-    [Header("Movement Settings")]
-    public float moveSpeed = 5f;
-    public float jumpForce = 2.0f;       // EXTREMADAMENTE REDUCIDO para mini-salto tipo "cuadrícula"
-    public float horizontalForce = 1.0f;  // EXTREMADAMENTE REDUCIDO para mini-movimiento tipo "cuadrícula"
-    public float maxHorizontalSpeed = 1.5f; // Muy limitado para control preciso
-    public float jumpHeight = 0.5f;      // Altura muy pequeña para salto casi imperceptible
-    public float jumpDuration = 0.2f;    // Super rápido para inmediatez
-    public float gravityScale = 1.0f;    // Gravedad mínima
-    public float airControl = 0.1f;      // Control mínimo para movimiento predecible
-    
-    [Header("Auto Jump Settings")]
-    public bool autoJump = false;  // Desactivado por defecto para mejor control manual
-    public float autoJumpDelay = 0.1f;
     
     [Header("Input Settings")]
     public bool enableKeyboardInput = true;
     public bool enableTouchInput = true;
     public bool enableJoystickInput = true;
     
+    [Header("Jump Settings")]
+    public float jumpTime = 0.3f; //duración de salto
+    public float jumpArcHeight  = 2.5f; //Altura del arco 
+
+    [Header("Platform Detection")] public float platformSearchTolerance = 0.6f; //tolerancia vertical para buscar plataformas
+    
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.3f;
-    public float groundCheckDistance = 0.5f;
-    public LayerMask groundLayer;
     
     [Header("Events")]
     public UnityEvent OnJump = new UnityEvent();
@@ -40,8 +30,15 @@ public class PlayerController : MonoBehaviour
     private bool wasGrounded = false;
     private float landingTime = 0f;
     public bool isJumping = false;
+    public float victoryHeight;
+    public bool arrived = false;
+    public PlatformGenerator PlatformGenerator;
     
-    // Public properties for other scripts
+    
+    
+    public GameManager gameManager;
+    public PlatformGenerator platformGenerator;
+    
     public bool IsAlive => !isDead;
     public bool IsJumping => isJumping;
     public bool IsMoving => Mathf.Abs(rb.linearVelocity.x) > 0.1f;
@@ -52,34 +49,34 @@ public class PlayerController : MonoBehaviour
     {
         // Asegurar que el PlayerController esté activo y referenciado
         this.enabled = true;
-        
-    InputManager inputManager = FindFirstObjectByType<InputManager>();
+        InputManager inputManager = FindFirstObjectByType<InputManager>();
         if (inputManager != null && inputManager.playerController == null)
         {
             inputManager.playerController = this;
-            Debug.Log("🎮 PlayerController se ha auto-asignado al InputManager.");
+            Debug.Log("PlayerController se ha auto-asignado al InputManager.");
         }
     }
 
     void Start()
     {
-    rb = GetComponent<Rigidbody>();
-    // Aparecer en Y=0 (suelo)
-    transform.position = new Vector3(0, 0, 0);
+        rb = GetComponent<Rigidbody>();
         
-        // Auto-create ground check if not assigned
-        if (groundCheck == null)
-        {
-            GameObject groundCheckObj = new GameObject("GroundCheck");
-            groundCheckObj.transform.SetParent(transform);
-            groundCheckObj.transform.localPosition = Vector3.down * 0.5f;
-            groundCheck = groundCheckObj.transform;
-        }
+        if (gameManager == null)
+            gameManager = FindFirstObjectByType<GameManager>();
+        if (platformGenerator == null)
+            platformGenerator = FindFirstObjectByType<PlatformGenerator>();
+        if (platformGenerator != null)
+            victoryHeight = platformGenerator.platformSpacing * (platformGenerator.maxFilas - 1);
+        else
+            victoryHeight = 73.5f; // Valor por defecto si no hay PlatformGenerator
     }
     
     void Update()
     {
         if (isDead) return;
+        
+        if (gameManager != null && !gameManager.gameStared) return;
+        
         // Permitir input de teclado para saltar izquierda/derecha
         if (!isJumping && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)))
         {
@@ -89,10 +86,16 @@ public class PlayerController : MonoBehaviour
         {
             JumpRight();
         }
-        // Permitir salto con joystick touch si tienes método público
+
+        if (!arrived && transform.position.y >= victoryHeight)
+        {
+            arrived = true;
+            if (gameManager != null)
+                gameManager.RegisterFinish(PlayerPrefs.GetString("PlayerName", "P1"));
+        }
+        
     }
     
-    // Métodos públicos para compatibilidad con VirtualJoystick
     public void JumpLeft()
     {
         if (!isJumping && !isDead)
@@ -110,81 +113,82 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(JumpRightCoroutine());
         }
     }
-    // MÉTODO PERSONALIZADO PARA DERROTA CON MENSAJE
+    
     public void DieWithMessage(string message)
     {
         if (isDead) return;
         isDead = true;
         isJumping = false;
-        Debug.Log($"💀 {message}");
+        Debug.Log($" {message}");
         OnDie?.Invoke();
         // Aquí puedes agregar UI para mostrar el mensaje en pantalla
-        // Por ahora solo loguea y reinicia
         Invoke("RestartLevel", 2f);
     }
-
-    // Eliminar CheckGrounded()
-    // Eliminar cualquier referencia a isGrounded en JumpLeft, JumpRight, Jump
+    
 
     IEnumerator JumpLeftCoroutine()
     {
-    rb.linearVelocity = Vector3.zero;
-        float nextY = transform.position.y + 1.5f;
+        rb.linearVelocity = Vector3.zero;
+
+        float  horizontaDistance = platformGenerator.separacionEntrePlataformas;
+        
+        float nextX = transform.position.x - horizontaDistance;
+        float nextY = transform.position.y + platformGenerator.platformSpacing;
+        
         // Buscar plataforma más cercana en la siguiente fila hacia la izquierda
-        GameObject nextPlatform = FindClosestPlatform(transform.position.x - 1.5f, nextY);
+        GameObject nextPlatform = FindClosestPlatform(nextX, nextY, horizontaDistance);
+        
         if (nextPlatform != null)
         {
-            Vector3 targetPosition = new Vector3(nextPlatform.transform.position.x, nextPlatform.transform.position.y, transform.position.z);
+            Vector3 targetPosition = nextPlatform.transform.position;
             yield return StartCoroutine(AnimateJump(targetPosition));
             OnJump?.Invoke();
-            Debug.Log($"🚀 Perfect Jump Left to position: {targetPosition}");
-        }
-        else
-        {
-            // No muere, simplemente no hace nada si no hay plataforma
-            Debug.Log("No hay plataforma en la siguiente fila a la izquierda, pero el personaje no muere.");
         }
         isJumping = false;
     }
 
     IEnumerator JumpRightCoroutine()
     {
-    rb.linearVelocity = Vector3.zero;
-        float nextY = transform.position.y + 1.5f;
-        // Buscar plataforma más cercana en la siguiente fila hacia la derecha
-        GameObject nextPlatform = FindClosestPlatform(transform.position.x + 1.5f, nextY);
+        rb.linearVelocity = Vector3.zero;
+        
+        float horizontalDistance = platformGenerator.separacionEntrePlataformas;
+        
+        float nextX = transform.position.x + horizontalDistance;
+        float nextY = transform.position.y + platformGenerator.platformSpacing;
+        
+        GameObject nextPlatform = FindClosestPlatform(nextX, nextY, horizontalDistance);
+        
         if (nextPlatform != null)
         {
-            Vector3 targetPosition = new Vector3(nextPlatform.transform.position.x, nextPlatform.transform.position.y, transform.position.z);
+            Vector3 targetPosition = nextPlatform.transform.position;
             yield return StartCoroutine(AnimateJump(targetPosition));
             OnJump?.Invoke();
-            Debug.Log($"🚀 Perfect Jump Right to position: {targetPosition}");
-        }
-        else
-        {
-            // No muere, simplemente no hace nada si no hay plataforma
-            Debug.Log("No hay plataforma en la siguiente fila a la derecha, pero el personaje no muere.");
         }
         isJumping = false;
     }
 
     public void Jump()
     {
-    // No se permite salto vertical, solo derecha o izquierda
+    
     Debug.Log("Salto vertical no permitido, pero el personaje no muere.");
 
     }
 
+    public float testJump;
+    
     // Buscar la plataforma más cercana en la siguiente fila
-    GameObject FindClosestPlatform(float targetX, float targetY)
+    GameObject FindClosestPlatform(float targetX, float targetY, float searchRadius)
     {
-        float minDist = 2.0f;
         GameObject closest = null;
-        foreach (var platform in GameObject.FindGameObjectsWithTag("Platform"))
+        float minDist = float.MaxValue;
+        GameObject[] platforms = GameObject.FindGameObjectsWithTag("Platform");
+        
+        foreach (var platform in platforms)
         {
+            Vector3 plaPos = platform.transform.position;
             float dx = Mathf.Abs(platform.transform.position.x - targetX);
             float dy = Mathf.Abs(platform.transform.position.y - targetY);
-            if (dy < 0.8f && dx < minDist)
+            if (dy < platformGenerator.platformSpacing * 0.6  && dx < minDist)
             {
                 minDist = dx;
                 closest = platform;
@@ -193,17 +197,16 @@ public class PlayerController : MonoBehaviour
         return closest;
     }
     
-    // Animación suave de salto para ir exactamente a la posición deseada
     IEnumerator AnimateJump(Vector3 targetPosition)
     {
         Vector3 startPosition = transform.position;
-        float jumpTime = 0.3f; // Duración de salto corta para sensación ágil
+        float jumpTime = 0.3f;
         float elapsedTime = 0f;
         
         while (elapsedTime < jumpTime)
         {
             float t = elapsedTime / jumpTime;
-            float height = Mathf.Sin(t * Mathf.PI) * 0.5f;
+            float height = Mathf.Sin(t * Mathf.PI) * jumpArcHeight;
             Vector3 currentPos = Vector3.Lerp(startPosition, targetPosition, t);
             currentPos.y += height;
             transform.position = currentPos;
@@ -211,8 +214,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         transform.position = targetPosition;
-        isJumping = false; // <-- Reforzado aquí
-        // isGrounded eliminado
+        
     }
     
     public void Restart()
@@ -220,38 +222,25 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         isJumping = false;
         transform.position = Vector3.zero;
-    rb.linearVelocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
     
     public void Die()
     {
         if (isDead) return;
-        
         isDead = true;
         isJumping = false;
-        Debug.Log("💀 Player died!");
+        Debug.Log(" Player died!");
         OnDie?.Invoke();
-        
-        // Add death effects here
-        // For now, just restart the level after a delay
         Invoke("RestartLevel", 2f);
     }
     
     void RestartLevel()
     {
         isDead = false;
-        // Reset player position or reload scene
         transform.position = Vector3.zero;
-    rb.linearVelocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
     }
     
-    void OnDrawGizmosSelected()
-    {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        }
-    }
 }

@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     
     [Header("References")]
     public PlayerController playerController;
+    public GameManager gameManager;
     
     [Header("Touch Settings")]
     public float touchDeadZone = 50f;
@@ -21,27 +22,20 @@ public class InputManager : MonoBehaviour
     
     void Start()
     {
-        // Find player if not assigned
-        if (playerController == null)
-        {
-            playerController = FindFirstObjectByType<PlayerController>();
-        }
         
         if (playerController == null)
-        {
-            Debug.LogError("❌ InputManager: No PlayerController found!");
-        }
-        else
-        {
-            Debug.Log("✅ InputManager initialized");
-        }
+            playerController = FindObjectOfType<PlayerController>();
+        if (playerController == null)
+            Debug.LogError(" InputManager: No PlayerController found!");
+        else if(showDebug)
+            Debug.Log(" InputManager initialized");
+        
     }
     
     void Update()
     {
-    // Procesar input de teclado, touch y joystick
-    ProcessInput();
-    ApplyInput();
+        ProcessInput();
+        ApplyInput();
     }
     
     void ProcessInput()
@@ -50,22 +44,14 @@ public class InputManager : MonoBehaviour
         jumpPressed = false;
         
         // Keyboard Input
-        if (enableKeyboard)
-        {
-            ProcessKeyboardInput();
-        }
-        
+        if (enableKeyboard) ProcessKeyboardInput();
         // Touch Input
-        if (enableTouch)
-        {
-            ProcessTouchInput();
-        }
+        if (enableTouch) ProcessTouchInput();
         
         // Debug
         if (showDebug && (inputVector.magnitude > 0.1f || jumpPressed))
-        {
             Debug.Log($"Input: {inputVector}, Jump: {jumpPressed}");
-        }
+        
     }
     
     void ProcessKeyboardInput()
@@ -74,15 +60,13 @@ public class InputManager : MonoBehaviour
         
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             horizontal = -1f;
-        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            horizontal = 1f;
-        
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) horizontal = 1f;
         inputVector.x = horizontal;
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jumpPressed = true;
-            if (showDebug) Debug.Log("🚀 Keyboard jump pressed!");
+            if (showDebug) Debug.Log(" Keyboard jump pressed!");
         }
     }
     
@@ -113,49 +97,41 @@ public class InputManager : MonoBehaviour
         if (touch.phase == TouchPhase.Began)
         {
             jumpPressed = true;
-            if (showDebug) Debug.Log("🚀 Touch jump triggered!");
+            if (showDebug) Debug.Log(" Touch jump triggered!");
         }
     }
     
     void ApplyInput()
     {
+        if (gameManager == null)
+            gameManager = FindObjectOfType<GameManager>();
+
+        if (gameManager != null && !gameManager.gameStared) return;
+        
         // Apply jump
-        if (jumpPressed)
+        if (jumpPressed && playerController != null)
         {
-            if (inputVector.x > 0.1f)
-            {
-                playerController.JumpRight();
-            }
-            else if (inputVector.x < -0.1f)
-            {
-                playerController.JumpLeft();
-            }
-            else
-            {
-                playerController.Jump();
-            }
+            if (inputVector.x > 0.1f) playerController.JumpRight();
+            else if (inputVector.x < -0.1f) playerController.JumpLeft();
+            else playerController.Jump();
         }
         
-        // Don't interfere with PlayerController's own movement handling
-        // Let PlayerController handle its own movement logic
     }
     
-    // Public methods for joysticks to call
+    
     public void OnJoystickLeft()
     {
-        if (playerController != null && !playerController.isJumping)
-        {
-            playerController.JumpLeft();
-            if (showDebug) Debug.Log("🕹️ Joystick Left triggered!");
-        }
+        if (gameManager == null) gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null && !gameManager.gameStared) return;
+        if (playerController != null && !playerController.isJumping) playerController.JumpLeft();
     }
 
     public void OnJoystickRight()
     {
-        if (playerController != null && !playerController.isJumping)
-        {
-            playerController.JumpRight();
-            if (showDebug) Debug.Log("🕹️ Joystick Right triggered!");
-        }
+        if (gameManager == null) gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null && !gameManager.gameStared) return;
+        if (playerController != null && !playerController.isJumping) playerController.JumpRight();
+            
+        
     }
 }

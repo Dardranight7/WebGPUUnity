@@ -1,80 +1,145 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class Botcontroller : MonoBehaviour
+public class BotController : MonoBehaviour
 {
-    public float jumpInterval = 1.5f;
-    private float jumpForce = 3f;
+    public float jumpInterval = 1f;
     public LayerMask PlatformLayer;
     public bool isAlive = true;
+    public bool canMove = false;
+    public GameManager gameManager;
+    public PlatformGenerator platformGenerator;
+    public float victoryHeight;
+    public string botName = "Bot";
+    public bool arrived;
     private Animator animator;
     private Rigidbody rb;
+    private float lastJumpTime = 0f;
+    private bool isJumping = false;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        animator.SetBool("Idle", true);
+
+        if (gameManager == null) gameManager = FindObjectOfType<GameManager>();
+        if (platformGenerator == null) platformGenerator = FindObjectOfType<PlatformGenerator>();
+        if (platformGenerator != null) victoryHeight = platformGenerator.platformSpacing * (platformGenerator.maxFilas - 1);
+
+        // Si el GameManager ya indicó inicio, activar bots; también escalonar el primer salto
+        canMove = (gameManager != null && gameManager.gameStared);
+        lastJumpTime = Time.time - Random.Range(0f, jumpInterval);
     }
 
     void Update()
     {
-        if (!isAlive) return; 
-        
-        if (IsGrounded())
+        // Auto-start bots cuando GameManager cambie a started
+        if (!canMove && gameManager != null && gameManager.gameStared)
+            StartBot();
+
+        if (gameManager != null && !gameManager.gameStared) return;
+        if (!canMove || !isAlive) return;
+
+        if (Time.time - lastJumpTime >= jumpInterval)
         {
+            lastJumpTime = Time.time;
             Transform nextPlatform = FindNextPlatform();
-            if (nextPlatform != null)
+            if (nextPlatform != null && !isJumping)
             {
-                JumpToPlatform(nextPlatform.position);
+                StartCoroutine(JumpToPlatform(nextPlatform.position));
             }
+        }
+
+        if (!arrived && transform.position.y >= victoryHeight)
+        {
+            arrived = true;
+            if (gameManager != null) gameManager.RegisterFinish(botName);
         }
     }
 
-    bool IsGrounded()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, 1.1f, PlatformLayer);
-    }
-    
     Transform FindNextPlatform()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10f, PlatformLayer);
-        Transform closest = null;
-        float minDist = Mathf.Infinity;
-        foreach (var col in hitColliders)
+        if (platformGenerator == null) return null;
+
+        float rowY = transform.position.y + platformGenerator.platformSpacing;
+        float tolerance = Mathf.Max(0.6f, platformGenerator.platformSpacing * 0.5f);
+        GameObject[] plats = GameObject.FindGameObjectsWithTag("Platform");
+        List<Transform> candidates = new List<Transform>();
+
+        // Primera pasada: plataformas exactamente en la siguiente fila (dentro de tolerancia)
+        foreach (var p in plats)
         {
-            if (!col.CompareTag("Platform")) continue;
-            float dist = Vector3.Distance(transform.position, col.transform.position);
-            if (dist > 1f && dist < minDist)
+            if (Mathf.Abs(p.transform.position.y - rowY) <= tolerance)
+                candidates.Add(p.transform);
+        }
+
+        // Si no hay candidatos, buscar plataformas ligeramente por encima (ventana mayor)
+        if (candidates.Count == 0)
+        {
+            float maxSearchY = transform.position.y + platformGenerator.platformSpacing * 1.5f;
+            float minSearchY = transform.position.y + 0.2f;
+            foreach (var p in plats)
             {
-                minDist = dist;
-                closest = col.transform;
+                if (p.transform.position.y > minSearchY && p.transform.position.y <= maxSearchY)
+                    candidates.Add(p.transform);
             }
         }
 
-        return closest;
+        if (candidates.Count == 0) return null;
+
+        // Elegir la plataforma con menor distancia absoluta en X (primera por X)
+        Transform best = null;
+        float bestDx = float.MaxValue;
+        float myX = transform.position.x;
+        foreach (var c in candidates)
+        {
+            float dx = Mathf.Abs(c.position.x - myX);
+            if (dx < bestDx)
+            {
+                bestDx = dx;
+                best = c;
+            }
+        }
+
+        return best;
     }
-    
-    void JumpToPlatform(Vector3 target)
+
+    IEnumerator JumpToPlatform(Vector3 targetPos)
     {
-        animator.SetTrigger("Jump");
-        animator.SetBool("Idle", false);
-        
-        Vector3 direction = (target - transform.position).normalized;
-        direction.y = 0.5f; //ajusta la altura del salto 
-        rb.AddForce(direction * jumpForce, ForceMode.VelocityChange);
-        
-        Invoke("SetIdle", 0.5f);
-    }
-    
-    void SetIdle()
-    {
-        animator.SetBool("Idle", true);
+        isJumping = true;
+        Vector3 startPos = transform.position;
+        float jumpTime = 0.3f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < jumpTime)
+        {
+            float t = elapsedTime / jumpTime;
+            float height = Mathf.Sin(t * Mathf.PI) * 1.0f;
+            Vector3 current = Vector3.Lerp(startPos, targetPos, t);
+            current.y += height;
+            transform.position = current;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = targetPos;
+        isJumping = false;
     }
 
     public void Die()
     {
         isAlive = false;
-        animator.SetBool("Idle", true);
-        Debug.Log("Bot ha muerto");
+        canMove = false;
+    }
+
+    public void StartBot()
+    {
+        canMove = true;
+    }
+
+    public void StopBot()
+    {
+        canMove = false;
     }
 }

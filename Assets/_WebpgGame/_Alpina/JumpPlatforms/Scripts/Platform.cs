@@ -5,253 +5,139 @@ public enum PlatformType
 {
     Static,
     Breakable,
-    Fake,
-    Spike,
-    Normal,
-    Moving,
-    Bouncy,
-    Ice,
-    Collectible
+    Fake
 }
 
 public class Platform : MonoBehaviour
 {
     [Header("Platform Configuration")]
     public PlatformType platformType = PlatformType.Static;
-    
+
     [Header("Breakable Platform Settings")]
     public float breakDelay = 0.5f;
     public bool hasBeenUsed = false;
-    
+
     [Header("Visual Effects")]
     public bool enableVisualEffects = true;
     public Color originalColor = Color.white;
-    
-    [Header("Generator Settings")]
-    public bool autoDetectPlayerStart = true;
-    public Transform playerTransform;
-    
+
     private Renderer platformRenderer;
     private Collider platformCollider;
     private bool isBreaking = false;
-    
+
     void Start()
-    {
-        InitializePlatform();
-    }
-    
-    void InitializePlatform()
     {
         platformRenderer = GetComponent<Renderer>();
         platformCollider = GetComponent<Collider>();
-        
         if (platformRenderer != null)
-        {
             originalColor = platformRenderer.material.color;
-        }
-        
-        // Auto-detect player if enabled
-        if (autoDetectPlayerStart && playerTransform == null)
-        {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                playerTransform = player.transform;
-            }
-        }
-        
         ConfigurePlatformType();
-        
-        Debug.Log($"✅ Platform {name} initialized as {platformType}");
     }
-    
+
     void ConfigurePlatformType()
     {
-        switch (platformType)
+        if (platformType == PlatformType.Fake && platformCollider != null)
+            platformCollider.isTrigger = true;
+        if (platformType == PlatformType.Fake && platformRenderer != null && enableVisualEffects)
         {
-            case PlatformType.Static:
-            case PlatformType.Normal:
-                // Normal platform - no special configuration needed
-                break;
-                
-            case PlatformType.Breakable:
-                // Breakable platform setup
-                break;
-                
-            case PlatformType.Fake:
-                // Fake platform - should be trigger
-                if (platformCollider != null)
-                {
-                    platformCollider.isTrigger = true;
-                }
-                
-                // Make semi-transparent if possible
-                if (platformRenderer != null && enableVisualEffects)
-                {
-                    Color fakeColor = originalColor;
-                    fakeColor.a = 0.6f;
-                    platformRenderer.material.color = fakeColor;
-                }
-                break;
-                
-            case PlatformType.Spike:
-                // Spike platform - should cause damage
-                if (platformCollider != null)
-                {
-                    platformCollider.isTrigger = true;
-                }
-                break;
+            Color fakeColor = originalColor;
+            fakeColor.a = 0.6f;
+            platformRenderer.material.color = fakeColor;
         }
+        if (platformType == PlatformType.Fake && platformCollider != null)
+            platformCollider.isTrigger = true;
     }
-    
+
     void OnCollisionEnter(Collision collision)
     {
-        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-        if (player == null) return;
-        // Solo interactuar si el jugador cae desde arriba
-        if (collision.contacts.Length > 0)
-        {
-            Vector3 contactNormal = collision.contacts[0].normal;
-            if (Vector3.Dot(contactNormal, Vector3.up) > 0.5f)
-            {
-                HandlePlatformInteraction(player);
-            }
-        }
+        var player = collision.gameObject.GetComponent<PlayerController>();
+        if (player != null && collision.contacts.Length > 0 && Vector3.Dot(collision.contacts[0].normal, Vector3.up) > 0.5f)
+            HandlePlatformInteraction(player);
+
+        var bot = collision.gameObject.GetComponent<BotController>();
+        if (bot != null && collision.contacts.Length > 0 && Vector3.Dot(collision.contacts[0].normal, Vector3.up) > 0.5f)
+            HandlePlatformInteraction(bot);
     }
-    
+
     void OnTriggerEnter(Collider other)
     {
-        PlayerController player = other.GetComponent<PlayerController>();
-        if (player == null) return;
-        
-        // Handle fake platforms and spikes
-        if (platformType == PlatformType.Fake || platformType == PlatformType.Spike)
-        {
+        var player = other.GetComponent<PlayerController>();
+        if (player != null)
             HandlePlatformInteraction(player);
-        }
+
+        var bot = other.GetComponent<BotController>();
+        if (bot != null)
+            HandlePlatformInteraction(bot);
     }
-    
+
     void HandlePlatformInteraction(PlayerController player)
     {
         switch (platformType)
         {
-            case PlatformType.Static:
-            case PlatformType.Normal:
-                Debug.Log("🟢 Player landed on safe platform");
-                break;
-
             case PlatformType.Breakable:
                 if (!hasBeenUsed && !isBreaking)
-                {
-                    StartCoroutine(BreakPlatform());
-                }
-                // Si la plataforma ya está rota, el jugador cae y pierde SOLO si está encima
-                // (no por tocarla desde abajo)
+                    StartCoroutine(BreakPlatform(player, null));
                 break;
-
             case PlatformType.Fake:
-                Debug.Log("👻 Has perdido: tocaste una plataforma invisible!");
-                if (player != null)
-                {
-                    player.DieWithMessage("Has perdido: tocaste una plataforma invisible!");
-                }
-                break;
-
-            case PlatformType.Spike:
-                Debug.Log("🔴 Player hit spike platform!");
-                if (player != null)
-                {
-                    player.Die();
-                }
+                player.DieWithMessage("Has perdido: plataforma invisible.");
                 break;
         }
     }
-    
-    IEnumerator BreakPlatform()
+
+    void HandlePlatformInteraction(BotController bot)
+    {
+        switch (platformType)
+        {
+            case PlatformType.Breakable:
+                if (!hasBeenUsed && !isBreaking)
+                    StartCoroutine(BreakPlatform(null, bot));
+                break;
+            case PlatformType.Fake:
+                bot.Die();
+                break;
+        }
+    }
+
+    IEnumerator BreakPlatform(PlayerController player, BotController bot)
     {
         isBreaking = true;
         hasBeenUsed = true;
-        
-        Debug.Log("💥 Platform breaking!");
-        
-        // Visual effect - change color to indicate breaking
         if (platformRenderer != null && enableVisualEffects)
-        {
-            Color breakingColor = Color.red;
-            platformRenderer.material.color = breakingColor;
-        }
-        
-        // Wait for break delay
+            platformRenderer.material.color = Color.red;
+
         yield return new WaitForSeconds(breakDelay);
-        
-        // Disable collider so player falls through
+
+        // Verifica si el jugador o bot sigue encima (distancia vertical < 0.8)
+        if (player != null && Mathf.Abs(player.transform.position.y - transform.position.y) < 0.8f)
+            player.DieWithMessage("Has perdido: la plataforma se rompió bajo tus pies.");
+        if (bot != null && Mathf.Abs(bot.transform.position.y - transform.position.y) < 0.8f)
+            bot.Die();
+
         if (platformCollider != null)
-        {
             platformCollider.enabled = false;
-        }
-        
-        // Visual effect - make platform disappear or fall
+
         if (enableVisualEffects)
-        {
             StartCoroutine(DisappearEffect());
-        }
         else
-        {
             gameObject.SetActive(false);
-        }
     }
-    
+
     IEnumerator DisappearEffect()
     {
-        Vector3 originalPosition = transform.position;
         float fallDuration = 1f;
         float elapsed = 0f;
-        
         while (elapsed < fallDuration)
         {
             elapsed += Time.deltaTime;
             float progress = elapsed / fallDuration;
-            
-            // Make platform fall down (ensure it's going DOWN, not UP)
-            Vector3 fallPosition = originalPosition - Vector3.up * progress * 10f;
-            transform.position = fallPosition;
-            
             if (platformRenderer != null)
             {
                 Color fadeColor = originalColor;
                 fadeColor.a = 1f - progress;
                 platformRenderer.material.color = fadeColor;
             }
-            
             yield return null;
         }
-        
-        // Deactivate platform
         gameObject.SetActive(false);
-    }
-    
-    public void ResetPlatform()
-    {
-        // Reset platform to original state
-        hasBeenUsed = false;
-        isBreaking = false;
-        
-        if (platformCollider != null)
-        {
-            platformCollider.enabled = true;
-        }
-        
-        if (platformRenderer != null)
-        {
-            platformRenderer.material.color = originalColor;
-        }
-        
-        Debug.Log($"🔄 Platform {name} reset");
-    }
-    
-    void OnDisable()
-    {
-        // Reset platform when deactivated (returned to pool)
-        ResetPlatform();
     }
 }

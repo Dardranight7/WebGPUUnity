@@ -34,6 +34,10 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     void Start()
     {
         InitializeJoystick();
+        if (playerController == null)
+            playerController = FindFirstObjectByType<PlayerController>();
+        if (inputManager == null)
+            inputManager = FindFirstObjectByType<InputManager>();
     }
     
     void InitializeJoystick()

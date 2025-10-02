@@ -1,171 +1,289 @@
-using UnityEngine;
+
 using System.Collections.Generic;
+using UnityEngine;
 
 public class PlatformGenerator : MonoBehaviour
 {
+    [Header("Prefabs (current)")]
+    [SerializeField] private GameObject[] platformPrefabs;
+
+    [Header("Compatibility (legacy names used by other scripts)")]
+    [Tooltip("Legacy: used by PlayerController/BotController")]
     public GameObject[] normalPlatformPrefabs;
     public GameObject[] breakablePlatformPrefabs;
     public GameObject[] fakePlatformPrefabs;
-    public GameObject[] spikePlatformPrefabs;
+    public float separacionEntrePlataformas = 8f; // legacy horizontal spacing
+    public float platformSpacing = 10f;            // legacy vertical spacing
+    public int maxFilas = 8;                      // legacy rows count
 
-    private List<GameObject> activePlatforms = new List<GameObject>();
-    private Transform playerTransform;
-    public float startHeight = 0f;
-    private float currentHeight = 0f;
-    public float platformSpacing = 0.1f;
-    [Header("Plataformas por fila")]
-    public int plataformasPorFila = 6;
-    public float separacionEntrePlataformas = 1.0f;
+    [Header("Grid (current)")]
+    [Tooltip("Número de filas (alto)")]
+    [SerializeField] private int rows = 4;
+    [SerializeField] private int[] columnsPerRow;
+    [SerializeField] public float spacingX = 3f;
+    [SerializeField] private float spacingY = 2f;
 
-    void Start()
+    [Header("Positioning")]
+    [Tooltip("Centro X para alinear las filas")]
+    [SerializeField] private float centerX = 0f;
+    [SerializeField] private Vector3 startPosition = Vector3.zero;
+    [SerializeField] private Transform parentForPlatforms;
+
+    [Header("Options")]
+    [SerializeField] private bool generateOnStart = true;
+    [SerializeField] private bool clearBeforeGenerate = true;
+    
+    [SerializeField] private float yOffset;
+
+    [Header("Helpers")]
+    [Tooltip("Force spawned GameObjects to be active")]
+    [SerializeField] private bool activateSpawned = true;
+    [Tooltip("Spawn vertical columns at Player and Bots instead of grid")]
+    [SerializeField] private bool spawnColumnsAtCharacters = false;
+
+    private readonly List<GameObject> spawned = new List<GameObject>();
+    
+    [Header("Spawn probabilities (sum not required)")]
+    [Tooltip("Relative chance to spawn a normal platform")]
+    [Range(0f, 1f)]
+    public float normalChance = 0.7f;
+    [Tooltip("Relative chance to spawn a breakable platform")]
+    [Range(0f, 1f)]
+    public float breakableChance = 0.2f;
+    [Tooltip("Relative chance to spawn a fake platform")]
+    [Range(0f, 1f)]
+    public float fakeChance = 0.2f;
+
+    private void Awake()
     {
-        var player = FindFirstObjectByType<PlayerController>();
-        if (player != null)
-        {
-            playerTransform = player.transform;
-        }
-        currentHeight = 0f;
-        GenerateInitialPlatforms();
+        if (parentForPlatforms == null) parentForPlatforms = transform;
+        SyncLegacyToCurrent();
+        ValidateConfiguration();
+        SyncCurrentToLegacy();
+        // Do not auto-generate in Awake if you rely on other Start() setups in scene.
+        if (generateOnStart) Invoke(nameof(Generate), 0.01f);
     }
 
-    private void GenerateInitialPlatforms()
+    private void OnValidate()
     {
-        float startY = startHeight;
-        int filas = 40;
-        float platformWidth = separacionEntrePlataformas;
-        // Si hay prefabs, usa el ancho real del primero
+        ValidateConfiguration();
+        SyncCurrentToLegacy();
+    }
+
+    private void SyncLegacyToCurrent()
+    {
+        if (separacionEntrePlataformas > 0f)
+            spacingX = separacionEntrePlataformas;
+        if (platformSpacing > 0f)
+            spacingY = platformSpacing;
+        if (maxFilas > 0)
+            rows = Mathf.Max(1, maxFilas);
         if (normalPlatformPrefabs != null && normalPlatformPrefabs.Length > 0)
+            platformPrefabs = normalPlatformPrefabs;
+    }
+
+    private void SyncCurrentToLegacy()
+    {
+        separacionEntrePlataformas = spacingX;
+        platformSpacing = spacingY;
+        maxFilas = rows;
+        normalPlatformPrefabs = platformPrefabs;
+    }
+
+    private void ValidateConfiguration()
+    {
+        rows = Mathf.Max(1, rows);
+        spacingX = Mathf.Max(0.01f, spacingX);
+        spacingY = Mathf.Max(0.01f, spacingY);
+
+        if (columnsPerRow == null || columnsPerRow.Length < rows)
         {
-            var rend = normalPlatformPrefabs[0].GetComponent<Renderer>();
-            if (rend != null)
-                platformWidth = rend.bounds.size.x + separacionEntrePlataformas;
+            var newCols = new int[rows];
+            for (int i = 0; i < rows; i++)
+                newCols[i] = (columnsPerRow != null && i < columnsPerRow.Length) ? Mathf.Max(1, columnsPerRow[i]) : 3;
+            columnsPerRow = newCols;
         }
-        for (int fila = 0; fila < filas; fila++)
+        else
         {
-            float y = startY + fila * platformSpacing;
-            float totalWidth = (plataformasPorFila - 1) * platformWidth;
-            // Zigzag: desplaza toda la fila medio ancho a la derecha en filas impares
-            float zigzagOffset = (fila % 2 == 0) ? 0 : platformWidth / 2;
-            float startX = -totalWidth / 2 + zigzagOffset;
-            for (int col = 0; col < plataformasPorFila; col++)
+            for (int i = 0; i < columnsPerRow.Length; i++)
+                columnsPerRow[i] = Mathf.Max(1, columnsPerRow[i]);
+        }
+    }
+
+    [ContextMenu("Clear Spawned Platforms")]
+    public void Clear()
+    {
+#if UNITY_EDITOR
+        for (int i = spawned.Count - 1; i >= 0; i--)
+            if (spawned[i] != null) DestroyImmediate(spawned[i]);
+#else
+        for (int i = spawned.Count - 1; i >= 0; i--)
+            if (spawned[i] != null) Destroy(spawned[i]);
+#endif
+        spawned.Clear();
+        Debug.Log("[PlatformGenerator] Cleared spawned platforms.");
+    }
+
+    [ContextMenu("Generate Platforms")]
+    public void Generate()
+    {
+        // Fallback to legacy prefabs
+        if ((platformPrefabs == null || platformPrefabs.Length == 0) && normalPlatformPrefabs != null && normalPlatformPrefabs.Length > 0)
+        {
+            platformPrefabs = normalPlatformPrefabs;
+            Debug.Log("[PlatformGenerator] Using legacy normalPlatformPrefabs as fallback.");
+        }
+
+        if ((platformPrefabs == null || platformPrefabs.Length == 0)
+            && (normalPlatformPrefabs == null || normalPlatformPrefabs.Length == 0)
+            && (breakablePlatformPrefabs == null || breakablePlatformPrefabs.Length == 0)
+            && (fakePlatformPrefabs == null || fakePlatformPrefabs.Length == 0))
+        {
+            Debug.LogWarning("[PlatformGenerator] No platform prefabs assigned. Assign `platformPrefabs` or `normalPlatformPrefabs` in Inspector.");
+            return;
+        }
+
+        if (parentForPlatforms == null) parentForPlatforms = transform;
+        if (clearBeforeGenerate) Clear();
+        
+
+        // Standard grid generation
+        for (int row = 0; row < rows; row++)
+        {
+            int cols = (columnsPerRow != null && row < columnsPerRow.Length) ? columnsPerRow[row] : 3;
+            float rowWidth = (cols - 1) * spacingX;
+            float startX = centerX - rowWidth * 0.5f + startPosition.x;
+            float y = startPosition.y + row * spacingY;
+            float z = startPosition.z;
+
+            for (int col = 0; col < cols; col++)
             {
-                float x = startX + col * platformWidth;
-                if (Mathf.Abs(y) < 0.01f) continue;
-                PlatformType tipo;
-                if (fila < 3)
-                {
-                    tipo = (Random.value < 0.5f) ? PlatformType.Static : PlatformType.Normal;
-                }
-                else
-                {
-                    float r = Random.value;
-                    if (r < 0.7f)
-                        tipo = PlatformType.Normal;
-                    else if (r < 0.8f)
-                        tipo = PlatformType.Static;
-                    else if (r < 0.9f)
-                        tipo = PlatformType.Fake;
-                    else
-                        tipo = PlatformType.Breakable;
-                }
-                GameObject prefab = GetPlatformPrefab(tipo);
-                if (prefab != null)
-                {
-                    Vector3 pos = new Vector3(x, y, 0);
-                    GameObject platform = Instantiate(prefab, pos, Quaternion.identity, transform);
-                    platform.SetActive(true);
-                    activePlatforms.Add(platform);
-                }
+                Vector3 pos = new Vector3(startX + col * spacingX, y + yOffset, z);
+                GameObject chosenPrefab;
+                PlatformType chosenType;
+                if (!TryPickPrefabAndType(out chosenPrefab, out chosenType, row, col))
+                    continue;
+
+                GameObject go = Instantiate(chosenPrefab, pos, Quaternion.identity, parentForPlatforms);
+                go.name = $"{chosenPrefab.name}_r{row}_c{col}_{chosenType}";
+
+                if (activateSpawned && !go.activeSelf) go.SetActive(true);
+                var platformComp = go.GetComponent<Platform>();
+                if (platformComp != null)
+                    platformComp = go.AddComponent<Platform>();
+                platformComp.platformType = chosenType;
+
+                spawned.Add(go);
+
+                try { go.tag = "Platform"; }
+                catch (UnityException) { /* Tag may not exist - ignore */ }
             }
         }
+
+        SyncCurrentToLegacy();
+        Debug.Log($"[PlatformGenerator] Generated {spawned.Count} platforms (grid).");
     }
 
-    void Update()
+    private bool TryPickPrefabAndType(out GameObject prefab, out PlatformType type, int row = 0, int col = 0)
     {
-        if (playerTransform == null) return;
+        prefab = null;
+        type = PlatformType.Static;
 
-        float playerY = playerTransform.position.y;
-        float generateToY = playerY + 20f;
-        float cleanupBelowY = playerY - 30f;
-
-        // Generar plataformas por encima del jugador
-        while (currentHeight < generateToY)
+        // Normalize chances
+        float total = normalChance + breakableChance + fakeChance;
+        if (total <= 0f)
         {
-            GenerateNextPlatform();
-        }
-
-        // Eliminar plataformas que quedan muy abajo
-        for (int i = activePlatforms.Count - 1; i >= 0; i--)
-        {
-            GameObject platform = activePlatforms[i];
-            if (platform != null && platform.transform.position.y < cleanupBelowY)
+            // fallback: prefer normal arrays or platformPrefabs
+            if (normalPlatformPrefabs != null && normalPlatformPrefabs.Length > 0)
             {
-                Destroy(platform);
-                activePlatforms.RemoveAt(i);
-            }
-        }
-    }
-
-    public void GenerateNextPlatform()
-    {
-        float y = currentHeight;
-        float platformWidth = separacionEntrePlataformas;
-        if (normalPlatformPrefabs != null && normalPlatformPrefabs.Length > 0)
-        {
-            var rend = normalPlatformPrefabs[0].GetComponent<Renderer>();
-            if (rend != null)
-                platformWidth = rend.bounds.size.x + separacionEntrePlataformas;
-        }
-        float totalWidth = (plataformasPorFila - 1) * platformWidth;
-        float playerX = playerTransform != null ? playerTransform.position.x : 0f;
-        float startX = playerX - (totalWidth / 2);
-        float zigzagOffset = ((int)(currentHeight/platformSpacing) % 2 == 0) ? 0 : platformWidth / 2;
-        float startXZigzag = startX + zigzagOffset;
-        for (int i = 0; i < plataformasPorFila; i++)
-        {
-            float x = startXZigzag + i * platformWidth;
-            PlatformType type;
-            float r = Random.value;
-            if (r < 0.3f)
+                prefab = normalPlatformPrefabs[Random.Range(0, normalPlatformPrefabs.Length)];
                 type = PlatformType.Static;
-            else if (r < 0.6f)
-                type = PlatformType.Normal;
-            else if (r < 0.8f)
-                type = PlatformType.Fake;
-            else
-                type = PlatformType.Breakable;
-
-            GameObject prefab = GetPlatformPrefab(type);
-            if (prefab != null)
+                return prefab != null;
+            }
+            if (platformPrefabs != null && platformPrefabs.Length > 0)
             {
-                Vector3 pos = new Vector3(x, y, 0);
-                GameObject platform = Instantiate(prefab, pos, Quaternion.identity, transform);
-                platform.SetActive(true);
-                activePlatforms.Add(platform);
+                prefab = platformPrefabs[(row + col) % platformPrefabs.Length];
+                type = PlatformType.Static;
+                return prefab != null;
+            }
+            return false;
+        }
+
+        float r = Random.value * total;
+        GameObject[] sourceArray = null;
+
+        if (r < normalChance)
+        {
+            sourceArray = (normalPlatformPrefabs != null && normalPlatformPrefabs.Length > 0) ? normalPlatformPrefabs : platformPrefabs;
+            type = PlatformType.Static;
+        }
+        else if (r < normalChance + breakableChance)
+        {
+            sourceArray = (breakablePlatformPrefabs != null && breakablePlatformPrefabs.Length > 0) ? breakablePlatformPrefabs : null;
+            type = PlatformType.Breakable;
+        }
+        else
+        {
+            sourceArray = (fakePlatformPrefabs != null && fakePlatformPrefabs.Length > 0) ? fakePlatformPrefabs : null;
+            type = PlatformType.Fake;
+        }
+
+        // If preferred array is empty, fallback to platformPrefabs or other arrays
+        if ((sourceArray == null || sourceArray.Length == 0) && platformPrefabs != null && platformPrefabs.Length > 0)
+        {
+            sourceArray = platformPrefabs;
+            type = PlatformType.Static; // fallback resets to normal
+        }
+        if (sourceArray == null || sourceArray.Length == 0)
+        {
+            // try any available array as last resort
+            if (normalPlatformPrefabs != null && normalPlatformPrefabs.Length > 0) { sourceArray = normalPlatformPrefabs; type = PlatformType.Static; }
+            else if (breakablePlatformPrefabs != null && breakablePlatformPrefabs.Length > 0) { sourceArray = breakablePlatformPrefabs; type = PlatformType.Breakable; }
+            else if (fakePlatformPrefabs != null && fakePlatformPrefabs.Length > 0) { sourceArray = fakePlatformPrefabs; type = PlatformType.Fake; }
+            else return false;
+        }
+
+        prefab = sourceArray[Random.Range(0, sourceArray.Length)];
+        return prefab != null;
+    }
+    
+    private void GenerateColumnsAtCharacters()
+    {
+        // Generate vertical columns located at the X position of Player and each Bot
+        var characters = new List<Transform>();
+        var player = FindObjectOfType<PlayerController>();
+        if (player != null) characters.Add(player.transform);
+
+        var bots = FindObjectsOfType<BotController>();
+        foreach (var b in bots) characters.Add(b.transform);
+
+        if (characters.Count == 0)
+        {
+            Debug.LogWarning("[PlatformGenerator] spawnColumnsAtCharacters enabled but no Player/Bots found.");
+            return;
+        }
+
+        for (int i = 0; i < characters.Count; i++)
+        {
+            Transform ct = characters[i];
+            for (int row = 0; row < rows; row++)
+            {
+                Vector3 pos = new Vector3(ct.position.x, startPosition.y + row * spacingY, startPosition.z);
+                GameObject prefab = platformPrefabs[row % platformPrefabs.Length];
+                if (prefab == null) continue;
+
+                GameObject go = Instantiate(prefab, pos, Quaternion.identity, parentForPlatforms);
+                go.name = $"{prefab.name}_char{i}_r{row}";
+
+                if (activateSpawned && !go.activeSelf) go.SetActive(true);
+
+                spawned.Add(go);
+                try { go.tag = "Platform"; }
+                catch (UnityException) { /* ignore */ }
             }
         }
-        currentHeight += platformSpacing;
-    }
 
-    private GameObject GetPlatformPrefab(PlatformType type)
-    {
-        switch (type)
-        {
-            case PlatformType.Static:
-            case PlatformType.Normal:
-                if (normalPlatformPrefabs != null && normalPlatformPrefabs.Length > 0)
-                    return normalPlatformPrefabs[Random.Range(0, normalPlatformPrefabs.Length)];
-                break;
-            case PlatformType.Breakable:
-                if (breakablePlatformPrefabs != null && breakablePlatformPrefabs.Length > 0)
-                    return breakablePlatformPrefabs[Random.Range(0, breakablePlatformPrefabs.Length)];
-                break;
-            case PlatformType.Fake:
-                if (fakePlatformPrefabs != null && fakePlatformPrefabs.Length > 0)
-                    return fakePlatformPrefabs[Random.Range(0, fakePlatformPrefabs.Length)];
-                break;
-        }
-        return null;
+        SyncCurrentToLegacy();
+        Debug.Log($"[PlatformGenerator] Generated {spawned.Count} platforms (columns at characters).");
     }
 }
-
