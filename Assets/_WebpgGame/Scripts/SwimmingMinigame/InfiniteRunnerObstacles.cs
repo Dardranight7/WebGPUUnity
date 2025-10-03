@@ -103,7 +103,7 @@ public class InfiniteRunnerObstacles : MonoBehaviour
     IEnumerator LoadAfterTime()
     {
         yield return new WaitForSeconds(3);
-        SceneManager.LoadScene("YogoNadoOutro");
+        MochiCourtain.Singleton.LoadSceneWithCourtain("YogoNadoOutro",1);
     }
 
     void SpawnObstacle()

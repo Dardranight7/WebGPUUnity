@@ -3,10 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class LoadSceneByIndex : MonoBehaviour
 {
-    public int index;
+    public string sceneName;
     
     public void LoadScene()
     {
-        SceneManager.LoadScene(index);
+        MochiCourtain.Singleton.LoadSceneWithCourtain(sceneName,1);
     }
 }
