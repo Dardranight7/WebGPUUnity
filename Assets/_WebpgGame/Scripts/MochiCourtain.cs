@@ -7,10 +7,20 @@ public class MochiCourtain : MonoBehaviour
     [SerializeField] public Transform bubblesParent;
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] public Canvas canvas;
+    public static MochiCourtain Singleton;
 
     private void Awake()
     {
         SceneManager.activeSceneChanged += ChangeTargetCanvas;
+        if (Singleton != null && Singleton != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Singleton = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     private void OnDestroy()
@@ -18,20 +28,41 @@ public class MochiCourtain : MonoBehaviour
         SceneManager.activeSceneChanged -= ChangeTargetCanvas;
     }
 
-    public void ShowCourtain()
+    public IEnumerator ShowCourtain(float time)
     {
+        disableTime = time;
         //simple fadein to canvas group
-        
+        float  elapseTime = 0;
+        while (elapseTime < time)
+        {
+            canvasGroup.alpha = elapseTime / time;
+            elapseTime += Time.deltaTime;
+            yield return null;
+        }
+        bubblesParent.gameObject.SetActive(true);
+        canvasGroup.alpha = 1;
     }
 
-    public void HideCourtain()
+    public IEnumerator HideCourtain(float time)
     {
-
+        //simple fadeout to canvas group
+        float elapseTime = 0;
+        while (elapseTime < time)
+        {
+            canvasGroup.alpha = 1 - (elapseTime / time);
+            elapseTime += Time.deltaTime;
+            yield return null;
+        }
+        bubblesParent.gameObject.SetActive(false);
+        canvasGroup.alpha = 0;
     }
+
+    float disableTime = 1;
 
     public void ChangeTargetCanvas(Scene a, Scene b)
     {
         canvas.worldCamera = Camera.main;
+        StartCoroutine(HideCourtain(disableTime));
     }
 
     public void LoadSceneWithCourtain(string sceneName, float time)
@@ -41,7 +72,7 @@ public class MochiCourtain : MonoBehaviour
 
     public IEnumerator AwaitCourtain(string sceneName, float time)
     {
-        ShowCourtain();
+        StartCoroutine(ShowCourtain(time));
         yield return new WaitForSeconds(time);
         StartCoroutine(LoadSceneCoroutine(sceneName));
     }

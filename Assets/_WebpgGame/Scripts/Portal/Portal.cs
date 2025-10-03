@@ -14,6 +14,8 @@ public class Portal : MonoBehaviour
     public new Collider collider;
     public Material material;
 
+    [SerializeField] bool useCourtain = false;
+
     void Start()
     {
         TeleportEvents.OnSceneSeleted += ChanceScene;
@@ -29,7 +31,12 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene(toScene);
+        if (useCourtain)
+        {
+            MochiCourtain.Singleton.LoadSceneWithCourtain(toScene,1);
+        }
+        else
+            SceneManager.LoadScene(toScene);
     }
 
     private void ChanceScene(string nextScene)
