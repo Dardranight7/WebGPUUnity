@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     public Vector3 CurrentVelocity => rb.linearVelocity;
     public float CurrentHeight => transform.position.y;
     GameObject[] platforms;
+    
+    
     void Awake()
     {
         // Asegurar que el PlayerController esté activo y referenciado

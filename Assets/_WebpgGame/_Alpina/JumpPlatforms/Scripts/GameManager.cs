@@ -246,7 +246,6 @@ public class GameManager : MonoBehaviour
         // Guardar estado original
         cameraFollowWasEnabled = (cameraFollow != null) ? cameraFollow.enabled : false;
         cameraOriginalPosition = mainCam.transform.position;
-        cameraOriginalRotation = mainCam.transform.rotation.y == rotationYCam ? mainCam.transform.rotation : Quaternion.Euler(0f, rotationYCam, 0f);
 
         // Desactivar CameraFollow para controlar la cámara manualmente
         if (cameraFollow != null)
@@ -292,7 +291,9 @@ public class GameManager : MonoBehaviour
         
 
         player.transform.position = targetPos;
-        player.transform.rotation = finishPoint.rotation;
+        //player.transform.rotation = finishPoint.rotation;
+        player.transform.eulerAngles = new Vector3(0f, 180f, 0f);
+        
         
         Rigidbody rb = player.GetComponent<Rigidbody>();
         rb.isKinematic = true;
@@ -301,8 +302,6 @@ public class GameManager : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
-        
-        
         
         Debug.Log($"🚀 Jugador teletransportado a la meta en {targetPos}");
     }
@@ -326,20 +325,20 @@ public class GameManager : MonoBehaviour
 
         foreach (var p in anim.parameters)
         {
-            if (p.name == "Idle" && p.type == AnimatorControllerParameterType.Trigger)
+            if (p.name == "Idle" && p.type == AnimatorControllerParameterType.Bool)
                 hasIdleTrigger = true;
-            if (p.name == "isJumping" && p.type == AnimatorControllerParameterType.Bool)
+            if (p.name == "Jump" && p.type == AnimatorControllerParameterType.Trigger)
                 hasIsJumpingBool = true;
         }
 
         if (hasIdleTrigger)
         {
-            anim.SetTrigger("Idle");
+            anim.SetTrigger("Jump");
             Debug.Log("Animator: disparado trigger 'Idle'");
         }
         else if (hasIsJumpingBool)
         {
-            anim.SetBool("isJumping", false);
+            anim.SetBool("Idle", false);
             Debug.Log("Animator: seteado isJumping = false");
         }
         else
