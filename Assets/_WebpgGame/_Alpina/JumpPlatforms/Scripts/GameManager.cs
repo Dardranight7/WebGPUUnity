@@ -153,16 +153,16 @@ public class GameManager : MonoBehaviour
     {
         // Score del player 
         if (scoreText != null)
-            scoreText.text = "Score: " + Mathf.FloorToInt(score).ToString();
+            scoreText.text = "" + Mathf.FloorToInt(score).ToString();
         if (playerScoreText != null)
-            playerScoreText.text = "Score: " + Mathf.FloorToInt(score).ToString();
+            playerScoreText.text = "" + Mathf.FloorToInt(score).ToString();
         
         // Score de los bots
         for (int i = 0; i < botScoreTexts.Count; i++)
         {
             if (botScoreTexts != null && i < botScoreTexts.Count && botScoreTexts[i] != null)
             {
-                botScoreTexts[i].text = "Score: " + Mathf.FloorToInt(botScores[i]).ToString();
+                botScoreTexts[i].text = "" + Mathf.FloorToInt(botScores[i]).ToString();
             }
         }
     }

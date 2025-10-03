@@ -117,7 +117,7 @@ public class CameraFollow : MonoBehaviour
         while (elapsed < duration)
         {
             float t = elapsed / duration;
-            float angle = Mathf.Lerp(0, 360, t);
+            float angle = Mathf.Lerp(0, 180, t);
             float rad = angle * Mathf.Deg2Rad;
             Vector3 pos = center + new Vector3(Mathf.Cos(rad) * radius, 0f, Mathf.Sin(rad) * radius);
             pos.y = center.y + Mathf.Sin(rad * 0.5f) * 2f;
