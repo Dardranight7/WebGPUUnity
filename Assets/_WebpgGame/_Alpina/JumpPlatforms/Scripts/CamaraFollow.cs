@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -37,6 +38,10 @@ public class CameraFollow : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private float highestY;
     private bool isIntroPlaying = false;
+    
+    [Header("Countdown")]
+    public float countdownTime = 3f; 
+    public Text countdownText;
     
     void Start()
     {
@@ -150,6 +155,9 @@ public class CameraFollow : MonoBehaviour
         }
         
         highestY = transform.position.y;
+        isIntroPlaying = false;
+         //conteo regrsivo
+         yield return StartCoroutine(DoCountDown());
         
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm != null)
@@ -157,9 +165,29 @@ public class CameraFollow : MonoBehaviour
             gm.gameStared = true;
             gm.StartBots();
         }
+    }
+
+    IEnumerator DoCountDown()
+    {
+        if (countdownTime != null)
+            countdownText.gameObject.SetActive(true);
         
-        isIntroPlaying = false;
+        float remaining = countdownTime;
+        while (remaining > 0)
+        {
+            if (countdownTime != null)
+                countdownText.text = Mathf.CeilToInt(remaining).ToString();
             
+            yield return new WaitForSeconds(1f);
+            remaining -= 1f;
+        }
+
+        if (countdownText != null)
+        {
+            countdownText.text = "¡GO!";
+            yield return new WaitForSeconds(0.5f);
+            countdownText.gameObject.SetActive(false);
+        }
     }
     
     void LateUpdate()
@@ -245,5 +273,31 @@ public class CameraFollow : MonoBehaviour
         gameplayDistance = -12f;
         cameraSetToGamePlay();
         Debug.Log("Cámara configurada: Vista lejana");
+    }
+    
+    public IEnumerator PlayCinematicPan(Transform focus, Vector3 offset, float duration)
+    {
+        isIntroPlaying = true;
+
+        Vector3 startPos = transform.position;
+        Quaternion startRot = transform.rotation;
+
+        Vector3 targetPos = focus.position + offset;
+        Quaternion targetRot = Quaternion.LookRotation(focus.position - targetPos);
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            transform.position = Vector3.Lerp(startPos, targetPos, t);
+            transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        isIntroPlaying = false;
+        cameraSetToGamePlay();
     }
 }

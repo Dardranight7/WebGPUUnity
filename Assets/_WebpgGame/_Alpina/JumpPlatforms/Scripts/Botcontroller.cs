@@ -36,6 +36,8 @@ public class BotController : MonoBehaviour
     void Update()
     {
         // Auto-start bots cuando GameManager cambie a started
+        if (arrived || !isAlive || !canMove) return;
+        
         if (!canMove && gameManager != null && gameManager.gameStared)
             StartBot();
 
@@ -55,8 +57,10 @@ public class BotController : MonoBehaviour
         if (!arrived && transform.position.y >= victoryHeight)
         {
             arrived = true;
+            canMove = false;
             if (gameManager != null) gameManager.RegisterFinish(botName);
         }
+        Debug.Log($"{botName} ha llegado a la meta");
     }
 
     Transform FindNextPlatform()

@@ -39,20 +39,18 @@ public class GameOverUI : MonoBehaviour
     void UpdateScoreTexts()
     {
         int finalScore = Mathf.FloorToInt(PlayerPrefs.GetFloat("LastScore", 0f)); // optional source
-        float high = PlayerPrefs.GetFloat("HighScore", 0f);
+        
         if (finalScoreText != null)
             finalScoreText.text = "Puntuación: " + finalScore;
-        if (bestScoreText != null)
-            bestScoreText.text = "Mejor: " + Mathf.FloorToInt(high).ToString();
     }
 
     void OnRetry()
     {
         Time.timeScale = 1f;
+        
         if (gameManager != null)
         {
             gameOverPanel.SetActive(false);
-            gameManager.RestartGame();
             // ensure GameManager restarts bots/camera as needed
         }
         else
