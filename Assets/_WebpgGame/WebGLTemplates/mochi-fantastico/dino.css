@@ -1,0 +1,32 @@
+#gamecito {
+    font-family:'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+#board {
+    background-color: transparent;
+    background-image: url('./img/fondo.png');
+    border-bottom: 1px solid black;
+}
+
+/* Estilos para el enlace que parece un botón */
+.boton-enlace {
+    display: block; /* Hace que el enlace se comporte como un bloque */
+    width: 150px; /* Establece el ancho fijo del botón */
+    height: 50px; /* Establece la altura fija */
+    background-image: url(./img/Jump.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: background-color 0.3s, transform 0.2s; /* Transición para el color y la animación */
+}
+
+/* Efecto al pasar el ratón sobre el enlace */
+.boton-enlace:hover {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+}
+
+/* Efecto al hacer clic en el enlace */
+.boton-enlace:active {
+    transform: scale(0.98); /* Hace que el botón se achique un poco */
+}
