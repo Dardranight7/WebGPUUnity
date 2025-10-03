@@ -7,23 +7,23 @@ public class PlayerController : MonoBehaviour
     
     [Header("Input Settings")]
     public bool enableKeyboardInput = true;
-    public bool enableTouchInput = true;
-    public bool enableJoystickInput = true;
+    //public bool enableTouchInput = true;
+   // public bool enableJoystickInput = true;
     
     [Header("Jump Settings")]
     public float jumpTime = 0.3f; //duración de salto
     public float jumpArcHeight  = 2.5f; //Altura del arco 
 
-    [Header("Platform Detection")] public float platformSearchTolerance = 0.6f; //tolerancia vertical para buscar plataformas
+    //[Header("Platform Detection")] public float platformSearchTolerance = 0.6f; //tolerancia vertical para buscar plataformas
     
-    [Header("Ground Check")]
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.3f;
+    //[Header("Ground Check")]
+   // public Transform groundCheck;
+    //public float groundCheckRadius = 0.3f;
     
     [Header("Events")]
     public UnityEvent OnJump = new UnityEvent();
     public UnityEvent OnDie = new UnityEvent();
-    public UnityEvent OnLand = new UnityEvent();
+    //public UnityEvent OnLand = new UnityEvent();
     
     private Rigidbody rb;
     public bool isDead = false;
@@ -32,12 +32,12 @@ public class PlayerController : MonoBehaviour
     public bool isJumping = false;
     public float victoryHeight;
     public bool arrived = false;
-    public PlatformGenerator PlatformGenerator;
     
     
     
     public GameManager gameManager;
     public PlatformGenerator platformGenerator;
+    public GameObject finishCloud;
     
     public bool IsAlive => !isDead;
     public bool IsJumping => isJumping;
@@ -66,10 +66,8 @@ public class PlayerController : MonoBehaviour
             gameManager = FindFirstObjectByType<GameManager>();
         if (platformGenerator == null)
             platformGenerator = FindFirstObjectByType<PlatformGenerator>();
-        if (platformGenerator != null)
-            victoryHeight = platformGenerator.platformSpacing * (platformGenerator.maxFilas - 1);
-        else
-            victoryHeight = 73.5f; // Valor por defecto si no hay PlatformGenerator
+        
+        victoryHeight = finishCloud.transform.position.y; // Valor por defecto si no hay PlatformGenerator
     }
     
     IEnumerator WaitAndLand() 

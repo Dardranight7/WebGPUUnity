@@ -53,24 +53,4 @@ public class FinishCloud : MonoBehaviour
         }
         
     }
-
-    private IEnumerator FinishAndWinAfterDelay(string winnerName)
-    {
-        // Espera 2 segundos antes de ejecutar el registro y la victoria
-        yield return new WaitForSeconds(1f);
-
-        if (gameManager == null)
-            gameManager = FindObjectOfType<GameManager>();
-        
-
-        if (gameManager != null)
-        {
-            gameManager.RegisterFinish(winnerName);
-            gameManager.WinGame();
-        }
-        
-
-        Debug.Log($"!{winnerName} Ganaste!");
-    }
-    
 }

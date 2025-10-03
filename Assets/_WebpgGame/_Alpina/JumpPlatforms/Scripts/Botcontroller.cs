@@ -135,6 +135,9 @@ public class BotController : MonoBehaviour
     {
         isAlive = false;
         canMove = false;
+        //avisar al gamemanager para que compruebe el auto-win
+        if (gameManager == null) gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null) gameManager.CheckBotsStatus();
     }
 
     public void StartBot()

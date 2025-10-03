@@ -169,7 +169,7 @@ public class PlatformGenerator : MonoBehaviour
 
                 if (activateSpawned && !go.activeSelf) go.SetActive(true);
                 var platformComp = go.GetComponent<Platform>();
-                if (platformComp != null)
+                if (platformComp == null)
                     platformComp = go.AddComponent<Platform>();
                 platformComp.platformType = chosenType;
 
@@ -247,43 +247,5 @@ public class PlatformGenerator : MonoBehaviour
         return prefab != null;
     }
     
-    private void GenerateColumnsAtCharacters()
-    {
-        // Generate vertical columns located at the X position of Player and each Bot
-        var characters = new List<Transform>();
-        var player = FindObjectOfType<PlayerController>();
-        if (player != null) characters.Add(player.transform);
-
-        var bots = FindObjectsOfType<BotController>();
-        foreach (var b in bots) characters.Add(b.transform);
-
-        if (characters.Count == 0)
-        {
-            Debug.LogWarning("[PlatformGenerator] spawnColumnsAtCharacters enabled but no Player/Bots found.");
-            return;
-        }
-
-        for (int i = 0; i < characters.Count; i++)
-        {
-            Transform ct = characters[i];
-            for (int row = 0; row < rows; row++)
-            {
-                Vector3 pos = new Vector3(ct.position.x, startPosition.y + row * spacingY, startPosition.z);
-                GameObject prefab = platformPrefabs[row % platformPrefabs.Length];
-                if (prefab == null) continue;
-
-                GameObject go = Instantiate(prefab, pos, Quaternion.identity, parentForPlatforms);
-                go.name = $"{prefab.name}_char{i}_r{row}";
-
-                if (activateSpawned && !go.activeSelf) go.SetActive(true);
-
-                spawned.Add(go);
-                try { go.tag = "Platform"; }
-                catch (UnityException) { /* ignore */ }
-            }
-        }
-
-        SyncCurrentToLegacy();
-        Debug.Log($"[PlatformGenerator] Generated {spawned.Count} platforms (columns at characters).");
-    }
+   
 }

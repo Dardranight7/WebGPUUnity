@@ -234,6 +234,8 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("✅ WinPanel activado por secuencia de victoria");
     }
+
+    public float rotationYCam = 180f;
     
     IEnumerator DoVictoryCameraPan()
     {
@@ -244,7 +246,7 @@ public class GameManager : MonoBehaviour
         // Guardar estado original
         cameraFollowWasEnabled = (cameraFollow != null) ? cameraFollow.enabled : false;
         cameraOriginalPosition = mainCam.transform.position;
-        cameraOriginalRotation = mainCam.transform.rotation;
+        cameraOriginalRotation = mainCam.transform.rotation.y == rotationYCam ? mainCam.transform.rotation : Quaternion.Euler(0f, rotationYCam, 0f);
 
         // Desactivar CameraFollow para controlar la cámara manualmente
         if (cameraFollow != null)
@@ -488,5 +490,27 @@ public class GameManager : MonoBehaviour
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
+    }
+    
+    public void CheckBotsStatus()
+    {
+        var bots = FindObjectsOfType<BotController>();
+        bool anyBotAlive = false;
+        foreach (var b in bots)
+        {
+            if (b != null && b.isAlive) { anyBotAlive = true; break;}
+        }
+
+        if (!anyBotAlive)
+        {
+            // Todos los bots han muerto
+            Debug.Log("[GameManager] Todos los bots han muerto. El jugador gana.");
+            // si el player sigue vivo y no llegó a la meta. darle la victoria
+            if (player != null && player.IsAlive && !player.arrived)
+            {
+                Debug.Log("[GameManager] Se otorgará la victoria al player automáticamente.");
+                RegisterFinish(PlayerPrefs.GetString("PlayerName", "P1"));
+            }
+        }
     }
 }
