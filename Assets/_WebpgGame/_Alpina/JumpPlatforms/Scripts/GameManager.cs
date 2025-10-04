@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using NUnit.Framework.Constraints;
-using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -13,19 +13,19 @@ public class GameManager : MonoBehaviour
     private bool gameEnded = false; // ✅ NUEVO: controlar si el juego terminó
 
     [Header("Player & Bots UI")] 
-    public Text playerNameText;
-    public Text playerScoreText;
-    public List<Text> botNameTexts;
-    public List<Text> botScoreTexts;
+    public TextMeshProUGUI playerNameText;
+    public TextMeshProUGUI playerScoreText;
+    public List<TextMeshProUGUI> botNameTexts;
+    public List<TextMeshProUGUI> botScoreTexts;
     
     private string[] botNames = { "Mochi", "Luna", "Dani", "Ziggy", "Nova", "Bolt", "Jenn", "Andy", "Pepe", "Mari", "Pau", "Juan", "Diego", "Fer" };
     private List<float> botScores = new List<float>();
     
     [Header("UI References")]
-    public Text scoreText;
+    public TextMeshProUGUI scoreText;
     public GameObject gameOverPanel;  // ✅ Panel de Game Over
     public GameObject WinPanel;       // ✅ Panel de Victoria
-    public Text winnerNameText;  
+    public TextMeshProUGUI winnerNameText;  
     
     [Header("Finish / Victory Cinematic")]
     public Transform finishPoint;                     // Asignar en Inspector: transform de la meta
