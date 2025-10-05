@@ -77,15 +77,19 @@ namespace WebGLSupport
             get { return true; }
         }
 
+        public bool EnableMobileSupport
+        {
+            get
+            {
+                // return false to use unity mobile keyboard support
+                return false;
+            }
+        }
+
         public WrappedInputField(InputField input)
         {
             this.input = input;
             checker = new RebuildChecker(this);
-        }
-
-        public RectTransform RectTransform()
-        {
-            return input.GetComponent<RectTransform>();
         }
 
         public void ActivateInputField()
@@ -98,6 +102,11 @@ namespace WebGLSupport
             input.DeactivateInputField();
         }
 
+        public void CreateKeyEvent(Event e)
+        {
+            input.ProcessEvent(e);
+        }
+
         public void Rebuild()
         {
             if (checker.NeedRebuild())
@@ -105,6 +114,11 @@ namespace WebGLSupport
                 input.textComponent.SetAllDirty();
                 input.Rebuild(CanvasUpdate.LatePreRender);
             }
+        }
+
+        public Rect GetScreenCoordinates()
+        {
+            return Support.GetScreenCoordinates(input.GetComponent<RectTransform>());
         }
     }
 }

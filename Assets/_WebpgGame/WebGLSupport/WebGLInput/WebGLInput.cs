@@ -9,6 +9,7 @@ using System;
 using AOT;
 using System.Runtime.InteropServices; // for DllImport
 using System.Collections;
+using UnityEngine.EventSystems;
 
 namespace WebGLSupport
 {
@@ -18,7 +19,7 @@ namespace WebGLSupport
         [DllImport("__Internal")]
         public static extern void WebGLInputInit();
         [DllImport("__Internal")]
-        public static extern int WebGLInputCreate(string canvasId, int x, int y, int width, int height, int fontsize, string text, string placeholder, bool isMultiLine, bool isPassword, bool isHidden);
+        public static extern int WebGLInputCreate(string canvasId, int x, int y, int width, int height, int fontsize, string text, string placeholder, bool isMultiLine, bool isPassword, bool isHidden, bool isMobile);
 
         [DllImport("__Internal")]
         public static extern void WebGLInputEnterSubmit(int id, bool flag);
@@ -40,6 +41,9 @@ namespace WebGLSupport
         
         [DllImport("__Internal")]
         public static extern void WebGLInputOnEditEnd(int id, Action<int, string> cb);
+
+        [DllImport("__Internal")]
+        public static extern void WebGLInputOnKeyboardEvent(int id, Action<int, int, string, int, int, int, int> cb);
 
         [DllImport("__Internal")]
         public static extern int WebGLInputSelectionStart(int id);
@@ -65,13 +69,16 @@ namespace WebGLSupport
         [DllImport("__Internal")]
         public static extern void WebGLInputDelete(int id);
 
+        [DllImport("__Internal")]
+        public static extern void WebGLInputForceBlur(int id);
+
 #if WEBGLINPUT_TAB
         [DllImport("__Internal")]
         public static extern void WebGLInputEnableTabText(int id, bool enable);
 #endif
 #else
-        public static void WebGLInputInit() {}
-        public static int WebGLInputCreate(string canvasId, int x, int y, int width, int height, int fontsize, string text, string placeholder, bool isMultiLine, bool isPassword, bool isHidden) { return 0; }
+        public static void WebGLInputInit() { }
+        public static int WebGLInputCreate(string canvasId, int x, int y, int width, int height, int fontsize, string text, string placeholder, bool isMultiLine, bool isPassword, bool isHidden, bool isMobile) { return 0; }
         public static void WebGLInputEnterSubmit(int id, bool flag) { }
         public static void WebGLInputTab(int id, Action<int, int> cb) { }
         public static void WebGLInputFocus(int id) { }
@@ -79,6 +86,7 @@ namespace WebGLSupport
         public static void WebGLInputOnBlur(int id, Action<int> cb) { }
         public static void WebGLInputOnValueChange(int id, Action<int, string> cb) { }
         public static void WebGLInputOnEditEnd(int id, Action<int, string> cb) { }
+        public static void WebGLInputOnKeyboardEvent(int id, Action<int, int, string, int, int, int, int> cb) { }
         public static int WebGLInputSelectionStart(int id) { return 0; }
         public static int WebGLInputSelectionEnd(int id) { return 0; }
         public static int WebGLInputSelectionDirection(int id) { return 0; }
@@ -87,6 +95,7 @@ namespace WebGLSupport
         public static void WebGLInputText(int id, string text) { }
         public static bool WebGLInputIsFocus(int id) { return false; }
         public static void WebGLInputDelete(int id) { }
+        public static void WebGLInputForceBlur(int id) { }
 
 #if WEBGLINPUT_TAB
         public static void WebGLInputEnableTabText(int id, bool enable) { }
@@ -97,6 +106,9 @@ namespace WebGLSupport
 
     public class WebGLInput : MonoBehaviour, IComparable<WebGLInput>
     {
+        public static event KeyboardEventHandler OnKeyboardDown;
+        public static event KeyboardEventHandler OnKeyboardUp;
+
         static Dictionary<int, WebGLInput> instances = new Dictionary<int, WebGLInput>();
         public static string CanvasId { get; set; }
 
@@ -106,18 +118,12 @@ namespace WebGLSupport
 
         static WebGLInput()
         {
-#if UNITY_2020_1_OR_NEWER
-            WebGLInput.CanvasId = "unity-container";
-#elif UNITY_2019_1_OR_NEWER
-            WebGLInput.CanvasId = "unityContainer";
-#else
-            WebGLInput.CanvasId = "gameContainer";
-#endif
+            CanvasId = WebGLWindow.GetCanvasName();
             WebGLInputPlugin.WebGLInputInit();
         }
-
+        public int Id { get { return id; } }
         internal int id = -1;
-        IInputField input;
+        public IInputField input { get; private set; }
         bool blurBlock = false;
 
         [TooltipAttribute("show input element on canvas. this will make you select text by drag.")]
@@ -126,9 +132,12 @@ namespace WebGLSupport
         private IInputField Setup()
         {
             if (GetComponent<InputField>()) return new WrappedInputField(GetComponent<InputField>());
+
+            if (GetComponent<WebGLUIToolkitTextField>()) return new WrappedUIToolkit(GetComponent<WebGLUIToolkitTextField>());
 #if TMP_WEBGL_SUPPORT
             if (GetComponent<TMPro.TMP_InputField>()) return new WrappedTMPInputField(GetComponent<TMPro.TMP_InputField>());
 #endif // TMP_WEBGL_SUPPORT
+
             throw new Exception("Can not Setup WebGLInput!!");
         }
 
@@ -139,37 +148,59 @@ namespace WebGLSupport
             // WebGL 以外、更新メソッドは動作しないようにします
             enabled = false;
 #endif
-            // モバイルの入力対応
+            // for mobile platform
             if (Application.isMobilePlatform)
             {
-                gameObject.AddComponent<WebGLInputMobile>();
+                if (input.EnableMobileSupport)
+                {
+                    gameObject.AddComponent<WebGLInputMobile>();
+                }
+                else
+                {
+                    // when disable mobile input. disable self!
+                    enabled = false;
+                }
             }
+            OnKeyboardDown += KeyboardDownHandler;
         }
 
+        /// <summary>
+        /// Get the element rect of input
+        /// </summary>
+        /// <returns></returns>
+        RectInt GetElemetRect()
+        {
+            var rect = input.GetScreenCoordinates();
+            // モバイルの場合、強制表示する
+            if (showHtmlElement || Application.isMobilePlatform)
+            {
+                var x = (int)(rect.x);
+                var y = (int)(Screen.height - (rect.y + rect.height));
+                return new RectInt(x, y, (int)rect.width, (int)rect.height);
+            }
+            else
+            {
+                var x = (int)(rect.x);
+                var y = (int)(Screen.height - (rect.y));
+                return new RectInt(x, y, (int)rect.width, (int)1);
+            }
+        }
         /// <summary>
         /// 対象が選択されたとき
         /// </summary>
         /// <param name="eventData"></param>
         public void OnSelect()
         {
-            var rect = GetScreenCoordinates(input.RectTransform());
+            if (id != -1) throw new Exception("OnSelect : id != -1");
+
+            var rect = GetElemetRect();
             bool isPassword = input.contentType == ContentType.Password;
 
             var fontSize = Mathf.Max(14, input.fontSize); // limit font size : 14 !!
 
             // モバイルの場合、強制表示する
-            if (showHtmlElement || Application.isMobilePlatform)
-            {
-                var x = (int)(rect.x);
-                var y = (int)(Screen.height - (rect.y + rect.height));
-                id = WebGLInputPlugin.WebGLInputCreate(WebGLInput.CanvasId, x, y, (int)rect.width, (int)rect.height, fontSize, input.text, input.placeholder, input.lineType != LineType.SingleLine, isPassword, false);
-            }
-            else
-            {
-                var x = (int)(rect.x);
-                var y = (int)(Screen.height - (rect.y));
-                id = WebGLInputPlugin.WebGLInputCreate(WebGLInput.CanvasId, x, y, (int)rect.width, (int)1, fontSize, input.text, input.placeholder, input.lineType != LineType.SingleLine, isPassword, true);
-            }
+            var isHidden = !(showHtmlElement || Application.isMobilePlatform);
+            id = WebGLInputPlugin.WebGLInputCreate(WebGLInput.CanvasId, rect.x, rect.y, rect.width, rect.height, fontSize, input.text, input.placeholder, input.lineType != LineType.SingleLine, isPassword, isHidden, Application.isMobilePlatform);
 
             instances[id] = this;
             WebGLInputPlugin.WebGLInputEnterSubmit(id, input.lineType != LineType.MultiLineNewline);
@@ -177,7 +208,9 @@ namespace WebGLSupport
             WebGLInputPlugin.WebGLInputOnBlur(id, OnBlur);
             WebGLInputPlugin.WebGLInputOnValueChange(id, OnValueChange);
             WebGLInputPlugin.WebGLInputOnEditEnd(id, OnEditEnd);
+            WebGLInputPlugin.WebGLInputOnKeyboardEvent(id, OnKeyboardEvent);
             WebGLInputPlugin.WebGLInputTab(id, OnTab);
+
             // default value : https://www.w3schools.com/tags/att_input_maxlength.asp
             WebGLInputPlugin.WebGLInputMaxLength(id, (input.characterLimit > 0) ? input.characterLimit : 524288);
             WebGLInputPlugin.WebGLInputFocus(id);
@@ -188,50 +221,35 @@ namespace WebGLSupport
             {
                 WebGLInputPlugin.WebGLInputSetSelectionRange(id, 0, input.text.Length);
             }
+            else
+            {
+                WebGLInputPlugin.WebGLInputSetSelectionRange(id, input.caretPosition, input.caretPosition);
+            }
 
             WebGLWindow.OnBlurEvent += OnWindowBlur;
         }
 
-        void OnWindowBlur()
+        /// <summary>
+        /// sync text from inputfield
+        /// </summary>
+        /// <param name="cursorIndex"></param>
+        public void SyncText(int? cursorIndex = null)
         {
-            blurBlock = true;
+            if (!instances.ContainsKey(id)) return;
+
+            var instance = instances[id];
+
+            WebGLInputPlugin.WebGLInputText(id, instance.input.text);
+
+            if (cursorIndex.HasValue)
+            {
+                WebGLInputPlugin.WebGLInputSetSelectionRange(id, cursorIndex.Value, cursorIndex.Value);
+            }
         }
 
-        /// <summary>
-        /// 画面内の描画範囲を取得する
-        /// </summary>
-        /// <param name="uiElement"></param>
-        /// <returns></returns>
-        Rect GetScreenCoordinates(RectTransform uiElement)
+        private void OnWindowBlur()
         {
-            var worldCorners = new Vector3[4];
-            uiElement.GetWorldCorners(worldCorners);
-
-            // try to support RenderMode:WorldSpace
-            var canvas = uiElement.GetComponentInParent<Canvas>();
-            var useCamera = (canvas.renderMode != RenderMode.ScreenSpaceOverlay);
-            if (canvas && useCamera)
-            {
-                var camera = canvas.worldCamera;
-                if (!camera) camera = Camera.main;
-
-                for (var i = 0; i < worldCorners.Length; i++)
-                {
-                    worldCorners[i] = camera.WorldToScreenPoint(worldCorners[i]);
-                }
-            }
-
-            var min = new Vector3(float.MaxValue, float.MaxValue);
-            var max = new Vector3(float.MinValue, float.MinValue);
-            for (var i = 0; i < worldCorners.Length; i++)
-            {
-                min.x = Mathf.Min(min.x, worldCorners[i].x);
-                min.y = Mathf.Min(min.y, worldCorners[i].y);
-                max.x = Mathf.Max(max.x, worldCorners[i].x);
-                max.y = Mathf.Max(max.y, worldCorners[i].y);
-            }
-
-            return new Rect(min.x, min.y, max.x - min.x, max.y - min.y);
+            blurBlock = true;
         }
 
         internal void DeactivateInputField()
@@ -272,8 +290,7 @@ namespace WebGLSupport
             var block = instances[id].blurBlock;    // get blur block state
             instances[id].blurBlock = false;        // reset instalce block state
             if (block) yield break;                 // if block. break it!!
-
-            instances[id].DeactivateInputField();
+            // instances[id].DeactivateInputField();
         }
 
         [MonoPInvokeCallback(typeof(Action<int, string>))]
@@ -296,17 +313,30 @@ namespace WebGLSupport
                 }
             }
 
+            var start = WebGLInputPlugin.WebGLInputSelectionStart(id);
+            var end = WebGLInputPlugin.WebGLInputSelectionEnd(id);
+
             // InputField の ContentType による整形したテキストを HTML の input に再設定します
             if (value != instance.input.text)
             {
-                var start = WebGLInputPlugin.WebGLInputSelectionStart(id);
-                var end = WebGLInputPlugin.WebGLInputSelectionEnd(id);
                 // take the offset.when char remove from input.
                 var offset = instance.input.text.Length - value.Length;
 
                 WebGLInputPlugin.WebGLInputText(id, instance.input.text);
                 // reset the input element selection range!!
                 WebGLInputPlugin.WebGLInputSetSelectionRange(id, start + offset, end + offset);
+            }
+
+            // 選択方向によって設定します
+            if (WebGLInputPlugin.WebGLInputSelectionDirection(id) == -1)
+            {
+                instance.input.selectionFocusPosition = start;
+                instance.input.selectionAnchorPosition = end;
+            }
+            else
+            {
+                instance.input.selectionFocusPosition = end;
+                instance.input.selectionAnchorPosition = start;
             }
         }
         [MonoPInvokeCallback(typeof(Action<int, string>))]
@@ -323,34 +353,135 @@ namespace WebGLSupport
             WebGLInputTabFocus.OnTab(instances[id], value);
         }
 
-        void Update()
+        [MonoPInvokeCallback(typeof(Action<int, int, string, int, int, int, int>))]
+        static void OnKeyboardEvent(int id, int mode, string key, int code, int shiftKey, int ctrlKey, int altKey)
         {
-            if (input == null || !input.isFocused) return;
-            // 未登録の場合、選択する
-            if (!instances.ContainsKey(id))
-            {
-                if (Application.isMobilePlatform) return;
-                OnSelect();
+            if (!instances.ContainsKey(id)) return;
+            var instance = instances[id];
 
-            }
-            else if (!WebGLInputPlugin.WebGLInputIsFocus(id))
+            // mode : keydown(1) keyup(3)
+            var cb = mode switch
             {
-                // focus this id
-                WebGLInputPlugin.WebGLInputFocus(id);
+                1 => OnKeyboardDown,
+                2 => OnKeyboardUp,
+                _ => default
+            };
+
+            if (mode == 1 && key != null)
+            {
+                cb?.Invoke(instance, new KeyboardEvent(id, key, code, shiftKey != 0, ctrlKey != 0, altKey != 0));
+            }
+        }
+
+        private void KeyboardDownHandler(WebGLInput instance, KeyboardEvent keyboardEvent)
+        {
+            if (instance == null || id != keyboardEvent.Id)
+            {
+                return;
             }
 
-            var start = WebGLInputPlugin.WebGLInputSelectionStart(id);
-            var end = WebGLInputPlugin.WebGLInputSelectionEnd(id);
-            // 選択方向によって設定します
-            if (WebGLInputPlugin.WebGLInputSelectionDirection(id) == -1)
+            string eventKey = string.Empty;
+            eventKey += keyboardEvent.ShiftKey ? "#" : "";
+            eventKey += keyboardEvent.CtrlKey ? "^" : "";
+            eventKey += keyboardEvent.AltKey ? "&" : "";
+
+            switch (keyboardEvent.Key)
             {
-                input.selectionFocusPosition = start;
-                input.selectionAnchorPosition = end;
+                case "ArrowLeft":
+                    eventKey += "left";
+                    break;
+                case "ArrowUp":
+                    eventKey += "up";
+                    break;
+                case "ArrowRight":
+                    eventKey += "right";
+                    break;
+                case "ArrowDown":
+                    eventKey += "down";
+                    break;
+                case "Home":
+                    eventKey += "home";
+                    break;
+                case "End":
+                    eventKey += "end";
+                    break;
+                case "Shift":
+                    eventKey += KeyCode.LeftShift.ToString();
+                    break;
+                case "Control":
+                    eventKey += KeyCode.LeftControl.ToString();
+                    break;
+                default:
+                    break;
+            }
+
+            if (eventKey != string.Empty)
+            {
+                if (keyboardEvent.Key == "a" || keyboardEvent.Key == "A")
+                {
+                    eventKey += KeyCode.A.ToString();
+                }
+            }
+
+            instance.input.CreateKeyEvent(Event.KeyboardEvent(eventKey));
+
+            int startPos = instance.input.selectionAnchorPosition;
+            int endPos = instance.input.selectionFocusPosition;
+
+            if (startPos <= endPos)
+            {
+                WebGLInputPlugin.WebGLInputSetSelectionRange(keyboardEvent.Id, startPos, endPos);
             }
             else
             {
-                input.selectionFocusPosition = end;
-                input.selectionAnchorPosition = start;
+                WebGLInputPlugin.WebGLInputSetSelectionRange(keyboardEvent.Id, endPos, startPos);
+            }
+        }
+
+        void Update()
+        {
+            if (input == null || !input.isFocused)
+            {
+                CheckOutFocus();
+                return;
+            }
+
+            // 未登録の場合、選択する
+            if (!instances.ContainsKey(id))
+            {
+                if (Application.isMobilePlatform)
+                {
+                    return;
+                }
+                else
+                {
+                    OnSelect();
+                }
+            }
+            else if (!WebGLInputPlugin.WebGLInputIsFocus(id))
+            {
+                if (Application.isMobilePlatform)
+                {
+                    //input.DeactivateInputField();
+                    return;
+                }
+                else
+                {
+                    // focus this id
+                    WebGLInputPlugin.WebGLInputFocus(id);
+
+                    int startPos = input.selectionAnchorPosition;
+                    int endPos = input.selectionFocusPosition;
+
+                    if (startPos <= endPos)
+                    {
+                        WebGLInputPlugin.WebGLInputSetSelectionRange(id, startPos, endPos);
+                    }
+                    else
+                    {
+                        WebGLInputPlugin.WebGLInputSetSelectionRange(id, endPos, startPos);
+                    }
+                }
             }
 
             input.Rebuild();
@@ -364,7 +495,8 @@ namespace WebGLSupport
             UnityEngine.WebGLInput.captureAllKeyboardInput = true;
             Input.ResetInputAxes(); // Inputの状態リセット
 #endif
-            instances[id].DeactivateInputField();
+            DeactivateInputField();
+            OnKeyboardDown -= KeyboardDownHandler;
         }
 
         private void OnEnable()
@@ -377,11 +509,20 @@ namespace WebGLSupport
         }
         public int CompareTo(WebGLInput other)
         {
-            var a = GetScreenCoordinates(input.RectTransform());
-            var b = GetScreenCoordinates(other.input.RectTransform());
+            var a = input.GetScreenCoordinates();
+            var b = other.input.GetScreenCoordinates();
             var res = b.y.CompareTo(a.y);
             if (res == 0) res = a.x.CompareTo(b.x);
             return res;
+        }
+
+        private void CheckOutFocus()
+        {
+            if (!Application.isMobilePlatform) return;
+            if (!instances.ContainsKey(id)) return;
+            var current = EventSystem.current.currentSelectedGameObject;
+            if (current != null) return;
+            WebGLInputPlugin.WebGLInputForceBlur(id);   // Input ではないし、キーボードを閉じる
         }
 
         /// <summary>
