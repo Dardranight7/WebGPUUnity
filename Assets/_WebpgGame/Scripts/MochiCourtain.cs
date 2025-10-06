@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +8,10 @@ public class MochiCourtain : MonoBehaviour
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] public Canvas canvas;
     public static MochiCourtain Singleton;
+
+    [SerializeField] string coreSceneName = "Core"; // Escena base que nunca se descarga
+    string lastLoadedScene = null;
+    float disableTime = 1f;
 
     private void Awake()
     {
@@ -31,35 +35,31 @@ public class MochiCourtain : MonoBehaviour
     public IEnumerator ShowCourtain(float time)
     {
         disableTime = time;
-        //simple fadein to canvas group
-        float  elapseTime = 0;
-        while (elapseTime < time)
+        float elapsed = 0f;
+        while (elapsed < time)
         {
-            canvasGroup.alpha = elapseTime / time;
-            elapseTime += Time.deltaTime;
+            canvasGroup.alpha = elapsed / time;
+            elapsed += Time.deltaTime;
             yield return null;
         }
         bubblesParent.gameObject.SetActive(true);
-        canvasGroup.alpha = 1;
+        canvasGroup.alpha = 1f;
     }
 
     public IEnumerator HideCourtain(float time)
     {
-        //simple fadeout to canvas group
-        float elapseTime = 0;
-        while (elapseTime < time)
+        float elapsed = 0f;
+        while (elapsed < time)
         {
-            canvasGroup.alpha = 1 - (elapseTime / time);
-            elapseTime += Time.deltaTime;
+            canvasGroup.alpha = 1f - (elapsed / time);
+            elapsed += Time.deltaTime;
             yield return null;
         }
         bubblesParent.gameObject.SetActive(false);
-        canvasGroup.alpha = 0;
+        canvasGroup.alpha = 0f;
     }
 
-    float disableTime = 1;
-
-    public void ChangeTargetCanvas(Scene a, Scene b)
+    public void ChangeTargetCanvas(Scene current, Scene next)
     {
         canvas.worldCamera = Camera.main;
         StartCoroutine(HideCourtain(disableTime));
@@ -67,46 +67,53 @@ public class MochiCourtain : MonoBehaviour
 
     public void LoadSceneWithCourtain(string sceneName, float time)
     {
-        StartCoroutine(AwaitCourtain(sceneName,time));
+        StartCoroutine(AwaitCourtain(sceneName, time));
     }
 
-    public IEnumerator AwaitCourtain(string sceneName, float time)
+    private IEnumerator AwaitCourtain(string sceneName, float time)
     {
-        StartCoroutine(ShowCourtain(time));
-        yield return new WaitForSeconds(time);
-        StartCoroutine(LoadSceneCoroutine(sceneName));
+        yield return StartCoroutine(ShowCourtain(time));
+        yield return StartCoroutine(LoadSceneAdditiveCoroutine(sceneName));
+        yield return StartCoroutine(HideCourtain(time));
     }
 
-    private IEnumerator LoadSceneCoroutine(string sceneName)
+    private IEnumerator LoadSceneAdditiveCoroutine(string sceneName)
     {
-        // Inicia la carga asincrónica
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
-        // Evita que se active de inmediato
+        
+        // 1ï¸âƒ£ Cargar la nueva escena de forma aditiva
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         asyncLoad.allowSceneActivation = false;
 
-        // Mientras carga puedes mostrar un loader o animación
         while (!asyncLoad.isDone)
         {
-            // El progreso real va de 0 a 0.9, el 0.9 significa "ya está lista para activar"
             float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
-            Debug.Log("Progreso de carga: " + (progress * 100f) + "%");
+            Debug.Log($"Cargando '{sceneName}' {progress * 100f}%");
 
-            // Aquí puedes actualizar una barra de carga o animación de cortinilla
-            // Ejemplo:
-            // loadingBar.fillAmount = progress;
-
-            // Cuando llegue al 90% (0.9f), ya está lista para activar
             if (asyncLoad.progress >= 0.9f)
             {
-                // Espera a que termine tu animación de cortinilla
-                yield return new WaitForSeconds(1f); // <-- ajusta este tiempo a tu animación
-
-                // Ahora sí activa la escena
+                // Espera un momento para efectos visuales si quieres
+                yield return new WaitForSeconds(0.2f);
                 asyncLoad.allowSceneActivation = true;
             }
-
             yield return null;
         }
+
+        // 2ï¸âƒ£ Activar la nueva escena como principal
+        Scene loadedScene = SceneManager.GetSceneByName(sceneName);
+        if (loadedScene.IsValid())
+        {
+            SceneManager.SetActiveScene(loadedScene);
+            canvas.worldCamera = Camera.main;
+        }
+        
+        // 3ï¸âƒ£ Descargar la escena anterior (si no es la core)
+        if (!string.IsNullOrEmpty(lastLoadedScene) && lastLoadedScene != coreSceneName)
+        {
+            Debug.Log($"Descargando escena anterior: {lastLoadedScene}");
+            yield return SceneManager.UnloadSceneAsync(lastLoadedScene);
+        }
+
+        // 4ï¸âƒ£ Guardar referencia a la nueva escena
+        lastLoadedScene = sceneName;
     }
 }

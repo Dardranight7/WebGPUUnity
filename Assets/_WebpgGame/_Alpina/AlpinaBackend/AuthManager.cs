@@ -12,8 +12,8 @@ public class AuthManager : MonoBehaviour
     [SerializeField] Button button;
     [SerializeField] Transform authParent;
 
-    [SerializeField] TMP_InputField registerEmail, registerPassword, nombre, apellido, registerUserName, phone, numeroDocumento;
-    [SerializeField] TMP_Dropdown documentType, city;
+    [SerializeField] TMP_InputField registerEmail, registerPassword, nombre, apellido, registerUserName, phone, numeroDocumento, city;
+    [SerializeField] TMP_Dropdown documentType;
 
     [SerializeField] List<TextMeshProUGUI> userName = new List<TextMeshProUGUI>();
     [SerializeField] List<TextMeshProUGUI> gems = new List<TextMeshProUGUI>();
@@ -148,7 +148,8 @@ public class AuthManager : MonoBehaviour
                     }
                     authParent.gameObject.SetActive(false);
                 });
-                MainMenu.SetActive(true);
+                MainMenu.SetActive(false);
+                MochiCourtain.Singleton.LoadSceneWithCourtain("0",1);
                 UpdateVisual();
             }
             else
@@ -165,7 +166,7 @@ public class AuthManager : MonoBehaviour
     public TextMeshProUGUI PlaceHolderEmail, Text;
     public void Register()
     {
-        Backend.singleton.Register(registerEmail.text, registerPassword.text, nombre.text, apellido.text, registerUserName.text ,phone.text, city.options[city.value].text, documentType.options[documentType.value].text, numeroDocumento.text, (a) =>
+        Backend.singleton.Register(registerEmail.text, registerPassword.text, nombre.text, apellido.text, registerUserName.text ,phone.text, city.text, documentType.options[documentType.value].text, numeroDocumento.text, (a) =>
         {
             if (a.code == 0)
             {
@@ -178,6 +179,7 @@ public class AuthManager : MonoBehaviour
                 }
                 authParent.gameObject.SetActive(false);
                 MainMenu.SetActive(true);
+                MochiCourtain.Singleton.LoadSceneWithCourtain("0",1);
                 UpdateVisual();
             }
             else if (a.code == 2) 
