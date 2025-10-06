@@ -456,7 +456,7 @@ public class GameManager : MonoBehaviour
         
         Time.timeScale = 1;
         
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        MochiCourtain.Singleton.LoadSceneWithCourtain(SceneManager.GetActiveScene().name, 1);
     }
     
     void DelayedStart()
@@ -501,7 +501,7 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         Debug.Log("🏠 Volviendo al menú principal...");
-        SceneManager.LoadScene("MainMenu"); // Cambia "MainMenu" por el nombre de tu escena
+        MochiCourtain.Singleton.LoadSceneWithCourtain("0", 1);
     }
     
     // ✅ NUEVO: Método para salir del juego
