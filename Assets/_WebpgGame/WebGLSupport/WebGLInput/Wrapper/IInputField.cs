@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 namespace WebGLSupport
 {
@@ -36,10 +35,13 @@ namespace WebGLSupport
         int selectionAnchorPosition { get; set; }
         bool ReadOnly { get; }
         bool OnFocusSelectAll { get; }
+        bool EnableMobileSupport { get; }
 
-        RectTransform RectTransform();
+        Rect GetScreenCoordinates();
+
         void ActivateInputField();
         void DeactivateInputField();
+        void CreateKeyEvent(Event e);
         void Rebuild();
     }
 }

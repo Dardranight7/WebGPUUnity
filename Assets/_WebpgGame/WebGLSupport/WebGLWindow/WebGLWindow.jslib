@@ -1,15 +1,74 @@
 var WebGLWindow = {
+    focusListener: null,
+    blurListener: null,
+    resizeListener: null,
+    
+    WebGLWindowInit : function() {
+        // use WebAssembly.Table : makeDynCall
+        // when enable. dynCall is undefined
+        if(typeof dynCall === "undefined")
+        {
+            // make Runtime.dynCall to undefined
+            Runtime = { dynCall : undefined }
+        }
+        else
+        {
+            // Remove the `Runtime` object from "v1.37.27: 12/24/2017"
+            // if Runtime not defined. create and add functon!!
+            if(typeof Runtime === "undefined") Runtime = { dynCall : dynCall }
+        }
+    },
+    WebGLWindowUninit : function() {
+        if(focusListener) {
+            window.removeEventListener('focus', this.focusListener);
+            this.focusListener = null;
+        }
+        if(blurListener) {
+            window.removeEventListener('blur', this.blurListener);
+            this.blurListener = null;
+        }
+        if(resizeListener) {
+            window.removeEventListener('resize', this.resizeListener);
+            this.resizeListener = null;
+        }
+    },
+
+    WebGLWindowGetCanvasName: function() {
+        var elements = document.getElementsByTagName('canvas');
+        var returnStr = "";
+        if(elements.length >= 1)
+        {
+            returnStr = elements[0].parentNode.id;
+            // workaround : for WebGLTemplate:Minimal temp! body element not have id!
+            if(returnStr == '')
+            {
+                returnStr = elements[0].parentNode.id = 'WebGLWindow:Canvas:ParentNode';
+            }
+        }
+        var bufferSize = lengthBytesUTF8(returnStr) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(returnStr, buffer, bufferSize);
+        return buffer;
+    },
     WebGLWindowOnFocus: function (cb) {
-        window.addEventListener('focus', function () {
-            Runtime.dynCall("v", cb, []);
-        });
+        this.focusListener = function () { 
+            (!!Runtime.dynCall) ? Runtime.dynCall("v", cb, []) : {{{ makeDynCall("v", "cb") }}}(); 
+        };
+        window.addEventListener('focus', this.focusListener);
     },
     WebGLWindowOnBlur: function (cb) {
-        window.addEventListener('blur', function () {
-            Runtime.dynCall("v", cb, []);
-        });
+        this.blurListener = function () { 
+            (!!Runtime.dynCall) ? Runtime.dynCall("v", cb, []) : {{{ makeDynCall("v", "cb") }}}(); 
+        };
+        window.addEventListener('blur', this.blurListener);
     },
-	WebGLWindowInjectFullscreen : function () {
+    WebGLWindowOnResize: function(cb) {
+        this.resizeListener = function () { 
+            (!!Runtime.dynCall) ? Runtime.dynCall("v", cb, []) : {{{ makeDynCall("v", "cb") }}}(); 
+        };
+        window.addEventListener('resize', this.resizeListener);
+    },
+    WebGLWindowInjectFullscreen : function () {
         document.makeFullscreen = function (id, keepAspectRatio) {
             // get fullscreen object
             var getFullScreenObject = function () {
@@ -36,15 +95,36 @@ var WebGLWindow = {
             var div = document.createElement("div");
             document.body.appendChild(div);
 
-            var canvas = document.getElementById(id);
-            var beforeParent = canvas.parentNode;
-            var beforeStyle = window.getComputedStyle(canvas);
+            // save canvas size to originSize
+            var canvas = document.getElementsByTagName('canvas')[0];
+            var originSize = 
+            {
+                width : canvas.style.width,
+                height : canvas.style.height,
+            };
+
+            var fullscreenRoot = document.getElementById(id);
+
+            // when build with minimal default template
+            // the fullscreenRoot is <body>
+            var isBody = fullscreenRoot.tagName.toLowerCase() == "body";
+            if(isBody)
+            {
+                // swip the id to div
+                div.id = fullscreenRoot.id;
+                fullscreenRoot.id = "";
+                // overwrite the fullscreen root
+                fullscreenRoot = canvas;
+            }
+
+            var beforeParent = fullscreenRoot.parentNode;
+            var beforeStyle = window.getComputedStyle(fullscreenRoot);
             var beforeWidth = parseInt(beforeStyle.width);
             var beforeHeight = parseInt(beforeStyle.height);
 
             // to keep element index after fullscreen
-            var index = Array.from(beforeParent.children).findIndex(function (v) { return v == canvas; });
-            div.appendChild(canvas);
+            var index = Array.from(beforeParent.children).findIndex(function (v) { return v == fullscreenRoot; });
+            div.appendChild(fullscreenRoot);
 
             // recv fullscreen function
             var fullscreenFunc = function () {
@@ -54,19 +134,32 @@ var WebGLWindow = {
                         var width = Math.floor(beforeWidth * ratio);
                         var height = Math.floor(beforeHeight * ratio);
 
-                        canvas.style.width = width + 'px';
-                        canvas.style.height = height + 'px';;
+                        fullscreenRoot.style.width = width + 'px';
+                        fullscreenRoot.style.height = height + 'px';
                     } else {
-                        canvas.style.width = window.screen.width + 'px';;
-                        canvas.style.height = window.screen.height + 'px';;
+                        fullscreenRoot.style.width = window.screen.width + 'px';
+                        fullscreenRoot.style.height = window.screen.height + 'px';
                     }
 
+                    // make canvas size 100% to fix screen size
+                    canvas.style.width = "100%";
+                    canvas.style.height = "100%";
+
                 } else {
-					canvas.style.width = beforeWidth + 'px';;
-                    canvas.style.height = beforeHeight + 'px';;
-                    beforeParent.insertBefore(canvas, Array.from(beforeParent.children)[index]);
+                    fullscreenRoot.style.width = beforeWidth + 'px';
+                    fullscreenRoot.style.height = beforeHeight + 'px';
+                    beforeParent.insertBefore(fullscreenRoot, Array.from(beforeParent.children)[index]);
+
+                    if(isBody)
+                    {
+                        beforeParent.id = div.id;
+                    }
 
                     div.parentNode.removeChild(div);
+
+                    // set canvas size to origin size
+                    canvas.style.width = originSize.width;
+                    canvas.style.height = originSize.height;
 
                     // remove this function
                     removeEventFullScreen(fullscreenFunc);
@@ -80,8 +173,32 @@ var WebGLWindow = {
             else if (div.webkitRequestFullScreen) div.webkitRequestFullScreen();
             else if (div.msRequestFullscreen) div.msRequestFullscreen();
             else if (div.requestFullscreen) div.requestFullscreen();
-		}
-	},
+        }
+    },
+    MakeFullscreen : function (str) {
+        document.makeFullscreen(UTF8ToString(str));
+    },
+    ExitFullscreen : function() {
+        // get fullscreen object
+        var doc = window.document;
+        var objFullScreen = doc.fullscreenElement || doc.mozFullScreenElement || doc.webkitFullscreenElement || doc.msFullscreenElement;
+
+        if (objFullScreen)
+        {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+            else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        }
+    },
+    IsFullscreen : function() {
+        // get fullscreen object
+        var doc = window.document;
+        var objFullScreen = doc.fullscreenElement || doc.mozFullScreenElement || doc.webkitFullscreenElement || doc.msFullscreenElement;
+
+        // check full screen elemenet is not null!
+        return objFullScreen != null;
+    },
 }
 
 mergeInto(LibraryManager.library, WebGLWindow);
