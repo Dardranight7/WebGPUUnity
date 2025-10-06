@@ -18,6 +18,7 @@ public class BotController : MonoBehaviour
     private Rigidbody rb;
     private float lastJumpTime = 0f;
     private bool isJumping = false;
+    public GameObject finishCloud;
 
     void Start()
     {
@@ -54,7 +55,7 @@ public class BotController : MonoBehaviour
             }
         }
 
-        if (!arrived && transform.position.y >= victoryHeight)
+        if (!arrived && transform.position.y >= finishCloud.transform.position.y)
         {
             arrived = true;
             canMove = false;

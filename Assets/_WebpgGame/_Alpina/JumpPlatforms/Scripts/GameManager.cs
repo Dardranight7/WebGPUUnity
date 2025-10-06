@@ -180,11 +180,35 @@ public class GameManager : MonoBehaviour
         if (podium.Count == 1)
         {
             // Todos han terminado, finalizar el juego
-            StartCoroutine(HandleVictorySequence(podium[0]));
+            //StartCoroutine(HandleVictorySequence(podium[0]));
+            //desde aquí cambios
+            Transform winnerTransform = null;
+            CameraFollow winnerCamFollow = null;
+            string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
+
+            if (player != null && name == localPlayerName)
+            {
+                winnerTransform = player.transform;
+                winnerCamFollow = winnerTransform.GetComponent<CameraFollow>();
+            }
+            else
+            {
+                var bots = FindObjectsOfType<BotController>();
+                foreach (var bot in bots)
+                {
+                    if (bot.botName == name)
+                    {
+                        winnerTransform = bot.transform;
+                        winnerCamFollow = bot.GetComponentInChildren<CameraFollow>();
+                        break;
+                    }
+                }
+            }
+            StartCoroutine(HandleVictorySequence(name, winnerTransform, winnerCamFollow));
         }
     }
     
-    IEnumerator HandleVictorySequence(string winnerName)
+    IEnumerator HandleVictorySequence(string winnerName, Transform winnerTransform, CameraFollow winnerCamFollow)
     {
         gameEnded = true; // Evitar más registros
         
@@ -192,7 +216,7 @@ public class GameManager : MonoBehaviour
         StopAllBots();
         
         // determinar si el ganador es el jugador
-        string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
+        /*string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
         bool winnerIsPlayer = (winnerName == localPlayerName) || (player != null &&  winnerName == player.gameObject.name);
         
         //Desactivar inputs del player mientras hacemos cinematica
@@ -217,6 +241,39 @@ public class GameManager : MonoBehaviour
         
         ShowWinPanel(winnerName, winnerIsPlayer);
         
+        Debug.Log($"Secuencia de victoria completada para {winnerName}");*/
+        
+        //Aquí cambios 
+        
+        // Teletransportar al ganador al centro de la plataforma final
+        if (winnerTransform != null && finishPoint != null)
+        {
+            winnerTransform.position = finishPoint.position;
+            winnerTransform.eulerAngles = new Vector3(0f, 180f, 0f); // Mirando a la cámara
+            var anim = winnerTransform.GetComponent<Animator>();
+            if (anim != null)
+            {
+                if (anim.HasParameter("Idle"))
+                    anim.SetTrigger("Idle");
+            }
+        }
+
+        // Desactivar el control del player si no ganó
+        if (player != null)
+            player.enabled = false;
+
+        SetPlayerIdle();
+
+        // Paneo solo en la cámara del ganador
+        if (winnerCamFollow != null)
+            yield return winnerCamFollow.PlayCinematicPan(winnerTransform, victoryCameraOffset, victoryPanDuration);
+
+        yield return new WaitForSeconds(victoryHoldTime);
+
+        string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
+        bool winnerIsPlayer = (winnerName == localPlayerName);
+        ShowWinPanel(winnerName, winnerIsPlayer);
+
         Debug.Log($"Secuencia de victoria completada para {winnerName}");
     }
     void ShowWinPanel(string winnerName, bool winnerIsPlayer)
@@ -234,8 +291,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("✅ WinPanel activado por secuencia de victoria");
     }
-
-    public float rotationYCam = 180f;
+    
     
     IEnumerator DoVictoryCameraPan()
     {
