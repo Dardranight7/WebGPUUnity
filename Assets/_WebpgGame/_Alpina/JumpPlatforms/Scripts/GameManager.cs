@@ -216,7 +216,7 @@ public class GameManager : MonoBehaviour
         StopAllBots();
         
         // determinar si el ganador es el jugador
-        /*string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
+        string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
         bool winnerIsPlayer = (winnerName == localPlayerName) || (player != null &&  winnerName == player.gameObject.name);
         
         //Desactivar inputs del player mientras hacemos cinematica
@@ -241,40 +241,9 @@ public class GameManager : MonoBehaviour
         
         ShowWinPanel(winnerName, winnerIsPlayer);
         
-        Debug.Log($"Secuencia de victoria completada para {winnerName}");*/
-        
-        //Aquí cambios 
-        
-        // Teletransportar al ganador al centro de la plataforma final
-        if (winnerTransform != null && finishPoint != null)
-        {
-            winnerTransform.position = finishPoint.position;
-            winnerTransform.eulerAngles = new Vector3(0f, 180f, 0f); // Mirando a la cámara
-            var anim = winnerTransform.GetComponent<Animator>();
-            if (anim != null)
-            {
-                if (anim.HasParameter("Idle"))
-                    anim.SetTrigger("Idle");
-            }
-        }
-
-        // Desactivar el control del player si no ganó
-        if (player != null)
-            player.enabled = false;
-
-        SetPlayerIdle();
-
-        // Paneo solo en la cámara del ganador
-        if (winnerCamFollow != null)
-            yield return winnerCamFollow.PlayCinematicPan(winnerTransform, victoryCameraOffset, victoryPanDuration);
-
-        yield return new WaitForSeconds(victoryHoldTime);
-
-        string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
-        bool winnerIsPlayer = (winnerName == localPlayerName);
-        ShowWinPanel(winnerName, winnerIsPlayer);
-
         Debug.Log($"Secuencia de victoria completada para {winnerName}");
+        
+        
     }
     void ShowWinPanel(string winnerName, bool winnerIsPlayer)
     {
@@ -478,7 +447,6 @@ public class GameManager : MonoBehaviour
         
     }
     
-    // ✅ NUEVO: Detener todos los bots
     
     
     // ✅ MÉTODO MEJORADO: RestartGame
@@ -500,7 +468,7 @@ public class GameManager : MonoBehaviour
 
     
     
-    // ✅ NUEVO: Método para registrar finalización
+    
     
     public void OnPlayerMoveDown(int rows)
     {
