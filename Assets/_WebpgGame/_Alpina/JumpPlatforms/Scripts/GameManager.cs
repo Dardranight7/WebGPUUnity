@@ -180,11 +180,35 @@ public class GameManager : MonoBehaviour
         if (podium.Count == 1)
         {
             // Todos han terminado, finalizar el juego
-            StartCoroutine(HandleVictorySequence(podium[0]));
+            //StartCoroutine(HandleVictorySequence(podium[0]));
+            //desde aquí cambios
+            Transform winnerTransform = null;
+            CameraFollow winnerCamFollow = null;
+            string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
+
+            if (player != null && name == localPlayerName)
+            {
+                winnerTransform = player.transform;
+                winnerCamFollow = winnerTransform.GetComponent<CameraFollow>();
+            }
+            else
+            {
+                var bots = FindObjectsOfType<BotController>();
+                foreach (var bot in bots)
+                {
+                    if (bot.botName == name)
+                    {
+                        winnerTransform = bot.transform;
+                        winnerCamFollow = bot.GetComponentInChildren<CameraFollow>();
+                        break;
+                    }
+                }
+            }
+            StartCoroutine(HandleVictorySequence(name, winnerTransform, winnerCamFollow));
         }
     }
     
-    IEnumerator HandleVictorySequence(string winnerName)
+    IEnumerator HandleVictorySequence(string winnerName, Transform winnerTransform, CameraFollow winnerCamFollow)
     {
         gameEnded = true; // Evitar más registros
         
@@ -218,6 +242,8 @@ public class GameManager : MonoBehaviour
         ShowWinPanel(winnerName, winnerIsPlayer);
         
         Debug.Log($"Secuencia de victoria completada para {winnerName}");
+        
+        
     }
     void ShowWinPanel(string winnerName, bool winnerIsPlayer)
     {
@@ -234,8 +260,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("✅ WinPanel activado por secuencia de victoria");
     }
-
-    public float rotationYCam = 180f;
+    
     
     IEnumerator DoVictoryCameraPan()
     {
@@ -422,7 +447,6 @@ public class GameManager : MonoBehaviour
         
     }
     
-    // ✅ NUEVO: Detener todos los bots
     
     
     // ✅ MÉTODO MEJORADO: RestartGame
@@ -432,7 +456,7 @@ public class GameManager : MonoBehaviour
         
         Time.timeScale = 1;
         
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        MochiCourtain.Singleton.LoadSceneWithCourtain(SceneManager.GetActiveScene().name, 1);
     }
     
     void DelayedStart()
@@ -444,7 +468,7 @@ public class GameManager : MonoBehaviour
 
     
     
-    // ✅ NUEVO: Método para registrar finalización
+    
     
     public void OnPlayerMoveDown(int rows)
     {
@@ -477,7 +501,7 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         Debug.Log("🏠 Volviendo al menú principal...");
-        SceneManager.LoadScene("MainMenu"); // Cambia "MainMenu" por el nombre de tu escena
+        MochiCourtain.Singleton.LoadSceneWithCourtain("0", 1);
     }
     
     // ✅ NUEVO: Método para salir del juego

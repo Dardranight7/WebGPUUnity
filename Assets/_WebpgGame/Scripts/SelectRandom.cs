@@ -11,6 +11,7 @@ public class SelectRandom : MonoBehaviour
         {
             model.gameObject.SetActive(false);
         }
-        Models[Random.Range(0, Models.Count)].gameObject.SetActive(true);
+        if (Models.Count > 0)
+            Models[Random.Range(0, Models.Count - 1)].gameObject.SetActive(true);
     }
 }

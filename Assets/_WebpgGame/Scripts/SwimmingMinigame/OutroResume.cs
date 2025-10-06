@@ -21,6 +21,6 @@ public class OutroResume : MonoBehaviour
 
     public void ReturnToLobby()
     {
-        SceneManager.LoadScene("0");
+        MochiCourtain.Singleton.LoadSceneWithCourtain("0", 1);
     }
 }
