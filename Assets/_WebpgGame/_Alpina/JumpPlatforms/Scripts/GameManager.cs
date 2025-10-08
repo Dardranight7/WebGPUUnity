@@ -337,15 +337,24 @@ public class GameManager : MonoBehaviour
     //pruebaShowInPanle
     void ShowWinPanel(string winnerName, bool winnerIsPlayer)
     {
-        if (WinPanel != null)
-            WinPanel.SetActive(true);
-
-        if (winnerNameText != null)
+        if (winnerIsPlayer)
         {
-            winnerNameText.text = winnerIsPlayer ? "¡Ganaste!" : "Perdiste";
+            // Gana el jugador, muestra panel de victoria
+            if (WinPanel != null)
+                WinPanel.SetActive(true);
+            if (winnerNameText != null)
+                winnerNameText.text = "¡Ganaste!";
+            Debug.Log("✅ WinPanel activado. Resultado: Ganó el jugador");
         }
-
-        Debug.Log($"✅ WinPanel activado. Resultado: {(winnerIsPlayer ? "Ganó el jugador" : "Ganó un bot")}");
+        else
+        {
+            // Gana el bot, muestra panel de game over
+            if (gameOverPanel != null)
+                gameOverPanel.SetActive(true);
+            if (winnerNameText != null)
+                winnerNameText.text = "Perdiste";
+            Debug.Log("❌ GameOverPanel activado. Resultado: Ganó un bot");
+        }
     }
 
     /*IEnumerator DoVictoryCameraPan()
@@ -496,7 +505,7 @@ public class GameManager : MonoBehaviour
         
         // teletransportar
         target.position = finishPoint.position;
-        target.rotation = Quaternion.Euler(0f, 180f, 20f);
+        target.rotation = Quaternion.Euler(0f, 180f, 0f);
         Debug.Log($"Nueva posición confirmada : {target.position}");
         
         
