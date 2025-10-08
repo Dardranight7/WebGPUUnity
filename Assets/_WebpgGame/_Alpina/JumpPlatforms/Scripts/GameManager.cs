@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public float victoryPanDuration = 1.0f;
     public float victoryHoldTime = 0.8f;
     public bool teleportPlayerWhenBotsLose = true;
+    public GameObject resultadosUIPanel;
 
     [Header("References")]
     public PlayerController player;
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
         // Asegurar que los paneles estén OCULTOS al inicio
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         if (WinPanel != null) WinPanel.SetActive(false);
+        if (resultadosUIPanel != null) resultadosUIPanel.SetActive(false);
 
         // Inicializar referencias
         if (player == null)
@@ -312,8 +314,10 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(DoVictoryCameraPan(winnerCamera, winnerCamFollow, winnerTransform));
         yield return new WaitForSeconds(victoryHoldTime);
 
-        ShowWinPanel(winnerName, winnerIsPlayer);
+        
 
+        ShowWinPanel(winnerName, winnerIsPlayer);
+        StartCoroutine(ShowResultadosUIDelayed(2f));
         Debug.Log($"Secuencia de victoria completada para {winnerName}");
     }
     
@@ -406,6 +410,26 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("DoVictoryCameraPan: cámara del ganador es null. Se aborta paneo.");
             yield break;
         }
+
+        // verificación de winner transform en camera 
+        PlayerController player = winnerTransform.gameObject.GetComponent<PlayerController>();
+        BotController bot = null;
+        Camera winnerCam = null;
+
+        if (player == null)
+        {
+            //ganador es bot
+            bot = winnerTransform.gameObject.GetComponent<BotController>();
+            winnerCam = bot.botCamera;
+        }
+        else
+        {
+            //ganador es player
+            winnerCam = player.playerCamera;
+        }
+        
+        player.playerCamera.rect = new Rect(0, 0, 1, 1);
+        bot.botCamera.rect = new Rect(0, 0, 1, 1);
 
         // Desactivar CameraFollow temporalmente si existe
         bool followWasEnabled = false;
@@ -668,6 +692,13 @@ public class GameManager : MonoBehaviour
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
+    }
+    
+    IEnumerator ShowResultadosUIDelayed(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (resultadosUIPanel != null)
+            resultadosUIPanel.SetActive(true);
     }
 
     public void CheckBotsStatus()
