@@ -132,6 +132,7 @@ public class AuthManager : MonoBehaviour
     }
     public void Login()
     {
+        textincorrect.SetActive(false);
         Backend.singleton.Login(email.text, password.text, (a) =>
         {
             if (a.code == 0)
@@ -154,8 +155,6 @@ public class AuthManager : MonoBehaviour
             }
             else
             {
-                InputImage.sprite = Errorimage;
-                InputPassword.sprite = Errorimage;
                 textincorrect.SetActive(true);
             }
         });

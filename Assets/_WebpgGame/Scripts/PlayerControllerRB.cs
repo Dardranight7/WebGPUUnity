@@ -37,7 +37,8 @@ public class PlayerControllerRB : MonoBehaviour
     private void OnDestroy()
     {
         inputActions.Player.Move.performed -= OnMove;
-        inputActions.Player.Move.canceled -= OnMove;    
+        inputActions.Player.Move.canceled -= OnMove;
+        inputActions.Disable();
     }
 
     void Start()
