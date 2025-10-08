@@ -19,6 +19,7 @@ public class BotController : MonoBehaviour
     private float lastJumpTime = 0f;
     private bool isJumping = false;
     public GameObject finishCloud;
+    public Camera botCamera;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class BotController : MonoBehaviour
         if (gameManager == null) gameManager = FindObjectOfType<GameManager>();
         if (platformGenerator == null) platformGenerator = FindObjectOfType<PlatformGenerator>();
         if (platformGenerator != null) victoryHeight = platformGenerator.platformSpacing * (platformGenerator.maxFilas - 1);
-
+        if (botCamera == null) botCamera = GetComponentInChildren<Camera>();
         // Si el GameManager ya indicó inicio, activar bots; también escalonar el primer salto
         canMove = (gameManager != null && gameManager.gameStared);
         lastJumpTime = Time.time - Random.Range(0f, jumpInterval);
@@ -150,4 +151,5 @@ public class BotController : MonoBehaviour
     {
         canMove = false;
     }
+    
 }
