@@ -158,49 +158,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-    /*public void RegisterFinish(string name)
-    {
-        if (gameEnded) return;
-
-        if (!podium.Contains(name))
-        {
-            podium.Add(name);
-            Debug.Log($"🏅 {name} ha terminado en posición {podium.Count}");
-        }
-
-        if (podium.Count == 1)
-        {
-            // Todos han terminado, finalizar el juego
-
-            // --- Cambios para paneo y teleport al ganador ---
-            Transform winnerTransform = null;
-            CameraFollow winnerCamFollow = null;
-            string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
-
-            if (player != null && name == localPlayerName)
-            {
-                winnerTransform = player.transform;
-                winnerCamFollow = winnerTransform.GetComponent<CameraFollow>();
-            }
-            else
-            {
-                var bots = FindObjectsOfType<BotController>();
-                foreach (var bot in bots)
-                {
-                    if (bot.botName == name)
-                    {
-                        winnerTransform = bot.transform;
-                        winnerCamFollow = bot.GetComponentInChildren<CameraFollow>();
-                        break;
-                    }
-                }
-            }
-            // Si tienes varias cámaras, aquí puedes usar Camera[] y seleccionar la del ganador
-            // Camera winnerCamera = winnerTransform.GetComponentInChildren<Camera>();
-            StartCoroutine(HandleVictorySequence(name, winnerTransform, cameraFollow));
-        }
-    }*/
     
     //prueba de RegisterFinish
     
@@ -239,8 +196,8 @@ public class GameManager : MonoBehaviour
                     if (bot.botName == name)
                     {
                         winnerTransform = bot.transform;
-                        winnerCamera = bot.GetComponentInChildren<Camera>();
-                        winnerCamFollow = bot.GetComponentInChildren<CameraFollow>();
+                        winnerCamera = bot.botCamera;
+                        winnerCamFollow = bot.GetComponent<CameraFollow>();
                     }
                 }
             }
@@ -255,41 +212,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(HandleVictorySequence(name, winnerTransform, winnerCamera, winnerCamFollow, winnerIsPlayer));
         } 
     }
-
-
-    /*IEnumerator HandleVictorySequence(string winnerName, Transform winnerTransform, CameraFollow winnerCamFollow)
-    {
-        gameEnded = true; // Evitar más registros
-
-        // Detener bots
-        StopAllBots();
-
-        // determinar si el ganador es el jugador
-        string localPlayerName = PlayerPrefs.GetString("PlayerName", "P1");
-        bool winnerIsPlayer = (winnerName == localPlayerName) || (player != null && winnerName == player.gameObject.name);
-
-        // Desactivar inputs del player mientras hacemos cinematica
-        if (player != null)
-            player.enabled = false;
-
-        if (winnerIsPlayer)
-        {
-            StartCoroutine(WaitTeleport());
-        }
-        else
-        {
-            if (teleportPlayerWhenBotsLose)
-                StartCoroutine(WaitTeleport());
-        }
-
-        SetPlayerIdle();
-        yield return StartCoroutine(DoVictoryCameraPan());
-        yield return new WaitForSeconds(victoryHoldTime);
-
-        ShowWinPanel(winnerName, winnerIsPlayer);
-
-        Debug.Log($"Secuencia de victoria completada para {winnerName}");
-    }*/
     
     //prueba HandleVictorySequence
     IEnumerator HandleVictorySequence(string winnerName, Transform winnerTransform, Camera winnerCamera, CameraFollow winnerCamFollow, bool winnerIsPlayer)
@@ -321,22 +243,6 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Secuencia de victoria completada para {winnerName}");
     }
     
-
-    /*void ShowWinPanel(string winnerName, bool winnerIsPlayer)
-    {
-        if (WinPanel != null)
-            WinPanel.SetActive(true);
-
-        if (winnerNameText != null)
-        {
-            if (winnerIsPlayer)
-                winnerNameText.text = "¡Ganaste!";
-            else
-                winnerNameText.text = $"Perdiste";
-        }
-
-        Debug.Log("✅ WinPanel activado por secuencia de victoria");
-    }*/
     
     //pruebaShowInPanle
     void ShowWinPanel(string winnerName, bool winnerIsPlayer)
@@ -360,46 +266,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("❌ GameOverPanel activado. Resultado: Ganó un bot");
         }
     }
-
-    /*IEnumerator DoVictoryCameraPan()
-    {
-        Camera mainCam = Camera.main;
-        if (mainCam == null)
-            yield break;
-
-        // Guardar estado original
-        cameraFollowWasEnabled = (cameraFollow != null) ? cameraFollow.enabled : false;
-        cameraOriginalPosition = mainCam.transform.position;
-
-        // Desactivar CameraFollow para controlar la cámara manualmente
-        if (cameraFollow != null)
-            cameraFollow.enabled = false;
-
-        // Definir destino de la cámara: centrado en el jugador + offset
-        Vector3 targetCenter = finishPoint.position;
-        Vector3 targetCamPos = targetCenter + victoryCameraOffset;
-
-        float elapsed = 0f;
-        Vector3 startPos = mainCam.transform.position;
-        Quaternion startRot = mainCam.transform.rotation;
-
-        // Mirar hacia el targetCenter
-        Quaternion targetRot = Quaternion.LookRotation(targetCenter - targetCamPos, Vector3.up);
-
-        while (elapsed < victoryPanDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, elapsed / victoryPanDuration);
-            mainCam.transform.position = Vector3.Lerp(startPos, targetCamPos, t);
-            mainCam.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
-            yield return null;
-        }
-
-        // Asegurar la posición final
-        mainCam.transform.position = targetCamPos;
-        mainCam.transform.rotation = targetRot;
-        yield break;
-    }*/
     
     //pruebaa DoVictoryCameraPan
     
@@ -410,26 +276,39 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("DoVictoryCameraPan: cámara del ganador es null. Se aborta paneo.");
             yield break;
         }
-
+        
+        
+        
         // verificación de winner transform en camera 
         PlayerController player = winnerTransform.gameObject.GetComponent<PlayerController>();
-        BotController bot = null;
-        Camera winnerCam = null;
-
+        BotController bot = winnerTransform.gameObject.GetComponent<BotController>();
+        Camera winnercam = null;
+        
+        Debug.Log($"winner : {winnerTransform.name}");
         if (player == null)
         {
             //ganador es bot
-            bot = winnerTransform.gameObject.GetComponent<BotController>();
-            winnerCam = bot.botCamera;
+            winnercam = bot.botCamera;
+            Debug.Log("Cámara del bot asignada para el paneo.");
         }
         else
         {
             //ganador es player
-            winnerCam = player.playerCamera;
+            winnercam = player.playerCamera;
+            Debug.Log("Cámara del jugador asignada para el paneo.");
         }
         
-        player.playerCamera.rect = new Rect(0, 0, 1, 1);
-        bot.botCamera.rect = new Rect(0, 0, 1, 1);
+        Camera[] allCameras = Camera.allCameras;
+        foreach (var c in allCameras)
+        {
+            if (c != null && c != winnercam)
+                c.enabled = false;
+        }
+        
+        Debug.Log($"DoVictoryCameraPan: usando cámara '{cam.name}' del ganador '{winnerTransform.name}'");
+        winnercam.rect = new Rect(0, 0, 1, 1);
+        winnercam.enabled = true;
+        
 
         // Desactivar CameraFollow temporalmente si existe
         bool followWasEnabled = false;
@@ -464,28 +343,8 @@ public class GameManager : MonoBehaviour
 
         yield break;
     }
-/*
-    [ContextMenu("Teleport Player To Finish")]
-    void TeleportPlayerToFinish()
-    {
-        if (player == null || finishPoint == null) return;
-
-        Vector3 targetPos = finishPoint.position;
-        player.transform.position = targetPos;
-        player.transform.eulerAngles = new Vector3(0f, 180f, 0f);
-
-        Rigidbody rb = player.GetComponent<Rigidbody>();
-        rb.isKinematic = true;
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-
-        Debug.Log($"🚀 Jugador teletransportado a la meta en {targetPos}");
-    }*/
-
-//prueba TeleportPlayerToFinish
+    
+    //prueba TeleportPlayerToFinish
     void TeleportTransformToFinish(Transform target)
     {
         if (target == null || finishPoint == null)
@@ -535,12 +394,7 @@ public class GameManager : MonoBehaviour
         
         Debug.Log($"Nueva posición confirmada : {target.position}");
     }
-
-    /*IEnumerator WaitTeleport()
-    {
-        yield return new WaitForSeconds(1f);
-        TeleportPlayerToFinish();
-    }*/
+    
 
     void SetPlayerIdle()
     {

@@ -1032,8 +1032,8 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
-    width: 1
+    y: 0.5
+    width: 0.5
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -1064,7 +1064,7 @@ Transform:
   m_GameObject: {fileID: 267534632}
   serializedVersion: 2
   m_LocalRotation: {x: 0.005999964, y: 0, z: 0, w: 0.999982}
-  m_LocalPosition: {x: 7.690384, y: 33.390274, z: -65.71123}
+  m_LocalPosition: {x: 7.690384, y: 37.32, z: -65.71123}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1128,10 +1128,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Alpina::CameraFollow
   target: {fileID: 1197200945}
   followSpeed: 5
-  offset: {x: 0, y: 0, z: -0.4}
+  offset: {x: 0, y: 1.06, z: -0.4}
   smoothFollow: 1
   smoothTime: 0.15
-  gameplayHeight: 7
+  gameplayHeight: 10
   gameplayDistance: -30
   showIntro: 1
   introDuration: 3
@@ -1864,7 +1864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &483414350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2116,7 +2116,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &542183838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4640,6 +4640,7 @@ MonoBehaviour:
   gameManager: {fileID: 1952926079}
   platformGenerator: {fileID: 2015391584}
   finishCloud: {fileID: 717462299}
+  playerCamera: {fileID: 267534634}
   testJump: 6.5
 --- !u!136 &1197200948
 CapsuleCollider:
@@ -5866,7 +5867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1463528887
 MonoBehaviour:
   m_ObjectHideFlags: 0
