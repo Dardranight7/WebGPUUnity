@@ -101,7 +101,7 @@ public class CameraFollow : MonoBehaviour
     private float cameraHeight_internal;
     private float cameraDistance_internal;
 
-    IEnumerator IntroCameraPan()
+    /*IEnumerator IntroCameraPan()
     {
         cameraHeight_internal = introHeight;
         cameraDistance_internal = introDistance;
@@ -176,9 +176,115 @@ public class CameraFollow : MonoBehaviour
             gm.gameStared = true;
             gm.StartBots();
         }
+    }*/
+    
+    IEnumerator IntroCameraPan()
+    {
+        isIntroPlaying = true;
+
+        float duration = Mathf.Max(1f, introDuration);
+        float elapsed = 0f;
+
+        if (target == null)
+        {
+            Debug.LogWarning("IntroCameraPan: no hay target asignado.");
+            yield break;
+        }
+
+        // --- configuración inicial ---
+        Vector3 focusPoint = target.position + Vector3.up * 3f;
+        float startRadius = Mathf.Abs(introDistance);
+        float endRadius = Mathf.Abs(gameplayDistance);
+        float startHeight = introHeight;
+        float endHeight = gameplayHeight;
+
+        // posición inicial lejos del área
+        float angle = 0f;
+        transform.position = focusPoint + Quaternion.Euler(0, angle, 0) * new Vector3(0, startHeight, -startRadius);
+        transform.LookAt(focusPoint);
+
+        // --- animación principal: acercamiento y orbitado suave ---
+        while (elapsed < duration)
+        {
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            angle = Mathf.Lerp(0f, 220f, t); // gira un poco más que 180° para dar efecto dinámico
+            float radius = Mathf.Lerp(startRadius, endRadius, t);
+            float height = Mathf.Lerp(startHeight, endHeight, t);
+
+            // orbit + bajada tipo dron
+            Vector3 orbitPos = focusPoint + Quaternion.Euler(0, angle, 0) * new Vector3(0, 0, -radius);
+            orbitPos.y += height;
+
+            // opcional: pequeñas oscilaciones tipo dron
+            float noise = Mathf.PerlinNoise(Time.time * 0.3f, 0f) * 0.4f - 0.2f;
+            orbitPos.y += noise;
+
+            // movimiento suave
+            transform.position = Vector3.SmoothDamp(transform.position, orbitPos, ref velocity, 0.25f);
+
+            // rotación suave hacia el jugador
+            Vector3 dir = (focusPoint - transform.position);
+            if (dir.sqrMagnitude > 0.001f)
+            {
+                Quaternion lookRot = Quaternion.LookRotation(dir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * introRotationLerp);
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // --- transición al gameplay ---
+        Vector3 gameplayOffset = new Vector3(0, gameplayHeight, gameplayDistance);
+        Vector3 finalPos = target.position + gameplayOffset;
+        Quaternion finalRot = Quaternion.LookRotation(target.position - finalPos);
+        
+        float blendTime = 2f;
+        elapsed = 0f;
+        Vector3 velocitySmooth = Vector3.zero;
+
+        while (elapsed < blendTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / blendTime);
+            
+            transform.position = Vector3.SmoothDamp(transform.position, finalPos, ref velocitySmooth, 0.5f);
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, finalRot, Time.deltaTime * 1.0f);
+            
+            yield return null;
+        }
+
+        // Ajuste final
+        transform.position = finalPos;
+        transform.rotation = finalRot;
+
+        // --- cuenta regresiva y arranque ---
+        yield return StartCoroutine(DoCountDown());
+
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm != null)
+        {
+            gm.gameStared = true;
+            gm.StartBots();
+        }
+
+        // Restaurar cámaras múltiples después del intro
+        if (mainCamera != null)
+            mainCamera.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
+
+        if (cameras != null && cameras.Length > 0)
+        {
+            foreach (var c in cameras)
+            {
+                if (c != null) c.enabled = true;
+            }
+        }
+
+        isIntroPlaying = false;
     }
 
-    IEnumerator DoCountDown()
+    /*IEnumerator DoCountDown()
     {
         if (countdownTime != null)
             countdownText.gameObject.SetActive(true);
@@ -189,6 +295,42 @@ public class CameraFollow : MonoBehaviour
             if (countdownTime != null)
                 countdownText.text = Mathf.CeilToInt(remaining).ToString();
             
+            yield return new WaitForSeconds(1f);
+            remaining -= 1f;
+        }
+
+        if (countdownText != null)
+        {
+            countdownText.text = "¡GO!";
+            yield return new WaitForSeconds(0.5f);
+            countdownText.gameObject.SetActive(false);
+        }
+    }*/
+    
+    IEnumerator DoCountDown()
+    {
+        // ✅ Mostrar las 4 pantallas justo cuando comienza el conteo
+        if (mainCamera != null)
+            mainCamera.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
+
+        if (cameras != null && cameras.Length > 0)
+        {
+            foreach (var c in cameras)
+            {
+                if (c != null) c.enabled = true;
+            }
+        }
+
+        // 🔢 Mostrar el texto del conteo
+        if (countdownText != null)
+            countdownText.gameObject.SetActive(true);
+
+        float remaining = countdownTime;
+        while (remaining > 0)
+        {
+            if (countdownText != null)
+                countdownText.text = Mathf.CeilToInt(remaining).ToString();
+
             yield return new WaitForSeconds(1f);
             remaining -= 1f;
         }
