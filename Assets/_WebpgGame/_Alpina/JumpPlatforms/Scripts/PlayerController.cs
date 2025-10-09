@@ -46,6 +46,9 @@ public class PlayerController : MonoBehaviour
     public float CurrentHeight => transform.position.y;
     GameObject[] platforms;
     
+    [SerializeField]
+    public Camera playerCamera;
+    
     
     void Awake()
     {

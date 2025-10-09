@@ -43,6 +43,11 @@ public class CameraFollow : MonoBehaviour
     public float countdownTime = 3f; 
     public Text countdownText;
     
+    [SerializeField]
+    private Camera mainCamera;
+
+    [SerializeField] private Camera[] cameras;
+    
     void Start()
     {
         
@@ -136,6 +141,12 @@ public class CameraFollow : MonoBehaviour
             }
             elapsed += Time.deltaTime;
             yield return null;
+        }
+        
+        mainCamera.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
+        for (int i = 0; i < cameras.Length; i++)
+        {
+            cameras[i].enabled = true;
         }
 
         cameraHeight_internal = gameplayHeight;

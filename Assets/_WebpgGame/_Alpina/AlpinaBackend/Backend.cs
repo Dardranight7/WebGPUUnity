@@ -249,6 +249,7 @@ public class Backend : MonoBehaviour
             }
             catch
             {
+                Result?.Invoke(new Response { code = 2, success = false, message = "Error al procesar la respuesta del servidor", data = null });
                 Debug.LogError("Any was wrong with response");
                 Debug.Log(request.downloadHandler.text);
             }
