@@ -68,16 +68,16 @@ public class CameraFollow : MonoBehaviour
             highestY = initialPos.y;
         }
         
-        var gm = FindObjectOfType<GameManager>();
-        if (gm != null)
-            gm.gameStared = false;
+        //var gm = FindObjectOfType<GameManager>();
+        //if (gm != null)
+            //gm.gameStared = false;
 
         if (showIntro)
         {
             isIntroPlaying = true;
             StartCoroutine(IntroCameraPan());
         }
-        else
+        /*else
         {
             ResetCamera();
             
@@ -86,7 +86,7 @@ public class CameraFollow : MonoBehaviour
                 gm.gameStared = true;
                 gm.StartBots();
             }
-        }
+        }*/
         
     }
     
@@ -265,8 +265,9 @@ public class CameraFollow : MonoBehaviour
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm != null)
         {
-            gm.gameStared = true;
-            gm.StartBots();
+            //gm.gameStared = true;
+            //gm.StartBots();
+            gm.StartGameProperly();
         }
 
         // Restaurar cámaras múltiples después del intro

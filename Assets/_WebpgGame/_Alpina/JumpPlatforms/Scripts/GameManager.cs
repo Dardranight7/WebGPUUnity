@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -55,6 +56,12 @@ public class GameManager : MonoBehaviour
     private bool cameraFollowWasEnabled = true;
     private Vector3 cameraOriginalPosition;
     private Quaternion cameraOriginalRotation;
+
+    void Awake()
+    {
+        gameStared = false;
+        gameEnded = false;
+    }
 
     void Start()
     {
@@ -269,8 +276,17 @@ public class GameManager : MonoBehaviour
     
     //pruebaa DoVictoryCameraPan
     
-    IEnumerator DoVictoryCameraPan(Camera cam, CameraFollow camFollow, Transform winnerTransform)
+    /*IEnumerator DoVictoryCameraPan(Camera cam, CameraFollow camFollow, Transform winnerTransform)
     {
+        if (camFollow != null)
+        {
+            camFollow.enabled = false;
+            Debug.Log($"Se desactivo la cámara de seguimiento '{camFollow.name}' para el paneo.");
+        }
+        
+        Transform originalParent = cam.transform.parent;
+        cam.transform.SetParent(null);
+        
         if (cam == null)
         {
             Debug.LogWarning("DoVictoryCameraPan: cámara del ganador es null. Se aborta paneo.");
@@ -284,7 +300,6 @@ public class GameManager : MonoBehaviour
         BotController bot = winnerTransform.gameObject.GetComponent<BotController>();
         Camera winnercam = null;
         
-        Debug.Log($"winner : {winnerTransform.name}");
         if (player == null)
         {
             //ganador es bot
@@ -311,12 +326,12 @@ public class GameManager : MonoBehaviour
         
 
         // Desactivar CameraFollow temporalmente si existe
-        bool followWasEnabled = false;
-        if (camFollow != null)
-        {
-            followWasEnabled = camFollow.enabled;
-            camFollow.enabled = false;
-        }
+        //bool followWasEnabled = false;
+        //if (camFollow != null)
+        //{
+         //   followWasEnabled = camFollow.enabled;
+         //   camFollow.enabled = false;
+        //}
 
         Vector3 targetCenter = (finishPoint != null) ? finishPoint.position : (winnerTransform != null ? winnerTransform.position : Vector3.zero);
         Vector3 targetCamPos = targetCenter + victoryCameraOffset;
@@ -325,6 +340,9 @@ public class GameManager : MonoBehaviour
         Vector3 startPos = cam.transform.position;
         Quaternion startRot = cam.transform.rotation;
         Quaternion targetRot = Quaternion.LookRotation(targetCenter - targetCamPos, Vector3.up);
+        
+        Debug.Log($"Paneando con camara: {cam.name} | follow activo: {camFollow != null && camFollow.enabled}");
+        yield return new WaitForSeconds(0.1f);
 
         while (elapsed < victoryPanDuration)
         {
@@ -337,12 +355,122 @@ public class GameManager : MonoBehaviour
 
         cam.transform.position = targetCamPos;
         cam.transform.rotation = targetRot;
+        
+        cam.transform.SetParent(originalParent);
 
         // Si quieres restaurar el seguimiento después del paneo, descomenta la siguiente línea
         // if (camFollow != null) camFollow.enabled = followWasEnabled;
 
         yield break;
+    }*/
+    
+    //prueba DoVictoryCameraPan
+    IEnumerator DoVictoryCameraPan(Camera cam, CameraFollow camFollow, Transform winnerTransform)
+{
+    if (cam == null)
+    {
+        Debug.LogWarning("DoVictoryCameraPan: cámara del ganador es null. Se aborta paneo.");
+        yield break;
     }
+
+    // 1. Identificar si es player o bot
+    PlayerController player = winnerTransform.GetComponent<PlayerController>();
+    BotController bot = winnerTransform.GetComponent<BotController>();
+    Camera winnercam = (player != null) ? player.playerCamera : bot?.botCamera;
+
+    if (winnercam == null)
+    {
+        Debug.LogError("No se pudo obtener la cámara del ganador");
+        yield break;
+    }
+
+    Debug.Log($"DoVictoryCameraPan: preparando paneo para '{winnerTransform.name}'");
+
+    // 2. DESACTIVAR TODO EN EL GANADOR
+    if (bot != null)
+    {
+        bot.enabled = false;
+        Rigidbody rb = bot.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+        Animator anim = bot.GetComponent<Animator>();
+        if (anim != null) anim.enabled = false;
+    }
+
+    if (player != null)
+    {
+        player.enabled = false;
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+        Animator anim = player.GetComponent<Animator>();
+        if (anim != null) anim.enabled = false;
+    }
+
+    // 3. DESACTIVAR TODOS LOS CameraFollow en la escena
+    CameraFollow[] allCameraFollows = FindObjectsOfType<CameraFollow>();
+    foreach (var cf in allCameraFollows)
+    {
+        cf.enabled = false;
+    }
+    Debug.Log($"{allCameraFollows.Length} CameraFollow desactivados");
+
+    // 4. DESACTIVAR TODAS LAS CÁMARAS
+    Camera[] allCameras = Camera.allCameras;
+    foreach (var c in allCameras)
+    {
+        c.enabled = false;
+    }
+
+    // 5. DESACOPLAR LA CÁMARA DEL GANADOR DE SU PADRE (CRÍTICO)
+    Transform originalParent = winnercam.transform.parent;
+    winnercam.transform.SetParent(null); // <-- Esto desvincula la cámara del bot
+    Debug.Log("Cámara desacoplada del ganador");
+
+    // 6. Activar solo la cámara del ganador
+    winnercam.rect = new Rect(0, 0, 1, 1);
+    winnercam.enabled = true;
+
+    // 7. Hacer el paneo
+    Vector3 targetCenter = (finishPoint != null) ? finishPoint.position : winnerTransform.position;
+    Vector3 targetCamPos = targetCenter + victoryCameraOffset;
+
+    float elapsed = 0f;
+    Vector3 startPos = winnercam.transform.position;
+    Quaternion startRot = winnercam.transform.rotation;
+    Quaternion targetRot = Quaternion.LookRotation(targetCenter - targetCamPos, Vector3.up);
+
+    while (elapsed < victoryPanDuration)
+    {
+        elapsed += Time.deltaTime;
+        float t = Mathf.SmoothStep(0f, 1f, elapsed / victoryPanDuration);
+        
+        // Mover la cámara directamente (ya no está vinculada al bot)
+        winnercam.transform.position = Vector3.Lerp(startPos, targetCamPos, t);
+        winnercam.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+        
+        yield return null;
+    }
+
+    // 8. Fijar posición final
+    winnercam.transform.position = targetCamPos;
+    winnercam.transform.rotation = targetRot;
+
+    Debug.Log("✅ Paneo completado sin vibraciones");
+
+    // 9. OPCIONAL: Si quieres restaurar el parent después del paneo
+    // winnercam.transform.SetParent(originalParent);
+
+    yield break;
+}
     
     //prueba TeleportPlayerToFinish
     void TeleportTransformToFinish(Transform target)
@@ -481,6 +609,9 @@ public class GameManager : MonoBehaviour
         }
 
         StopAllBots();
+        
+        //resultados UI despues de perder
+        StartCoroutine(ShowResultadosUIDelayed(2f));
     }
 
     void StopAllBots()
@@ -498,6 +629,14 @@ public class GameManager : MonoBehaviour
         Debug.Log("🔄 Reiniciando el juego...");
         Time.timeScale = 1;
         MochiCourtain.Singleton.LoadSceneWithCourtain(SceneManager.GetActiveScene().name, 1);
+    }
+    
+    // de inicio de juegos con bots detenidos
+    public void StartGameProperly()
+    {
+        gameStared = true;
+        StartBots();
+        Debug.Log("Juego iniciado");
     }
 
     void DelayedStart()
