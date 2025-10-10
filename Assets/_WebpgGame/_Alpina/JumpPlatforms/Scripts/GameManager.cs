@@ -605,7 +605,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("gameOverPanel es NULL - verifica el Inspector");
+
         }
 
         StopAllBots();
@@ -692,6 +692,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         if (resultadosUIPanel != null)
             resultadosUIPanel.SetActive(true);
+        yield return new WaitForSeconds(4);
+        MochiCourtain.Singleton.LoadSceneWithCourtain("0",1);
     }
 
     public void CheckBotsStatus()

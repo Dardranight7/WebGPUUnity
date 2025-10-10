@@ -1685,7 +1685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::ftLightmapsStorage
   renderSettingsBounces: 5
   renderSettingsGISamples: 16
-  renderSettingsGIBackFaceWeight: 1
+  renderSettingsGIBackFaceWeight: 0
   renderSettingsTileSize: 512
   renderSettingsPriority: 2
   renderSettingsTexelsPerUnit: 20
@@ -1694,7 +1694,7 @@ MonoBehaviour:
   renderSettingsPerformRendering: 1
   renderSettingsUserRenderMode: 0
   renderSettingsDistanceShadowmask: 0
-  renderSettingsSettingsMode: 1
+  renderSettingsSettingsMode: 0
   renderSettingsFixSeams: 1
   renderSettingsDenoise: 1
   renderSettingsDenoise2x: 0
@@ -1704,7 +1704,7 @@ MonoBehaviour:
   renderSettingsAutoAtlas: 1
   renderSettingsUnwrapUVs: 1
   renderSettingsForceDisableUnwrapUVs: 0
-  renderSettingsMaxAutoResolution: 2048
+  renderSettingsMaxAutoResolution: 4096
   renderSettingsMinAutoResolution: 16
   renderSettingsUnloadScenes: 1
   renderSettingsAdjustSamples: 1
@@ -1717,10 +1717,10 @@ MonoBehaviour:
   renderSettingsTempPath: 
   renderSettingsOutPath: BakeryLightmaps
   renderSettingsUseScenePath: 0
-  renderSettingsHackAOIntensity: 1
+  renderSettingsHackAOIntensity: 0
   renderSettingsHackAOSamples: 16
   renderSettingsHackAORadius: 1
-  renderSettingsShowAOSettings: 1
+  renderSettingsShowAOSettings: 0
   renderSettingsShowTasks: 1
   renderSettingsShowTasks2: 0
   renderSettingsShowPaths: 1
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   renderSettingsTexelsMask: 1
   renderSettingsTexelsDir: 1
   renderSettingsShowDirWarning: 1
-  renderSettingsRenderDirMode: 4
+  renderSettingsRenderDirMode: 0
   renderSettingsShowCheckerSettings: 0
   renderSettingsSamplesWarning: 1
   renderSettingsSuppressPopups: 0
@@ -1742,8 +1742,8 @@ MonoBehaviour:
   renderSettingsPostPacking: 1
   renderSettingsHoleFilling: 0
   renderSettingsBeepOnFinish: 0
-  renderSettingsExportTerrainAsHeightmap: 0
-  renderSettingsRTXMode: 1
+  renderSettingsExportTerrainAsHeightmap: 1
+  renderSettingsRTXMode: 0
   renderSettingsLightProbeMode: 1
   renderSettingsClientMode: 0
   renderSettingsServerAddress: 127.0.0.1

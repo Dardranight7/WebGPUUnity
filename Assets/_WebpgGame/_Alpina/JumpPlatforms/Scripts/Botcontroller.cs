@@ -14,8 +14,6 @@ public class BotController : MonoBehaviour
     public float victoryHeight;
     public string botName = "Bot";
     public bool arrived;
-    private Animator animator;
-    private Rigidbody rb;
     private float lastJumpTime = 0f;
     private bool isJumping = false;
     public GameObject finishCloud;
@@ -23,9 +21,6 @@ public class BotController : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
-
         if (gameManager == null) gameManager = FindObjectOfType<GameManager>();
         if (platformGenerator == null) platformGenerator = FindObjectOfType<PlatformGenerator>();
         if (platformGenerator != null) victoryHeight = platformGenerator.platformSpacing * (platformGenerator.maxFilas - 1);

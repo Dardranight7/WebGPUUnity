@@ -39,7 +39,15 @@ public class PlayerMochi : MonoBehaviour
         }
         if (isPlayerMochi)
         {
-            int playerMochiIndex = Backend.singleton.playerProfile.activeMochiIndex;
+            int playerMochiIndex;
+            if (Backend.singleton == null)
+            {
+                playerMochiIndex = 0;
+            }
+            else
+            {
+                playerMochiIndex = Backend.singleton.playerProfile.activeMochiIndex;
+            }
             MochisList[playerMochiIndex].gameObject.SetActive(true);
         }
         else
