@@ -15,7 +15,6 @@ public class AuthManager : MonoBehaviour
     [SerializeField] TMP_InputField registerEmail, registerPassword, nombre, apellido, registerUserName, phone, numeroDocumento, city;
     [SerializeField] TMP_Dropdown documentType;
 
-    [SerializeField] List<TextMeshProUGUI> userName = new List<TextMeshProUGUI>();
     [SerializeField] List<TextMeshProUGUI> gems = new List<TextMeshProUGUI>();
     [SerializeField] List<TextMeshProUGUI> littleGems = new List<TextMeshProUGUI>();
     [SerializeField] List<Image> Frames = new(), Profiles = new();
@@ -35,12 +34,7 @@ public class AuthManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI textoCodigoAmigo;
 
     public static System.Action OnNeedToUpdateProfile;
-
-    private void Awake()
-    {
-        OnNeedToUpdateProfile += UpdateVisual;
-    }
-
+    public static System.Action OnNeedToShowLogin;
 
     private void Start()
     {
@@ -54,41 +48,20 @@ public class AuthManager : MonoBehaviour
             {
                 Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(a.data);
                 Backend.singleton.playerProfile = datos;
-                foreach (var userN in userName)
-                {
-                    userN.text = "Mochi" + datos.userName;
-                }
-                UpdateVisual();
+                Backend.OnPlayerProfileUpdate?.Invoke();
             });
         }
         else
         {
 
         }
+        OnNeedToShowLogin += ShowLogin;
     }
 
-    public void UpdateVisual()
+   public void ShowLogin()
     {
-        int totalGems = Backend.singleton.playerProfile.gems;
-
-        int fullPacks = totalGems / 12;
-        int remainder = totalGems % 12;
-
-        float littleGemsValue = 0;
-        float gemsValue = 0;   
-
-        gemsValue = fullPacks;
-        littleGemsValue = remainder;
-
-
-        foreach (var userN in gems)
-        {
-            userN.text = gemsValue.ToString();
-        }
-        foreach (var userN in littleGems)
-        {
-            userN.text = littleGemsValue.ToString();
-        }
+        MainMenu.SetActive(false);
+        authParent.gameObject.SetActive(true);
     }
 
     //public void ShowDailyRecompense(Backend.Response a)
@@ -119,7 +92,7 @@ public class AuthManager : MonoBehaviour
     private void OnDestroy()
     {
         button.onClick.RemoveListener(Login);
-        OnNeedToUpdateProfile -= UpdateVisual;
+        OnNeedToShowLogin -= ShowLogin;
     }
 
     [SerializeField] GameObject MainMenu;
@@ -143,15 +116,11 @@ public class AuthManager : MonoBehaviour
                 {
                     Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(a.data);
                     Backend.singleton.playerProfile = datos;
-                    foreach (var userN in userName)
-                    {
-                        userN.text = "Mochi" + datos.userName;
-                    }
                     authParent.gameObject.SetActive(false);
+                    Backend.OnPlayerProfileUpdate?.Invoke();
                 });
                 MainMenu.SetActive(false);
                 MochiCourtain.Singleton.LoadSceneWithCourtain("0",1);
-                UpdateVisual();
             }
             else
             {
@@ -163,8 +132,13 @@ public class AuthManager : MonoBehaviour
     public Image emailFieldImage;
     public Sprite IncorrectImage;
     public TextMeshProUGUI PlaceHolderEmail, Text;
+    public Toggle TC, TC2;
     public void Register()
     {
+        if (!TC.isOn || !TC2.isOn)
+        {
+            return;
+        }
         Backend.singleton.Register(registerEmail.text, registerPassword.text, nombre.text, apellido.text, registerUserName.text ,phone.text, city.text, documentType.options[documentType.value].text, numeroDocumento.text, (a) =>
         {
             if (a.code == 0)
@@ -172,14 +146,10 @@ public class AuthManager : MonoBehaviour
                 Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(a.data);
                 Backend.singleton.Serial = datos.serial;
                 Backend.singleton.playerProfile = datos;
-                foreach (var userN in userName)
-                {
-                    userN.text = "Mochi" + datos.userName;
-                }
+                Backend.OnPlayerProfileUpdate?.Invoke();
                 authParent.gameObject.SetActive(false);
                 MainMenu.SetActive(true);
                 MochiCourtain.Singleton.LoadSceneWithCourtain("0",1);
-                UpdateVisual();
             }
             else if (a.code == 2) 
             {
