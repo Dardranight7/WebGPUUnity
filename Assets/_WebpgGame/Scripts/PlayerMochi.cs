@@ -16,6 +16,13 @@ public class PlayerMochi : MonoBehaviour
         {
             UpdateVisual();
         }
+
+        Backend.OnPlayerProfileUpdate += UpdateVisual;
+    }
+
+    private void OnDestroy()
+    {
+        Backend.OnPlayerProfileUpdate -= UpdateVisual;
     }
 
     public void UpdateVisual()

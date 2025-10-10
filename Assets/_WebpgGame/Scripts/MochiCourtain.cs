@@ -1,12 +1,16 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MochiCourtain : MonoBehaviour
 {
     [SerializeField] public Transform bubblesParent;
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] public Canvas canvas;
+    [SerializeField] Image fillImage;
+    [SerializeField] TextMeshProUGUI percentValue;
     public static MochiCourtain Singleton;
 
     [SerializeField] string coreSceneName = "Core"; // Escena base que nunca se descarga
@@ -79,23 +83,30 @@ public class MochiCourtain : MonoBehaviour
 
     private IEnumerator LoadSceneAdditiveCoroutine(string sceneName)
     {
-        
-        // 1️⃣ Cargar la nueva escena de forma aditiva
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        asyncLoad.allowSceneActivation = false;
-
-        while (!asyncLoad.isDone)
+        if (sceneName != coreSceneName)
         {
-            float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
-            Debug.Log($"Cargando '{sceneName}' {progress * 100f}%");
+            // 1️⃣ Cargar la nueva escena de forma aditiva
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            asyncLoad.allowSceneActivation = false;
 
-            if (asyncLoad.progress >= 0.9f)
+            while (!asyncLoad.isDone)
             {
-                // Espera un momento para efectos visuales si quieres
-                yield return new WaitForSeconds(0.2f);
-                asyncLoad.allowSceneActivation = true;
+                float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+                if (fillImage != null)
+                {
+                    fillImage.fillAmount = progress;
+                    percentValue.text = $"{progress * 100f}%";
+                }
+                Debug.Log($"Cargando '{sceneName}' {progress * 100f}%");
+
+                if (asyncLoad.progress >= 0.9f)
+                {
+                    // Espera un momento para efectos visuales si quieres
+                    // yield return new WaitForSeconds(0.2f);
+                    asyncLoad.allowSceneActivation = true;
+                }
+                yield return null;
             }
-            yield return null;
         }
 
         // 2️⃣ Activar la nueva escena como principal
