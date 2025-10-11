@@ -65,6 +65,9 @@ public class PlayerControllerRB : MonoBehaviour
 
         if (inputDir.magnitude >= 0.1f)
         {
+            if (cameraTransform == null)
+                cameraTransform = Camera.main.transform;
+
             // Direcciones basadas en la cámara
             Vector3 camForward = cameraTransform.forward;
             Vector3 camRight = cameraTransform.right;

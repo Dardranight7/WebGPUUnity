@@ -10,8 +10,18 @@ public class MochisaurView : MonoBehaviour
 
     private void OnEnable()
     {
-        Backend.singleton.GetUserData(Backend.singleton.playerProfile.serial, ShowData);
         //Update mochisaurs using player data
+        Reload();
+    }
+
+    public void Reload()
+    {
+        Backend.singleton.GetUserData(Backend.singleton.playerProfile.serial, ShowData);
+    }
+
+    public void OpenApp()
+    {
+        Application.OpenURL("http://8th.io/m57b2");
     }
 
     public void ShowData(Backend.Response response)
