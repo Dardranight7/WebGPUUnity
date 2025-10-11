@@ -1,9 +1,11 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Unity.Cinemachine;
+using UnityEngine.Video;
 
 public class WorldUI : MonoBehaviour
 {
@@ -17,6 +19,14 @@ public class WorldUI : MonoBehaviour
     [Header("Referent")]
     public Canvas canvas;
     public Button button;
+
+    [Header("information to panel")]
+    public string title;
+    public string year;
+    [TextArea]
+    public string text;
+    public AudioClip audio;
+    public VideoClip videoClip;
     
     [Header("Behavior")]
     public Transform player;
@@ -176,7 +186,6 @@ public class WorldUI : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("exit");
         if (!other.CompareTag("Player")) return;
         
         HideUI();
@@ -195,6 +204,29 @@ public class WorldUI : MonoBehaviour
         // inputAxisController.enabled = true;
         targetAlpha = 0f;
         pendingHide = true;
+    }
+
+    public void SetText(TMP_Text tmpText)
+    {
+        tmpText.text = text;
+    }    
+    public void SetTitle(TMP_Text tmpText)
+    {
+        tmpText.text = title;
+    }    
+    public void SetYear(TMP_Text tmpText)
+    {
+        tmpText.text = year;
+    }
+
+    public void SetAudio(AudioSource audioSource)
+    {
+        audioSource.clip = audio;
+    }
+    
+    public void SetVidedPlayer(VideoPlayer videoPlayer)
+    {
+        videoPlayer.clip = videoClip;
     }
 
 }
