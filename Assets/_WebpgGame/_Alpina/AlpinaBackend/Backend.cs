@@ -13,7 +13,8 @@ public class Backend : MonoBehaviour
     const string NOTIFY_VICTORY = "notify-victory/";
     const string LOGIN = "login-alpina/";
     const string DISCONNECT = "disconect-alpina/";
-    const string REGISTER = "create-alpina-user/"; 
+    const string REGISTER = "create-alpina-user/";
+    const string UPDATE = "update-user-stats/";
     const string UPDATE_DECK = "update-alpina-deck/";
     const string GET_MOCHI_USER_DATA = "get-mochi-user-data/";
     const string UPDATE_PROFILE_DATA = "update-profile-data/";
@@ -21,7 +22,19 @@ public class Backend : MonoBehaviour
     const string GET_RIVAL_USER_DATA = "get-rival-mochi-user-data/";
 
     public static Backend singleton;
+
     public PlayerProfileDTO playerProfile;
+    public static Action OnPlayerProfileUpdate;
+
+    public List<Mochi> MochiDB;
+
+    [System.Serializable]
+    public class Mochi
+    {
+        public string name;
+        public Sprite image;
+    }
+
     public enum Petition
     {
         getDailyRecompense,
@@ -33,7 +46,8 @@ public class Backend : MonoBehaviour
         updateProfile,
         disconectUser,
         countTime,
-        getRivalUserData
+        getRivalUserData,
+        update
     }
 
     private void Awake()
@@ -141,6 +155,11 @@ public class Backend : MonoBehaviour
         }), Result);
     }
 
+    public void UpdateData(object data, System.Action<Response> Result = null)
+    {
+        HacerPeticionPOST(Petition.update, JsonConvert.SerializeObject(data), Result);
+    }
+
     public void UpdateProfileData(string serial, int profile, int frame, System.Action<Response> Result = null)
     {
         HacerPeticionPOST(Petition.updateProfile, JsonConvert.SerializeObject(new UpdateProfileDTO
@@ -193,6 +212,9 @@ public class Backend : MonoBehaviour
                 break;
             case Petition.register:
                 plus = REGISTER;
+                break;
+            case Petition.update:
+                plus = UPDATE;
                 break;
             case Petition.updateDeck:
                 plus = UPDATE_DECK;
@@ -304,6 +326,13 @@ public class Backend : MonoBehaviour
     public class UserDataDTO
     {
         public string serial;
+    }
+
+    [System.Serializable]
+    public class UpdateActiveMochiDTO
+    {
+        public string serial;
+        public int activeMochiIndex;
     }
 
     [System.Serializable]

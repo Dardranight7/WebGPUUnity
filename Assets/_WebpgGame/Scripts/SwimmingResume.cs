@@ -19,6 +19,15 @@ public class SwimmingResume : MonoBehaviour
             if (winnerIndexes[0] == 0)
             {
                 tournamentWinnerParent.gameObject.SetActive(true);
+                
+                Backend.singleton.UpdateData(new UpdateGems { serial = Backend.singleton.playerProfile.serial ,gems = Backend.singleton.playerProfile.gems + 6 }, (a) =>
+                {
+                    Debug.Log("Gems updated");
+                    if (a.code == 0)
+                    {
+                        Backend.singleton.playerProfile.gems = Backend.singleton.playerProfile.gems + 6;
+                    }
+                });
             }
             else
             {
@@ -53,5 +62,11 @@ public class SwimmingResume : MonoBehaviour
             playerMochi.mochiIndexPref = "mochiBot" + winnerIndexes[0].ToString(); 
         }
         playerMochi.UpdateVisual();
+    }
+
+    class UpdateGems
+    {
+        public string serial;
+        public int gems;
     }
 }

@@ -68,16 +68,16 @@ public class CameraFollow : MonoBehaviour
             highestY = initialPos.y;
         }
         
-        var gm = FindObjectOfType<GameManager>();
-        if (gm != null)
-            gm.gameStared = false;
+        //var gm = FindObjectOfType<GameManager>();
+        //if (gm != null)
+            //gm.gameStared = false;
 
         if (showIntro)
         {
             isIntroPlaying = true;
             StartCoroutine(IntroCameraPan());
         }
-        else
+        /*else
         {
             ResetCamera();
             
@@ -86,7 +86,7 @@ public class CameraFollow : MonoBehaviour
                 gm.gameStared = true;
                 gm.StartBots();
             }
-        }
+        }*/
         
     }
     
@@ -243,17 +243,17 @@ public class CameraFollow : MonoBehaviour
         elapsed = 0f;
         Vector3 velocitySmooth = Vector3.zero;
 
-        while (elapsed < blendTime)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, elapsed / blendTime);
+        //while (elapsed < blendTime)
+        //{
+        //    elapsed += Time.deltaTime;
+        //    float t = Mathf.SmoothStep(0f, 1f, elapsed / blendTime);
             
-            transform.position = Vector3.SmoothDamp(transform.position, finalPos, ref velocitySmooth, 0.5f);
+        //    transform.position = Vector3.SmoothDamp(transform.position, finalPos, ref velocitySmooth, 0.5f);
             
-            transform.rotation = Quaternion.Slerp(transform.rotation, finalRot, Time.deltaTime * 1.0f);
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, finalRot, Time.deltaTime * 1.0f);
             
-            yield return null;
-        }
+        //    yield return null;
+        //}
 
         // Ajuste final
         transform.position = finalPos;
@@ -265,8 +265,9 @@ public class CameraFollow : MonoBehaviour
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm != null)
         {
-            gm.gameStared = true;
-            gm.StartBots();
+            //gm.gameStared = true;
+            //gm.StartBots();
+            gm.StartGameProperly();
         }
 
         // Restaurar cámaras múltiples después del intro
