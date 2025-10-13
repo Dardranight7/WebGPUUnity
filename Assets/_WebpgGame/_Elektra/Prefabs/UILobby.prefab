@@ -6525,6 +6525,7 @@ GameObject:
   - component: {fileID: 1737834977429172099}
   - component: {fileID: 2626224571513360471}
   - component: {fileID: 3872919666395703529}
+  - component: {fileID: 84269228483331504}
   m_Layer: 0
   m_Name: soundButton
   m_TagString: Untagged
@@ -6619,7 +6620,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 1922716695, guid: 999d073ed3bdd584aa7bc0adebcf8314, type: 3}
+    m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 1922716695, guid: 999d073ed3bdd584aa7bc0adebcf8314, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -6633,6 +6634,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &84269228483331504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8212708481259723944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82583244ef093d4888f98a2bf8dd5cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Elektra::AudioButton
+  spriteActiveAudio: {fileID: -1261590298, guid: 999d073ed3bdd584aa7bc0adebcf8314, type: 3}
+  spriteDesactiveAudio: {fileID: 1922716695, guid: 999d073ed3bdd584aa7bc0adebcf8314, type: 3}
+  audioSource: {fileID: 0}
+  button: {fileID: 3872919666395703529}
 --- !u!1 &8324345886615146179
 GameObject:
   m_ObjectHideFlags: 0
