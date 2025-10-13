@@ -21,6 +21,7 @@ public class Portal : MonoBehaviour
         TeleportEvents.OnSceneSeleted += ChanceScene;
         TeleportEvents.OnPostalActive += ActivePortal;
         TeleportEvents.OnPostalDesactive += DesactivePortal;
+        gameObject.SetActive(false);
     }
 
     private void OnDestroy()
@@ -31,6 +32,9 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (toScene == "")
+            return;
+        
         if (useCourtain)
         {
             MochiCourtain.Singleton.LoadSceneWithCourtain(toScene,1);
@@ -49,6 +53,7 @@ public class Portal : MonoBehaviour
         material.mainTexture = texture;
         collider.enabled = true;
         meshRenderer.material = material;
+        gameObject.SetActive(true);
     }
     
     public void DesactivePortal()
