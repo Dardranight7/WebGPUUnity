@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -608,7 +608,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.1521234, y: 0, z: 0, w: 0.98836154}
-  m_LocalPosition: {x: 0.12847877, y: 3.2528791, z: -4.6438866}
+  m_LocalPosition: {x: 0.12847877, y: 1.90271, z: -0.36169755}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1035,8 +1035,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 19.749268, z: 1}
+  m_Center: {x: 0, y: 9.374635, z: 0}
 --- !u!33 &402695667
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3160,6 +3160,10 @@ PrefabInstance:
       value: Lobby_nuevo
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -4581,8 +4585,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 17.928732, z: 1}
+  m_Center: {x: 0, y: 8.464366, z: 0}
 --- !u!33 &1270227657
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5220,7 +5224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1419657872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5910,8 +5914,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 19.366564, z: 1}
+  m_Center: {x: 0, y: 9.183281, z: 0}
 --- !u!33 &1773137242
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6099,8 +6103,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 17.845306, z: 1}
+  m_Center: {x: 0, y: 8.422649, z: 0}
 --- !u!33 &1938421214
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6445,8 +6449,8 @@ MonoBehaviour:
   renderSettingsHackEmissiveBoost: 1
   renderSettingsHackIndirectBoost: 1
   renderSettingsTempPath: 
-  renderSettingsOutPath: _WebpgGame/_Elektra/Scene/Lobby
-  renderSettingsUseScenePath: 1
+  renderSettingsOutPath: _WebpgGame/_Elektra/Scene/2010-2025s
+  renderSettingsUseScenePath: 0
   renderSettingsHackAOIntensity: 1
   renderSettingsHackAOSamples: 16
   renderSettingsHackAORadius: 1
@@ -6461,7 +6465,7 @@ MonoBehaviour:
   renderSettingsTexelsMask: 1
   renderSettingsTexelsDir: 1
   renderSettingsShowDirWarning: 1
-  renderSettingsRenderDirMode: 4
+  renderSettingsRenderDirMode: 0
   renderSettingsShowCheckerSettings: 0
   renderSettingsSamplesWarning: 1
   renderSettingsSuppressPopups: 0
@@ -6998,7 +7002,7 @@ Transform:
   m_GameObject: {fileID: 2140605964}
   serializedVersion: 2
   m_LocalRotation: {x: 0.1521234, y: 0, z: 0, w: 0.98836154}
-  m_LocalPosition: {x: 0.12847877, y: 3.2528791, z: -4.6438866}
+  m_LocalPosition: {x: 0.12847877, y: 1.90271, z: -0.36169755}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7095,7 +7099,7 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   OrbitStyle: 0
-  Radius: 6.83
+  Radius: 2.34
   Orbits:
     Top:
       Radius: 2
@@ -7443,6 +7447,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1592357976668872261, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1592357976668872261, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1592357976668872261, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 1592357976668872261, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012216153087116780, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
+      propertyPath: m_MovementRange
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 4579222076999297734, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -7487,9 +7511,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5321272676321669073, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 023ca0b9f627a0c4c9622426e41c73be, type: 2}
     - target: {fileID: 7014535461952124230, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260708463626940104, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
+      propertyPath: m_MovementRange
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

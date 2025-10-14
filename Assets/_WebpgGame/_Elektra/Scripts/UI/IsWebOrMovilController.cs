@@ -11,17 +11,17 @@ public class IsWebOrMovilController : MonoBehaviour
     private void Start()
     {
         
-        if (isWebSearch())
-        {
-            LeftStick.SetActive(false);
-            RightStick.SetActive(false);            
+        //if (isWebSearch())
+        //{
+        //    LeftStick.SetActive(false);
+        //    RightStick.SetActive(false);            
             
-        }
-        else
-        {
-            LeftStick.SetActive(true);
-            RightStick.SetActive(true);
-        }
+        //}
+        //else
+        //{
+        //    LeftStick.SetActive(true);
+        //    RightStick.SetActive(true);
+        //}
     }
 
     bool isWebSearch()
