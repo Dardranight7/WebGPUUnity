@@ -15,6 +15,7 @@ public class AgesContainer : MonoBehaviour
     public Sprite alert;
     public Sprite select;
     public Sprite finish;
+    public GameObject completeAge;
     private void Awake()
     {
         numberActivity = ElektraManager.Instance.GetActivityCompleted(sceneAge);
@@ -54,6 +55,18 @@ public class AgesContainer : MonoBehaviour
     private void UpdateProgress(string scene, int progress)
     {
         numberActivity = ElektraManager.Instance.GetActivityCompleted(sceneAge);
+        if (numberActivity == 25)
+        {
+            ImageStatus(statusScene = StatusScene.FINISH);
+            ImageStatus(statusScene);
+            completeAge.SetActive(true);
+            Invoke( nameof(DesactiveCompleteAge), 3f);
+        }
+    }
+
+    private void DesactiveCompleteAge()
+    {
+        completeAge.SetActive(false);
     }
 
     private void ImageStatus(StatusScene status)
