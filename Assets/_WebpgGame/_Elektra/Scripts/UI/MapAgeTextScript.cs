@@ -7,6 +7,7 @@ public class MapAgeTextScript : MonoBehaviour
 {
     public string nameSceneScore;
     public TMP_Text score;
+    
     void Start()
     {
         if (SceneManager.GetActiveScene().name != nameSceneScore)
@@ -33,10 +34,9 @@ public class MapAgeTextScript : MonoBehaviour
     {
         score.text = $"{ElektraManager.Instance.GetActivityCompleted(nameSceneScore).ToString()}/25";
     }
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+public enum StateScene
+{
+    active,
 }

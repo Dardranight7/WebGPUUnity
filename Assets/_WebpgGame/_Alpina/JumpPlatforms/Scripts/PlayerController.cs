@@ -116,6 +116,9 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(JumpLeftCoroutine());
             Debug.Log("JumpLeft");
         }
+        
+        if (SFXManager.Instance != null)
+            SFXManager.Instance.PlayJump(transform.position, 2f);
     }
 
     public void JumpRight()
@@ -126,6 +129,8 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(JumpRightCoroutine());
             Debug.Log("Jumpright");
         }
+        if (SFXManager.Instance != null)
+            SFXManager.Instance.PlayJump(transform.position, 2f);
     }
     
     public void DieWithMessage(string message)

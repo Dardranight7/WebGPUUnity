@@ -25,6 +25,13 @@ public class Platform : MonoBehaviour
     private Renderer platformRenderer;
     private Collider platformCollider;
     private bool isBreaking = false;
+
+    [Header("Audio")] 
+    public AudioClip breakClip;
+    public AudioClip fakeClip;
+    [Range(0f, 5f)]
+    public float sfxVolume = 4f;
+    
     
     // Lista actual de colliders que están en contacto con la plataforma
     private HashSet<Collider> currentOccupants = new HashSet<Collider>();
@@ -36,6 +43,12 @@ public class Platform : MonoBehaviour
         if (platformRenderer != null)
             originalColor = platformRenderer.material.color;
         ConfigurePlatformType();
+
+        if (SFXManager.Instance == null)
+        {
+            if (breakClip == null) breakClip = SFXManager.Instance.cloudBreakClip;
+            if (fakeClip == null) fakeClip = SFXManager.Instance.cloudInvisibleClip;
+        }
     }
 
     void ConfigurePlatformType()
@@ -106,10 +119,18 @@ public class Platform : MonoBehaviour
         {
             case PlatformType.Breakable:
                 if (!hasBeenUsed && !isBreaking)
+                {
+                    SFXManager.Instance.PlayCloudBreak(player.transform.position, sfxVolume);
                     StartCoroutine(BreakPlatform(player, null));
+                }
+                    
                 break;
             case PlatformType.Fake:
+            {
+                SFXManager.Instance.PlayCloudInvisible(player.transform.position, sfxVolume);
                 player.DieWithMessage("Has perdido: plataforma invisible.");
+                
+            }
                 break;
         }
     }

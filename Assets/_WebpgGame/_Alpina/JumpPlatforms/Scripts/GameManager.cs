@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Scripting;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -56,6 +57,9 @@ public class GameManager : MonoBehaviour
     private bool cameraFollowWasEnabled = true;
     private Vector3 cameraOriginalPosition;
     private Quaternion cameraOriginalRotation;
+
+    [Header("Audio")] 
+    public AudioClip gameMusicClip;
 
     void Awake()
     {
@@ -117,6 +121,33 @@ public class GameManager : MonoBehaviour
         var bots = FindObjectsOfType<BotController>();
         foreach (var bot in bots)
             bot.StartBot();
+    }
+    
+    // Sistema que controla el audio
+    public void StartGmaeProperly()
+    {
+        gameStared = true;
+        StartBots();
+        Debug.Log("Juego inicializado");
+        
+        //Iniciar música de juego 
+        if (MusicManager.Instance != null && gameMusicClip != null)
+            MusicManager.Instance.PlayMusic(gameMusicClip, 0.5f);
+    }
+    
+    //Métodos para ajustar volumenes desde código
+    public void SetMusicVolume(float linear01)
+    {
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.SetMusicVolume(linear01);
+        PlayerPrefs.SetFloat("MusicVolume", linear01);
+    }
+    
+    public void SetSFXVolume(float linear01)
+    {
+        if (SFXManager.Instance != null)
+            SFXManager.Instance.SetSFXVolume(linear01);
+        PlayerPrefs.SetFloat("SFXVolume", linear01);
     }
 
     void Update()
