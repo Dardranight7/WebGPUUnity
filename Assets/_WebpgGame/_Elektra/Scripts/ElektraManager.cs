@@ -9,6 +9,12 @@ public class ElektraManager : MonoBehaviour
 
     public bool isCompleteTutorial;
 
+    [SerializeField] private int totalScenes = 4;
+    [SerializeField] private int totalActivities = 100;
+    [SerializeField] private int activitiesPerScene = 25;
+
+    
+    
     public event Action<string, string> OnActivityCompleted;
     public event Action<string, int> OnCountCurrent;
     
@@ -63,6 +69,44 @@ public class ElektraManager : MonoBehaviour
     public int GetActivityCompleted(string scene)
     {
         return _activityCompletadas.Count(kvp => kvp.Key.StartsWith(scene + "_") && kvp.Value);
+    }
+
+    public void RegisterSceneVisited(string sceneId)
+    {
+        _scenesActived[sceneId] = true;
+        Debug.Log($"User intro the scene {sceneId}");
+    }
+
+    public bool ValidateAllProgress(out string message)
+    {
+        message = "";
+
+        if (_scenesActived.Count < totalScenes)
+        {
+            return false;
+        }
+
+        int completedActivities = _activityCompletadas.Count(kvp => kvp.Value);
+
+        string detailedProgess = "";
+        foreach (var sceneId in _scenesActived.Keys)
+        {
+            int sceneActivities = GetActivityCompleted(sceneId);
+            detailedProgess += $"\n- {sceneId}: {sceneActivities}/{activitiesPerScene} actividades";
+        }
+
+        if (completedActivities >= totalActivities)
+        {
+            message = $"¡Felicidades! Has completado todas las actividades.{detailedProgess}";
+            return true;
+        }
+        else
+        {
+            int remaining = totalActivities - completedActivities;
+            message =  $"Has visitado todas las áreas. Te faltan {remaining} actividades.{detailedProgess}";
+            return false;
+        }
+
     }
 
 }
