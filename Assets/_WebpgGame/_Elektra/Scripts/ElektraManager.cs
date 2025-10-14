@@ -13,7 +13,8 @@ public class ElektraManager : MonoBehaviour
     public event Action<string, int> OnCountCurrent;
     
     
-    public Dictionary<string, bool> _activityCompletadas = new Dictionary<string, bool>();
+    public Dictionary<string, bool> _activityCompletadas = new();
+    public Dictionary<string, bool> _scenesActived = new();
     
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class ElektraManager : MonoBehaviour
 
     public void ActivityCompleted(string scene, string activity)
     {
+        Debug.Log($"{scene}_{activity}");
         OnActivityCompleted?.Invoke(scene,activity);
     }
 

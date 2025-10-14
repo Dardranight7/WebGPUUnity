@@ -25,4 +25,13 @@ public class ElektraActivity : MonoBehaviour
     {
         ElektraManager.Instance.ActivityCompleted(idScene, idActivity);
     }
+
+    public void SetScene(string setIdScene)
+    {
+        idScene = setIdScene;
+    }
+    
+    public void SetActivity(string  setidActivity){
+        idActivity =  setidActivity;
+    }
 }

@@ -717,14 +717,16 @@ public class GameManager : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
-    
+
+    public TournamentManager tournamentManager;
+
     IEnumerator ShowResultadosUIDelayed(float delay)
     {
         yield return new WaitForSeconds(delay);
         if (resultadosUIPanel != null)
             resultadosUIPanel.SetActive(true);
         yield return new WaitForSeconds(4);
-        MochiCourtain.Singleton.LoadSceneWithCourtain("0",1);
+        tournamentManager.LoadNextGameUsingCourtain();
     }
 
     public void CheckBotsStatus()

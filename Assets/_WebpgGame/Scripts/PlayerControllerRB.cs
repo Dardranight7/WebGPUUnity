@@ -18,6 +18,8 @@ public class PlayerControllerRB : MonoBehaviour
     public float rotationSpeed = 10f;   // Qué tan rápido rota hacia la dirección de movimiento
     public float animLerpSpeed = 5f;    // Qué tan rápido interpola el valor de Velocity en el Animator
 
+    public string ParameterAnimation;
+    
     private Rigidbody rb;
     private float animVelocity; // valor interpolado entre 0 y 1
     ThirdPerson inputActions;
@@ -65,6 +67,9 @@ public class PlayerControllerRB : MonoBehaviour
 
         if (inputDir.magnitude >= 0.1f)
         {
+            if (cameraTransform == null)
+                cameraTransform = Camera.main.transform;
+
             // Direcciones basadas en la cámara
             Vector3 camForward = cameraTransform.forward;
             Vector3 camRight = cameraTransform.right;
@@ -100,7 +105,7 @@ public class PlayerControllerRB : MonoBehaviour
         // Asignar valor al Animator
         if (animator != null)
         {
-            animator.SetFloat("Velocity", animVelocity);
+            animator.SetFloat(ParameterAnimation, animVelocity);
         }
 
         if (mochiAnimationManager != null)
