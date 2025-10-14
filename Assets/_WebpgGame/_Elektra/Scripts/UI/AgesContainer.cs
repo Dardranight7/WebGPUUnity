@@ -54,20 +54,30 @@ public class AgesContainer : MonoBehaviour
 
     private void UpdateProgress(string scene, int progress)
     {
-        numberActivity = ElektraManager.Instance.GetActivityCompleted(sceneAge);
-        if (numberActivity == 25)
+        Debug.Log($"{sceneAge} {scene}");
+        numberActivity = ElektraManager.Instance.GetActivityCompleted(scene);
+        if (numberActivity == 25 && scene == sceneAge)
         {
             ImageStatus(statusScene = StatusScene.FINISH);
             ImageStatus(statusScene);
             completeAge.SetActive(true);
-            Invoke( nameof(DesactiveCompleteAge), 3f);
+            Invoke( nameof(DesactiveCompleteAge), 5f);
+            Invoke("LoadLobby", 2f);
+            
         }
     }
 
     private void DesactiveCompleteAge()
     {
         completeAge.SetActive(false);
+        
     }
+    
+    void LoadLobby()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
 
     private void ImageStatus(StatusScene status)
     {

@@ -147,6 +147,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -366,6 +370,50 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 68bbe99c26a441c489e2fad31c533b65, type: 3}
   m_PrefabInstance: {fileID: 37880197}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &47349705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 2010-2025s_LM0
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 2048
+  bitmask: 1
+  id: 0
+  sortingID: 0
+  isImplicit: 1
+  area: 6291.1514
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &52108139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -830,6 +878,50 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6477af26b74265b49a81fadd8cd87ef9, type: 3}
   m_PrefabInstance: {fileID: 212103582}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &242276450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 2010-2025s_LMA1
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 2048
+  bitmask: 1
+  id: 1
+  sortingID: 1
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &255414846
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -939,6 +1031,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -1473,6 +1569,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -1880,6 +1980,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -2710,6 +2814,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -3653,7 +3761,7 @@ MonoBehaviour:
   renderSettingsRTPVHDR: 0
   renderSettingsRTPVWidth: 640
   renderSettingsRTPVHeight: 360
-  lastBakeTime: 23
+  lastBakeTime: 19
   enlightenWarningShown: 0
   enlightenWarningShown2: 0
   uniqueLights:
@@ -3691,64 +3799,64 @@ MonoBehaviour:
     angle: 30
     UID: 1
   implicitGroups:
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1400473998}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
-  - {fileID: 1034595401}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 47349705}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
+  - {fileID: 242276450}
   implicitGroupedObjects:
   - {fileID: 37880199}
   - {fileID: 52108141}
@@ -4152,20 +4260,14 @@ MonoBehaviour:
   sectors:
   - name: $G
     maps:
-    - {fileID: 2800000, guid: 95d0ce092f72fd9448ed29ba21b44dc2, type: 3}
-    - {fileID: 2800000, guid: f6c7ec64a6d85f0428f17e275a97197d, type: 3}
+    - {fileID: 2800000, guid: b121e7e70f65f634aa26dc0dce756bc4, type: 3}
+    - {fileID: 2800000, guid: 5d0ce8c2b0127b44790a160ff29204cc, type: 3}
     masks: []
     dirMaps: []
-    rnmMaps0:
-    - {fileID: 2800000, guid: 64a824f6ce916344da6a6a37ccac44a3, type: 3}
-    - {fileID: 2800000, guid: 3683b7b13fc9f5747b40f9fc4787d8b6, type: 3}
-    rnmMaps1:
-    - {fileID: 2800000, guid: 3d1d187070bbef349afcb678b409cb58, type: 3}
-    - {fileID: 2800000, guid: 79d44b0d787b65e4384d92840b0d6ba9, type: 3}
-    rnmMaps2:
-    - {fileID: 2800000, guid: 3aee132217847874c8edb3dde93f102a, type: 3}
-    - {fileID: 2800000, guid: 73bf69de5bfe7ee4cac77610c33599a2, type: 3}
-    mapsMode: 0300000003000000
+    rnmMaps0: []
+    rnmMaps1: []
+    rnmMaps2: []
+    mapsMode: 
     bakedRenderers:
     - {fileID: 37880198}
     - {fileID: 52108140}
@@ -4759,6 +4861,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -5134,6 +5240,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -5300,6 +5410,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -5885,6 +5999,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -6051,6 +6169,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -6343,50 +6465,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a9d2ee08227db3648b7b7b341871c728, type: 3}
   m_PrefabInstance: {fileID: 1014756214}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1034595401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: 2010-2025s_LMA1
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 2048
-  bitmask: 1
-  id: 1
-  sortingID: 1
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1047401697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6569,6 +6647,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -6743,6 +6825,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -7087,6 +7173,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -7346,6 +7436,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -7520,6 +7614,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -7895,50 +7993,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6b498e8c7ec465b4e86a1d6ce61bf721, type: 3}
   m_PrefabInstance: {fileID: 1389539078}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1400473998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: 2010-2025s_LM0
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 2048
-  bitmask: 1
-  id: 0
-  sortingID: 0
-  isImplicit: 1
-  area: 6291.1514
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1432495505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7974,6 +8028,10 @@ PrefabInstance:
       propertyPath: videoClip
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
@@ -8929,6 +8987,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -9174,6 +9236,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -9433,6 +9499,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -9702,6 +9772,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -9877,6 +9951,10 @@ PrefabInstance:
       propertyPath: videoClip
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
@@ -10057,6 +10135,10 @@ PrefabInstance:
     - target: {fileID: 2780097508611641419, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147324110432216847, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
+      propertyPath: idScene
+      value: 2010-2025s
       objectReference: {fileID: 0}
     - target: {fileID: 3413900665651715318, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_IsActive
@@ -10506,6 +10588,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -10695,6 +10781,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -10870,6 +10960,10 @@ PrefabInstance:
       propertyPath: videoClip
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
@@ -11191,6 +11285,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController

@@ -77,33 +77,25 @@ public class ElektraManager : MonoBehaviour
         Debug.Log($"User intro the scene {sceneId}");
     }
 
-    public bool ValidateAllProgress(out string message)
+    public bool ValidateProgress(out string message, string idScene)
     {
         message = "";
+        
+        string detailedProgress = "";
 
-        if (_scenesActived.Count < totalScenes)
+        int sceneActivities = GetActivityCompleted(idScene);
+        detailedProgress += $"\n- {idScene}: {sceneActivities}/{activitiesPerScene} actividades";
+
+
+        if (sceneActivities >= activitiesPerScene)
         {
-            return false;
-        }
-
-        int completedActivities = _activityCompletadas.Count(kvp => kvp.Value);
-
-        string detailedProgess = "";
-        foreach (var sceneId in _scenesActived.Keys)
-        {
-            int sceneActivities = GetActivityCompleted(sceneId);
-            detailedProgess += $"\n- {sceneId}: {sceneActivities}/{activitiesPerScene} actividades";
-        }
-
-        if (completedActivities >= totalActivities)
-        {
-            message = $"¡Felicidades! Has completado todas las actividades.{detailedProgess}";
+            message = $"¡Felicidades! Has completado todas las actividades.{detailedProgress}";
             return true;
         }
         else
         {
-            int remaining = totalActivities - completedActivities;
-            message =  $"Has visitado todas las áreas. Te faltan {remaining} actividades.{detailedProgess}";
+            int remaining = activitiesPerScene - sceneActivities;
+            message =  $" Te faltan {remaining} actividades.{detailedProgress}";
             return false;
         }
 

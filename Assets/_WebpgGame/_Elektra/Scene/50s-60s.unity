@@ -395,6 +395,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -943,6 +947,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -1210,6 +1218,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c19982edf9f15f748ae9a1e24c5dd36a, type: 3}
+--- !u!114 &233414394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 50s-60s_LMA1
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 1024
+  bitmask: 1
+  id: 1
+  sortingID: 1
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &250606718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1901,6 +1953,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -2345,7 +2401,7 @@ MonoBehaviour:
   renderSettingsRTPVHDR: 0
   renderSettingsRTPVWidth: 640
   renderSettingsRTPVHeight: 360
-  lastBakeTime: 48
+  lastBakeTime: 35
   enlightenWarningShown: 0
   enlightenWarningShown2: 0
   uniqueLights:
@@ -2511,47 +2567,47 @@ MonoBehaviour:
     angle: 30
     UID: 5
   implicitGroups:
-  - {fileID: 1797446572}
-  - {fileID: 1032545548}
-  - {fileID: 1797446572}
-  - {fileID: 1797446572}
-  - {fileID: 1797446572}
-  - {fileID: 1797446572}
-  - {fileID: 1032545548}
-  - {fileID: 1032545548}
-  - {fileID: 1709690621}
-  - {fileID: 1709690621}
-  - {fileID: 1797446572}
-  - {fileID: 1797446572}
-  - {fileID: 1032545548}
-  - {fileID: 1797446572}
-  - {fileID: 1797446572}
-  - {fileID: 1032545548}
-  - {fileID: 1032545548}
-  - {fileID: 1032545548}
-  - {fileID: 1070019914}
-  - {fileID: 1032545548}
-  - {fileID: 1797446572}
-  - {fileID: 1709690621}
-  - {fileID: 1032545548}
-  - {fileID: 1032545548}
-  - {fileID: 1709690621}
-  - {fileID: 1797446572}
-  - {fileID: 1032545548}
-  - {fileID: 1797446572}
-  - {fileID: 1797446572}
-  - {fileID: 1032545548}
-  - {fileID: 1797446572}
-  - {fileID: 1709690621}
-  - {fileID: 1032545548}
-  - {fileID: 1032545548}
-  - {fileID: 1709690621}
-  - {fileID: 1032545548}
-  - {fileID: 1032545548}
-  - {fileID: 1032545548}
-  - {fileID: 1032545548}
-  - {fileID: 1797446572}
-  - {fileID: 1797446572}
+  - {fileID: 233414394}
+  - {fileID: 1990235883}
+  - {fileID: 233414394}
+  - {fileID: 233414394}
+  - {fileID: 233414394}
+  - {fileID: 233414394}
+  - {fileID: 1990235883}
+  - {fileID: 1990235883}
+  - {fileID: 1984434912}
+  - {fileID: 1984434912}
+  - {fileID: 233414394}
+  - {fileID: 233414394}
+  - {fileID: 1990235883}
+  - {fileID: 233414394}
+  - {fileID: 233414394}
+  - {fileID: 1990235883}
+  - {fileID: 1990235883}
+  - {fileID: 1990235883}
+  - {fileID: 1209231591}
+  - {fileID: 1990235883}
+  - {fileID: 233414394}
+  - {fileID: 1984434912}
+  - {fileID: 1990235883}
+  - {fileID: 1990235883}
+  - {fileID: 1984434912}
+  - {fileID: 233414394}
+  - {fileID: 1990235883}
+  - {fileID: 233414394}
+  - {fileID: 233414394}
+  - {fileID: 1990235883}
+  - {fileID: 233414394}
+  - {fileID: 1984434912}
+  - {fileID: 1990235883}
+  - {fileID: 1990235883}
+  - {fileID: 1984434912}
+  - {fileID: 1990235883}
+  - {fileID: 1990235883}
+  - {fileID: 1990235883}
+  - {fileID: 1990235883}
+  - {fileID: 233414394}
+  - {fileID: 233414394}
   implicitGroupedObjects:
   - {fileID: 33656165}
   - {fileID: 37790730}
@@ -2777,7 +2833,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 02000000030000000400000005000000
+  idremap: 00000000010000000200000003000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
@@ -3682,6 +3738,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -3985,14 +4045,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: text
-      value: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-        ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
-        parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,Lorem
-        ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+      value: linda nevera
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: year
-      value: 'year '
+      value: 1970
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: audio
@@ -4000,7 +4057,11 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 1663fdb49b46e054d86722574cc7d7d5, type: 3}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
-      value: Name Object
+      value: nevera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -4189,6 +4250,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -4363,6 +4428,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -4772,6 +4841,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -5357,6 +5430,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -5597,6 +5674,10 @@ PrefabInstance:
       propertyPath: videoClip
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
@@ -6762,50 +6843,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 2ccad08bffdd2cf48a1b1d54511ff127, type: 3}
   m_PrefabInstance: {fileID: 533169178}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1032545548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: 50s-60s_LMA2
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 1024
-  bitmask: 1
-  id: 2
-  sortingID: 2
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1 &1035121178
 GameObject:
   m_ObjectHideFlags: 0
@@ -6898,50 +6935,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 928e56272ad91f24e94591d2b8995009, type: 3}
---- !u!114 &1070019914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: 50s-60s_LM0
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 2048
-  bitmask: 1
-  id: 0
-  sortingID: 0
-  isImplicit: 1
-  area: 4176.4624
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1 &1076686028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7072,6 +7065,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -7727,6 +7724,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: be22e73a2ff9ac645abd0b7ab9e18237, type: 3}
   m_PrefabInstance: {fileID: 250606718}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1209231591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 50s-60s_LM0
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 2048
+  bitmask: 1
+  id: 0
+  sortingID: 0
+  isImplicit: 1
+  area: 4176.4624
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &1210236552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7892,6 +7933,10 @@ PrefabInstance:
       propertyPath: videoClip
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
@@ -8134,6 +8179,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -8308,6 +8357,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -8708,6 +8761,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -9173,6 +9230,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -9420,6 +9481,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -9594,6 +9659,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -9789,6 +9858,10 @@ PrefabInstance:
       propertyPath: videoClip
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
@@ -10049,6 +10122,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -10902,6 +10979,10 @@ PrefabInstance:
       value: Name Object
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -11597,6 +11678,10 @@ PrefabInstance:
       propertyPath: nameSceneScore
       value: 70-80s
       objectReference: {fileID: 0}
+    - target: {fileID: 3147324110432216847, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
+      propertyPath: idScene
+      value: 50s-60s
+      objectReference: {fileID: 0}
     - target: {fileID: 3752216438007957458, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_text
       value: '70 - 80s
@@ -11979,50 +12064,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1013950c8141062479645b6c49920df9, type: 3}
   m_PrefabInstance: {fileID: 1572301728}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1709690621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: 50s-60s_LMA3
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 512
-  bitmask: 1
-  id: 3
-  sortingID: 3
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1710870850
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12049,6 +12090,10 @@ PrefabInstance:
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: title
       value: Name Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
+      propertyPath: facingTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1456406522835700314, guid: fdc8b960c8ab57247a5e4019e0e45f50, type: 3}
       propertyPath: inputAxisController
@@ -12607,6 +12652,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
       objectReference: {fileID: 2140605969}
@@ -12757,50 +12806,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 78ed64f5f55a92d4bbec2f76bb7c7d9f, type: 3}
   m_PrefabInstance: {fileID: 2092607275}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1797446572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: 50s-60s_LMA1
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 1024
-  bitmask: 1
-  id: 1
-  sortingID: 1
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &1817761701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12878,7 +12883,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1107082345644824145, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
@@ -12907,6 +12912,10 @@ PrefabInstance:
       propertyPath: videoClip
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
@@ -13005,11 +13014,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2980655484600991426, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4448083605220018726, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.014
+      value: 8.379
       objectReference: {fileID: 0}
     - target: {fileID: 4448083605220018726, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13017,7 +13026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4448083605220018726, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.176
+      value: 5.708
       objectReference: {fileID: 0}
     - target: {fileID: 4448083605220018726, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13045,6 +13054,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4448083605220018726, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263054377208591229, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -13561,6 +13574,94 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1013950c8141062479645b6c49920df9, type: 3}
   m_PrefabInstance: {fileID: 1857963431}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1984434912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 50s-60s_LMA3
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 3
+  sortingID: 3
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!114 &1990235883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 50s-60s_LMA2
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 1024
+  bitmask: 1
+  id: 2
+  sortingID: 2
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1992259237
 GameObject:
   m_ObjectHideFlags: 0
@@ -15319,6 +15420,10 @@ PrefabInstance:
       propertyPath: videoClip
       value: 
       objectReference: {fileID: 32900000, guid: 9ce91892ed05332419ff13f9f915b864, type: 3}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: facingTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: inputAxisController
       value: 
