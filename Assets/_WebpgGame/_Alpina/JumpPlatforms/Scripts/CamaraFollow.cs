@@ -347,4 +347,12 @@ public class CameraFollow : MonoBehaviour
         isIntroPlaying = false;
         cameraSetToGamePlay();
     }
+    
+    // UI pre game integration
+    public void BeginIntro()
+    {
+        //evitar que el intro se dispare dos veces
+        if (!isIntroPlaying)
+            StartCoroutine(IntroCameraPan());
+    }
 }
