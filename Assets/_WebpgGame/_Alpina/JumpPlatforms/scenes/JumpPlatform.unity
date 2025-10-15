@@ -3452,6 +3452,139 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7fa80e7116296f4eb4f49ec1544ee22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: BakeryRuntimeAssembly::ftLightmapsStorage
+  renderSettingsBounces: 5
+  renderSettingsGISamples: 16
+  renderSettingsGIBackFaceWeight: 0
+  renderSettingsTileSize: 512
+  renderSettingsPriority: 2
+  renderSettingsTexelsPerUnit: 20
+  renderSettingsForceRefresh: 1
+  renderSettingsForceRebuildGeometry: 1
+  renderSettingsPerformRendering: 1
+  renderSettingsUserRenderMode: 0
+  renderSettingsDistanceShadowmask: 0
+  renderSettingsSettingsMode: 0
+  renderSettingsFixSeams: 1
+  renderSettingsDenoise: 1
+  renderSettingsDenoise2x: 0
+  renderSettingsEncode: 1
+  renderSettingsEncodeMode: 0
+  renderSettingsOverwriteWarning: 0
+  renderSettingsAutoAtlas: 1
+  renderSettingsUnwrapUVs: 1
+  renderSettingsForceDisableUnwrapUVs: 0
+  renderSettingsMaxAutoResolution: 4096
+  renderSettingsMinAutoResolution: 16
+  renderSettingsUnloadScenes: 1
+  renderSettingsAdjustSamples: 1
+  renderSettingsGILODMode: 2
+  renderSettingsGILODModeEnabled: 0
+  renderSettingsCheckOverlaps: 0
+  renderSettingsSkipOutOfBoundsUVs: 1
+  renderSettingsHackEmissiveBoost: 1
+  renderSettingsHackIndirectBoost: 1
+  renderSettingsTempPath: 
+  renderSettingsOutPath: 
+  renderSettingsUseScenePath: 0
+  renderSettingsHackAOIntensity: 0
+  renderSettingsHackAOSamples: 16
+  renderSettingsHackAORadius: 1
+  renderSettingsShowAOSettings: 0
+  renderSettingsShowTasks: 1
+  renderSettingsShowTasks2: 0
+  renderSettingsShowPaths: 1
+  renderSettingsShowNet: 1
+  renderSettingsOcclusionProbes: 0
+  renderSettingsTexelsPerMap: 0
+  renderSettingsTexelsColor: 1
+  renderSettingsTexelsMask: 1
+  renderSettingsTexelsDir: 1
+  renderSettingsShowDirWarning: 1
+  renderSettingsRenderDirMode: 0
+  renderSettingsShowCheckerSettings: 0
+  renderSettingsSamplesWarning: 1
+  renderSettingsSuppressPopups: 0
+  renderSettingsPrefabWarning: 1
+  renderSettingsSplitByScene: 0
+  renderSettingsSplitByTag: 0
+  renderSettingsUVPaddingMax: 0
+  renderSettingsPostPacking: 1
+  renderSettingsHoleFilling: 0
+  renderSettingsBeepOnFinish: 0
+  renderSettingsExportTerrainAsHeightmap: 1
+  renderSettingsRTXMode: 0
+  renderSettingsLightProbeMode: 1
+  renderSettingsClientMode: 0
+  renderSettingsServerAddress: 127.0.0.1
+  renderSettingsUnwrapper: 0
+  renderSettingsDenoiserType: 100
+  renderSettingsExportTerrainTrees: 0
+  renderSettingsShowPerf: 1
+  renderSettingsSampleDiv: 1
+  renderSettingsAtlasPacker: 1
+  renderSettingsBatchPoints: 1
+  renderSettingsCompressVolumes: 0
+  renderSettingsBatchAreaLightSampleLimit: 0
+  renderSettingsSector: {fileID: 0}
+  renderSettingsRTPVExport: 1
+  renderSettingsRTPVSceneView: 0
+  renderSettingsRTPVHDR: 0
+  renderSettingsRTPVWidth: 640
+  renderSettingsRTPVHeight: 360
+  lastBakeTime: 0
+  enlightenWarningShown: 0
+  enlightenWarningShown2: 0
+  uniqueLights: []
+  lights: []
+  implicitGroups: []
+  implicitGroupedObjects: []
+  bounds: []
+  hasEmissive: 
+  uvBuffOffsets: 
+  uvBuffLengths: 
+  uvSrcBuff: []
+  uvDestBuff: []
+  lmrIndicesOffsets: 
+  lmrIndicesLengths: 
+  lmrIndicesBuff: 
+  lmGroupLODResFlags: 
+  lmGroupMinLOD: 
+  lmGroupLODMatrix: 
+  serverGetFileList: []
+  lightmapHasColor: 
+  lightmapHasMask: 
+  lightmapHasDir: 
+  lightmapHasRNM: 
+  modifiedAssetPathList: []
+  modifiedAssets: []
+  maps: []
+  masks: []
+  dirMaps: []
+  rnmMaps0: []
+  rnmMaps1: []
+  rnmMaps2: []
+  mapsMode: 
+  bakedRenderers: []
+  bakedIDs: 
+  bakedScaleOffset: []
+  bakedVertexOffset: 
+  bakedVertexColorMesh: []
+  nonBakedRenderers: []
+  bakedLights: []
+  bakedLightChannels: 
+  bakedRenderersTerrain: []
+  bakedIDsTerrain: 
+  bakedScaleOffsetTerrain: []
+  assetList: []
+  uvOverlapAssetList: 
+  idremap: 
+  usesRealtimeGI: 0
+  emptyDirectionTex: {fileID: 0}
+  anyVolumes: 0
+  compressedVolumes: 0
+  sectors: []
+  prevBakedProbes: []
+  prevBakedProbePos: []
 --- !u!4 &886135761
 Transform:
   m_ObjectHideFlags: 1
@@ -3584,6 +3717,59 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3761346923863570192, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
   m_PrefabInstance: {fileID: 926497944}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &926497946 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4283853034362844026, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+  m_PrefabInstance: {fileID: 926497944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &926497947 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3191471325166153112, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+  m_PrefabInstance: {fileID: 926497944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &926497948 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1992054587851337433, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+  m_PrefabInstance: {fileID: 926497944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &926497949 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2598182157196298133, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+  m_PrefabInstance: {fileID: 926497944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &926497950 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 55296563110757306, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+  m_PrefabInstance: {fileID: 926497944}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &926497951 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2273887563565803493, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+  m_PrefabInstance: {fileID: 926497944}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &926497952 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7359259228788400940, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+  m_PrefabInstance: {fileID: 926497944}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &927877617
 GameObject:
   m_ObjectHideFlags: 0
@@ -4424,6 +4610,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+--- !u!114 &1164691747 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+  m_PrefabInstance: {fileID: 1164691746}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42556f19ea0b9ae458c2771c0d4cfa83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMochi
 --- !u!1001 &1197200944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64247,6 +64444,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tournament
       objectReference: {fileID: 0}
+    - target: {fileID: 2721365621908821616, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+      propertyPath: gemsText
+      value: 
+      objectReference: {fileID: 926497951}
+    - target: {fileID: 2721365621908821616, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+      propertyPath: pointsText
+      value: 
+      objectReference: {fileID: 926497952}
+    - target: {fileID: 2721365621908821616, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+      propertyPath: bigGemsText
+      value: 
+      objectReference: {fileID: 926497950}
+    - target: {fileID: 2721365621908821616, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+      propertyPath: looseParent
+      value: 
+      objectReference: {fileID: 926497946}
+    - target: {fileID: 2721365621908821616, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+      propertyPath: playerMochi
+      value: 
+      objectReference: {fileID: 1164691747}
+    - target: {fileID: 2721365621908821616, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+      propertyPath: winnerParent
+      value: 
+      objectReference: {fileID: 926497947}
+    - target: {fileID: 2721365621908821616, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+      propertyPath: tournamentParent
+      value: 
+      objectReference: {fileID: 926497949}
+    - target: {fileID: 2721365621908821616, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+      propertyPath: tournamentWinnerParent
+      value: 
+      objectReference: {fileID: 926497948}
+    - target: {fileID: 5078991734385096773, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8136866503314322709, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
       propertyPath: m_LocalPosition.x
       value: 683.542
@@ -64303,6 +64536,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a01eb618cdca354a9c586bb962c5e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TournamentManager
+--- !u!114 &1702434973 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2721365621908821616, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+  m_PrefabInstance: {fileID: 1702434971}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d4250976dddd14298bdb9e040d2511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwimmingResume
 --- !u!1 &1722704752
 GameObject:
   m_ObjectHideFlags: 0
@@ -65355,6 +65599,7 @@ MonoBehaviour:
   useMusicManagerForVictory: 1
   localVictoryVolume: 1
   tournamentManager: {fileID: 1702434972}
+  gameResume: {fileID: 1702434973}
 --- !u!4 &1952926080
 Transform:
   m_ObjectHideFlags: 0

@@ -620,12 +620,16 @@ public class GameManager : MonoBehaviour
     }
 
     public TournamentManager tournamentManager;
+    [SerializeField] GameResume gameResume;
 
     IEnumerator ShowResultadosUIDelayed(float delay)
     {
         yield return new WaitForSeconds(delay);
         if (resultadosUIPanel != null)
             resultadosUIPanel.SetActive(true);
+
+        gameResume.gameObject.SetActive(true);
+
         yield return new WaitForSeconds(4);
         PlayVictoryMusic(true);
         tournamentManager.LoadNextGameUsingCourtain();

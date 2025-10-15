@@ -51,7 +51,6 @@ public class InfiniteRunnerObstacles : MonoBehaviour
         looseIndexes.Add(index);
     }
 
-    [SerializeField] Transform winParent, looseParent;
     bool endgame = false;
     [SerializeField] List<int> looseIndexes = new List<int>();
     public List<int> winnerIndexes = new List<int>();
@@ -66,20 +65,11 @@ public class InfiniteRunnerObstacles : MonoBehaviour
         filteredPlayers = players.Where(a => a == false).ToList();
         if (filteredPlayers.Count <= 1)
         {
-            if (filteredPlayers.Count <= 0)
+            if (filteredPlayers.Count < 4)
             {
-                //Empate
-                //Indexes of winners
-                winnerIndexes.Add(looseIndexes[3]);
-                winnerIndexes.Add(looseIndexes[4]);
+                looseIndexes.Add(players.IndexOf(false));
             }
-            else
-            {
-                //Victory of any player
-                winnerIndexes.Add(players.IndexOf(false));
-            }
-            PlayerPrefs.SetString("WinnerYogoNado", JsonConvert.SerializeObject(winnerIndexes));
-                //Endgame
+            PlayerPrefs.SetString("WinnerYogoNado", JsonConvert.SerializeObject(looseIndexes));
             obstaclesParent.gameObject.SetActive(false);
             StartCoroutine(LoadAfterTime());
             endgame = true;
