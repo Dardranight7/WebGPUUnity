@@ -60,6 +60,14 @@ public class GameManager : MonoBehaviour
 
     [Header("Audio")] 
     public AudioClip gameMusicClip;
+    
+    [Header("Victory Audio")]
+    public AudioClip victoryMusicClip;
+    public float victoryFadeTime = 0.1f;
+    public bool useMusicManagerForVictory = true;
+    public float localVictoryVolume = 1f; // volumen si se usa AudioSource local
+    private AudioSource _victoryAudioSource;
+    
 
     void Awake()
     {
@@ -123,18 +131,6 @@ public class GameManager : MonoBehaviour
             bot.StartBot();
     }
     
-    // Sistema que controla el audio
-    public void StartGmaeProperly()
-    {
-        gameStared = true;
-        StartBots();
-        Debug.Log("Juego inicializado");
-        
-        //Iniciar música de juego 
-        if (MusicManager.Instance != null && gameMusicClip != null)
-            MusicManager.Instance.PlayMusic(gameMusicClip, 0.5f);
-    }
-    
     //Métodos para ajustar volumenes desde código
     public void SetMusicVolume(float linear01)
     {
@@ -143,12 +139,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetFloat("MusicVolume", linear01);
     }
     
-    public void SetSFXVolume(float linear01)
-    {
-        if (SFXManager.Instance != null)
-            SFXManager.Instance.SetSFXVolume(linear01);
-        PlayerPrefs.SetFloat("SFXVolume", linear01);
-    }
+    
 
     void Update()
     {
@@ -305,200 +296,110 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    //pruebaa DoVictoryCameraPan
-    
-    /*IEnumerator DoVictoryCameraPan(Camera cam, CameraFollow camFollow, Transform winnerTransform)
+    //prueba DoVictoryCameraPan
+    IEnumerator DoVictoryCameraPan(Camera cam, CameraFollow camFollow, Transform winnerTransform)
     {
-        if (camFollow != null)
-        {
-            camFollow.enabled = false;
-            Debug.Log($"Se desactivo la cámara de seguimiento '{camFollow.name}' para el paneo.");
-        }
-        
-        Transform originalParent = cam.transform.parent;
-        cam.transform.SetParent(null);
-        
         if (cam == null)
         {
             Debug.LogWarning("DoVictoryCameraPan: cámara del ganador es null. Se aborta paneo.");
             yield break;
         }
-        
-        
-        
-        // verificación de winner transform en camera 
-        PlayerController player = winnerTransform.gameObject.GetComponent<PlayerController>();
-        BotController bot = winnerTransform.gameObject.GetComponent<BotController>();
-        Camera winnercam = null;
-        
-        if (player == null)
+
+        // 1. Identificar si es player o bot
+        PlayerController player = winnerTransform.GetComponent<PlayerController>();
+        BotController bot = winnerTransform.GetComponent<BotController>();
+        Camera winnercam = (player != null) ? player.playerCamera : bot?.botCamera;
+
+        if (winnercam == null)
         {
-            //ganador es bot
-            winnercam = bot.botCamera;
-            Debug.Log("Cámara del bot asignada para el paneo.");
+            Debug.LogError("No se pudo obtener la cámara del ganador");
+            yield break;
         }
-        else
+
+        Debug.Log($"DoVictoryCameraPan: preparando paneo para '{winnerTransform.name}'");
+
+        // 2. DESACTIVAR TODO EN EL GANADOR
+        if (bot != null)
         {
-            //ganador es player
-            winnercam = player.playerCamera;
-            Debug.Log("Cámara del jugador asignada para el paneo.");
+            bot.enabled = false;
+            Rigidbody rb = bot.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+            Animator anim = bot.GetComponent<Animator>();
+            if (anim != null) anim.enabled = false;
         }
-        
+
+        if (player != null)
+        {
+            player.enabled = false;
+            Rigidbody rb = player.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+            Animator anim = player.GetComponent<Animator>();
+            if (anim != null) anim.enabled = false;
+        }
+
+        // 3. DESACTIVAR TODOS LOS CameraFollow en la escena
+        CameraFollow[] allCameraFollows = FindObjectsOfType<CameraFollow>();
+        foreach (var cf in allCameraFollows)
+        {
+            cf.enabled = false;
+        }
+        Debug.Log($"{allCameraFollows.Length} CameraFollow desactivados");
+
+        // 4. DESACTIVAR TODAS LAS CÁMARAS
         Camera[] allCameras = Camera.allCameras;
         foreach (var c in allCameras)
         {
-            if (c != null && c != winnercam)
-                c.enabled = false;
+            c.enabled = false;
         }
-        
-        Debug.Log($"DoVictoryCameraPan: usando cámara '{cam.name}' del ganador '{winnerTransform.name}'");
+
+        // 5. DESACOPLAR LA CÁMARA DEL GANADOR DE SU PADRE (CRÍTICO)
+        Transform originalParent = winnercam.transform.parent;
+        winnercam.transform.SetParent(null); // <-- Esto desvincula la cámara del bot
+        Debug.Log("Cámara desacoplada del ganador");
+
+        // 6. Activar solo la cámara del ganador
         winnercam.rect = new Rect(0, 0, 1, 1);
         winnercam.enabled = true;
-        
 
-        // Desactivar CameraFollow temporalmente si existe
-        //bool followWasEnabled = false;
-        //if (camFollow != null)
-        //{
-         //   followWasEnabled = camFollow.enabled;
-         //   camFollow.enabled = false;
-        //}
-
-        Vector3 targetCenter = (finishPoint != null) ? finishPoint.position : (winnerTransform != null ? winnerTransform.position : Vector3.zero);
+        // 7. Hacer el paneo
+        Vector3 targetCenter = (finishPoint != null) ? finishPoint.position : winnerTransform.position;
         Vector3 targetCamPos = targetCenter + victoryCameraOffset;
 
         float elapsed = 0f;
-        Vector3 startPos = cam.transform.position;
-        Quaternion startRot = cam.transform.rotation;
+        Vector3 startPos = winnercam.transform.position;
+        Quaternion startRot = winnercam.transform.rotation;
         Quaternion targetRot = Quaternion.LookRotation(targetCenter - targetCamPos, Vector3.up);
-        
-        Debug.Log($"Paneando con camara: {cam.name} | follow activo: {camFollow != null && camFollow.enabled}");
-        yield return new WaitForSeconds(0.1f);
 
         while (elapsed < victoryPanDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, elapsed / victoryPanDuration);
-            cam.transform.position = Vector3.Lerp(startPos, targetCamPos, t);
-            cam.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+            
+            // Mover la cámara directamente (ya no está vinculada al bot)
+            winnercam.transform.position = Vector3.Lerp(startPos, targetCamPos, t);
+            winnercam.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+            
             yield return null;
         }
 
-        cam.transform.position = targetCamPos;
-        cam.transform.rotation = targetRot;
-        
-        cam.transform.SetParent(originalParent);
+        // 8. Fijar posición final
+        winnercam.transform.position = targetCamPos;
+        winnercam.transform.rotation = targetRot;
 
-        // Si quieres restaurar el seguimiento después del paneo, descomenta la siguiente línea
-        // if (camFollow != null) camFollow.enabled = followWasEnabled;
+        Debug.Log("✅ Paneo completado sin vibraciones");
 
-        yield break;
-    }*/
-    
-    //prueba DoVictoryCameraPan
-    IEnumerator DoVictoryCameraPan(Camera cam, CameraFollow camFollow, Transform winnerTransform)
-{
-    if (cam == null)
-    {
-        Debug.LogWarning("DoVictoryCameraPan: cámara del ganador es null. Se aborta paneo.");
-        yield break;
-    }
-
-    // 1. Identificar si es player o bot
-    PlayerController player = winnerTransform.GetComponent<PlayerController>();
-    BotController bot = winnerTransform.GetComponent<BotController>();
-    Camera winnercam = (player != null) ? player.playerCamera : bot?.botCamera;
-
-    if (winnercam == null)
-    {
-        Debug.LogError("No se pudo obtener la cámara del ganador");
-        yield break;
-    }
-
-    Debug.Log($"DoVictoryCameraPan: preparando paneo para '{winnerTransform.name}'");
-
-    // 2. DESACTIVAR TODO EN EL GANADOR
-    if (bot != null)
-    {
-        bot.enabled = false;
-        Rigidbody rb = bot.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-        Animator anim = bot.GetComponent<Animator>();
-        if (anim != null) anim.enabled = false;
-    }
-
-    if (player != null)
-    {
-        player.enabled = false;
-        Rigidbody rb = player.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-        Animator anim = player.GetComponent<Animator>();
-        if (anim != null) anim.enabled = false;
-    }
-
-    // 3. DESACTIVAR TODOS LOS CameraFollow en la escena
-    CameraFollow[] allCameraFollows = FindObjectsOfType<CameraFollow>();
-    foreach (var cf in allCameraFollows)
-    {
-        cf.enabled = false;
-    }
-    Debug.Log($"{allCameraFollows.Length} CameraFollow desactivados");
-
-    // 4. DESACTIVAR TODAS LAS CÁMARAS
-    Camera[] allCameras = Camera.allCameras;
-    foreach (var c in allCameras)
-    {
-        c.enabled = false;
-    }
-
-    // 5. DESACOPLAR LA CÁMARA DEL GANADOR DE SU PADRE (CRÍTICO)
-    Transform originalParent = winnercam.transform.parent;
-    winnercam.transform.SetParent(null); // <-- Esto desvincula la cámara del bot
-    Debug.Log("Cámara desacoplada del ganador");
-
-    // 6. Activar solo la cámara del ganador
-    winnercam.rect = new Rect(0, 0, 1, 1);
-    winnercam.enabled = true;
-
-    // 7. Hacer el paneo
-    Vector3 targetCenter = (finishPoint != null) ? finishPoint.position : winnerTransform.position;
-    Vector3 targetCamPos = targetCenter + victoryCameraOffset;
-
-    float elapsed = 0f;
-    Vector3 startPos = winnercam.transform.position;
-    Quaternion startRot = winnercam.transform.rotation;
-    Quaternion targetRot = Quaternion.LookRotation(targetCenter - targetCamPos, Vector3.up);
-
-    while (elapsed < victoryPanDuration)
-    {
-        elapsed += Time.deltaTime;
-        float t = Mathf.SmoothStep(0f, 1f, elapsed / victoryPanDuration);
-        
-        // Mover la cámara directamente (ya no está vinculada al bot)
-        winnercam.transform.position = Vector3.Lerp(startPos, targetCamPos, t);
-        winnercam.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
-        
-        yield return null;
-    }
-
-    // 8. Fijar posición final
-    winnercam.transform.position = targetCamPos;
-    winnercam.transform.rotation = targetRot;
-
-    Debug.Log("✅ Paneo completado sin vibraciones");
-
-    // 9. OPCIONAL: Si quieres restaurar el parent después del paneo
-    // winnercam.transform.SetParent(originalParent);
+        // 9. OPCIONAL: Si quieres restaurar el parent después del paneo
+        // winnercam.transform.SetParent(originalParent);
 
     yield break;
 }
@@ -726,7 +627,47 @@ public class GameManager : MonoBehaviour
         if (resultadosUIPanel != null)
             resultadosUIPanel.SetActive(true);
         yield return new WaitForSeconds(4);
+        PlayVictoryMusic(true);
         tournamentManager.LoadNextGameUsingCourtain();
+    }
+    
+    
+    void EnsureVictoryAudioSource()
+    {
+        if (_victoryAudioSource == null)
+        {
+            _victoryAudioSource = gameObject.AddComponent<AudioSource>();
+            _victoryAudioSource.playOnAwake = false;
+            _victoryAudioSource.loop = false;
+            // si usas AudioMixer y quieres que vaya al grupo Music o SFX, asigna aquí:
+            // _victoryAudioSource.outputAudioMixerGroup = <tuMixerGroup>;
+        }
+    }
+    void PlayVictoryMusic(bool immediateStop = false)
+    {
+        if (victoryMusicClip == null)
+        {
+            Debug.Log("PlayVictoryMusic: vicxtorymusicclip no asignado");
+            return;
+        }
+
+        if (MusicManager.Instance != null)
+        {
+            if (immediateStop)
+            {
+                // Detener inmediatamente la música actual y reproducir la de victoria
+                MusicManager.Instance.StopMusic(0f); // stop sin fade
+                MusicManager.Instance.PlayMusic(victoryMusicClip, 0f); // play sin fade
+                Debug.Log("PlayVictoryMusic: detuvo música (inmediato) y reprodujo victoria vía MusicManager.");
+            }
+            else
+            {
+                // Cross-fade: MusicManager cambia la pista (esto "detiene" la música de fondo gradualmente)
+                MusicManager.Instance.PlayMusic(victoryMusicClip, victoryFadeTime);
+                Debug.Log("PlayVictoryMusic: cross-fade a música de victoria vía MusicManager.");
+            }
+            return;
+        }
     }
 
     public void CheckBotsStatus()
