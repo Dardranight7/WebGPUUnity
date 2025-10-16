@@ -273,6 +273,15 @@ public class SwimmingMinigameController : MonoBehaviour
 
     [SerializeField] float pushForce = 3;
     float inmunityTime = 0;
+    
+    [Header("Audio - colisiones")]
+    public AudioClip obstacleCip;
+    public AudioClip pushClip;
+    [Range(0f, 1f)] public float obstacleVol = 1f;
+    [Range(0f, 1f)] public float pushVol = 1f;
+    public float collisionCoolDown = 0.25f;
+    private float lastCollisiononSoundTIme = -999f;
+    public bool usePositionalSFX = true;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -286,6 +295,13 @@ public class SwimmingMinigameController : MonoBehaviour
             {
                 otherRb.AddForce(-pushDir * pushForce, ForceMode.Impulse);
             }
+            // reproducir sonido de choque entre jugadores
+            if (Time.time - lastCollisiononSoundTIme >= collisionCoolDown && pushClip != null)
+            {
+                Vector3 pos = collision.contacts.Length > 0 ? collision.contacts[0].point : collision.transform.position;
+                PlayCollisonSFX(pushClip, pushVol, pos);
+                lastCollisiononSoundTIme = Time.time;
+            }
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
@@ -296,6 +312,14 @@ public class SwimmingMinigameController : MonoBehaviour
                 Lifes -= 1;
                 SwimmingPlayerUI.UpdateVisual(Lifes);
                 StartCoroutine(DisableForSeconds());
+                
+                //reproducir sonido de impacto con obstáculos
+                if (Time.time - lastCollisiononSoundTIme >= collisionCoolDown && obstacleCip != null)
+                {
+                    Vector3 pos = collision.contacts.Length > 0 ? collision.contacts[0].point : transform.position;
+                    PlayCollisonSFX(obstacleCip, obstacleVol, pos);
+                    lastCollisiononSoundTIme = Time.time;
+                }
             }
         }
     }
@@ -343,6 +367,32 @@ public class SwimmingMinigameController : MonoBehaviour
             }
         }
         return false;
+    }
+    
+    private void PlayCollisonSFX(AudioClip clip, float volume, Vector3 position)
+    {
+        if (clip == null) return;
+        
+        // Si hay un AudioManager con PlaySFXAtPoint (posicional), se intenta usar primero
+        if (AudioManager.Instance != null)
+        {
+            // Si tu AudioManager tiene PlaySFXAtPoint, usalo para sonido posicional:
+            // AudioManager.Instance.PlaySFXAtPoint(clip, position, volume);
+            // En caso contrario, usamos PlaySFX (no posicional) para respetar el mixer y sliders.
+            if (usePositionalSFX)
+            {
+                // Intentamos llamar PlaySFXAtPoint por reflection si existe
+                var method = typeof(AudioManager).GetMethod("PlaySFXAtPoint");
+                if (method != null)
+                {
+                    method.Invoke(AudioManager.Instance, new object[] { clip, position, volume });
+                    return;
+                }
+            } 
+            
+            AudioSource.PlayClipAtPoint(clip, position, volume);
+            return;
+        } 
     }
 }
 
