@@ -19,7 +19,11 @@ public class WorldUI : MonoBehaviour
     [Header("Referent")]
     public Canvas canvas;
     public Button button;
+    public ButtonPanelInformation buttonPanelInformation;
+    
 
+    
+    
     [Header("information to panel")]
     public string title;
     public string year;
@@ -27,6 +31,9 @@ public class WorldUI : MonoBehaviour
     public string text;
     public AudioClip audio;
     public VideoClip videoClip;
+    
+    
+    
     
     [Header("Behavior")]
     public Transform player;
@@ -58,6 +65,11 @@ public class WorldUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (buttonPanelInformation)
+        { 
+            buttonPanelInformation.gameObject.SetActive(false);
+        }
+
         if (!player) player = GameObject.FindGameObjectWithTag("Player").transform;
         if(!uiCamera) uiCamera = Camera.main;
 
@@ -166,6 +178,15 @@ public class WorldUI : MonoBehaviour
         {
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(()=>{
+                onButtonClick?.Invoke();
+            });
+        }
+        if (buttonPanelInformation)
+        {
+            buttonPanelInformation.title.text = title;
+            buttonPanelInformation.year.text = year;
+            buttonPanelInformation.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+            buttonPanelInformation.gameObject.GetComponent<Button>().onClick.AddListener(()=>{
                 onButtonClick?.Invoke();
             });
         }
