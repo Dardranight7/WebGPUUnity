@@ -369,30 +369,21 @@ public class SwimmingMinigameController : MonoBehaviour
         return false;
     }
     
+    
     private void PlayCollisonSFX(AudioClip clip, float volume, Vector3 position)
     {
         if (clip == null) return;
-        
-        // Si hay un AudioManager con PlaySFXAtPoint (posicional), se intenta usar primero
-        if (AudioManager.Instance != null)
+
+        // Si hay AudioManager, usar sus funciones (permite Mixer y grupos)
+        if (AudioManagerYogoNado.Instance != null)
         {
-            // Si tu AudioManager tiene PlaySFXAtPoint, usalo para sonido posicional:
-            // AudioManager.Instance.PlaySFXAtPoint(clip, position, volume);
-            // En caso contrario, usamos PlaySFX (no posicional) para respetar el mixer y sliders.
-            if (usePositionalSFX)
-            {
-                // Intentamos llamar PlaySFXAtPoint por reflection si existe
-                var method = typeof(AudioManager).GetMethod("PlaySFXAtPoint");
-                if (method != null)
-                {
-                    method.Invoke(AudioManager.Instance, new object[] { clip, position, volume });
-                    return;
-                }
-            } 
-            
-            AudioSource.PlayClipAtPoint(clip, position, volume);
+            // Usamos PlaySFXAtPoint con spatialBlend = 1 (posicional)
+            AudioManagerYogoNado.Instance.PlaySFXAtPoint(clip, position, volume, 1f);
             return;
-        } 
+        }
+
+        // Fallback simple si no hay AudioManager: PlayClipAtPoint (no asigna mixer groups)
+        AudioSource.PlayClipAtPoint(clip, position, volume);
     }
 }
 
