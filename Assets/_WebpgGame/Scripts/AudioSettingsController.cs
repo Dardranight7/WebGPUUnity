@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -16,6 +17,8 @@ public class AudioSettingsController : MonoBehaviour
     [Header("PlayerPrefs Keys")]
     public string musicPrefKey = "MusicVolume";
     public string sfxPrefKey = "SFXVolume";
+
+    public TextMeshProUGUI musicText, sfxText;
 
     private void Awake()
     {
@@ -66,12 +69,14 @@ public class AudioSettingsController : MonoBehaviour
     {
         float db = LinearToDb(normalized);
         mixer.SetFloat(musicParam, db);
+        musicText.text = ((int)(100 * normalized)).ToString() + " %";
     }
 
     private void ApplySFXVolume(float normalized)
     {
         float db = LinearToDb(normalized);
         mixer.SetFloat(sfxParam, db);
+        sfxText.text = ((int)(100 * normalized)).ToString() + " %";
     }
 
     // Conversión estándar: 1 -> 0dB, 0 -> -80dB (silencio)

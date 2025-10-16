@@ -84,6 +84,7 @@ public class GameResume : MonoBehaviour
             if (PlayerPrefs.GetInt("TournamentRonda", 1) == 2)
             {
                 int position = tournamentPoints.characters.OrderByDescending(b => b.points).ToList().IndexOf(tournamentPoints.characters[0]);
+                int mochiPoints = 0;
                 int points = 0;
                 bool givePoints = false;
                 if (position == 0)
@@ -91,26 +92,30 @@ public class GameResume : MonoBehaviour
                     points = 12;
                     givePoints = true;
                     gemsText.text = "12";
+                    mochiPoints = 20;
                 }
                 else if (position == 1)
                 {
                     points = 5;
                     givePoints = true;
                     gemsText.text = "5";
+                    mochiPoints = 10;
                 }
                 else if (position == 2)
                 {
                     points = 2;
                     givePoints = true;
                     gemsText.text = "2";
+                    mochiPoints = 0;
                 }
                 else
                 {
                     gemsText.text = "0";
+                    mochiPoints = -10;
                 }
                 if (givePoints)
                 {
-                    Backend.singleton.UpdateData(new UpdateGems { serial = Backend.singleton.playerProfile.serial, gems = Backend.singleton.playerProfile.gems + points }, (a) =>
+                    Backend.singleton.UpdateData(new UpdateGems { serial = Backend.singleton.playerProfile.serial, gems = Backend.singleton.playerProfile.gems + points, mochiPoints = Mathf.Clamp(Backend.singleton.playerProfile.mochiPoints + mochiPoints,0,int.MaxValue) }, (a) =>
                     {
                         Debug.Log("Gems updated");
                         if (a.code == 0)
@@ -154,6 +159,7 @@ public class GameResume : MonoBehaviour
     {
         public string serial;
         public int gems;
+        public int mochiPoints;
     }
 
     [System.Serializable]

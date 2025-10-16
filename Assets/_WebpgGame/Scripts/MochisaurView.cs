@@ -21,7 +21,7 @@ public class MochisaurView : MonoBehaviour
 
     public void OpenApp()
     {
-        Application.OpenURL("http://8th.io/m57b2");
+        Application.OpenURL("https://tekitechar.8thwall.app/dinomochis");
     }
 
     public void ShowData(Backend.Response response)

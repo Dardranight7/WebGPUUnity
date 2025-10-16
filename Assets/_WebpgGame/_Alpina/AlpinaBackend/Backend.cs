@@ -20,6 +20,7 @@ public class Backend : MonoBehaviour
     const string UPDATE_PROFILE_DATA = "update-profile-data/";
     const string COUNT_TIME = "count-time/";
     const string GET_RIVAL_USER_DATA = "get-rival-mochi-user-data/";
+    const string GET_RANKING = "get-ranking";
 
     public static Backend singleton;
 
@@ -47,7 +48,8 @@ public class Backend : MonoBehaviour
         disconectUser,
         countTime,
         getRivalUserData,
-        update
+        update,
+        getRanking,
     }
 
     private void Awake()
@@ -160,6 +162,11 @@ public class Backend : MonoBehaviour
         HacerPeticionPOST(Petition.update, JsonConvert.SerializeObject(data), Result);
     }
 
+    public void GetRanking(object data, System.Action<Response> Result = null)
+    {
+        HacerPeticionPOST(Petition.getRanking, JsonConvert.SerializeObject(data), Result);
+    }
+
     public void UpdateProfileData(string serial, int profile, int frame, System.Action<Response> Result = null)
     {
         HacerPeticionPOST(Petition.updateProfile, JsonConvert.SerializeObject(new UpdateProfileDTO
@@ -233,6 +240,9 @@ public class Backend : MonoBehaviour
                 break;
             case Petition.getRivalUserData:
                 plus = GET_RIVAL_USER_DATA;
+                break;
+            case Petition.getRanking:
+                plus = GET_RANKING;
                 break;
             default:
                 break;
