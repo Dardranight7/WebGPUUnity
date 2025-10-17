@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2006378621216678459}
-  - component: {fileID: 1586590991990407324}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -32,25 +31,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1586590991990407324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1340324374868269500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bb6016638597994fbaa960b263df415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  musicSource: {fileID: 0}
-  sfxSource: {fileID: 0}
-  musicMixerGroup: {fileID: 480535516563859261, guid: c1a9d64cae068fb488aa157935762ed5, type: 2}
-  sfxMixerGroup: {fileID: 9122051293587227014, guid: c1a9d64cae068fb488aa157935762ed5, type: 2}
-  mixer: {fileID: 24100000, guid: c1a9d64cae068fb488aa157935762ed5, type: 2}
-  musicParam: MusicVol
-  sfxParam: SFXVol
-  backgroundMusic: {fileID: 8300000, guid: 8d2a91c7f1346ab4cbb7c80e53bf44e0, type: 3}
-  playMusicOnStart: 1
-  musicVolume: 1

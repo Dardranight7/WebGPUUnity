@@ -134,8 +134,8 @@ public class GameManager : MonoBehaviour
     //Métodos para ajustar volumenes desde código
     public void SetMusicVolume(float linear01)
     {
-        if (MusicManager.Instance != null)
-            MusicManager.Instance.SetMusicVolume(linear01);
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.SetMusicVolume(linear01);
         PlayerPrefs.SetFloat("MusicVolume", linear01);
     }
     
@@ -655,19 +655,19 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (MusicManager.Instance != null)
+        if (AudioManager.Instance != null)
         {
             if (immediateStop)
             {
                 // Detener inmediatamente la música actual y reproducir la de victoria
-                MusicManager.Instance.StopMusic(0f); // stop sin fade
-                MusicManager.Instance.PlayMusic(victoryMusicClip, 0f); // play sin fade
+                AudioManager.Instance.StopMusic(0f); // stop sin fade
+                AudioManager.Instance.PlayMusic(victoryMusicClip, 0f); // play sin fade
                 Debug.Log("PlayVictoryMusic: detuvo música (inmediato) y reprodujo victoria vía MusicManager.");
             }
             else
             {
                 // Cross-fade: MusicManager cambia la pista (esto "detiene" la música de fondo gradualmente)
-                MusicManager.Instance.PlayMusic(victoryMusicClip, victoryFadeTime);
+                AudioManager.Instance.PlayMusic(victoryMusicClip, victoryFadeTime);
                 Debug.Log("PlayVictoryMusic: cross-fade a música de victoria vía MusicManager.");
             }
             return;

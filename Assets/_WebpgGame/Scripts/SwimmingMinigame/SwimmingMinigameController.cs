@@ -369,16 +369,16 @@ public class SwimmingMinigameController : MonoBehaviour
         return false;
     }
     
-    
+    // sfx y audio
     private void PlayCollisonSFX(AudioClip clip, float volume, Vector3 position)
     {
         if (clip == null) return;
 
         // Si hay AudioManager, usar sus funciones (permite Mixer y grupos)
-        if (AudioManagerYogoNado.Instance != null)
+        if (AudioManager.Instance != null)
         {
             // Usamos PlaySFXAtPoint con spatialBlend = 1 (posicional)
-            AudioManagerYogoNado.Instance.PlaySFXAtPoint(clip, position, volume, 1f);
+            AudioManager.Instance.PlaySFXAtPoint(clip, position, volume);
             return;
         }
 

@@ -2099,28 +2099,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4802279534305523611, guid: ab8cbd4cde2a34c44a9edc499084a685, type: 3}
   m_PrefabInstance: {fileID: 8472239100849682355}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1469731765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469731764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bb6016638597994fbaa960b263df415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  musicSource: {fileID: 1469731767}
-  sfxSource: {fileID: 0}
-  musicMixerGroup: {fileID: -8630593745852467231, guid: 83ee06efe35971844b78467eb615a742, type: 2}
-  sfxMixerGroup: {fileID: -3337018737232135930, guid: 83ee06efe35971844b78467eb615a742, type: 2}
-  mixer: {fileID: 24100000, guid: 83ee06efe35971844b78467eb615a742, type: 2}
-  musicParam: MusicVol
-  sfxParam: SFXVol
-  backgroundMusic: {fileID: 0}
-  playMusicOnStart: 1
-  musicVolume: 1
 --- !u!82 &1469731767
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2218,6 +2196,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1469731770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469731764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0ebf8c4c7cc72441ae7fbf927a42e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneMusic
+  sceneMusicClip: {fileID: 8300000, guid: 12b618e85cea0a444ab85d14337772c5, type: 3}
+  fadeTime: 0.5
+  targetVolume: 1
+  forceRestart: 0
 --- !u!1 &1485556088
 GameObject:
   m_ObjectHideFlags: 0
@@ -2948,7 +2942,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8919889618806142164, guid: ab8cbd4cde2a34c44a9edc499084a685, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8919889618806142164, guid: ab8cbd4cde2a34c44a9edc499084a685, type: 3}
       propertyPath: sfxSource
@@ -2958,16 +2952,17 @@ PrefabInstance:
       propertyPath: musicSource
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8919889618806142164, guid: ab8cbd4cde2a34c44a9edc499084a685, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4802279534305523611, guid: ab8cbd4cde2a34c44a9edc499084a685, type: 3}
-      insertIndex: 1
+      insertIndex: -1
       addedObject: {fileID: 1469731767}
     - targetCorrespondingSourceObject: {fileID: 4802279534305523611, guid: ab8cbd4cde2a34c44a9edc499084a685, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1469731765}
+      addedObject: {fileID: 1469731770}
   m_SourcePrefab: {fileID: 100100000, guid: ab8cbd4cde2a34c44a9edc499084a685, type: 3}
 --- !u!1001 &8827919051865939116
 PrefabInstance:

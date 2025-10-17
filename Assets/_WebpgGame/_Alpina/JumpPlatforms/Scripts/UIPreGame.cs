@@ -34,9 +34,9 @@ public class UIPreGame: MonoBehaviour
         // Reproducir música de menú si quieres (opcional)
         if (menuMusicClip != null)
         {
-            if (MusicManager.Instance != null)
+            if (AudioManager.Instance != null)
             {
-                MusicManager.Instance.PlayMusic(menuMusicClip, 0.5f);
+                AudioManager.Instance.PlayMusic(menuMusicClip, 0.5f);
             }
             else
             {
