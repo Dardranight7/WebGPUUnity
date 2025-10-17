@@ -2513,6 +2513,50 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 6765907071639809958, guid: 361565e5ca0c7ad44a0032fa9a40010e, type: 3}
   m_PrefabInstance: {fileID: 6663990025746621438}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &655403464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Lobby_LM0
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 2048
+  bitmask: 1
+  id: 0
+  sortingID: 0
+  isImplicit: 1
+  area: 2936.7756
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!224 &665845265 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7538101098940119878, guid: 092ce695108e1c34d8642f4bfab32859, type: 3}
@@ -6889,50 +6933,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1561424035}
   m_CullTransparentMesh: 1
---- !u!114 &1587473285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Lobby_LM0
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 2048
-  bitmask: 1
-  id: 0
-  sortingID: 0
-  isImplicit: 1
-  area: 2936.7756
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1 &1593064423
 GameObject:
   m_ObjectHideFlags: 0
@@ -8101,7 +8101,7 @@ MonoBehaviour:
   renderSettingsTexelsMask: 1
   renderSettingsTexelsDir: 1
   renderSettingsShowDirWarning: 1
-  renderSettingsRenderDirMode: 4
+  renderSettingsRenderDirMode: 0
   renderSettingsShowCheckerSettings: 0
   renderSettingsSamplesWarning: 1
   renderSettingsSuppressPopups: 0
@@ -8132,13 +8132,13 @@ MonoBehaviour:
   renderSettingsRTPVHDR: 0
   renderSettingsRTPVWidth: 640
   renderSettingsRTPVHeight: 360
-  lastBakeTime: 13
+  lastBakeTime: 9
   enlightenWarningShown: 0
   enlightenWarningShown2: 0
   uniqueLights: []
   lights: []
   implicitGroups:
-  - {fileID: 1587473285}
+  - {fileID: 655403464}
   implicitGroupedObjects:
   - {fileID: 1008248819}
   bounds:
@@ -8159,7 +8159,7 @@ MonoBehaviour:
   lightmapHasColor: 01
   lightmapHasMask: 00000000
   lightmapHasDir: 00
-  lightmapHasRNM: 01
+  lightmapHasRNM: 00
   modifiedAssetPathList:
   - Assets/Lobby_Nuevo/Lobby_nuevo.fbx
   modifiedAssets:
@@ -8168,16 +8168,13 @@ MonoBehaviour:
     padding: 01000000
     unwrapper: 00000000
   maps:
-  - {fileID: 2800000, guid: faf692929f0cc2143aa5846d167486ab, type: 3}
+  - {fileID: 2800000, guid: bbb4cedb82d195a4c8045528fba7853b, type: 3}
   masks: []
   dirMaps: []
-  rnmMaps0:
-  - {fileID: 2800000, guid: 129c38a540bbf704b84e9b867d982ebd, type: 3}
-  rnmMaps1:
-  - {fileID: 2800000, guid: 52d2f75b310230148a408b962b85f9fe, type: 3}
-  rnmMaps2:
-  - {fileID: 2800000, guid: 90bf09842f197c94daf99a24563349e7, type: 3}
-  mapsMode: 03000000
+  rnmMaps0: []
+  rnmMaps1: []
+  rnmMaps2: []
+  mapsMode: 
   bakedRenderers:
   - {fileID: 1008248821}
   bakedIDs: 00000000
@@ -8202,21 +8199,18 @@ MonoBehaviour:
   sectors:
   - name: $G
     maps:
-    - {fileID: 2800000, guid: faf692929f0cc2143aa5846d167486ab, type: 3}
+    - {fileID: 2800000, guid: bbb4cedb82d195a4c8045528fba7853b, type: 3}
     masks: []
     dirMaps: []
-    rnmMaps0:
-    - {fileID: 2800000, guid: 129c38a540bbf704b84e9b867d982ebd, type: 3}
-    rnmMaps1:
-    - {fileID: 2800000, guid: 52d2f75b310230148a408b962b85f9fe, type: 3}
-    rnmMaps2:
-    - {fileID: 2800000, guid: 90bf09842f197c94daf99a24563349e7, type: 3}
-    mapsMode: 03000000
+    rnmMaps0: []
+    rnmMaps1: []
+    rnmMaps2: []
+    mapsMode: 
     bakedRenderers:
     - {fileID: 1008248821}
     bakedIDs: 00000000
     bakedScaleOffset:
-    - {x: 0.9975582, y: 0.99857616, z: 0.0014648438, w: 0.0014648438}
+    - {x: 0.99755746, y: 0.9976067, z: 0.0014648438, w: 0.0014648438}
     bakedVertexColorMesh:
     - {fileID: 0}
     bakedRenderersTerrain: []
