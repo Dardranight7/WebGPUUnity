@@ -19,6 +19,7 @@ public class ClickableObject : MonoBehaviour,IPointerClickHandler
     {
         if (gameObject.CompareTag($"InfPicture"))
         {
+            //infoCanvasPicture.ShowUI();
             infoCanvasPicture.gameObject.SetActive(true);
             
             infoCanvasPicture.SetInformationPicture(new PopUpInfo
@@ -33,7 +34,8 @@ public class ClickableObject : MonoBehaviour,IPointerClickHandler
 
         if (gameObject.CompareTag($"pictures"))
         {
-            infoCanvasPicture.gameObject.SetActive(true);
+            infoCanvasPicture.ShowUI();
+            //infoCanvasPicture.gameObject.SetActive(true);
             infoCanvasPicture.SetPicture(new PopUpInfo
             {
                 image =  image,

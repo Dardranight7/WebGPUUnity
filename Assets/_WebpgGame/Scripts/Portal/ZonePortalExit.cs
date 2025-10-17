@@ -7,4 +7,10 @@ public class ZonePortalExit : MonoBehaviour
         TeleportEvents.DesactivePostal();
 
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+        UIAudioManager.Instance?.StoptTeportSound();
+
+    }
 }

@@ -33,7 +33,7 @@ public class ElektraManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        
     }
 
     private void OnEnable()

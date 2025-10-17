@@ -32,7 +32,7 @@ public class ElektraActivity : MonoBehaviour
 
     public void OnButtonCompletedActivity()
     {
-        ElektraManager.Instance.ActivityCompleted(idScene, idActivity);
+        ElektraManager.Instance?.ActivityCompleted(idScene, idActivity);
         worldUI.button.gameObject.SetActive(false);
         worldUI.buttonPanelInformation.gameObject.SetActive(true);
     }

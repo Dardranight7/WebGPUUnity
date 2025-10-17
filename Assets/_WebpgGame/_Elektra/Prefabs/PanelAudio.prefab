@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7645937577709619937}
   - component: {fileID: 5062651179211360909}
   - component: {fileID: 1344873703800558964}
+  - component: {fileID: 2349500485163802344}
+  - component: {fileID: 4695720726956248377}
   m_Layer: 5
   m_Name: PanelAudio
   m_TagString: Untagged
@@ -41,10 +43,10 @@ RectTransform:
   - {fileID: 3684593859038729616}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -864.6, y: 14.349}
-  m_SizeDelta: {x: 1023.6663, y: 649.9597}
+  m_AnchorMin: {x: 0.975128, y: 0.5}
+  m_AnchorMax: {x: 0.975128, y: 0.5}
+  m_AnchoredPosition: {x: -515, y: 0}
+  m_SizeDelta: {x: 1024.6663, y: 649.9597}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7645937577709619937
 CanvasRenderer:
@@ -103,6 +105,31 @@ MonoBehaviour:
   informatioText: {fileID: 7004638916788380841}
   worldUI: {fileID: 0}
   AudioSource: {fileID: 3516419256174316479}
+--- !u!114 &2349500485163802344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330309437864288847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92ebb3abaad7fc940a6b54532d7d6a7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UIWorld::UIEffect
+  canvasGroup: {fileID: 4695720726956248377}
+--- !u!225 &4695720726956248377
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330309437864288847}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &674860825267632435
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,10 +389,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 330309437864288847}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2349500485163802344}
+        m_TargetAssemblyTypeName: UIEffect, UIWorld
+        m_MethodName: HideUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -816,10 +843,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 330309437864288847}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2349500485163802344}
+        m_TargetAssemblyTypeName: UIEffect, UIWorld
+        m_MethodName: HideUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

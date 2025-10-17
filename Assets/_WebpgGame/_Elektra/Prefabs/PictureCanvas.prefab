@@ -223,10 +223,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9105765387107598086}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 7464074929565892708}
+        m_TargetAssemblyTypeName: PopUpInformationScript, UIWorld
+        m_MethodName: HideUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -491,10 +491,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6461063162017789564}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 8125783978070594233}
+        m_TargetAssemblyTypeName: PopUpInformationScript, UIWorld
+        m_MethodName: HideUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -938,6 +938,7 @@ GameObject:
   - component: {fileID: 6528641359116257857}
   - component: {fileID: 8125783978070594233}
   - component: {fileID: 6664025411103613206}
+  - component: {fileID: 9052298976750996356}
   m_Layer: 5
   m_Name: PopUpPicture
   m_TagString: Untagged
@@ -1020,6 +1021,7 @@ MonoBehaviour:
   textYear: {fileID: 0}
   textDescription: {fileID: 0}
   picture: {fileID: 1269932463775941668}
+  canvasGroup: {fileID: 9052298976750996356}
 --- !u!114 &6664025411103613206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,10 +1066,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6461063162017789564}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 8125783978070594233}
+        m_TargetAssemblyTypeName: PopUpInformationScript, UIWorld
+        m_MethodName: HideUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1076,6 +1078,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &9052298976750996356
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6461063162017789564}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &9105765387107598086
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,6 +1102,7 @@ GameObject:
   - component: {fileID: 308580239596938199}
   - component: {fileID: 4051507936537309254}
   - component: {fileID: 7464074929565892708}
+  - component: {fileID: 4098610407258301368}
   m_Layer: 5
   m_Name: PopUpInformation
   m_TagString: Untagged
@@ -1173,3 +1188,16 @@ MonoBehaviour:
   textYear: {fileID: 8169313505667675509}
   textDescription: {fileID: 2932118376898389006}
   picture: {fileID: 4320772581922761205}
+  canvasGroup: {fileID: 4098610407258301368}
+--- !u!225 &4098610407258301368
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9105765387107598086}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

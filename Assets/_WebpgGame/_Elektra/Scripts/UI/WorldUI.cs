@@ -57,11 +57,7 @@ public class WorldUI : MonoBehaviour
     private SphereCollider sphereCollider;
     private Action targetAction;
 
-    private void Awake()
-    {
-        
-    }
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -202,7 +198,7 @@ public class WorldUI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"enter:{other.name}");
+
         if (!other.CompareTag("Player")) return;
         
         ShowUI();
