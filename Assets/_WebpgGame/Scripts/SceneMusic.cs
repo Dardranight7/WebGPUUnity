@@ -17,7 +17,7 @@ public class SceneMusic : MonoBehaviour
         if (sceneMusicClip == null) return;
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlayMusic(sceneMusicClip, fadeTime, true, targetVolume, forceRestart);
+            AudioManager.Instance.PlayMusic(sceneMusicClip,  targetVolume);
         }
         else
         {

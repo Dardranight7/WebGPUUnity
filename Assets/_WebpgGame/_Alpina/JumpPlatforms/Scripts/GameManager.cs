@@ -658,7 +658,7 @@ public class GameManager : MonoBehaviour
             if (immediateStop)
             {
                 // Detener inmediatamente la música actual y reproducir la de victoria
-                AudioManager.Instance.StopMusic(0f); // stop sin fade
+                AudioManager.Instance.StopMusic(); // stop sin fade
                 AudioManager.Instance.PlayMusic(victoryMusicClip, 0f); // play sin fade
                 Debug.Log("PlayVictoryMusic: detuvo música (inmediato) y reprodujo victoria vía MusicManager.");
             }
