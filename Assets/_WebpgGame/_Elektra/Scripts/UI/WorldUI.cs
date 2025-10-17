@@ -21,19 +21,14 @@ public class WorldUI : MonoBehaviour
     public Button button;
     public ButtonPanelInformation buttonPanelInformation;
     
-
-    
-    
     [Header("information to panel")]
+    public Sprite image;
     public string title;
     public string year;
     [TextArea]
     public string text;
     public AudioClip audio;
     public VideoClip videoClip;
-    
-    
-    
     
     [Header("Behavior")]
     public Transform player;
@@ -51,6 +46,7 @@ public class WorldUI : MonoBehaviour
     
 
 
+
     [Header("UI Fade")]
     public CanvasGroup canvasGroup;
     private bool pendingHide;
@@ -60,8 +56,12 @@ public class WorldUI : MonoBehaviour
     
     private SphereCollider sphereCollider;
     private Action targetAction;
-    
-    
+
+    private void Awake()
+    {
+        
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -177,7 +177,9 @@ public class WorldUI : MonoBehaviour
         if (button)
         {
             button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(()=>{
+            button.onClick.AddListener(()=>
+            {
+                OpenSoundEffect();
                 onButtonClick?.Invoke();
             });
         }
@@ -187,6 +189,7 @@ public class WorldUI : MonoBehaviour
             buttonPanelInformation.year.text = year;
             buttonPanelInformation.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
             buttonPanelInformation.gameObject.GetComponent<Button>().onClick.AddListener(()=>{
+                OpenSoundEffect();
                 onButtonClick?.Invoke();
             });
         }
@@ -250,4 +253,21 @@ public class WorldUI : MonoBehaviour
         videoPlayer.clip = videoClip;
     }
 
+    public void SetInfPicture(PopUpInformationScript infoCanvasPicture)
+    {
+        if (image == null) return;
+        infoCanvasPicture.SetInformationPicture(new PopUpInfo
+        {
+            image =  image,
+            title = title,
+            year = year,
+            description = text
+        });
+    }
+
+    public void OpenSoundEffect()
+    {
+        UIAudioManager.Instance?.PlayOpenPanel();
+
+    }
 }

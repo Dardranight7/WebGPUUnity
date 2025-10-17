@@ -41,6 +41,8 @@ public class AgesContainer : MonoBehaviour
         }
         statusScene = StatusScene.SELECT;
         ImageStatus(statusScene);
+        UIAudioManager.Instance?.StopAudio();
+        UIAudioManager.Instance?.PlayAppearanceSound();
     }
     
     private void OnEnable()

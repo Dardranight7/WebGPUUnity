@@ -12,7 +12,8 @@ public class ElektraActivity : MonoBehaviour
     public TMP_Text informatioText;
     
     public WorldUI worldUI;
-    
+
+    public AudioSource AudioSource;
 
     public void Start()
     {
@@ -53,4 +54,21 @@ public class ElektraActivity : MonoBehaviour
         informatioText.text = worldUI.text;
     }
 
+    public void PlayClickSound()
+    {
+        UIAudioManager.Instance?.PlayClick();
+    }
+    
+    public void PlayLoadSound()
+    {
+        UIAudioManager.Instance?.PlayLoadSound();
+    }
+    public void PlayAudio(AudioClip clip)
+    {
+        UIAudioManager.Instance?.PlaySequence(AudioSource, new []
+        {
+            UIAudioManager.Instance?.loadSoundSound,
+            clip
+        });
+    }
 }

@@ -22,9 +22,6 @@ public class PopUpInformationScript : MonoBehaviour
     
     public void SetPicture(PopUpInfo popUpInfo)
     {
-        textTitle.gameObject.SetActive(false);
-        textYear.gameObject.SetActive(false);
-        textDescription.gameObject.SetActive(false);
         picture.sprite = popUpInfo.image;
         
         RectTransform rect = picture.GetComponent<RectTransform>();
@@ -40,6 +37,17 @@ public class PopUpInformationScript : MonoBehaviour
         rect.anchoredPosition = Vector2.zero;
         
         picture.SetNativeSize();
+        RectTransform parentRect = rect.parent.GetComponent<RectTransform>();
+
+        float maxWidth = parentRect.rect.width;
+        float maxHeight = parentRect.rect.height;
+
+        float scaleWidth = maxWidth / rect.sizeDelta.x;
+        float scaleHeight = maxHeight / rect.sizeDelta.y;
+
+        float scale = Mathf.Min(scaleWidth, scaleHeight, 1f);
+        rect.sizeDelta *= scale;
+
     }
 }
 
