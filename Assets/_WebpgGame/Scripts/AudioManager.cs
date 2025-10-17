@@ -63,6 +63,7 @@ public class AudioManager : MonoBehaviour
         if (playMusicOnStart && backgroundMusic != null)
         {
             // En WebGL el autoplay puede estar bloqueado, así que esperamos interacción
+            StopAllCoroutines();
             StartCoroutine(PlayMusicWhenAllowed());
         }
     }

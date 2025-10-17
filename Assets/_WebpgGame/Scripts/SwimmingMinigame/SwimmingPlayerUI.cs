@@ -21,4 +21,10 @@ public class SwimmingPlayerUI : MonoBehaviour
             Pick.gameObject.SetActive(false);
         }
     }
+
+    public void ChangeImage(Sprite image)
+    {
+        Pick.sprite = image;
+        GrayscalePick.sprite = image;
+    }
 }
