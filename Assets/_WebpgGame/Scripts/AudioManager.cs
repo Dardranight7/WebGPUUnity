@@ -84,8 +84,8 @@ public class AudioManager : MonoBehaviour
     public void PlayMusic(AudioClip musicClip, float volume = 1f)
     {
         if (musicClip == null) return;
+        musicSource.Stop();
         musicSource.clip = musicClip;
-        musicSource.volume = volume;
         musicSource.Play();
     }
 

@@ -659,13 +659,13 @@ public class GameManager : MonoBehaviour
             {
                 // Detener inmediatamente la música actual y reproducir la de victoria
                 AudioManager.Instance.StopMusic(); // stop sin fade
-                AudioManager.Instance.PlayMusic(victoryMusicClip, 0f); // play sin fade
+                AudioManager.Instance.PlaySFX(victoryMusicClip, 0f); // play sin fade
                 Debug.Log("PlayVictoryMusic: detuvo música (inmediato) y reprodujo victoria vía MusicManager.");
             }
             else
             {
                 // Cross-fade: MusicManager cambia la pista (esto "detiene" la música de fondo gradualmente)
-                AudioManager.Instance.PlayMusic(victoryMusicClip, victoryFadeTime);
+                AudioManager.Instance.PlaySFX(victoryMusicClip, victoryFadeTime);
                 Debug.Log("PlayVictoryMusic: cross-fade a música de victoria vía MusicManager.");
             }
             return;

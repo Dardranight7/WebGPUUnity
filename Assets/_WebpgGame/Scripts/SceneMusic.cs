@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class SceneMusic : MonoBehaviour
 {
     [Tooltip("Clip que esta escena quiere reproducir")]
@@ -17,16 +16,7 @@ public class SceneMusic : MonoBehaviour
         if (sceneMusicClip == null) return;
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlayMusic(sceneMusicClip,  targetVolume);
-        }
-        else
-        {
-            // Si por alguna razón no hay AudioManager aún, puedes reproducir localmente como fallback
-            var src = GetComponent<AudioSource>();
-            src.clip = sceneMusicClip;
-            src.loop = true;
-            src.volume = targetVolume;
-            src.Play();
+            AudioManager.Instance.PlayMusic(sceneMusicClip);
         }
     }
 }

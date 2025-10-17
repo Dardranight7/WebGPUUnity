@@ -68,7 +68,7 @@ public class AudioSettingsController : MonoBehaviour
     private void ApplyMusicVolume(float normalized)
     {
         float db = LinearToDb(normalized);
-        mixer.SetFloat(musicParam, db);
+        mixer .SetFloat(musicParam, db);
         musicText.text = ((int)(100 * normalized)).ToString() + " %";
     }
 

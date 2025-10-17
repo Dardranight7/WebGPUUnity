@@ -38,18 +38,6 @@ public class UIPreGame: MonoBehaviour
             {
                 AudioManager.Instance.PlayMusic(menuMusicClip, 0.5f);
             }
-            else
-            {
-                // fallback simple
-                var go = new GameObject("MenuMusic");
-                var src = go.AddComponent<AudioSource>();
-                src.clip = menuMusicClip;
-                src.loop = true;
-                src.spatialBlend = 0f;
-                src.volume = menuMusicVolume;
-                src.Play();
-                DontDestroyOnLoad(go);
-            }
         }
 
         // Mostrar menu al inicio (asegúrate menuRoot activo)
