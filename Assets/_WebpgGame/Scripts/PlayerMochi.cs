@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ public class PlayerMochi : MonoBehaviour
     public bool forceRandomizeMochi;
 
     public bool autoUpdateVisual = true;
+    public SwimmingMinigameController swimmingMinigameController;
     private void OnEnable()
     {
         if (autoUpdateVisual)
@@ -49,6 +49,8 @@ public class PlayerMochi : MonoBehaviour
                 playerMochiIndex = Backend.singleton.playerProfile.activeMochiIndex;
             }
             MochisList[playerMochiIndex].gameObject.SetActive(true);
+            if (swimmingMinigameController != null)
+                swimmingMinigameController.SwimmingPlayerUI.ChangeImage(Backend.singleton.MochiDB[playerMochiIndex].image);
         }
         else
         {
@@ -56,6 +58,8 @@ public class PlayerMochi : MonoBehaviour
             {
                 int index = PlayerPrefs.GetInt(mochiIndexPref, 0);
                 MochisList[index].gameObject.SetActive(true);
+                if (swimmingMinigameController != null)
+                    swimmingMinigameController.SwimmingPlayerUI.ChangeImage(Backend.singleton.MochiDB[index].image);
             }
         }
     }

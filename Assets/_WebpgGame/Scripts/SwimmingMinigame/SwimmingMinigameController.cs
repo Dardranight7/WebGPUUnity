@@ -325,7 +325,7 @@ public class SwimmingMinigameController : MonoBehaviour
     }
     [SerializeField] CapsuleCollider capsuleCollider;
     [SerializeField] float timeDisable = 3;
-    [SerializeField] SwimmingPlayerUI SwimmingPlayerUI;
+    public SwimmingPlayerUI SwimmingPlayerUI;
     private IEnumerator DisableForSeconds()
     {
         SetLayerRecursively(gameObject, LayerMask.NameToLayer("NoCollision"));
