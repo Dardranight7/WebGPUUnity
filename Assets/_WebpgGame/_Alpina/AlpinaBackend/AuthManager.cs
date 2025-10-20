@@ -148,7 +148,6 @@ public class AuthManager : MonoBehaviour
                 Backend.singleton.playerProfile = datos;
                 Backend.OnPlayerProfileUpdate?.Invoke();
                 authParent.gameObject.SetActive(false);
-                MainMenu.SetActive(true);
                 MochiCourtain.Singleton.LoadSceneWithCourtain("0",1);
             }
             else if (a.code == 2) 

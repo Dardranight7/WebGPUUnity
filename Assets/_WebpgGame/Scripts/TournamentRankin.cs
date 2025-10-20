@@ -80,7 +80,8 @@ public class TournamentRankin : MonoBehaviour
             slot.SetValues(
                 data.userName.ToString(),
                 data.mochiPoints.ToString(),
-                data.position.ToString()
+                data.position.ToString(),
+                data.userName == Backend.singleton.playerProfile.userName
             );
 
             slot.gameObject.SetActive(true);

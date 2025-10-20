@@ -129,7 +129,7 @@ public class GameResume : MonoBehaviour
         else
         {
             tournamentParent.gameObject.SetActive(false);
-            if (Indexes[0] == 0)
+            if (Indexes[3] == 0)
             {
                 winnerParent.gameObject.SetActive(true);
                 looseParent.gameObject.SetActive(false);
@@ -141,7 +141,7 @@ public class GameResume : MonoBehaviour
             }
             //not is tournament
         }
-        if (Indexes[0] == 0)
+        if (Indexes[3] == 0)
         {
             //Player
             playerMochi.isPlayerMochi = true;

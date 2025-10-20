@@ -1,7 +1,8 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -213,6 +214,11 @@ public class GameManager : MonoBehaviour
                 winnerTransform = player.transform;
                 winnerCamFollow = cameraFollow;
                 winnerCamera = Camera.main;
+                List<int> looseIndexes = new List<int>()
+                {
+                    3, 2, 1, 0,
+                };
+                PlayerPrefs.SetString("WinnerYogoNado", JsonConvert.SerializeObject(looseIndexes));
             }
             else
             {
@@ -227,6 +233,11 @@ public class GameManager : MonoBehaviour
                         winnerCamFollow = bot.GetComponent<CameraFollow>();
                     }
                 }
+                List<int> looseIndexes = new List<int>()
+                {
+                    0, 1, 2, 3,
+                };
+                PlayerPrefs.SetString("WinnerYogoNado", JsonConvert.SerializeObject(looseIndexes));
             }
 
             if (winnerTransform == null)

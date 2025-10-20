@@ -400,7 +400,7 @@ public class Backend : MonoBehaviour
         public int mochiPoints;
 
         public string unlockedMochis;
-        public string userInventory;
+        public List<int> userInventory = new List<int>();
 
         public int activeMochiIndex;
         public int consecutiveDaysStreak;

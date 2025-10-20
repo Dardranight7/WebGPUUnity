@@ -8,10 +8,30 @@ public class MochisaurView : MonoBehaviour
     public GameObject mochisaurPrefab;
     public List<MochisaurSlot> instancedMochisaurSlots = new List<MochisaurSlot>();
 
+    public GameObject accesoryPrefab;
+    public List<AccesorySlot> instancedAccesorySlots = new List<AccesorySlot>();
+
+    public List<AccesoryDatabase> accesoryDatabase = new List<AccesoryDatabase>();
+
+    public Transform popupNoFounds, popupBuy;
+
+    public AccesorySlot selectedSlot;
+
+    [System.Serializable]
+    public class AccesoryDatabase
+    {
+        public int index;
+    }
+
     private void OnEnable()
     {
         //Update mochisaurs using player data
         Reload();
+    }
+
+    public void BuySelected()
+    {
+        selectedSlot.Unlock();
     }
 
     public void Reload()
@@ -24,8 +44,39 @@ public class MochisaurView : MonoBehaviour
         Application.OpenURL("https://tekitechar.8thwall.app/dinomochis");
     }
 
+    [SerializeField] Sprite haveAccesory, dontHave;
+
+    public void ShowAccesories()
+    {
+        foreach (var item in instancedMochisaurSlots)
+        {
+            item.gameObject.SetActive(false);
+        }
+        for (int i = 0; i < accesoryDatabase.Count; i++)
+        {
+            AccesorySlot selectedSlot;
+            if (i < instancedAccesorySlots.Count)
+            {
+                selectedSlot = instancedAccesorySlots[i];
+                instancedAccesorySlots[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                AccesorySlot instance = Instantiate(accesoryPrefab, prefabParent).GetComponent<AccesorySlot>();
+                instance.mochisaurView = this;
+                instancedAccesorySlots.Add(instance);
+                selectedSlot = instance;
+            }
+            selectedSlot.UpdateVisual(Backend.singleton.playerProfile.userInventory.Contains(accesoryDatabase[i].index) ? haveAccesory : dontHave, accesoryDatabase[i].index);
+        }
+    }
+
     public void ShowData(Backend.Response response)
     {
+        foreach (var item in instancedAccesorySlots)
+        {
+            item.gameObject.SetActive(false);
+        }
         if (response.code == 0)
         {
             Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(response.data);
