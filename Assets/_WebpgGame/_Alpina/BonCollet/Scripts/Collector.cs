@@ -19,10 +19,15 @@ public class Collector : MonoBehaviour
 
     // Movimiento: si quieres desactivar el movimiento al final del juego, estos scripts deberían reaccionar a EnableCollector(false)
     private MonoBehaviour[] movementScripts;
+    
+    
 
     void Awake()
     {
         movementScripts = GetComponents<MonoBehaviour>(); // buscaremos los scripts que controlan movimiento y los deshabilitaremos
+        
+        if (gameManagerBonCollet == null)
+            gameManagerBonCollet = FindObjectOfType<GameManagerBonCollet>();
     }
 
     public void Collect(Candy candy)
