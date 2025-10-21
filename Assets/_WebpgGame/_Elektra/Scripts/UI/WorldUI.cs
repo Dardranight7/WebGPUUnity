@@ -122,7 +122,9 @@ public class WorldUI : MonoBehaviour
     {
         if (!canvas || !uiCamera ) return;
         var toCam = canvas.transform.position - uiCamera.transform.position;
-        canvas.transform.rotation = Quaternion.LookRotation(toCam, Vector3.up);
+        var flat = Vector3.ProjectOnPlane(toCam, Vector3.up);
+        if (flat.sqrMagnitude <= Vector3.kEpsilon) return;
+        canvas.transform.rotation = Quaternion.LookRotation(flat, Vector3.up);
     }
 
     private void FaceHybrid()
