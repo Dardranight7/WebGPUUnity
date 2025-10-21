@@ -6,6 +6,8 @@ public class MochiProp : MonoBehaviour
 
     private void Awake()
     {
+        if (MochiProps.instance == null)
+            return;
         MochiProps.instance.OnPropsUpdated += DisableIfNotOwned;
     }
 
@@ -21,6 +23,8 @@ public class MochiProp : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (MochiProps.instance == null)
+            return;
         MochiProps.instance.OnPropsUpdated -= DisableIfNotOwned;
     }
 
