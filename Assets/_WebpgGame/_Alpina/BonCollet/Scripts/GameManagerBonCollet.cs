@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class GameManagerBonCollet : MonoBehaviour
@@ -29,6 +30,18 @@ public class GameManagerBonCollet : MonoBehaviour
     [Header("UI smoothing")]
     [Tooltip("Velocidad de interpolación al rellenar la barra UI (fillAmount)")]
     public float uiFillLerpSpeed = 8f;
+    
+    [Header("Resultados UI")]
+    public GameObject resultsPanel;
+    public GameObject panelWin; //panel que se usa cuando el player principal gana
+    //public GameObject panelLose; //panel que se usa cuando el player principal pierde
+    public Transform pedestalSpot; //lugar donde se muestra el player ganador
+    
+    private AudioManager audioManager;
+    
+    public AudioClip MusicVictoryClip;
+
+    //public GameObject PlayerPrefab;
 
     // Estado interno
     bool gameRunning = false;
@@ -42,6 +55,9 @@ public class GameManagerBonCollet : MonoBehaviour
             p.currentFill = 0f;
             UpdatePlayerUIImmediate(p);
         }
+        
+        if (resultsPanel != null)
+            resultsPanel.SetActive(false);
 
         if (autoStartWithPan && cameraController != null)
         {
@@ -119,6 +135,34 @@ public class GameManagerBonCollet : MonoBehaviour
         }
     }
 
+    void MusicVictory (bool immediateStop = false)
+    {
+        if (MusicVictoryClip == null)
+        {
+            Debug.Log("PlayVictoryMusic: musicclip no asignado");
+            return;
+        }
+        
+        if (AudioManager.Instance != null)
+        {
+            if (immediateStop)
+            {
+                // Detener inmediatamente la música actual y reproducir la de victoria
+                AudioManager.Instance.StopMusic(); // stop sin fade
+                AudioManager.Instance.PlaySFX(MusicVictoryClip, 0f); // play sin fade
+                Debug.Log("PlayVictoryMusic: detuvo música (inmediato) y reprodujo victoria vía MusicManager.");
+            }
+            else
+            {
+                // Cross-fade: MusicManager cambia la pista (esto "detiene" la música de fondo gradualmente)
+                AudioManager.Instance.PlaySFX(MusicVictoryClip);
+                Debug.Log("PlayVictoryMusic: cross-fade a música de victoria vía MusicManager.");
+            }
+            return;
+        }
+        
+    }
+
     void OnPlayerWin(PlayerSlot winner)
     {
         if (!gameRunning) return;
@@ -140,6 +184,24 @@ public class GameManagerBonCollet : MonoBehaviour
         Debug.Log("GameManagerBonCollet - Ganador: " + (winner != null ? winner.GetName() + " (" + winner.score + " pts)" : "Nadie"));
 
         // Aquí puedes invocar UI final (panel de victoria), reproducir efectos, etc.
+        if (winner != null)
+        {
+            MusicVictory(true);
+            resultsPanel.SetActive(true);
+            
+            if (pedestalSpot != null && winner.collector != null)
+            {
+                // mover el ganador al pedestal
+                winner.collector.transform.position = pedestalSpot.position;
+                winner.collector.transform.rotation = pedestalSpot.rotation;
+            }
+            
+        }
+        
+        
+        
+        
+
     }
 
     void Update()
@@ -153,6 +215,10 @@ public class GameManagerBonCollet : MonoBehaviour
             p.fillImage.fillAmount = p.currentFill;
         }
     }
+    
+    
+
+    
 
     // Actualizar UI sin interpolación (uso al inicio o reseteo)
     void UpdatePlayerUIImmediate(PlayerSlot slot)
@@ -166,6 +232,8 @@ public class GameManagerBonCollet : MonoBehaviour
         if (slot.scoreText != null)
             slot.scoreText.text = slot.score.ToString();
     }
+    
+    
 
     // Para debug / recuperar info desde otros scripts
     public PlayerSlot GetPlayerSlot(int index)

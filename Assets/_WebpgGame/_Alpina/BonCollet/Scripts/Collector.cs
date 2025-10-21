@@ -20,6 +20,9 @@ public class Collector : MonoBehaviour
     // Movimiento: si quieres desactivar el movimiento al final del juego, estos scripts deberían reaccionar a EnableCollector(false)
     private MonoBehaviour[] movementScripts;
     
+    [Header("Sonidos recogida")]
+    public SFXBonCollet sfxController;
+    
     
 
     void Awake()
@@ -45,12 +48,19 @@ public class Collector : MonoBehaviour
             // fallback
             score += candy.points;
         }
+        
+        if (sfxController != null)
+        {
+            if (candy.points >= 0) sfxController.PlayPickup(true);
+            else sfxController.PlayPickup(false);
+        }
 
         // reproducir animación de recoger si hay animator
         if (animator != null)
         {
             animator.SetTrigger("Collect"); // debes tener ese trigger en el Animator si quieres
         }
+        
 
         // destruir la gomita
         Destroy(candy.gameObject);
