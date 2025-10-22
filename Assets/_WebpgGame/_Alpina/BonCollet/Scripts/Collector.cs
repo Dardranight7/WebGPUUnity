@@ -49,13 +49,14 @@ public class Collector : MonoBehaviour
             score += candy.points;
         }
         
+        // reproducir animación de recoger
         if (sfxController != null)
         {
             if (candy.points >= 0) sfxController.PlayPickup(true);
             else sfxController.PlayPickup(false);
         }
 
-        // reproducir animación de recoger si hay animator
+        
         if (animator != null)
         {
             animator.SetTrigger("Collect"); // debes tener ese trigger en el Animator si quieres

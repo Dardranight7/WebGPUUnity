@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,12 +35,21 @@ public class GameManagerBonCollet : MonoBehaviour
     [Header("Resultados UI")]
     public GameObject resultsPanel;
     public GameObject panelWin; //panel que se usa cuando el player principal gana
-    //public GameObject panelLose; //panel que se usa cuando el player principal pierde
+    public GameObject panelLose; //panel que se usa cuando el player principal pierde
     public Transform pedestalSpot; //lugar donde se muestra el player ganador
     
-    private AudioManager audioManager;
+    [Header("Control de inicio")]
+    [Tooltip("Si true, el juego sólo comenzará cuando se pulse el botón 'Jugar' (OnPlayButton).")]
+    public bool requireButtonToStart = true;
+    
+    public AudioClip musicBackgroundClip;
     
     public AudioClip MusicVictoryClip;
+
+    public GameObject preUI;
+    public GameObject UIControls;
+    bool isPreUIActive = true;
+    
 
     //public GameObject PlayerPrefab;
 
@@ -48,6 +58,16 @@ public class GameManagerBonCollet : MonoBehaviour
 
     void Start()
     {
+        
+        if (preUI != null)
+        {
+            preUI.SetActive(true);
+            isPreUIActive = true;
+        }
+        
+        if (UIControls != null)
+            UIControls.SetActive(false);
+        
         // Inicializar slots (scores, UI)
         foreach (var p in players)
         {
@@ -58,8 +78,12 @@ public class GameManagerBonCollet : MonoBehaviour
         
         if (resultsPanel != null)
             resultsPanel.SetActive(false);
+        foreach (var p in players)
+        {
+            if (p != null) p.EnableCollector(false);
+        }
 
-        if (autoStartWithPan && cameraController != null)
+        if (!requireButtonToStart && autoStartWithPan && cameraController != null)
         {
             // lanzar paneo inicial y luego iniciar juego
             StartCoroutine(AutoStartWithPanRoutine());
@@ -68,16 +92,42 @@ public class GameManagerBonCollet : MonoBehaviour
 
     IEnumerator AutoStartWithPanRoutine()
     {
+        if (preUI != null) preUI.SetActive(false);
+        isPreUIActive = false;
+        
+        if (UIControls != null) UIControls.SetActive(true);
+        
         cameraController.PlayPan();
         yield return new WaitForSeconds(startPanDuration);
         StartGame();
     }
 
-    // Llamar para iniciar el juego (desde UI button o inspector)
+    // Llamar para iniciar el juego (desde UI button)
+    public void OnPlayButton()
+    {
+        Debug.Log("[GM] OnPlayButton pressed: ocultando preUI y arrancando juego.");
+        if (preUI != null)
+        {
+            preUI.SetActive(false);
+            isPreUIActive = false;
+        }
+            
+        if (UIControls != null)  UIControls.SetActive(true);
+        StartCoroutine(AutoStartWithPanRoutine());
+    }
+     
     public void StartGame()
     {
         if (gameRunning) return;
+        
+        if (requireButtonToStart && isPreUIActive)
+        {
+            Debug.Log("[GM] StartGame llamado pero PreUI está activo y se requiere botón para iniciar. Abortando.");
+            return;
+        }
+
         gameRunning = true;
+        
 
         // resetear scores y UI
         foreach (var p in players)
@@ -91,6 +141,8 @@ public class GameManagerBonCollet : MonoBehaviour
         if (spawner != null)
             spawner.StartSpawning();
     }
+
+   
 
     // Llamar para terminar manualmente
     public void EndGame()
@@ -134,35 +186,8 @@ public class GameManagerBonCollet : MonoBehaviour
             OnPlayerWin(slot);
         }
     }
-
-    void MusicVictory (bool immediateStop = false)
-    {
-        if (MusicVictoryClip == null)
-        {
-            Debug.Log("PlayVictoryMusic: musicclip no asignado");
-            return;
-        }
-        
-        if (AudioManager.Instance != null)
-        {
-            if (immediateStop)
-            {
-                // Detener inmediatamente la música actual y reproducir la de victoria
-                AudioManager.Instance.StopMusic(); // stop sin fade
-                AudioManager.Instance.PlaySFX(MusicVictoryClip, 0f); // play sin fade
-                Debug.Log("PlayVictoryMusic: detuvo música (inmediato) y reprodujo victoria vía MusicManager.");
-            }
-            else
-            {
-                // Cross-fade: MusicManager cambia la pista (esto "detiene" la música de fondo gradualmente)
-                AudioManager.Instance.PlaySFX(MusicVictoryClip);
-                Debug.Log("PlayVictoryMusic: cross-fade a música de victoria vía MusicManager.");
-            }
-            return;
-        }
-        
-    }
-
+    
+    
     void OnPlayerWin(PlayerSlot winner)
     {
         if (!gameRunning) return;
@@ -174,20 +199,43 @@ public class GameManagerBonCollet : MonoBehaviour
         // detener movimiento de todos
         foreach (var p in players)
             p.EnableCollector(false);
-
+        
         // cámara hacia ganador si existe
         if (cameraController != null && winner != null && winner.collector != null)
         {
             cameraController.FocusOnWinner(winner.collector.transform);
         }
-
+        
+        
         Debug.Log("GameManagerBonCollet - Ganador: " + (winner != null ? winner.GetName() + " (" + winner.score + " pts)" : "Nadie"));
 
         // Aquí puedes invocar UI final (panel de victoria), reproducir efectos, etc.
         if (winner != null)
         {
-            MusicVictory(true);
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlaySFX(MusicVictoryClip);
             resultsPanel.SetActive(true);
+            
+            if (winner != null && winner.collector != null && !winner.collector.isBot)
+            {
+            
+                // el jugador principal ha ganado
+                if (panelWin != null)
+                    panelWin.SetActive(true);
+                if (panelLose != null)
+                    panelLose.SetActive(false);
+            
+            }
+            else
+            {
+            
+                // el jugador principal ha perdido
+                if (panelWin != null)
+                    panelWin.SetActive(false);
+                if (panelLose != null)
+                    panelLose.SetActive(true);
+            }
+            
             
             if (pedestalSpot != null && winner.collector != null)
             {
@@ -195,13 +243,7 @@ public class GameManagerBonCollet : MonoBehaviour
                 winner.collector.transform.position = pedestalSpot.position;
                 winner.collector.transform.rotation = pedestalSpot.rotation;
             }
-            
         }
-        
-        
-        
-        
-
     }
 
     void Update()
