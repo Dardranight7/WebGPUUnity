@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
     public float localVictoryVolume = 1f; // volumen si se usa AudioSource local
     private AudioSource _victoryAudioSource;
     
+    
 
     void Awake()
     {
@@ -218,7 +219,7 @@ public class GameManager : MonoBehaviour
                 {
                     3, 2, 1, 0,
                 };
-                PlayerPrefs.SetString("WinnerYogoNado", JsonConvert.SerializeObject(looseIndexes));
+                PlayerPrefs.SetString("Winner", JsonConvert.SerializeObject(looseIndexes));
             }
             else
             {
@@ -237,7 +238,7 @@ public class GameManager : MonoBehaviour
                 {
                     0, 1, 2, 3,
                 };
-                PlayerPrefs.SetString("WinnerYogoNado", JsonConvert.SerializeObject(looseIndexes));
+                PlayerPrefs.SetString("Winner", JsonConvert.SerializeObject(looseIndexes));
             }
 
             if (winnerTransform == null)
@@ -287,9 +288,17 @@ public class GameManager : MonoBehaviour
     {
         if (winnerIsPlayer)
         {
+            
             // Gana el jugador, muestra panel de victoria
             if (WinPanel != null)
+            {
+                //_audioManager.StopMusic();
+                //_audioManager.PlayMusic(victoryMusicClip);
+                PlayVictoryMusic(true);
                 WinPanel.SetActive(true);
+                
+            }
+             
             if (winnerNameText != null)
                 winnerNameText.text = "¡Ganaste!";
             Debug.Log("✅ WinPanel activado. Resultado: Ganó el jugador");
@@ -635,12 +644,16 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         if (resultadosUIPanel != null)
+        {
             resultadosUIPanel.SetActive(true);
+            WinPanel.SetActive(true);
+        }
+            
 
         gameResume.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(4);
-        PlayVictoryMusic(true);
+        
         tournamentManager.LoadNextGameUsingCourtain();
     }
     
