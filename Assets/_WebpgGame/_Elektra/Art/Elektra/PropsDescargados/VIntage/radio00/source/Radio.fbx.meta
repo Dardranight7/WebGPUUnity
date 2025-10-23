@@ -3,7 +3,12 @@ guid: 8d1227fcebb0c2d4182a271c38a6f561
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Radio.001
+    second: {fileID: 2100000, guid: a7e9c1a254b8f1c40938f50b04026fb9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -28,7 +33,8 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    extraUserProperties: []
+    extraUserProperties:
+    - '#BAKERY{"meshName":["radio_low"],"padding":[46],"unwrapper":[0]}'
     clipAnimations: []
     isReadable: 0
   meshes:
@@ -46,7 +52,7 @@ ModelImporter:
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
