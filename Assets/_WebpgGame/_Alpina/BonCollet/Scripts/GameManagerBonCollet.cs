@@ -11,6 +11,11 @@ public class GameManagerBonCollet : MonoBehaviour
     [Header("Modo de juego")]
     [Tooltip("Cantidad de puntos que debe alcanzar un jugador para ganar")]
     public int pointsToWin = 20;
+    [Tooltip("Duración en segundos")]
+    public float gameDuration = 60f;
+    [Tooltip("Text UI que muestra el tiempo restante de juego")]
+    public Text timerText;
+    float timeRemaining;
 
     [Tooltip("Si true, comenzará el paneo inicial y luego iniciará el juego automáticamente")]
     public bool autoStartWithPan = true;
@@ -45,10 +50,14 @@ public class GameManagerBonCollet : MonoBehaviour
     public AudioClip musicBackgroundClip;
     
     public AudioClip MusicVictoryClip;
+    public AudioClip MusicLoseClip;
 
     public GameObject preUI;
     public GameObject UIControls;
     bool isPreUIActive = true;
+    
+    //secuencia de victoria para dinamica de juego por tiempo 
+    public float winPanDuration = 3f;
     
 
     //public GameObject PlayerPrefab;
@@ -127,6 +136,7 @@ public class GameManagerBonCollet : MonoBehaviour
         }
 
         gameRunning = true;
+        timeRemaining = Mathf.Max(0.1f, gameDuration);
         
 
         // resetear scores y UI
@@ -180,11 +190,11 @@ public class GameManagerBonCollet : MonoBehaviour
         if (slot.scoreText != null)
             slot.scoreText.text = slot.score.ToString();
 
-        // verificar ganador
-        if (slot.score >= pointsToWin)
-        {
-            OnPlayerWin(slot);
-        }
+        // verificar ganador en dinamica por puntos
+        //if (slot.score >= pointsToWin)
+        //{
+           // OnPlayerWin(slot);
+        //}
     }
     
     
@@ -248,18 +258,160 @@ public class GameManagerBonCollet : MonoBehaviour
 
     void Update()
     {
+        //Esta parte llena la barra de la dinamica por puntos 
         // interpolar fillAmount para cada slot (suavizado visual)
-        foreach (var p in players)
+        /*foreach (var p in players)
         {
             if (p.fillImage == null) continue;
             // targetFill puede actualizarse en AddScore
             p.currentFill = Mathf.Lerp(p.currentFill, p.targetFill, Mathf.Clamp01(uiFillLerpSpeed * Time.deltaTime));
             p.fillImage.fillAmount = p.currentFill;
+        }*/
+        
+        //Dinamica de juego por tiempo
+        //timer
+        if (gameRunning)
+        {
+            timeRemaining -= Time.deltaTime;
+            UpdateTimerUI(timeRemaining);
+            
+            if (timeRemaining <= 0f)
+            {
+                timeRemaining = 0f;
+                // tiempo agotado, determinar ganador
+                gameRunning = false;
+                if (spawner != null && stopSpawningOnWin) spawner.StopSpawning();
+                foreach (var p in players) p.EnableCollector(false);
+                
+                //determinamos el ganador
+                PlayerSlot winner = DetermineWinnerByScore();
+                //paneo y mostrar panel
+                StartCoroutine(WinSequenceCoroutine(winner));
+            }
         }
     }
     
     
+    void UpdateTimerUI(float seconds)
+    {
+        if (timerText == null) return;
+        seconds = Mathf.Max(0f, seconds);
+        int s = Mathf.CeilToInt(seconds);
+        int mins = s / 60;
+        int secs = s % 60;
+        timerText.text = string.Format("{0:00}:{1:00}", mins, secs);
+    }
 
+    PlayerSlot DetermineWinnerByScore()
+    {
+        PlayerSlot best = null;
+        int bestScore = int.MinValue;
+        foreach (var p in players)
+        {
+            if (p == null) continue;
+            if (p.score > bestScore)
+            {
+                bestScore = p.score;
+                best = p;
+            }
+        }
+        return best;
+    }
+
+    IEnumerator WinSequenceCoroutine(PlayerSlot winner)
+    {
+        // protección
+        if (winner == null)
+        {
+            // si no hay ganador, mostramos panel vacío (si quieres cambiar este comportamiento, hazlo)
+            if (resultsPanel != null) resultsPanel.SetActive(true);
+            yield break;
+        }
+
+        // marcar no en ejecución para evitar seguir sumando
+        gameRunning = false;
+
+        // detener spawner
+        if (spawner != null && stopSpawningOnWin)
+            spawner.StopSpawning();
+
+        // detener movimiento de todos
+        foreach (var p in players)
+            p.EnableCollector(false);
+        
+        // cámara hacia ganador si existe (paneo)
+        if (cameraController != null && winner.collector != null)
+        {
+            cameraController.FocusOnWinner(winner.collector.transform);
+        }
+
+        // esperar un tiempo para dejar que se vea el paneo
+        if (winPanDuration > 0f)
+            yield return new WaitForSeconds(winPanDuration);
+        
+        //Reproducimos música de victoria o derrota
+        bool winnerisPlayer = (winner.collector != null && !winner.collector.isBot);
+
+        if (winnerisPlayer)
+        {
+            if (MusicVictoryClip != null)
+            {
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.StopMusic();
+                    AudioManager.Instance.PlaySFX(MusicVictoryClip);
+                }
+            }
+        }
+        else
+        {
+            if (MusicLoseClip != null)
+            {
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.StopMusic();
+                    AudioManager.Instance.PlaySFX(MusicLoseClip);
+                }
+            }
+        }
+
+        // reproducir música de victoria 
+        /*if (MusicVictoryClip != null)
+        {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.StopMusic();
+                AudioManager.Instance.PlaySFX(MusicVictoryClip);
+            }
+            else
+            {
+                Debug.LogWarning("[GM] AudioManager.Instance no encontrado: MusicVictoryClip no reproducido.");
+            }
+        }*/
+
+        // mostrar panel de resultados
+        if (resultsPanel != null)
+            resultsPanel.SetActive(true);
+
+        // determinar si el ganador es el player principal (no es bot) para mostrar win/lose
+        if (winner.collector != null && !winner.collector.isBot)
+        {
+            if (panelWin != null) panelWin.SetActive(true);
+            if (panelLose != null) panelLose.SetActive(false);
+        }
+        else
+        {
+            if (panelWin != null) panelWin.SetActive(false);
+            if (panelLose != null) panelLose.SetActive(true);
+        }
+
+        // mover el ganador al pedestal (si asignado)
+        if (pedestalSpot != null && winner.collector != null)
+        {
+            winner.collector.transform.position = pedestalSpot.position;
+            winner.collector.transform.rotation = pedestalSpot.rotation;
+        }
+    }
     
 
     // Actualizar UI sin interpolación (uso al inicio o reseteo)

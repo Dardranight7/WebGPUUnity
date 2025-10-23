@@ -1722,6 +1722,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1887965565}
   m_SourcePrefab: {fileID: 100100000, guid: cee7e443131a00341bcbdfab4ccb0c97, type: 3}
+--- !u!1 &356157230 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4667687695071716696, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+  m_PrefabInstance: {fileID: 926497944}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &372421482
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3721,8 +3726,20 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4667687695071716696, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6351963299818798297, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
       propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036488455663589692, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7169254405107541275, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7828396074697109763, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
@@ -63687,6 +63704,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324244289}
   m_CullTransparentMesh: 1
+--- !u!1 &1348662884 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7036488455663589692, guid: 6a10d9adcce03d9429302ad8f79a957f, type: 3}
+  m_PrefabInstance: {fileID: 926497944}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1359354721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66299,8 +66321,8 @@ MonoBehaviour:
   - {fileID: 55547935}
   - {fileID: 1939625392}
   scoreText: {fileID: 342377756}
-  gameOverPanel: {fileID: 0}
-  WinPanel: {fileID: 0}
+  gameOverPanel: {fileID: 356157230}
+  WinPanel: {fileID: 1348662884}
   winnerNameText: {fileID: 0}
   finishPoint: {fileID: 717462300}
   victoryCameraOffset: {x: -5, y: 6, z: -15}

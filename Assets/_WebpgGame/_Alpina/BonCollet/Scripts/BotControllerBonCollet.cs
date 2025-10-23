@@ -5,7 +5,7 @@ using UnityEngine;
 public class BotControllerBonCollet: MonoBehaviour
 {
     [Header("Movimiento")]
-    public float maxSpeed = 3.0f;             // velocidad de crucero (u/s)
+    public float maxSpeed = 3.0f;             // velocidad 
     public float maxAcceleration = 8f;        // cuanto puede cambiar la velocidad por segundo
     public float rotationSpeed = 8f;          // slerp para rotación visual
     public float checkInterval = 0.25f;       // cada cuánto busca candy (segundos)
