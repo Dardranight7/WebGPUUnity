@@ -178,7 +178,7 @@ public class CameraFollow : MonoBehaviour
 
         // Restaurar cámaras múltiples después del intro
         if (mainCamera != null)
-            mainCamera.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
+            mainCamera.rect = new Rect(0f, 0f, 1f, 1f);
 
         if (cameras != null && cameras.Length > 0)
         {
@@ -195,7 +195,7 @@ public class CameraFollow : MonoBehaviour
     {
         // ✅ Mostrar las 4 pantallas justo cuando comienza el conteo
         if (mainCamera != null)
-            mainCamera.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
+            mainCamera.rect = new Rect(0f, 0f, 1f, 1f);
 
         if (cameras != null && cameras.Length > 0)
         {
