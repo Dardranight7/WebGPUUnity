@@ -11,7 +11,7 @@ public class CameraBonCollet : MonoBehaviour
     [Header("Enfoque ganador")]
     public Vector3 winnerOffset = new Vector3(0, 2f, -3f); // offset relativo al ganador
     public float focusDuration = 1.5f;
-    public float focusDistance = 2f;
+    
 
     Camera cam;
     Vector3 startPos;
@@ -19,7 +19,6 @@ public class CameraBonCollet : MonoBehaviour
 
     void Awake()
     {
-        cam = Camera.main;
         startPos = cam.transform.position;
         startRot = cam.transform.rotation;
     }
@@ -68,7 +67,14 @@ public class CameraBonCollet : MonoBehaviour
         Quaternion initialRot = main.transform.rotation;
 
         Vector3 targetPos = winner.position + winnerOffset;
-        Quaternion targetRot = Quaternion.LookRotation(winner.position - targetPos);
+        Vector3 lookAtPoint = winner.position + winner.forward;
+        Vector3 lookDir = lookAtPoint - targetPos;
+        if (lookDir.sqrMagnitude < 0.0001f)
+        {
+            lookDir = winner.position - targetPos;
+            if (lookDir.sqrMagnitude < 0.0001f) yield break;
+        }
+        Quaternion targetRot = Quaternion.LookRotation(lookDir.normalized, Vector3.up);
 
         float elapsed = 0f;
         while (elapsed < focusDuration)
@@ -80,5 +86,7 @@ public class CameraBonCollet : MonoBehaviour
             yield return null;
         }
         // mantener posición final
+        main.transform.position = targetPos;
+        main.transform.rotation = targetRot;
     }
 }
