@@ -70,14 +70,13 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator PlayMusicWhenAllowed()
     {
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        
+        // Espera interacción del usuario (click o touch) en WebGL
+        while (!Input.anyKeyDown && !Input.GetMouseButtonDown(0) && Input.touchCount == 0)
         {
-            // Espera interacción del usuario (click o touch) en WebGL
-            while (!Input.anyKeyDown && !Input.GetMouseButtonDown(0) && Input.touchCount == 0)
-            {
-                yield return null;
-            }
+            yield return null;
         }
+        
         PlayMusic(backgroundMusic, musicVolume);
     }
 

@@ -3,6 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 
 public class MochiCourtain : MonoBehaviour
 {
@@ -13,8 +16,9 @@ public class MochiCourtain : MonoBehaviour
     [SerializeField] TextMeshProUGUI percentValue;
     public static MochiCourtain Singleton;
 
-    [SerializeField] string coreSceneName = "Core"; // Escena base que nunca se descarga
+    [SerializeField] string coreSceneName = "Core"; // Escena base
     string lastLoadedScene = null;
+    AsyncOperationHandle<SceneInstance>? lastHandle = null;
     float disableTime = 1f;
 
     private void Awake()
@@ -83,48 +87,56 @@ public class MochiCourtain : MonoBehaviour
 
     private IEnumerator LoadSceneAdditiveCoroutine(string sceneName)
     {
+        // Si no es la escena base (core), cargar mediante Addressables
         if (sceneName != coreSceneName)
         {
-            // 1️⃣ Cargar la nueva escena de forma aditiva
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            asyncLoad.allowSceneActivation = false;
+            AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            lastHandle = handle;
 
+            while (!handle.IsDone)
+            {
+                float progress = Mathf.Clamp01(handle.PercentComplete);
+                if (fillImage != null)
+                {
+                    fillImage.fillAmount = progress;
+                    percentValue.text = $"{(int)(progress * 100f)}%";
+                }
+                yield return null;
+            }
+
+            SceneInstance instance = handle.Result;
+            SceneManager.SetActiveScene(instance.Scene);
+            canvas.worldCamera = Camera.main;
+        }
+        else
+        {
+            // Cargar escena base Core (no addressable)
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             while (!asyncLoad.isDone)
             {
                 float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
                 if (fillImage != null)
                 {
                     fillImage.fillAmount = progress;
-                    percentValue.text = $"{progress * 100f}%";
-                }
-                Debug.Log($"Cargando '{sceneName}' {progress * 100f}%");
-
-                if (asyncLoad.progress >= 0.9f)
-                {
-                    // Espera un momento para efectos visuales si quieres
-                    // yield return new WaitForSeconds(0.2f);
-                    asyncLoad.allowSceneActivation = true;
+                    percentValue.text = $"{(int)(progress * 100f)}%";
                 }
                 yield return null;
             }
         }
 
-        // 2️⃣ Activar la nueva escena como principal
-        Scene loadedScene = SceneManager.GetSceneByName(sceneName);
-        if (loadedScene.IsValid())
-        {
-            SceneManager.SetActiveScene(loadedScene);
-            canvas.worldCamera = Camera.main;
-        }
-        
-        // 3️⃣ Descargar la escena anterior (si no es la core)
+        // Descargar escena anterior si corresponde
         if (!string.IsNullOrEmpty(lastLoadedScene) && lastLoadedScene != coreSceneName)
         {
-            Debug.Log($"Descargando escena anterior: {lastLoadedScene}");
-            yield return SceneManager.UnloadSceneAsync(lastLoadedScene);
+            if (lastHandle.HasValue)
+            {
+                yield return Addressables.UnloadSceneAsync(lastHandle.Value);
+            }
+            else
+            {
+                yield return SceneManager.UnloadSceneAsync(lastLoadedScene);
+            }
         }
 
-        // 4️⃣ Guardar referencia a la nueva escena
         lastLoadedScene = sceneName;
     }
 }

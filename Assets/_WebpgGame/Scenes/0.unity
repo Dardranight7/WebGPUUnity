@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.028
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
+  m_AmbientSkyColor: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 2.12
@@ -1776,6 +1776,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235444049}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &242664992 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -2734772220397685855, guid: 6b224bc7fc0eafb44b9d403b42c03f95, type: 3}
+  m_PrefabInstance: {fileID: 743229062}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &265149004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1853,6 +1858,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 265149004}
   m_CullTransparentMesh: 1
+--- !u!114 &267477508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 0_LMA8
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 8
+  sortingID: 8
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 0
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!21 &286704316
 Material:
   serializedVersion: 8
@@ -2366,7 +2415,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -2706,7 +2755,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &381298858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4912,6 +4961,50 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8559776, y: 0.20078671, z: 1}
   m_Center: {x: 0, y: -0.07907909, z: 0}
+--- !u!114 &770947211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 0_LMA3
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 3
+  sortingID: 3
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 0
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &775349476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63601,6 +63694,28 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6755864378400921999, guid: 70f7152b909656b47af2060b01fffe40, type: 3}
   m_PrefabInstance: {fileID: 1693491278}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &822654221
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822654218}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1528320827674802389, guid: 70f7152b909656b47af2060b01fffe40, type: 3}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -64022,85 +64137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &877641659
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 877641662}
-  - component: {fileID: 877641661}
-  - component: {fileID: 877641660}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &877641660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 877641659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: 4ff433236aa632648ab84c8c4f42af97, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
-  m_ScrollDeltaPerTick: 6
---- !u!114 &877641661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 877641659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &877641662
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 877641659}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919079725 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3878788234483412855, guid: 70f7152b909656b47af2060b01fffe40, type: 3}
@@ -64509,7 +64545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &947206744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64899,6 +64935,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5c5cb3b71f0ba6447a2ebb7fef4c510a, type: 3}
   m_PrefabInstance: {fileID: 995126041}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &998030942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 0_LMA6
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 6
+  sortingID: 6
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 0
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &1002919512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65209,6 +65289,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055438649}
   m_CullTransparentMesh: 1
+--- !u!114 &1066994411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 0_LMA4
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 4
+  sortingID: 4
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 0
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1067115292
 GameObject:
   m_ObjectHideFlags: 0
@@ -65320,6 +65444,55 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067115292}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1071015588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 0_LMA7
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 7
+  sortingID: 7
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 0
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
+--- !u!23 &1089384033 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -2734772220397685855, guid: 6b224bc7fc0eafb44b9d403b42c03f95, type: 3}
+  m_PrefabInstance: {fileID: 2013545286}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1109902961
 GameObject:
   m_ObjectHideFlags: 0
@@ -66048,6 +66221,50 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &1243307345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 0_LMA2
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 2
+  sortingID: 2
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 0
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1269726500
 GameObject:
   m_ObjectHideFlags: 0
@@ -66134,7 +66351,7 @@ MonoBehaviour:
   renderSettingsAutoAtlas: 1
   renderSettingsUnwrapUVs: 1
   renderSettingsForceDisableUnwrapUVs: 0
-  renderSettingsMaxAutoResolution: 2048
+  renderSettingsMaxAutoResolution: 512
   renderSettingsMinAutoResolution: 16
   renderSettingsUnloadScenes: 1
   renderSettingsAdjustSamples: 1
@@ -66161,7 +66378,7 @@ MonoBehaviour:
   renderSettingsTexelsMask: 1
   renderSettingsTexelsDir: 1
   renderSettingsShowDirWarning: 1
-  renderSettingsRenderDirMode: 4
+  renderSettingsRenderDirMode: 0
   renderSettingsShowCheckerSettings: 0
   renderSettingsSamplesWarning: 1
   renderSettingsSuppressPopups: 0
@@ -66192,7 +66409,7 @@ MonoBehaviour:
   renderSettingsRTPVHDR: 0
   renderSettingsRTPVWidth: 640
   renderSettingsRTPVHeight: 360
-  lastBakeTime: 51
+  lastBakeTime: 69
   enlightenWarningShown: 0
   enlightenWarningShown2: 0
   uniqueLights:
@@ -66234,15 +66451,15 @@ MonoBehaviour:
       e00: 0.86602545
       e01: -0.38302216
       e02: -0.3213938
-      e03: -6.31485
+      e03: -1.0364599
       e10: 0
       e11: 0.6427877
       e12: -0.76604444
-      e13: 0.85164
+      e13: 2.80405
       e20: 0.49999994
       e21: 0.66341394
       e22: 0.5566704
-      e23: -0.35819995
+      e23: -1.42948
       e30: 0
       e31: 0
       e32: 0
@@ -66262,29 +66479,40 @@ MonoBehaviour:
     angle: 30
     UID: 2
   implicitGroups:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1243307345}
+  - {fileID: 1243307345}
+  - {fileID: 1243307345}
+  - {fileID: 770947211}
+  - {fileID: 998030942}
+  - {fileID: 1066994411}
+  - {fileID: 1521985307}
+  - {fileID: 1243307345}
+  - {fileID: 1521985307}
+  - {fileID: 1243307345}
+  - {fileID: 770947211}
+  - {fileID: 1066994411}
+  - {fileID: 1521985307}
+  - {fileID: 1243307345}
+  - {fileID: 1448613938}
+  - {fileID: 267477508}
+  - {fileID: 1243307345}
+  - {fileID: 1066994411}
+  - {fileID: 998030942}
+  - {fileID: 770947211}
+  - {fileID: 1066994411}
+  - {fileID: 1818305883}
+  - {fileID: 1071015588}
   implicitGroupedObjects:
+  - {fileID: 1710355711}
+  - {fileID: 26149187}
+  - {fileID: 2013545288}
+  - {fileID: 364571038}
   - {fileID: 629992021}
   - {fileID: 822654218}
   - {fileID: 859260746}
   - {fileID: 919079725}
   - {fileID: 974123689}
+  - {fileID: 743229064}
   - {fileID: 1151327354}
   - {fileID: 1171307966}
   - {fileID: 1309867791}
@@ -66294,17 +66522,30 @@ MonoBehaviour:
   - {fileID: 1918568717}
   - {fileID: 1937145880}
   - {fileID: 1951898515}
+  - {fileID: 1953565241}
   - {fileID: 1960088035}
   - {fileID: 2062718235}
   - {fileID: 2073955057}
   bounds:
-  - m_Center: {x: -1.4716387, y: 1.9740002, z: 4.26451}
+  - m_Center: {x: -1.4716382, y: 1.9740002, z: 4.26451}
     m_Extent: {x: 13.3178, y: 5.218291, z: 10.86413}
-  - m_Center: {x: -1.5793409, y: 2.2452068, z: 5.414737}
-    m_Extent: {x: 14.067152, y: 6.1929035, z: 12.090188}
-  - m_Center: {x: -3.3840199, y: 1.0760229, z: 5.4147367}
-    m_Extent: {x: 12.257624, y: 4.887789, z: 12.090188}
-  hasEmissive: 010101
+  - m_Center: {x: 2.1588433, y: -1.0309138, z: 5.414737}
+    m_Extent: {x: 10.101351, y: 2.318141, z: 12.090188}
+  - m_Center: {x: -3.4915962, y: 0.6374135, z: 6.4016943}
+    m_Extent: {x: 12.154897, y: 4.58511, z: 11.048643}
+  - m_Center: {x: -3.8001728, y: 0.20352507, z: 5.5945263}
+    m_Extent: {x: 11.841475, y: 4.015292, z: 11.910395}
+  - m_Center: {x: 3.143177, y: 4.4763985, z: 5.409053}
+    m_Extent: {x: 8.445609, y: 3.961712, z: 11.656787}
+  - m_Center: {x: 3.4348993, y: 2.5206046, z: 9.178229}
+    m_Extent: {x: 9.052914, y: 2.8578978, z: 8.3266945}
+  - m_Center: {x: 5.5448413, y: 3.430258, z: 14.871616}
+    m_Extent: {x: 3.3287635, y: 2.5335538, z: 2.6333084}
+  - m_Center: {x: -10.517351, y: -2.0551689, z: -3.435938}
+    m_Extent: {x: 5.124292, y: 1.756597, z: 3.2395132}
+  - m_Center: {x: -0.8860071, y: 3.218671, z: 15.601813}
+    m_Extent: {x: 3.7559662, y: 2.264291, z: 1.9031096}
+  hasEmissive: 010101010101010101
   uvBuffOffsets: 
   uvBuffLengths: 
   uvSrcBuff: []
@@ -66316,10 +66557,10 @@ MonoBehaviour:
   lmGroupMinLOD: 
   lmGroupLODMatrix: 
   serverGetFileList: []
-  lightmapHasColor: 010101
-  lightmapHasMask: 000000000000000000000000
-  lightmapHasDir: 000000
-  lightmapHasRNM: 010101
+  lightmapHasColor: 010101010101010101
+  lightmapHasMask: 000000000000000000000000000000000000000000000000000000000000000000000000
+  lightmapHasDir: 000000000000000000
+  lightmapHasRNM: 000000000000000000
   modifiedAssetPathList:
   - Assets/_WebpgGame/_Alpina/Art/3D/Lobby/OtherLobby/Lobby Texturas.fbx
   - Assets/_WebpgGame/_Alpina/Art/3D/Lobby/Cristal/LobbyCrystalLow.fbx
@@ -66348,30 +66589,32 @@ MonoBehaviour:
     padding: 76000000
     unwrapper: 00000000
   maps:
-  - {fileID: 2800000, guid: 714e8028bdcc9bc489e3349593ca09a1, type: 3}
-  - {fileID: 2800000, guid: 8ed72ca0e4dd1b74bac2d87e3fe46fe2, type: 3}
-  - {fileID: 2800000, guid: 347f263e3c295ed4ba0cee55c8b8ce3d, type: 3}
+  - {fileID: 2800000, guid: fe445dc7c71cb384f85384af1a273be6, type: 3}
+  - {fileID: 2800000, guid: ef10ceeddbeec4048a438a8bea39877d, type: 3}
+  - {fileID: 2800000, guid: a31a74096be68124196eb3abf25c6733, type: 3}
+  - {fileID: 2800000, guid: d22d061934f51e04bb87c9f554922caa, type: 3}
+  - {fileID: 2800000, guid: 5ad0ae72ee7985a4abbb770cc60b29ea, type: 3}
+  - {fileID: 2800000, guid: 5bbe9c0afb03ced488e08d3ce3e4c2c5, type: 3}
+  - {fileID: 2800000, guid: 2fccd7f846316bd4eac9b36b7bbd977c, type: 3}
+  - {fileID: 2800000, guid: aea8b9f1b49218140952abdd8bb989c9, type: 3}
+  - {fileID: 2800000, guid: 04a9619081cae4e4b9ff67a70096b953, type: 3}
   masks: []
   dirMaps: []
-  rnmMaps0:
-  - {fileID: 2800000, guid: 9391e9689ed5a514e834ca60bc5c9960, type: 3}
-  - {fileID: 2800000, guid: 64ee1abdf5c494f4fa4108ca9f14c8f9, type: 3}
-  - {fileID: 2800000, guid: 212c61fb87346ff40a1f86084c7a817d, type: 3}
-  rnmMaps1:
-  - {fileID: 2800000, guid: 3ee8c47b7c6e22346aa3baaa25a78294, type: 3}
-  - {fileID: 2800000, guid: 26c42ceacb4dd844aa500c8d63f93217, type: 3}
-  - {fileID: 2800000, guid: d96ff454e10a57045b3e85bc1cbee1f6, type: 3}
-  rnmMaps2:
-  - {fileID: 2800000, guid: 8c4685f2322f6cb4588cac61b6f9dc6b, type: 3}
-  - {fileID: 2800000, guid: f909bfbb3173c724e951c120653a18ca, type: 3}
-  - {fileID: 2800000, guid: ea6c7be0cd97d604fa9dbf6982c9203f, type: 3}
-  mapsMode: 030000000300000003000000
+  rnmMaps0: []
+  rnmMaps1: []
+  rnmMaps2: []
+  mapsMode: 
   bakedRenderers:
+  - {fileID: 1300315246}
+  - {fileID: 26149188}
+  - {fileID: 1089384033}
+  - {fileID: 364571040}
   - {fileID: 629992024}
   - {fileID: 822654220}
   - {fileID: 859260749}
   - {fileID: 919079729}
   - {fileID: 974123692}
+  - {fileID: 242664992}
   - {fileID: 1151327357}
   - {fileID: 1171307969}
   - {fileID: 1309867794}
@@ -66381,30 +66624,43 @@ MonoBehaviour:
   - {fileID: 1918568718}
   - {fileID: 1937145882}
   - {fileID: 1951898517}
+  - {fileID: 1953565242}
   - {fileID: 1960088038}
   - {fileID: 2062718238}
   - {fileID: 2073955060}
-  bakedIDs: 0100000001000000010000000000000002000000010000000100000001000000010000000000000002000000000000000100000002000000020000000100000002000000
+  bakedIDs: 0200000002000000020000000300000006000000040000000500000002000000050000000200000003000000040000000500000002000000000000000800000002000000040000000600000003000000040000000100000007000000
   bakedScaleOffset:
-  - {x: 0.25138032, y: 0.2697627, z: 0.7882814, w: 0.34975988}
-  - {x: 0.33460978, y: 0.3588281, z: 0.52125156, w: -0.0042050164}
-  - {x: 0.20489623, y: 0.21842124, z: 0.5209708, w: 0.35107622}
-  - {x: 0.11955723, y: 0.11003527, z: -0.00525398, w: 0.90299404}
-  - {x: 0.5926666, y: 0.51627415, z: -0.0075240885, w: -0.0065542622}
-  - {x: 0.41662744, y: 0.44729608, z: 0.40659282, w: 0.56282765}
-  - {x: 0.18129039, y: 0.19839655, z: 0.7894332, w: 0.6133395}
-  - {x: 0.21853733, y: 0.23419437, z: 0.7870663, w: 0.79291016}
-  - {x: 0.41930825, y: 0.44749224, z: -0.004094807, w: 0.56282574}
-  - {x: 1.0058962, y: 0.9124606, z: -0.003929282, w: -0.0035642993}
-  - {x: 0.4305979, y: 0.37537694, z: 0.57525134, w: -0.006231844}
-  - {x: 0.041550096, y: 0.038260072, z: 0.1134133, w: 0.9078296}
-  - {x: 0.13726099, y: 0.14739506, z: 0.8568609, w: 0}
-  - {x: 0.47205058, y: 0.4114712, z: 0, w: 0.41841003}
-  - {x: 0.39666623, y: 0.35422897, z: 0.4608168, w: 0.8142469}
-  - {x: 0.5419289, y: 0.58088595, z: -0.0037045921, w: -0.0039709}
-  - {x: 0.47316107, y: 0.41593802, z: 0.46620685, w: 0.411911}
-  bakedVertexOffset: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  - {x: 0.14827898, y: 0.12174716, z: 0.56145376, w: 0.81560385}
+  - {x: 0.20044982, y: 0.16356055, z: 0.21701261, w: 0.78744316}
+  - {x: 0.14827898, y: 0.12174716, z: 0.71641743, w: 0.81560385}
+  - {x: 0.28385928, y: 0.3414384, z: 0.7401666, w: 0.2153225}
+  - {x: 0.53385377, y: 0.87005377, z: 0.6090755, w: -0.01869256}
+  - {x: 0.71661663, y: 0.67147034, z: -0.008397851, w: -0.007868794}
+  - {x: 0.5074813, y: 0.41530794, z: -0.010407331, w: 0.59510463}
+  - {x: 0.2654576, y: 0.21985273, z: -0.011665618, w: 0.8061801}
+  - {x: 0.9056642, y: 0.744806, z: -0.01149769, w: -0.009455545}
+  - {x: 0.14827895, y: 0.12174716, z: 0.40649006, w: 0.81560385}
+  - {x: 0.8491821, y: 1.0334836, z: -0.008292794, w: -0.010092614}
+  - {x: 0.3882603, y: 0.37125686, z: 0.48984307, w: 0.65664524}
+  - {x: 0.54126734, y: 0.44529906, z: 0.47261155, w: 0.590141}
+  - {x: 1.0284728, y: 0.8373865, z: -0.01004368, w: -0.008177603}
+  - {x: 1.0058963, y: 1.0084039, z: -0.0039292825, w: -0.0039390777}
+  - {x: 1.0311252, y: 1.135634, z: -0.017118288, w: -0.0188533}
+  - {x: 0.09225532, y: 0.0764444, z: 0.8716707, w: 0.8158416}
+  - {x: 0.29396486, y: 0.2758185, z: 0.7103594, w: 0}
+  - {x: 0.6185149, y: 1.0069106, z: 0, w: 0}
+  - {x: 0.28385928, y: 0.3414384, z: 0.7401666, w: -0.04873618}
+  - {x: 0.5241362, y: 0.502935, z: -0.016891107, w: 0.6491387}
+  - {x: 1.0377579, y: 1.029901, z: -0.007094048, w: -0.007040339}
+  - {x: 1.1688762, y: 1.0319293, z: -0.01826369, w: -0.016123895}
+  bakedVertexOffset: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   bakedVertexColorMesh:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -66431,21 +66687,62 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 010000000200000003000000
+  idremap: 010000000200000003000000040000000500000006000000070000000800000009000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
   compressedVolumes: 0
   sectors:
   - name: $G
-    maps: []
+    maps:
+    - {fileID: 2800000, guid: 714e8028bdcc9bc489e3349593ca09a1, type: 3}
+    - {fileID: 2800000, guid: 8ed72ca0e4dd1b74bac2d87e3fe46fe2, type: 3}
+    - {fileID: 2800000, guid: 347f263e3c295ed4ba0cee55c8b8ce3d, type: 3}
+    - {fileID: 2800000, guid: 597b3716123b5d946aae2813d8e06225, type: 3}
+    - {fileID: 2800000, guid: d4c57216efc6ab847bea1ee15377b8b8, type: 3}
+    - {fileID: 2800000, guid: 543198cc76a2dd949a4b70924bb8f059, type: 3}
+    - {fileID: 2800000, guid: 1aea9ddc9846a18409beee57a7b8df59, type: 3}
+    - {fileID: 2800000, guid: b10e668b67523e54ea9c9ef667337fcb, type: 3}
+    - {fileID: 2800000, guid: 978b6c505e840c94fbb3cfee0cb30af0, type: 3}
     masks: []
     dirMaps: []
-    rnmMaps0: []
-    rnmMaps1: []
-    rnmMaps2: []
-    mapsMode: 
+    rnmMaps0:
+    - {fileID: 2800000, guid: 9391e9689ed5a514e834ca60bc5c9960, type: 3}
+    - {fileID: 2800000, guid: 64ee1abdf5c494f4fa4108ca9f14c8f9, type: 3}
+    - {fileID: 2800000, guid: 212c61fb87346ff40a1f86084c7a817d, type: 3}
+    - {fileID: 2800000, guid: 2b59f8068eff89d4daa934fa31a6fcd7, type: 3}
+    - {fileID: 2800000, guid: 55648d052720b3d4fbcdf3ee0a133bc0, type: 3}
+    - {fileID: 2800000, guid: 14ca3273947549a439f7291ceb5c31f5, type: 3}
+    - {fileID: 2800000, guid: 4623997ac8b3d2d41a25da1d551dfbb0, type: 3}
+    - {fileID: 2800000, guid: b78d905ea42f42d4d9b4c76c5e8e9ae0, type: 3}
+    - {fileID: 2800000, guid: 87a28a1c957e03c44a2d8cef0c9b76fb, type: 3}
+    rnmMaps1:
+    - {fileID: 2800000, guid: 3ee8c47b7c6e22346aa3baaa25a78294, type: 3}
+    - {fileID: 2800000, guid: 26c42ceacb4dd844aa500c8d63f93217, type: 3}
+    - {fileID: 2800000, guid: d96ff454e10a57045b3e85bc1cbee1f6, type: 3}
+    - {fileID: 2800000, guid: 9f7e220aed607994f8b80fbe217221eb, type: 3}
+    - {fileID: 2800000, guid: 748d9c772536ac941874265493426201, type: 3}
+    - {fileID: 2800000, guid: 48c58dca8be510d4aa6aba087f234ecf, type: 3}
+    - {fileID: 2800000, guid: d719d8ea32a681f409e4ea63ad236a1a, type: 3}
+    - {fileID: 2800000, guid: 80b8378d525ed294f8e25b673db1af7c, type: 3}
+    - {fileID: 2800000, guid: 655b31f669019a7459b6aed3e4181e5f, type: 3}
+    rnmMaps2:
+    - {fileID: 2800000, guid: 8c4685f2322f6cb4588cac61b6f9dc6b, type: 3}
+    - {fileID: 2800000, guid: f909bfbb3173c724e951c120653a18ca, type: 3}
+    - {fileID: 2800000, guid: ea6c7be0cd97d604fa9dbf6982c9203f, type: 3}
+    - {fileID: 2800000, guid: 89241bb53a3d7aa4fb09ad07f8c91e83, type: 3}
+    - {fileID: 2800000, guid: 9fe84532ab4e91c448b022c301c5865d, type: 3}
+    - {fileID: 2800000, guid: 1d8757915430090468d831f068bbbe56, type: 3}
+    - {fileID: 2800000, guid: 0b889754abe593040ab27f310c4d01fe, type: 3}
+    - {fileID: 2800000, guid: a54e19c8ba84f9b46912213e1947d58f, type: 3}
+    - {fileID: 2800000, guid: a97ce76d914849a4d8954c04e104f1b9, type: 3}
+    mapsMode: 030000000300000003000000030000000300000003000000030000000300000003000000
     bakedRenderers:
+    - {fileID: 1089384033}
+    - {fileID: 1300315246}
+    - {fileID: 242664992}
+    - {fileID: 26149188}
+    - {fileID: 364571040}
     - {fileID: 629992024}
     - {fileID: 822654220}
     - {fileID: 859260749}
@@ -66460,29 +66757,42 @@ MonoBehaviour:
     - {fileID: 1918568718}
     - {fileID: 1937145882}
     - {fileID: 1951898517}
+    - {fileID: 1953565242}
     - {fileID: 1960088038}
     - {fileID: 2062718238}
     - {fileID: 2073955060}
-    bakedIDs: 0100000001000000010000000000000002000000010000000100000001000000010000000000000002000000000000000100000002000000020000000100000002000000
+    bakedIDs: 0200000002000000020000000200000003000000060000000400000005000000020000000500000003000000040000000500000002000000000000000800000002000000040000000600000003000000040000000100000007000000
     bakedScaleOffset:
-    - {x: 0.25138032, y: 0.2697627, z: 0.7882814, w: 0.34975988}
-    - {x: 0.33460978, y: 0.3588281, z: 0.52125156, w: -0.0042050164}
-    - {x: 0.20489623, y: 0.21842124, z: 0.5209708, w: 0.35107622}
-    - {x: 0.11955723, y: 0.11003527, z: -0.00525398, w: 0.90299404}
-    - {x: 0.5926666, y: 0.51627415, z: -0.0075240885, w: -0.0065542622}
-    - {x: 0.41662744, y: 0.44729608, z: 0.40659282, w: 0.56282765}
-    - {x: 0.18129039, y: 0.19839655, z: 0.7894332, w: 0.6133395}
-    - {x: 0.21853733, y: 0.23419437, z: 0.7870663, w: 0.79291016}
-    - {x: 0.41930825, y: 0.44749224, z: -0.004094807, w: 0.56282574}
-    - {x: 1.0058962, y: 0.9124606, z: -0.003929282, w: -0.0035642993}
-    - {x: 0.4305979, y: 0.37537694, z: 0.57525134, w: -0.006231844}
-    - {x: 0.041550096, y: 0.038260072, z: 0.1134133, w: 0.9078296}
-    - {x: 0.13726099, y: 0.14739506, z: 0.8568609, w: 0}
-    - {x: 0.47205058, y: 0.4114712, z: 0, w: 0.41841003}
-    - {x: 0.39666623, y: 0.35422897, z: 0.4608168, w: 0.8142469}
-    - {x: 0.5419289, y: 0.58088595, z: -0.0037045921, w: -0.0039709}
-    - {x: 0.47316107, y: 0.41593802, z: 0.46620685, w: 0.411911}
+    - {x: 0.14827898, y: 0.12174716, z: 0.71641743, w: 0.81560385}
+    - {x: 0.14827898, y: 0.12174716, z: 0.56145376, w: 0.81560385}
+    - {x: 0.14827895, y: 0.12174716, z: 0.40649006, w: 0.81560385}
+    - {x: 0.20044982, y: 0.16356055, z: 0.21701261, w: 0.78744316}
+    - {x: 0.28385928, y: 0.3414384, z: 0.7401666, w: 0.2153225}
+    - {x: 0.53385377, y: 0.87005377, z: 0.6090755, w: -0.01869256}
+    - {x: 0.71661663, y: 0.67147034, z: -0.008397851, w: -0.007868794}
+    - {x: 0.5074813, y: 0.41530794, z: -0.010407331, w: 0.59510463}
+    - {x: 0.2654576, y: 0.21985273, z: -0.011665618, w: 0.8061801}
+    - {x: 0.9056642, y: 0.744806, z: -0.01149769, w: -0.009455545}
+    - {x: 0.8491821, y: 1.0334836, z: -0.008292794, w: -0.010092614}
+    - {x: 0.3882603, y: 0.37125686, z: 0.48984307, w: 0.65664524}
+    - {x: 0.54126734, y: 0.44529906, z: 0.47261155, w: 0.590141}
+    - {x: 1.0284728, y: 0.8373865, z: -0.01004368, w: -0.008177603}
+    - {x: 1.0058963, y: 1.0084039, z: -0.0039292825, w: -0.0039390777}
+    - {x: 1.0311252, y: 1.135634, z: -0.017118288, w: -0.0188533}
+    - {x: 0.09225532, y: 0.0764444, z: 0.8716707, w: 0.8158416}
+    - {x: 0.29396486, y: 0.2758185, z: 0.7103594, w: 0}
+    - {x: 0.6185149, y: 1.0069106, z: 0, w: 0}
+    - {x: 0.28385928, y: 0.3414384, z: 0.7401666, w: -0.04873618}
+    - {x: 0.5241362, y: 0.502935, z: -0.016891107, w: 0.6491387}
+    - {x: 1.0377579, y: 1.029901, z: -0.007094048, w: -0.007040339}
+    - {x: 1.1688762, y: 1.0319293, z: -0.01826369, w: -0.016123895}
     bakedVertexColorMesh:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -66765,6 +67075,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1300315246 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -2734772220397685855, guid: 6b224bc7fc0eafb44b9d403b42c03f95, type: 3}
+  m_PrefabInstance: {fileID: 1710355709}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1302093859
 GameObject:
   m_ObjectHideFlags: 0
@@ -67633,7 +67948,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1427347375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67751,6 +68066,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8206594125072729194, guid: 842b8b31c1d299948bf38a70fe357b28, type: 3}
   m_PrefabInstance: {fileID: 1445018130}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1448613938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 0_LM0
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 0
+  sortingID: 0
+  isImplicit: 1
+  area: 5030.9595
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 0
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1458644501
 GameObject:
   m_ObjectHideFlags: 0
@@ -67882,6 +68241,50 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1521985307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 0_LMA5
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 5
+  sortingID: 5
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 0
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1526007168
 GameObject:
   m_ObjectHideFlags: 0
@@ -72185,6 +72588,28 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 518248460824882379, guid: 70f7152b909656b47af2060b01fffe40, type: 3}
   m_PrefabInstance: {fileID: 1693491278}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &1606202496
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606202493}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1076175726337843065, guid: 70f7152b909656b47af2060b01fffe40, type: 3}
 --- !u!1001 &1610829606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73008,6 +73433,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 538338661}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -6660120548403725226, guid: 70f7152b909656b47af2060b01fffe40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1606202496}
+    - targetCorrespondingSourceObject: {fileID: 4958789081472260964, guid: 70f7152b909656b47af2060b01fffe40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 822654221}
     - targetCorrespondingSourceObject: {fileID: -7497083241857189544, guid: 70f7152b909656b47af2060b01fffe40, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2062718237}
@@ -74203,6 +74634,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787174325}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1818305883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 0_LMA1
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 512
+  bitmask: 1
+  id: 1
+  sortingID: 1
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 0
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1819194006
 GameObject:
   m_ObjectHideFlags: 0
@@ -75507,7 +75982,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -89330,7 +89805,6 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 2073618908}
   - {fileID: 832575519}
-  - {fileID: 877641662}
   - {fileID: 8827919051865939116}
   - {fileID: 1273909118}
   - {fileID: 1693491278}
