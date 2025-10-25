@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MochiCourtain : MonoBehaviour
 {
-    [SerializeField] public Transform bubblesParent;
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] public Canvas canvas;
     [SerializeField] Image fillImage;
@@ -31,9 +31,23 @@ public class MochiCourtain : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        Screen.SetResolution(1280, 720, true);
+    }
+
     private void OnDestroy()
     {
         SceneManager.activeSceneChanged -= ChangeTargetCanvas;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Debug.Log($"Memoria usada: {Profiler.GetTotalAllocatedMemoryLong() / 1048576f} MB");
+        }
     }
 
     public IEnumerator ShowCourtain(float time)
@@ -46,7 +60,6 @@ public class MochiCourtain : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-        bubblesParent.gameObject.SetActive(true);
         canvasGroup.alpha = 1f;
     }
 
@@ -59,7 +72,6 @@ public class MochiCourtain : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-        bubblesParent.gameObject.SetActive(false);
         canvasGroup.alpha = 0f;
     }
 
@@ -83,6 +95,16 @@ public class MochiCourtain : MonoBehaviour
 
     private IEnumerator LoadSceneAdditiveCoroutine(string sceneName)
     {
+        // 3️⃣ Descargar la escena anterior (si no es la core)
+        if (!string.IsNullOrEmpty(lastLoadedScene) && lastLoadedScene != coreSceneName)
+        {
+            Debug.Log($"Descargando escena anterior: {lastLoadedScene}");
+            yield return SceneManager.UnloadSceneAsync(lastLoadedScene);
+            // Libera objetos inactivos de la escena actual
+            Resources.UnloadUnusedAssets();
+            System.GC.Collect(); // Fuerza el GC de C#
+        }
+
         if (sceneName != coreSceneName)
         {
             // 1️⃣ Cargar la nueva escena de forma aditiva
@@ -117,13 +139,6 @@ public class MochiCourtain : MonoBehaviour
             canvas.worldCamera = Camera.main;
         }
         
-        // 3️⃣ Descargar la escena anterior (si no es la core)
-        if (!string.IsNullOrEmpty(lastLoadedScene) && lastLoadedScene != coreSceneName)
-        {
-            Debug.Log($"Descargando escena anterior: {lastLoadedScene}");
-            yield return SceneManager.UnloadSceneAsync(lastLoadedScene);
-        }
-
         // 4️⃣ Guardar referencia a la nueva escena
         lastLoadedScene = sceneName;
     }

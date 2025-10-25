@@ -51,6 +51,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   pickupEffect: {fileID: 7888857835762348946, guid: 84dab4a8cf751fc4181b5f09a6186c21, type: 3}
+  coinClip: {fileID: 0}
+  coinVolume: 1
 --- !u!65 &5418743464661444632
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -196,7 +198,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3922247334887890555, guid: e62e775cb5c996a4c944ff20f3cec481, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
