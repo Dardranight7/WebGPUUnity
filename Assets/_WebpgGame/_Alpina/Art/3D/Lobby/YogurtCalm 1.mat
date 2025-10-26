@@ -8,18 +8,18 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: YogurtCalm 1
-  m_Shader: {fileID: -6465566751694194690, guid: 2456766c029698345a6b9ee53338a2f7, type: 3}
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _GLOSSYREFLECTIONS_OFF
+  m_InvalidKeywords:
   - _RECEIVE_SHADOWS_OFF
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2001
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   - SHADOWCASTER
@@ -105,6 +105,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
+    - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -119,6 +120,7 @@ Material:
     - _Strenght: 0.05
     - _Surface: 0
     - _TransparencyPower: 2
+    - _UVSec: 0
     - _VertexMovementScale: 0.004
     - _VoronoiAgitation: 6
     - _VoronoiPower: 4
