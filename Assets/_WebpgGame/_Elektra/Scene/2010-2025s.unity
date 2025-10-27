@@ -7630,8 +7630,8 @@ MonoBehaviour:
   renderSettingsPostPacking: 1
   renderSettingsHoleFilling: 0
   renderSettingsBeepOnFinish: 0
-  renderSettingsExportTerrainAsHeightmap: 0
-  renderSettingsRTXMode: 1
+  renderSettingsExportTerrainAsHeightmap: 1
+  renderSettingsRTXMode: 0
   renderSettingsLightProbeMode: 1
   renderSettingsClientMode: 0
   renderSettingsServerAddress: 127.0.0.1
@@ -11381,7 +11381,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 00000000
+  idremap: 01000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
@@ -19081,6 +19081,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b75caddd8b911064ea0a172c376fe233, type: 3}
   m_PrefabInstance: {fileID: 1001028880}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1006301607
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6860059414912056196, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_Name
+      value: EraModerna
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1107.9373
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 364.26337
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764639015425453720, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 95c80c9378c8ddf4287c6d27bf3cc030, type: 3}
 --- !u!1001 &1011482094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31655,3 +31712,4 @@ SceneRoots:
   - {fileID: 90737125}
   - {fileID: 273296062}
   - {fileID: 881591687}
+  - {fileID: 1006301607}
