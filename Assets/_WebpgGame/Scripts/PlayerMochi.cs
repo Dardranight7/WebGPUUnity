@@ -61,6 +61,12 @@ public class PlayerMochi : MonoBehaviour
                 if (swimmingMinigameController != null)
                     swimmingMinigameController.SwimmingPlayerUI.ChangeImage(Backend.singleton.MochiDB[index].image);
             }
+
+            List<MochiProp> mochiProps = new List<MochiProp>(GetComponentsInChildren<MochiProp>(true));
+            foreach (var prop in mochiProps)
+            {
+                prop.gameObject.SetActive(false);
+            }
         }
     }
 }

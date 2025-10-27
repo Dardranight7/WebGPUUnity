@@ -10,14 +10,9 @@ public class AuthManager : MonoBehaviour
     [SerializeField] TMP_InputField email;
     [SerializeField] TMP_InputField password;
     [SerializeField] Button button;
-    [SerializeField] Transform authParent;
 
     [SerializeField] TMP_InputField registerEmail, registerPassword, nombre, apellido, registerUserName, phone, numeroDocumento, city;
     [SerializeField] TMP_Dropdown documentType;
-
-    [SerializeField] List<TextMeshProUGUI> gems = new List<TextMeshProUGUI>();
-    [SerializeField] List<TextMeshProUGUI> littleGems = new List<TextMeshProUGUI>();
-    [SerializeField] List<Image> Frames = new(), Profiles = new();
 
     [SerializeField] Transform recompenseParent;
     [SerializeField] TextMeshProUGUI recompenseName;
@@ -41,7 +36,6 @@ public class AuthManager : MonoBehaviour
         button.onClick.AddListener(Login);
         if (!string.IsNullOrEmpty(Backend.singleton.Serial))
         {
-            authParent.gameObject.SetActive(false);
             MainMenu.gameObject.SetActive(true);
             //textoCodigoAmigo.text = Backend.singleton.Serial.Substring(0, Backend.singleton.Serial.Length - 1);
             Backend.singleton.GetUserData(Backend.singleton.Serial, (a) =>
@@ -61,7 +55,6 @@ public class AuthManager : MonoBehaviour
    public void ShowLogin()
     {
         MainMenu.SetActive(false);
-        authParent.gameObject.SetActive(true);
     }
 
     //public void ShowDailyRecompense(Backend.Response a)
@@ -116,7 +109,6 @@ public class AuthManager : MonoBehaviour
                 {
                     Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(a.data);
                     Backend.singleton.playerProfile = datos;
-                    authParent.gameObject.SetActive(false);
                     Backend.OnPlayerProfileUpdate?.Invoke();
                 });
                 MainMenu.SetActive(false);
@@ -147,7 +139,6 @@ public class AuthManager : MonoBehaviour
                 Backend.singleton.Serial = datos.serial;
                 Backend.singleton.playerProfile = datos;
                 Backend.OnPlayerProfileUpdate?.Invoke();
-                authParent.gameObject.SetActive(false);
                 MochiCourtain.Singleton.LoadSceneWithCourtain("0",1);
             }
             else if (a.code == 2) 
