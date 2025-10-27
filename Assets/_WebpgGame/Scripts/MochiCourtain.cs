@@ -34,7 +34,7 @@ public class MochiCourtain : MonoBehaviour
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Screen.SetResolution(1280, 720, true);
+        Screen.SetResolution(1280, 720, false);
     }
 
     private void OnDestroy()
@@ -53,6 +53,7 @@ public class MochiCourtain : MonoBehaviour
     public IEnumerator ShowCourtain(float time)
     {
         disableTime = time;
+        canvasGroup.alpha = 0f;
         float elapsed = 0f;
         while (elapsed < time)
         {
@@ -66,6 +67,7 @@ public class MochiCourtain : MonoBehaviour
     public IEnumerator HideCourtain(float time)
     {
         float elapsed = 0f;
+        canvasGroup.alpha = 1f;
         while (elapsed < time)
         {
             canvasGroup.alpha = 1f - (elapsed / time);

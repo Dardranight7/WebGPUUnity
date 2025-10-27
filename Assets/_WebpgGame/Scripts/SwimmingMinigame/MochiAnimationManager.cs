@@ -12,7 +12,6 @@ public class MochiAnimationManager : MonoBehaviour
                 if (anim != null)
                 {
                     anim.SetFloat("Velocity", velocity);
-                    Debug.Log("trying to setup velocity");
                 }
             }
         }
