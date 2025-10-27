@@ -14,15 +14,14 @@ public class PopUpInformationScript : MonoBehaviour
 
     public void SetInformationPicture(PopUpInfo popUpInfo)
     {
-        textTitle.gameObject.SetActive(true);
-        textYear.gameObject.SetActive(true);
-        textDescription.gameObject.SetActive(true);
-        
-        textTitle.text = popUpInfo.title;
-        textYear.text = popUpInfo.year;
-        textDescription.text = popUpInfo.description;
+        textTitle?.gameObject.SetActive(true);
+        textYear?.gameObject.SetActive(true);
+        textDescription?.gameObject.SetActive(true);
+
+        if (textTitle != null) textTitle.text = popUpInfo.title;
+        if (textYear != null) textYear.text = popUpInfo.year;
+        if (textDescription != null) textDescription.text = popUpInfo.description;
         picture.sprite = popUpInfo.image;
-        
     }
     
     public void SetPicture(PopUpInfo popUpInfo)

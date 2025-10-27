@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 
@@ -63,12 +64,20 @@ public class ElektraActivity : MonoBehaviour
     {
         UIAudioManager.Instance?.PlayLoadSound();
     }
-    public void PlayAudio(AudioClip clip)
+    public void PlayAudio()
     {
-        UIAudioManager.Instance?.PlaySequence(AudioSource, new []
+        AudioClip finalClip = AudioSource.clip;
+        if (finalClip != null)
         {
-            UIAudioManager.Instance?.loadSoundSound,
-            clip
-        });
+            UIAudioManager.Instance?.PlaySequence(AudioSource, new []
+            {
+                UIAudioManager.Instance?.loadSoundSound,
+                finalClip
+            });
+        }
+        else
+        {
+            Debug.LogWarning("No se pudo reproducir el audio: El clip es nulo y el AudioSource no tiene un clip asignado.");
+        }
     }
 }
