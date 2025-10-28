@@ -10,6 +10,5 @@ public class ButtonTeleport : MonoBehaviour
     {
         TeleportEvents.SelectScene(toScene);
         TeleportEvents.ActivePortal(texture);
-
     }
 }
