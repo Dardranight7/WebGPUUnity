@@ -301,7 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -516042934
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -540,7 +540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -747988777
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -972800363
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -2718,7 +2718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -756105775
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -3033,7 +3033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 149704203
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -3576,7 +3576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 1961209549
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -4781,6 +4781,50 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &355567822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: 90-2000s_LM0
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 2048
+  bitmask: 1
+  id: 0
+  sortingID: 0
+  isImplicit: 1
+  area: 8225.131
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 90-2000s
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &358254974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5342,7 +5386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 2060915012
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -5618,7 +5662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -1059838357
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -8018,50 +8062,6 @@ Transform:
   - {fileID: 1397075793}
   m_Father: {fileID: 1325206743}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &675271871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: 90-2000s_LM0
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 2048
-  bitmask: 1
-  id: 0
-  sortingID: 0
-  isImplicit: 1
-  area: 8225.136
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 90-2000s
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &687623751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8641,7 +8641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 1618163788
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -8804,7 +8804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 500247833
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -10634,7 +10634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 1536235047
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -13866,7 +13866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -1740715374
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -14599,7 +14599,7 @@ MonoBehaviour:
   renderSettingsRTPVHDR: 0
   renderSettingsRTPVWidth: 640
   renderSettingsRTPVHeight: 360
-  lastBakeTime: 9
+  lastBakeTime: 15
   enlightenWarningShown: 0
   enlightenWarningShown2: 0
   uniqueLights:
@@ -14676,7 +14676,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14707,7 +14707,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14738,7 +14738,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14769,7 +14769,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14800,7 +14800,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14831,7 +14831,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14862,7 +14862,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14893,7 +14893,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14924,7 +14924,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14955,7 +14955,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -14986,7 +14986,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15017,7 +15017,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15048,7 +15048,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15079,7 +15079,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15110,7 +15110,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15141,7 +15141,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15172,7 +15172,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15203,7 +15203,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15234,7 +15234,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15265,7 +15265,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15296,7 +15296,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15327,7 +15327,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     color: {r: 1, g: 1, b: 1, a: 1}
-    intensity: 1
+    intensity: 1.2
     range: 10
     radius: 0.05
     samples: 8
@@ -15341,240 +15341,236 @@ MonoBehaviour:
     angle: 30
     UID: 23
   implicitGroups:
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
-  - {fileID: 675271871}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
+  - {fileID: 355567822}
   implicitGroupedObjects:
-  - {fileID: 687623752}
-  - {fileID: 687623754}
-  - {fileID: 687623756}
-  - {fileID: 687623758}
-  - {fileID: 687623760}
-  - {fileID: 687623762}
-  - {fileID: 687623764}
-  - {fileID: 687623766}
+  - {fileID: 29102174}
+  - {fileID: 46494591}
+  - {fileID: 58683733}
+  - {fileID: 67386372}
   - {fileID: 70085053}
   - {fileID: 70085055}
   - {fileID: 70085057}
@@ -15587,34 +15583,37 @@ MonoBehaviour:
   - {fileID: 70085071}
   - {fileID: 70085073}
   - {fileID: 70085075}
-  - {fileID: 1822882259}
-  - {fileID: 1822882261}
-  - {fileID: 1822882263}
-  - {fileID: 1822882265}
-  - {fileID: 1822882267}
-  - {fileID: 1822882269}
-  - {fileID: 1822882271}
-  - {fileID: 1822882273}
-  - {fileID: 1315541257}
-  - {fileID: 1315541259}
-  - {fileID: 1315541261}
-  - {fileID: 1315541263}
-  - {fileID: 1315541265}
-  - {fileID: 1315541267}
-  - {fileID: 1315541269}
-  - {fileID: 1315541271}
-  - {fileID: 1315541273}
-  - {fileID: 1315541275}
-  - {fileID: 1315541277}
-  - {fileID: 1315541279}
-  - {fileID: 1875904946}
-  - {fileID: 1875904948}
-  - {fileID: 1875904950}
-  - {fileID: 1875904952}
-  - {fileID: 1875904954}
-  - {fileID: 1875904956}
-  - {fileID: 1875904958}
-  - {fileID: 1875904960}
+  - {fileID: 71767970}
+  - {fileID: 71767972}
+  - {fileID: 71767974}
+  - {fileID: 71767976}
+  - {fileID: 71767977}
+  - {fileID: 71767979}
+  - {fileID: 71767981}
+  - {fileID: 91828446}
+  - {fileID: 111543283}
+  - {fileID: 158213836}
+  - {fileID: 200480549}
+  - {fileID: 201675846}
+  - {fileID: 241861017}
+  - {fileID: 248344754}
+  - {fileID: 256913298}
+  - {fileID: 258418798}
+  - {fileID: 261803530}
+  - {fileID: 261803532}
+  - {fileID: 261803534}
+  - {fileID: 261803536}
+  - {fileID: 261803538}
+  - {fileID: 261803540}
+  - {fileID: 261803542}
+  - {fileID: 261803544}
+  - {fileID: 261803546}
+  - {fileID: 266193804}
+  - {fileID: 275372674}
+  - {fileID: 294640386}
+  - {fileID: 295309612}
+  - {fileID: 306009368}
+  - {fileID: 321664500}
   - {fileID: 358254975}
   - {fileID: 358254977}
   - {fileID: 358254979}
@@ -15636,62 +15635,10 @@ MonoBehaviour:
   - {fileID: 363295122}
   - {fileID: 363295124}
   - {fileID: 363295126}
-  - {fileID: 2057865190}
-  - {fileID: 2057865192}
-  - {fileID: 2057865194}
-  - {fileID: 261803530}
-  - {fileID: 261803532}
-  - {fileID: 261803534}
-  - {fileID: 261803536}
-  - {fileID: 261803538}
-  - {fileID: 261803540}
-  - {fileID: 261803542}
-  - {fileID: 261803544}
-  - {fileID: 261803546}
-  - {fileID: 1332576958}
-  - {fileID: 1332576960}
-  - {fileID: 1332576962}
-  - {fileID: 1332576964}
-  - {fileID: 1332576966}
-  - {fileID: 1332576968}
-  - {fileID: 1332576970}
-  - {fileID: 1332576972}
-  - {fileID: 1332576974}
-  - {fileID: 1267105244}
-  - {fileID: 1080795777}
-  - {fileID: 425252355}
-  - {fileID: 1108544961}
-  - {fileID: 973326335}
-  - {fileID: 1609685153}
-  - {fileID: 29102174}
-  - {fileID: 46494591}
-  - {fileID: 58683733}
-  - {fileID: 67386372}
-  - {fileID: 71767970}
-  - {fileID: 71767972}
-  - {fileID: 71767974}
-  - {fileID: 71767976}
-  - {fileID: 71767977}
-  - {fileID: 71767979}
-  - {fileID: 71767981}
-  - {fileID: 91828446}
-  - {fileID: 111543283}
-  - {fileID: 158213836}
-  - {fileID: 200480549}
-  - {fileID: 201675846}
-  - {fileID: 241861017}
-  - {fileID: 248344754}
-  - {fileID: 256913298}
-  - {fileID: 258418798}
-  - {fileID: 266193804}
-  - {fileID: 275372674}
-  - {fileID: 294640386}
-  - {fileID: 295309612}
-  - {fileID: 306009368}
-  - {fileID: 321664500}
   - {fileID: 385487759}
   - {fileID: 394884873}
   - {fileID: 404829123}
+  - {fileID: 425252355}
   - {fileID: 431374029}
   - {fileID: 432392641}
   - {fileID: 493239066}
@@ -15701,6 +15648,14 @@ MonoBehaviour:
   - {fileID: 646162521}
   - {fileID: 651488553}
   - {fileID: 654356722}
+  - {fileID: 687623752}
+  - {fileID: 687623754}
+  - {fileID: 687623756}
+  - {fileID: 687623758}
+  - {fileID: 687623760}
+  - {fileID: 687623762}
+  - {fileID: 687623764}
+  - {fileID: 687623766}
   - {fileID: 705422674}
   - {fileID: 722253304}
   - {fileID: 745617930}
@@ -15711,6 +15666,7 @@ MonoBehaviour:
   - {fileID: 894095966}
   - {fileID: 904473019}
   - {fileID: 927703679}
+  - {fileID: 973326335}
   - {fileID: 981424159}
   - {fileID: 991522500}
   - {fileID: 999535530}
@@ -15720,9 +15676,11 @@ MonoBehaviour:
   - {fileID: 1076996896}
   - {fileID: 1076996898}
   - {fileID: 1076996900}
+  - {fileID: 1080795777}
   - {fileID: 1082352251}
   - {fileID: 1087844482}
   - {fileID: 1102940509}
+  - {fileID: 1108544961}
   - {fileID: 1108546767}
   - {fileID: 1126828230}
   - {fileID: 1136768849}
@@ -15734,13 +15692,35 @@ MonoBehaviour:
   - {fileID: 1193715158}
   - {fileID: 1218774427}
   - {fileID: 1266545995}
+  - {fileID: 1267105244}
   - {fileID: 1281939432}
   - {fileID: 1284915939}
   - {fileID: 1305140332}
   - {fileID: 1314245159}
+  - {fileID: 1315541257}
+  - {fileID: 1315541259}
+  - {fileID: 1315541261}
+  - {fileID: 1315541263}
+  - {fileID: 1315541265}
+  - {fileID: 1315541267}
+  - {fileID: 1315541269}
+  - {fileID: 1315541271}
+  - {fileID: 1315541273}
+  - {fileID: 1315541275}
+  - {fileID: 1315541277}
+  - {fileID: 1315541279}
   - {fileID: 1322046811}
   - {fileID: 1327692557}
   - {fileID: 1331190610}
+  - {fileID: 1332576958}
+  - {fileID: 1332576960}
+  - {fileID: 1332576962}
+  - {fileID: 1332576964}
+  - {fileID: 1332576966}
+  - {fileID: 1332576968}
+  - {fileID: 1332576970}
+  - {fileID: 1332576972}
+  - {fileID: 1332576974}
   - {fileID: 1372217760}
   - {fileID: 1373004744}
   - {fileID: 1390441552}
@@ -15757,6 +15737,7 @@ MonoBehaviour:
   - {fileID: 1550841681}
   - {fileID: 1575843954}
   - {fileID: 1588248734}
+  - {fileID: 1609685153}
   - {fileID: 1618395450}
   - {fileID: 1652203254}
   - {fileID: 1677478648}
@@ -15774,9 +15755,25 @@ MonoBehaviour:
   - {fileID: 1805951435}
   - {fileID: 1817167520}
   - {fileID: 1821696133}
+  - {fileID: 1822882259}
+  - {fileID: 1822882261}
+  - {fileID: 1822882263}
+  - {fileID: 1822882265}
+  - {fileID: 1822882267}
+  - {fileID: 1822882269}
+  - {fileID: 1822882271}
+  - {fileID: 1822882273}
   - {fileID: 1845984467}
   - {fileID: 1864981592}
   - {fileID: 1866434707}
+  - {fileID: 1875904946}
+  - {fileID: 1875904948}
+  - {fileID: 1875904950}
+  - {fileID: 1875904952}
+  - {fileID: 1875904954}
+  - {fileID: 1875904956}
+  - {fileID: 1875904958}
+  - {fileID: 1875904960}
   - {fileID: 1899324137}
   - {fileID: 1954598351}
   - {fileID: 1978572537}
@@ -15786,6 +15783,9 @@ MonoBehaviour:
   - {fileID: 2023574936}
   - {fileID: 2039247267}
   - {fileID: 2044953887}
+  - {fileID: 2057865190}
+  - {fileID: 2057865192}
+  - {fileID: 2057865194}
   - {fileID: 2092296491}
   - {fileID: 2092640345}
   - {fileID: 2097126206}
@@ -15879,15 +15879,15 @@ MonoBehaviour:
   - meshName:
     - Vitrinas
     - E3
-    - Vitrinas_4
-    - Vitrinas_3
-    - Vitrinas_2
     - Vidrio
+    - Vitrinas_2
+    - Vitrinas_3
+    - Vitrinas_4
     - Vitrinas_5
     - Poster_3
     - Poster_2
     - Poster_1
-    padding: 09000000020000002100000018000000180000000e0000001f0000007b000000c800000091000000
+    padding: 09000000020000000e0000001800000018000000210000001f0000007b000000c800000091000000
     unwrapper: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   - meshName:
     - Cube
@@ -16038,14 +16038,10 @@ MonoBehaviour:
   rnmMaps2: []
   mapsMode: 
   bakedRenderers:
-  - {fileID: 687623753}
-  - {fileID: 687623755}
-  - {fileID: 687623757}
-  - {fileID: 687623759}
-  - {fileID: 687623761}
-  - {fileID: 687623763}
-  - {fileID: 687623765}
-  - {fileID: 687623767}
+  - {fileID: 29102175}
+  - {fileID: 46494592}
+  - {fileID: 58683734}
+  - {fileID: 67386373}
   - {fileID: 70085054}
   - {fileID: 70085056}
   - {fileID: 70085058}
@@ -16058,34 +16054,37 @@ MonoBehaviour:
   - {fileID: 70085072}
   - {fileID: 70085074}
   - {fileID: 70085076}
-  - {fileID: 1822882260}
-  - {fileID: 1822882262}
-  - {fileID: 1822882264}
-  - {fileID: 1822882266}
-  - {fileID: 1822882268}
-  - {fileID: 1822882270}
-  - {fileID: 1822882272}
-  - {fileID: 1822882274}
-  - {fileID: 1315541258}
-  - {fileID: 1315541260}
-  - {fileID: 1315541262}
-  - {fileID: 1315541264}
-  - {fileID: 1315541266}
-  - {fileID: 1315541268}
-  - {fileID: 1315541270}
-  - {fileID: 1315541272}
-  - {fileID: 1315541274}
-  - {fileID: 1315541276}
-  - {fileID: 1315541278}
-  - {fileID: 1315541280}
-  - {fileID: 1875904947}
-  - {fileID: 1875904949}
-  - {fileID: 1875904951}
-  - {fileID: 1875904953}
-  - {fileID: 1875904955}
-  - {fileID: 1875904957}
-  - {fileID: 1875904959}
-  - {fileID: 1875904961}
+  - {fileID: 71767971}
+  - {fileID: 71767973}
+  - {fileID: 71767975}
+  - {fileID: 71767983}
+  - {fileID: 71767978}
+  - {fileID: 71767980}
+  - {fileID: 71767982}
+  - {fileID: 91828447}
+  - {fileID: 111543284}
+  - {fileID: 158213837}
+  - {fileID: 200480550}
+  - {fileID: 201675847}
+  - {fileID: 241861018}
+  - {fileID: 248344755}
+  - {fileID: 256913299}
+  - {fileID: 258418799}
+  - {fileID: 261803531}
+  - {fileID: 261803533}
+  - {fileID: 261803535}
+  - {fileID: 261803537}
+  - {fileID: 261803539}
+  - {fileID: 261803541}
+  - {fileID: 261803543}
+  - {fileID: 261803545}
+  - {fileID: 261803547}
+  - {fileID: 266193805}
+  - {fileID: 275372675}
+  - {fileID: 294640385}
+  - {fileID: 295309613}
+  - {fileID: 306009369}
+  - {fileID: 321664501}
   - {fileID: 358254976}
   - {fileID: 358254978}
   - {fileID: 358254980}
@@ -16107,62 +16106,10 @@ MonoBehaviour:
   - {fileID: 363295123}
   - {fileID: 363295125}
   - {fileID: 363295127}
-  - {fileID: 2057865191}
-  - {fileID: 2057865193}
-  - {fileID: 2057865195}
-  - {fileID: 261803531}
-  - {fileID: 261803533}
-  - {fileID: 261803535}
-  - {fileID: 261803537}
-  - {fileID: 261803539}
-  - {fileID: 261803541}
-  - {fileID: 261803543}
-  - {fileID: 261803545}
-  - {fileID: 261803547}
-  - {fileID: 1332576959}
-  - {fileID: 1332576961}
-  - {fileID: 1332576963}
-  - {fileID: 1332576965}
-  - {fileID: 1332576967}
-  - {fileID: 1332576969}
-  - {fileID: 1332576971}
-  - {fileID: 1332576973}
-  - {fileID: 1332576975}
-  - {fileID: 1267105245}
-  - {fileID: 1080795778}
-  - {fileID: 425252356}
-  - {fileID: 1108544962}
-  - {fileID: 973326336}
-  - {fileID: 1609685154}
-  - {fileID: 29102175}
-  - {fileID: 46494592}
-  - {fileID: 58683734}
-  - {fileID: 67386373}
-  - {fileID: 71767971}
-  - {fileID: 71767973}
-  - {fileID: 71767975}
-  - {fileID: 71767983}
-  - {fileID: 71767978}
-  - {fileID: 71767980}
-  - {fileID: 71767982}
-  - {fileID: 91828447}
-  - {fileID: 111543284}
-  - {fileID: 158213837}
-  - {fileID: 200480550}
-  - {fileID: 201675847}
-  - {fileID: 241861018}
-  - {fileID: 248344755}
-  - {fileID: 256913299}
-  - {fileID: 258418799}
-  - {fileID: 266193805}
-  - {fileID: 275372675}
-  - {fileID: 294640385}
-  - {fileID: 295309613}
-  - {fileID: 306009369}
-  - {fileID: 321664501}
   - {fileID: 385487761}
   - {fileID: 394884872}
   - {fileID: 404829122}
+  - {fileID: 425252356}
   - {fileID: 431374030}
   - {fileID: 432392640}
   - {fileID: 493239067}
@@ -16172,6 +16119,14 @@ MonoBehaviour:
   - {fileID: 646162520}
   - {fileID: 651488554}
   - {fileID: 654356721}
+  - {fileID: 687623753}
+  - {fileID: 687623755}
+  - {fileID: 687623757}
+  - {fileID: 687623759}
+  - {fileID: 687623761}
+  - {fileID: 687623763}
+  - {fileID: 687623765}
+  - {fileID: 687623767}
   - {fileID: 705422673}
   - {fileID: 722253305}
   - {fileID: 745617931}
@@ -16182,6 +16137,7 @@ MonoBehaviour:
   - {fileID: 894095967}
   - {fileID: 904473018}
   - {fileID: 927703678}
+  - {fileID: 973326336}
   - {fileID: 981424160}
   - {fileID: 991522501}
   - {fileID: 999535531}
@@ -16191,9 +16147,11 @@ MonoBehaviour:
   - {fileID: 1076996897}
   - {fileID: 1076996899}
   - {fileID: 1076996901}
+  - {fileID: 1080795778}
   - {fileID: 1082352250}
   - {fileID: 1087844483}
   - {fileID: 1102940510}
+  - {fileID: 1108544962}
   - {fileID: 1108546769}
   - {fileID: 1126828231}
   - {fileID: 1136768850}
@@ -16205,13 +16163,35 @@ MonoBehaviour:
   - {fileID: 1193715157}
   - {fileID: 1218774428}
   - {fileID: 1266545996}
+  - {fileID: 1267105245}
   - {fileID: 1281939433}
   - {fileID: 1284915940}
   - {fileID: 1305140333}
   - {fileID: 1314245160}
+  - {fileID: 1315541258}
+  - {fileID: 1315541260}
+  - {fileID: 1315541262}
+  - {fileID: 1315541264}
+  - {fileID: 1315541266}
+  - {fileID: 1315541268}
+  - {fileID: 1315541270}
+  - {fileID: 1315541272}
+  - {fileID: 1315541274}
+  - {fileID: 1315541276}
+  - {fileID: 1315541278}
+  - {fileID: 1315541280}
   - {fileID: 1322046812}
   - {fileID: 1327692556}
   - {fileID: 1331190611}
+  - {fileID: 1332576959}
+  - {fileID: 1332576961}
+  - {fileID: 1332576963}
+  - {fileID: 1332576965}
+  - {fileID: 1332576967}
+  - {fileID: 1332576969}
+  - {fileID: 1332576971}
+  - {fileID: 1332576973}
+  - {fileID: 1332576975}
   - {fileID: 1372217762}
   - {fileID: 1373004745}
   - {fileID: 1390441551}
@@ -16228,6 +16208,7 @@ MonoBehaviour:
   - {fileID: 1550841682}
   - {fileID: 1575843955}
   - {fileID: 1588248733}
+  - {fileID: 1609685154}
   - {fileID: 1618395451}
   - {fileID: 1652203253}
   - {fileID: 1677478649}
@@ -16245,9 +16226,25 @@ MonoBehaviour:
   - {fileID: 1805951436}
   - {fileID: 1817167521}
   - {fileID: 1821696134}
+  - {fileID: 1822882260}
+  - {fileID: 1822882262}
+  - {fileID: 1822882264}
+  - {fileID: 1822882266}
+  - {fileID: 1822882268}
+  - {fileID: 1822882270}
+  - {fileID: 1822882272}
+  - {fileID: 1822882274}
   - {fileID: 1845984468}
   - {fileID: 1864981593}
   - {fileID: 1866434708}
+  - {fileID: 1875904947}
+  - {fileID: 1875904949}
+  - {fileID: 1875904951}
+  - {fileID: 1875904953}
+  - {fileID: 1875904955}
+  - {fileID: 1875904957}
+  - {fileID: 1875904959}
+  - {fileID: 1875904961}
   - {fileID: 1899324138}
   - {fileID: 1954598352}
   - {fileID: 1978572538}
@@ -16257,6 +16254,9 @@ MonoBehaviour:
   - {fileID: 2023574935}
   - {fileID: 2039247266}
   - {fileID: 2044953888}
+  - {fileID: 2057865191}
+  - {fileID: 2057865193}
+  - {fileID: 2057865195}
   - {fileID: 2092296493}
   - {fileID: 2092640346}
   - {fileID: 2097126207}
@@ -16265,14 +16265,10 @@ MonoBehaviour:
   - {fileID: 2140665850}
   bakedIDs: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   bakedScaleOffset:
-  - {x: 0.0025548132, y: 0.0029305026, z: 0.8152129, w: 0.9948191}
-  - {x: 0.0028184084, y: 0.0052536908, z: 0.3024427, w: 0.99481004}
-  - {x: 0.00050466607, y: 0.00061967835, z: 0.97345823, w: 0.9948281}
-  - {x: 0.0005039614, y: 0.0005829087, z: 0.9694522, w: 0.9948283}
-  - {x: 0.0005053657, y: 0.0006389561, z: 0.97746426, w: 0.99482805}
-  - {x: 0.0032560194, y: 0.002953971, z: 0.85126424, w: 0.994819}
-  - {x: 0.0025402792, y: 0.0029067483, z: 0.8973361, w: 0.9948192}
-  - {x: 0.018077016, y: 0.019068977, z: 0.5487526, w: 0.97867334}
+  - {x: 0.02720836, y: 0.031235978, z: 0.8414847, w: 0.73316586}
+  - {x: 0.008163135, y: 0.008171779, z: 0.9584188, w: 0.9915116}
+  - {x: 0.044115193, y: 0.050603654, z: 0.6178945, w: 0.8925532}
+  - {x: 0.018324016, y: 0.021036463, z: 0.98227626, w: 0.6465271}
   - {x: 0.025627183, y: 0.029395565, z: 0.17942692, w: 0.9727005}
   - {x: 0.054204307, y: 0.06034622, z: 0.47173586, w: 0.94070846}
   - {x: 0.05416275, y: 0.062127363, z: 0.82934326, w: 0.97286505}
@@ -16285,34 +16281,37 @@ MonoBehaviour:
   - {x: 0.008140266, y: 0.0033136492, z: 0.9169699, w: 0.9925719}
   - {x: 0.006567009, y: 0.00755702, z: 0.5828483, w: 0.98789805}
   - {x: 0.008938908, y: 0.010048458, z: 0.304398, w: 0.98326546}
-  - {x: 0.0025548132, y: 0.0029305026, z: 0.8112069, w: 0.9948191}
-  - {x: 0.0028184084, y: 0.0052536908, z: 0.3064487, w: 0.99481004}
-  - {x: 0.00050472614, y: 0.00061967835, z: 0.9714552, w: 0.9948281}
-  - {x: 0.0005039014, y: 0.0005829087, z: 0.96744925, w: 0.9948283}
-  - {x: 0.0005053657, y: 0.0006389561, z: 0.9794673, w: 0.99482805}
-  - {x: 0.0032560194, y: 0.002953971, z: 0.8472582, w: 0.994819}
-  - {x: 0.0025402792, y: 0.0029067483, z: 0.90134215, w: 0.9948192}
-  - {x: 0.018077016, y: 0.019068977, z: 0.85521233, w: 0.9763758}
-  - {x: 0.025627183, y: 0.029395565, z: 0.17341791, w: 0.9727005}
-  - {x: 0.054204687, y: 0.06034622, z: 0.46172047, w: 0.94070846}
-  - {x: 0.05416275, y: 0.062127363, z: 0.8333492, w: 0.97286505}
-  - {x: 0.003259383, y: 0.004160246, z: 0.88922304, w: 0.9936321}
-  - {x: 0.01351391, y: 0.014714281, z: 0.52635986, w: 0.9809294}
-  - {x: 0.005838557, y: 0.007073138, z: 0.27228937, w: 0.99076885}
-  - {x: 0.013226272, y: 0.014434293, z: 0.17563443, w: 0.97889614}
-  - {x: 0.0049484293, y: 0.0071769385, z: 0.877215, w: 0.9906703}
-  - {x: 0.010604827, y: 0.012560675, z: 0.29823026, w: 0.9877094}
-  - {x: 0.008140266, y: 0.0033136492, z: 0.90895784, w: 0.9925719}
-  - {x: 0.006567009, y: 0.00755702, z: 0.5748363, w: 0.98789805}
-  - {x: 0.008938908, y: 0.010048458, z: 0.294383, w: 0.98326546}
-  - {x: 0.0025548132, y: 0.0029305026, z: 0.31446174, w: 0.9948191}
-  - {x: 0.0028184084, y: 0.0052536908, z: 0.3104547, w: 0.99481004}
-  - {x: 0.00050466607, y: 0.00061967835, z: 0.97546124, w: 0.9948281}
-  - {x: 0.0005039614, y: 0.0005829087, z: 0.9213801, w: 0.9948283}
-  - {x: 0.0005053657, y: 0.0006389561, z: 0.9814703, w: 0.99482805}
-  - {x: 0.0032560194, y: 0.002953971, z: 0.84325224, w: 0.994819}
-  - {x: 0.0025402792, y: 0.0029067483, z: 0.9053482, w: 0.9948192}
-  - {x: 0.018077016, y: 0.019068977, z: 0.92331445, w: 0.97867334}
+  - {x: 0.07113167, y: 0.081773385, z: 0.86715055, w: 0.7097588}
+  - {x: 0.06579857, y: 0.0766082, z: 0.77704835, w: 0.7327408}
+  - {x: 0.10343553, y: 0.11765734, z: 0.7791688, w: 0.40896037}
+  - {x: 0.77995175, y: 0.8946394, z: -0.0015233433, w: -0.0017473425}
+  - {x: 0.10060253, y: 0.11530557, z: 0.867301, w: 0.40896037}
+  - {x: 0.20950106, y: 0.24107063, z: 0.7791688, w: 0}
+  - {x: 0.1481506, y: 0.1711152, z: 0.7771433, w: 0.2389012}
+  - {x: 0.039912008, y: 0.04595628, z: 0.7050576, w: 0.8937392}
+  - {x: 0.018324016, y: 0.021036396, z: 0.9362072, w: 0.76829624}
+  - {x: 0.02620779, y: 0.030261895, z: 0.6238241, w: 0.94299936}
+  - {x: 0.025362218, y: 0.029192084, z: 0.8714524, w: 0.9237666}
+  - {x: 0.027208425, y: 0.031235978, z: 0.969677, w: 0.9353485}
+  - {x: 0.033691965, y: 0.038794234, z: 0.046069104, w: 0.9442849}
+  - {x: 0.018324016, y: 0.021036463, z: 0.31727877, w: 0.979669}
+  - {x: 0.018324012, y: 0.021036463, z: 0.024840124, w: 0.94520605}
+  - {x: 0.013469005, y: 0.015461508, z: 0.7605104, w: 0.98032063}
+  - {x: 0.002527259, y: 0.0028932958, z: 0.81921893, w: 0.9948192}
+  - {x: 0.014635244, y: 0.018003898, z: 0.13013811, w: 0.9832726}
+  - {x: 0.012548621, y: 0.01465858, z: 0.072108164, w: 0.98334295}
+  - {x: 0.0065599494, y: 0.0075111263, z: 0.9594135, w: 0.9833136}
+  - {x: 0.0045198016, y: 0.0055823345, z: 0.15022534, w: 0.99483055}
+  - {x: 0.006522854, y: 0.007482614, z: 0.23435153, w: 0.992533}
+  - {x: 0.008855897, y: 0.009920452, z: 0.27437702, w: 0.9833042}
+  - {x: 0.010597471, y: 0.013918283, z: 0.24232215, w: 0.9832886}
+  - {x: 0.01463224, y: 0.015324054, z: 0.48066393, w: 0.9809855}
+  - {x: 0.0055841957, y: 0.00681236, z: 0.25368354, w: 0.993979}
+  - {x: 0.02466561, y: 0.02729218, z: 0.019383425, w: 0.97351855}
+  - {x: 0.045867246, y: 0.052706063, z: 0.08794038, w: 0.8912172}
+  - {x: 0.040686607, y: 0.045813892, z: 0.70148164, w: 0.9356633}
+  - {x: 0.060473632, y: 0.069046736, z: 0.8370738, w: 0.8567814}
+  - {x: 0.013469005, y: 0.015461508, z: 0.69040525, w: 0.98032063}
   - {x: 0.025627268, y: 0.029395565, z: 0.18543586, w: 0.9727005}
   - {x: 0.054204497, y: 0.06034622, z: 0.45170566, w: 0.94070846}
   - {x: 0.05416275, y: 0.062127363, z: 0.83735526, w: 0.97286505}
@@ -16334,62 +16333,10 @@ MonoBehaviour:
   - {x: 0.008855897, y: 0.009920452, z: 0.264362, w: 0.9833042}
   - {x: 0.010597471, y: 0.013918283, z: 0.23030412, w: 0.9832886}
   - {x: 0.01463224, y: 0.015324054, z: 0.4646399, w: 0.9809855}
-  - {x: 0.0045365104, y: 0.0074957963, z: 0.99547553, w: 0.99250376}
-  - {x: 0.0065624556, y: 0.0076000807, z: 0.5407856, w: 0.98331326}
-  - {x: 0.037724547, y: 0.042518336, z: 0.578721, w: 0.94411886}
-  - {x: 0.002527259, y: 0.0028932958, z: 0.81921893, w: 0.9948192}
-  - {x: 0.014635244, y: 0.018003898, z: 0.13013811, w: 0.9832726}
-  - {x: 0.012548621, y: 0.01465858, z: 0.072108164, w: 0.98334295}
-  - {x: 0.0065599494, y: 0.0075111263, z: 0.9594135, w: 0.9833136}
-  - {x: 0.0045198016, y: 0.0055823345, z: 0.15022534, w: 0.99483055}
-  - {x: 0.006522854, y: 0.007482614, z: 0.23435153, w: 0.992533}
-  - {x: 0.008855897, y: 0.009920452, z: 0.27437702, w: 0.9833042}
-  - {x: 0.010597471, y: 0.013918283, z: 0.24232215, w: 0.9832886}
-  - {x: 0.01463224, y: 0.015324054, z: 0.48066393, w: 0.9809855}
-  - {x: 0.002527199, y: 0.0028932958, z: 0.827231, w: 0.9948192}
-  - {x: 0.014635237, y: 0.018003898, z: 0.11411409, w: 0.9832726}
-  - {x: 0.012548621, y: 0.01465858, z: 0.10015023, w: 0.98334295}
-  - {x: 0.0065598893, y: 0.0075111263, z: 0.5668247, w: 0.9833136}
-  - {x: 0.0045197867, y: 0.0055823345, z: 0.13820732, w: 0.99483055}
-  - {x: 0.006522854, y: 0.007482614, z: 0.21832749, w: 0.992533}
-  - {x: 0.008855897, y: 0.009920452, z: 0.25434697, w: 0.9833042}
-  - {x: 0.010597471, y: 0.013918283, z: 0.2182861, w: 0.9832886}
-  - {x: 0.01463224, y: 0.015324054, z: 0.44861585, w: 0.9809855}
-  - {x: 0.020651836, y: 0.02369097, z: 0.5988177, w: 0.97406024}
-  - {x: 0.020651776, y: 0.02369097, z: 0.8431843, w: 0.76498497}
-  - {x: 0.004700023, y: 0.0075866203, z: 0.12008553, w: 0.9931422}
-  - {x: 0.004700023, y: 0.0075866203, z: 0.11407652, w: 0.9931422}
-  - {x: 0.0047000153, y: 0.0075866203, z: 0.12609455, w: 0.9931422}
-  - {x: 0.0047000153, y: 0.0075866203, z: 0.13210356, w: 0.9931422}
-  - {x: 0.02720836, y: 0.031235978, z: 0.8414847, w: 0.73316586}
-  - {x: 0.008163135, y: 0.008171779, z: 0.9584188, w: 0.9915116}
-  - {x: 0.044115193, y: 0.050603654, z: 0.6178945, w: 0.8925532}
-  - {x: 0.018324016, y: 0.021036463, z: 0.98227626, w: 0.6465271}
-  - {x: 0.07113167, y: 0.081773385, z: 0.86715055, w: 0.7097588}
-  - {x: 0.06579857, y: 0.0766082, z: 0.77704835, w: 0.7327408}
-  - {x: 0.10343553, y: 0.11765734, z: 0.7791688, w: 0.40896037}
-  - {x: 0.77995175, y: 0.8946394, z: -0.0015233433, w: -0.0017473425}
-  - {x: 0.10060253, y: 0.11530557, z: 0.867301, w: 0.40896037}
-  - {x: 0.20950106, y: 0.24107063, z: 0.7791688, w: 0}
-  - {x: 0.1481506, y: 0.1711152, z: 0.7771433, w: 0.2389012}
-  - {x: 0.039912008, y: 0.04595628, z: 0.7050576, w: 0.8937392}
-  - {x: 0.018324016, y: 0.021036396, z: 0.9362072, w: 0.76829624}
-  - {x: 0.02620779, y: 0.030261895, z: 0.6238241, w: 0.94299936}
-  - {x: 0.025362218, y: 0.029192084, z: 0.8714524, w: 0.9237666}
-  - {x: 0.027208425, y: 0.031235978, z: 0.969677, w: 0.9353485}
-  - {x: 0.033691965, y: 0.038794234, z: 0.046069104, w: 0.9442849}
-  - {x: 0.018324016, y: 0.021036463, z: 0.31727877, w: 0.979669}
-  - {x: 0.018324012, y: 0.021036463, z: 0.024840124, w: 0.94520605}
-  - {x: 0.013469005, y: 0.015461508, z: 0.7605104, w: 0.98032063}
-  - {x: 0.0055841957, y: 0.00681236, z: 0.25368354, w: 0.993979}
-  - {x: 0.02466561, y: 0.02729218, z: 0.019383425, w: 0.97351855}
-  - {x: 0.045867246, y: 0.052706063, z: 0.08794038, w: 0.8912172}
-  - {x: 0.040686607, y: 0.045813892, z: 0.70148164, w: 0.9356633}
-  - {x: 0.060473632, y: 0.069046736, z: 0.8370738, w: 0.8567814}
-  - {x: 0.013469005, y: 0.015461508, z: 0.69040525, w: 0.98032063}
   - {x: 0.040173836, y: 0.045870863, z: 0.9531577, w: 0.46380046}
   - {x: 0.040173836, y: 0.045870896, z: 0.9511547, w: 0.89114106}
   - {x: 0.0617677, y: 0.07088238, z: 0.84115374, w: 0.7879276}
+  - {x: 0.004700023, y: 0.0075866203, z: 0.12008553, w: 0.9931422}
   - {x: 0.013462994, y: 0.015693955, z: 0.057465915, w: 0.9826188}
   - {x: 0.0617677, y: 0.07088238, z: 0.90124387, w: 0.7879276}
   - {x: 0.01634451, y: 0.018812712, z: 0.33530766, w: 0.9796675}
@@ -16399,6 +16346,14 @@ MonoBehaviour:
   - {x: 0.036258083, y: 0.041212954, z: 0.1800073, w: 0.9417091}
   - {x: 0.02889339, y: 0.032534517, z: 0.92284864, w: 0.376233}
   - {x: 0.036258083, y: 0.041212954, z: 0.24810944, w: 0.9417091}
+  - {x: 0.0025548132, y: 0.0029305026, z: 0.8152129, w: 0.9948191}
+  - {x: 0.0028184084, y: 0.0052536908, z: 0.3024427, w: 0.99481004}
+  - {x: 0.00050466607, y: 0.00061967835, z: 0.97345823, w: 0.9948281}
+  - {x: 0.0005039614, y: 0.0005829087, z: 0.9694522, w: 0.9948283}
+  - {x: 0.0005053657, y: 0.0006389561, z: 0.97746426, w: 0.99482805}
+  - {x: 0.0032560194, y: 0.002953971, z: 0.85126424, w: 0.994819}
+  - {x: 0.0025402792, y: 0.0029067483, z: 0.8973361, w: 0.9948192}
+  - {x: 0.018077016, y: 0.019068977, z: 0.5487526, w: 0.97867334}
   - {x: 0.034765452, y: 0.03767301, z: 0.38510302, w: 0.94268453}
   - {x: 0.016344544, y: 0.018812712, z: 0.38337976, w: 0.9796675}
   - {x: 0.044115253, y: 0.050603654, z: 0.35349783, w: 0.8925532}
@@ -16409,6 +16364,7 @@ MonoBehaviour:
   - {x: 0.08385688, y: 0.095219955, z: 0.7770396, w: 0.52371675}
   - {x: 0.040173836, y: 0.045870863, z: 0.9531577, w: 0.37649432}
   - {x: 0.036251076, y: 0.041901078, z: 0.74278116, w: 0.8910386}
+  - {x: 0.0047000153, y: 0.0075866203, z: 0.12609455, w: 0.9931422}
   - {x: 0.09582408, y: 0.10991219, z: 0.86524224, w: 0.5214755}
   - {x: 0.013462994, y: 0.015693955, z: 0.043444883, w: 0.9826188}
   - {x: 0.040686607, y: 0.045813892, z: 0.7375357, w: 0.9356633}
@@ -16418,9 +16374,11 @@ MonoBehaviour:
   - {x: 0.022777522, y: 0.026120532, z: 0.6402285, w: 0.9733128}
   - {x: 0.014667453, y: 0.0153557705, z: 0.16081099, w: 0.98184335}
   - {x: 0.01671035, y: 0.01882116, z: 0.41544184, w: 0.9797128}
+  - {x: 0.020651776, y: 0.02369097, z: 0.8431843, w: 0.76498497}
   - {x: 0.045867227, y: 0.052706063, z: 0.17607258, w: 0.8912172}
   - {x: 0.0055472027, y: 0.0063754045, z: 0.15554096, w: 0.99403363}
   - {x: 0.013469068, y: 0.015461508, z: 0.7464893, w: 0.98032063}
+  - {x: 0.004700023, y: 0.0075866203, z: 0.11407652, w: 0.9931422}
   - {x: 0.039835382, y: 0.04583669, z: 0.8951675, w: 0.92110044}
   - {x: 0.0055841957, y: 0.00681236, z: 0.26570156, w: 0.993979}
   - {x: 0.044115253, y: 0.050603654, z: 0.30943173, w: 0.8925532}
@@ -16432,13 +16390,35 @@ MonoBehaviour:
   - {x: 0.045867246, y: 0.052706063, z: 0.9372143, w: 0.62929875}
   - {x: 0.022336809, y: 0.025579592, z: 0.81007165, w: 0.9682463}
   - {x: 0.013462978, y: 0.01569402, z: 0.7885626, w: 0.9803212}
+  - {x: 0.020651836, y: 0.02369097, z: 0.5988177, w: 0.97406024}
   - {x: 0.007275359, y: 0.009298919, z: 0.56594086, w: 0.9913707}
   - {x: 0.013469005, y: 0.015461508, z: 0.7184473, w: 0.98032063}
   - {x: 0.044115253, y: 0.050603654, z: 0.48569614, w: 0.8925532}
   - {x: 0.044115253, y: 0.050603654, z: 0.44163004, w: 0.8925532}
+  - {x: 0.025627183, y: 0.029395565, z: 0.17341791, w: 0.9727005}
+  - {x: 0.054204687, y: 0.06034622, z: 0.46172047, w: 0.94070846}
+  - {x: 0.05416275, y: 0.062127363, z: 0.8333492, w: 0.97286505}
+  - {x: 0.003259383, y: 0.004160246, z: 0.88922304, w: 0.9936321}
+  - {x: 0.01351391, y: 0.014714281, z: 0.52635986, w: 0.9809294}
+  - {x: 0.005838557, y: 0.007073138, z: 0.27228937, w: 0.99076885}
+  - {x: 0.013226272, y: 0.014434293, z: 0.17563443, w: 0.97889614}
+  - {x: 0.0049484293, y: 0.0071769385, z: 0.877215, w: 0.9906703}
+  - {x: 0.010604827, y: 0.012560675, z: 0.29823026, w: 0.9877094}
+  - {x: 0.008140266, y: 0.0033136492, z: 0.90895784, w: 0.9925719}
+  - {x: 0.006567009, y: 0.00755702, z: 0.5748363, w: 0.98789805}
+  - {x: 0.008938908, y: 0.010048458, z: 0.294383, w: 0.98326546}
   - {x: 0.044115253, y: 0.050603654, z: 0.26536563, w: 0.8925532}
   - {x: 0.045867227, y: 0.052706063, z: 0.13200648, w: 0.8912172}
   - {x: 0.025362218, y: 0.029192152, z: 0.89749146, w: 0.9651221}
+  - {x: 0.002527199, y: 0.0028932958, z: 0.827231, w: 0.9948192}
+  - {x: 0.014635237, y: 0.018003898, z: 0.11411409, w: 0.9832726}
+  - {x: 0.012548621, y: 0.01465858, z: 0.10015023, w: 0.98334295}
+  - {x: 0.0065598893, y: 0.0075111263, z: 0.5668247, w: 0.9833136}
+  - {x: 0.0045197867, y: 0.0055823345, z: 0.13820732, w: 0.99483055}
+  - {x: 0.006522854, y: 0.007482614, z: 0.21832749, w: 0.992533}
+  - {x: 0.008855897, y: 0.009920452, z: 0.25434697, w: 0.9833042}
+  - {x: 0.010597471, y: 0.013918283, z: 0.2182861, w: 0.9832886}
+  - {x: 0.01463224, y: 0.015324054, z: 0.44861585, w: 0.9809855}
   - {x: 0.039835315, y: 0.045836624, z: 0.9612667, w: 0.81081903}
   - {x: 0.02720836, y: 0.031235911, z: 0.961665, w: 0.854935}
   - {x: 0.04586723, y: 0.052706063, z: 0.043874286, w: 0.8912172}
@@ -16455,6 +16435,7 @@ MonoBehaviour:
   - {x: 0.018324016, y: 0.021036463, z: 0.9402132, w: 0.97737145}
   - {x: 0.02889339, y: 0.032534484, z: 0.9368697, w: 0.679507}
   - {x: 0.036258083, y: 0.041212954, z: 0.28216052, w: 0.9417091}
+  - {x: 0.0047000153, y: 0.0075866203, z: 0.13210356, w: 0.9931422}
   - {x: 0.024665637, y: 0.02729218, z: 0.6182818, w: 0.971221}
   - {x: 0.0617677, y: 0.07088245, z: 0.7770576, w: 0.80630785}
   - {x: 0.01634451, y: 0.018812712, z: 0.36735573, w: 0.9796675}
@@ -16472,9 +16453,25 @@ MonoBehaviour:
   - {x: 0.02720836, y: 0.031235911, z: 0.59711814, w: 0.94224113}
   - {x: 0.005547184, y: 0.0063754045, z: 0.18758903, w: 0.99403363}
   - {x: 0.0055841957, y: 0.00681236, z: 0.25969255, w: 0.993979}
+  - {x: 0.0025548132, y: 0.0029305026, z: 0.8112069, w: 0.9948191}
+  - {x: 0.0028184084, y: 0.0052536908, z: 0.3064487, w: 0.99481004}
+  - {x: 0.00050472614, y: 0.00061967835, z: 0.9714552, w: 0.9948281}
+  - {x: 0.0005039014, y: 0.0005829087, z: 0.96744925, w: 0.9948283}
+  - {x: 0.0005053657, y: 0.0006389561, z: 0.9794673, w: 0.99482805}
+  - {x: 0.0032560194, y: 0.002953971, z: 0.8472582, w: 0.994819}
+  - {x: 0.0025402792, y: 0.0029067483, z: 0.90134215, w: 0.9948192}
+  - {x: 0.018077016, y: 0.019068977, z: 0.85521233, w: 0.9763758}
   - {x: 0.03223995, y: 0.036977064, z: 0.5156575, w: 0.943003}
   - {x: 0.0055841957, y: 0.00681236, z: 0.21162045, w: 0.993979}
   - {x: 0.03223998, y: 0.036977064, z: 0.41951326, w: 0.943003}
+  - {x: 0.0025548132, y: 0.0029305026, z: 0.31446174, w: 0.9948191}
+  - {x: 0.0028184084, y: 0.0052536908, z: 0.3104547, w: 0.99481004}
+  - {x: 0.00050466607, y: 0.00061967835, z: 0.97546124, w: 0.9948281}
+  - {x: 0.0005039614, y: 0.0005829087, z: 0.9213801, w: 0.9948283}
+  - {x: 0.0005053657, y: 0.0006389561, z: 0.9814703, w: 0.99482805}
+  - {x: 0.0032560194, y: 0.002953971, z: 0.84325224, w: 0.994819}
+  - {x: 0.0025402792, y: 0.0029067483, z: 0.9053482, w: 0.9948192}
+  - {x: 0.018077016, y: 0.019068977, z: 0.92331445, w: 0.97867334}
   - {x: 0.013469068, y: 0.015461508, z: 0.73246825, w: 0.98032063}
   - {x: 0.007275359, y: 0.009298919, z: 0.24145412, w: 0.9913707}
   - {x: 0.032240015, y: 0.036977064, z: 0.48360938, w: 0.943003}
@@ -16484,6 +16481,9 @@ MonoBehaviour:
   - {x: 0.061767764, y: 0.070882395, z: 0.9232769, w: 0.23881793}
   - {x: 0.03717584, y: 0.042084817, z: 0.77476966, w: 0.9392749}
   - {x: 0.032202557, y: 0.036802854, z: 0.54652756, w: 0.9416613}
+  - {x: 0.0045365104, y: 0.0074957963, z: 0.99547553, w: 0.99250376}
+  - {x: 0.0065624556, y: 0.0076000807, z: 0.5407856, w: 0.98331326}
+  - {x: 0.037724547, y: 0.042518336, z: 0.578721, w: 0.94411886}
   - {x: 0.040173836, y: 0.045870863, z: 0.9531577, w: 0.4201474}
   - {x: 0.02889339, y: 0.032534484, z: 0.96290874, w: 0.679507}
   - {x: 0.057801057, y: 0.06643615, z: 0.8952011, w: 0.85681087}
@@ -16764,9 +16764,104 @@ MonoBehaviour:
     rnmMaps2: []
     mapsMode: 
     bakedRenderers:
+    - {fileID: 687623753}
+    - {fileID: 687623755}
+    - {fileID: 687623757}
+    - {fileID: 687623759}
+    - {fileID: 687623761}
+    - {fileID: 687623763}
+    - {fileID: 687623765}
+    - {fileID: 687623767}
+    - {fileID: 70085054}
+    - {fileID: 70085056}
+    - {fileID: 70085058}
+    - {fileID: 70085060}
+    - {fileID: 70085062}
+    - {fileID: 70085064}
+    - {fileID: 70085066}
+    - {fileID: 70085068}
+    - {fileID: 70085070}
+    - {fileID: 70085072}
+    - {fileID: 70085074}
+    - {fileID: 70085076}
+    - {fileID: 1822882260}
+    - {fileID: 1822882262}
+    - {fileID: 1822882264}
+    - {fileID: 1822882266}
+    - {fileID: 1822882268}
+    - {fileID: 1822882270}
+    - {fileID: 1822882272}
+    - {fileID: 1822882274}
+    - {fileID: 1315541258}
+    - {fileID: 1315541260}
+    - {fileID: 1315541262}
+    - {fileID: 1315541264}
+    - {fileID: 1315541266}
+    - {fileID: 1315541268}
+    - {fileID: 1315541270}
+    - {fileID: 1315541272}
+    - {fileID: 1315541274}
+    - {fileID: 1315541276}
+    - {fileID: 1315541278}
+    - {fileID: 1315541280}
+    - {fileID: 1875904947}
+    - {fileID: 1875904949}
+    - {fileID: 1875904951}
+    - {fileID: 1875904953}
+    - {fileID: 1875904955}
+    - {fileID: 1875904957}
+    - {fileID: 1875904959}
+    - {fileID: 1875904961}
+    - {fileID: 358254976}
+    - {fileID: 358254978}
+    - {fileID: 358254980}
+    - {fileID: 358254982}
+    - {fileID: 358254984}
+    - {fileID: 358254986}
+    - {fileID: 358254988}
+    - {fileID: 358254990}
+    - {fileID: 358254992}
+    - {fileID: 358254994}
+    - {fileID: 358254996}
+    - {fileID: 358254998}
+    - {fileID: 363295111}
+    - {fileID: 363295113}
+    - {fileID: 363295115}
+    - {fileID: 363295117}
+    - {fileID: 363295119}
+    - {fileID: 363295121}
+    - {fileID: 363295123}
+    - {fileID: 363295125}
+    - {fileID: 363295127}
+    - {fileID: 2057865191}
+    - {fileID: 2057865193}
+    - {fileID: 2057865195}
+    - {fileID: 261803531}
+    - {fileID: 261803533}
+    - {fileID: 261803535}
+    - {fileID: 261803537}
+    - {fileID: 261803539}
+    - {fileID: 261803541}
+    - {fileID: 261803543}
+    - {fileID: 261803545}
+    - {fileID: 261803547}
+    - {fileID: 1332576959}
+    - {fileID: 1332576961}
+    - {fileID: 1332576963}
+    - {fileID: 1332576965}
+    - {fileID: 1332576967}
+    - {fileID: 1332576969}
+    - {fileID: 1332576971}
+    - {fileID: 1332576973}
+    - {fileID: 1332576975}
+    - {fileID: 1267105245}
+    - {fileID: 1080795778}
+    - {fileID: 425252356}
+    - {fileID: 1108544962}
+    - {fileID: 973326336}
+    - {fileID: 1609685154}
     - {fileID: 29102175}
     - {fileID: 46494592}
-    - {fileID: 0}
     - {fileID: 58683734}
     - {fileID: 67386373}
     - {fileID: 71767971}
@@ -16781,7 +16876,6 @@ MonoBehaviour:
     - {fileID: 158213837}
     - {fileID: 200480550}
     - {fileID: 201675847}
-    - {fileID: 0}
     - {fileID: 241861018}
     - {fileID: 248344755}
     - {fileID: 256913299}
@@ -16804,7 +16898,6 @@ MonoBehaviour:
     - {fileID: 646162520}
     - {fileID: 651488554}
     - {fileID: 654356721}
-    - {fileID: 0}
     - {fileID: 705422673}
     - {fileID: 722253305}
     - {fileID: 745617931}
@@ -16836,11 +16929,9 @@ MonoBehaviour:
     - {fileID: 1161668714}
     - {fileID: 1179964877}
     - {fileID: 1193715157}
-    - {fileID: 0}
     - {fileID: 1218774428}
     - {fileID: 1266545996}
     - {fileID: 1281939433}
-    - {fileID: 0}
     - {fileID: 1284915940}
     - {fileID: 1305140333}
     - {fileID: 1314245160}
@@ -16853,7 +16944,6 @@ MonoBehaviour:
     - {fileID: 1393113183}
     - {fileID: 1393722792}
     - {fileID: 1398658206}
-    - {fileID: 0}
     - {fileID: 1405747461}
     - {fileID: 1433631979}
     - {fileID: 1444973341}
@@ -16863,8 +16953,6 @@ MonoBehaviour:
     - {fileID: 1528267039}
     - {fileID: 1550841682}
     - {fileID: 1575843955}
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 1588248733}
     - {fileID: 1618395451}
     - {fileID: 1652203253}
@@ -16872,7 +16960,6 @@ MonoBehaviour:
     - {fileID: 1696535449}
     - {fileID: 1703197601}
     - {fileID: 1715827784}
-    - {fileID: 0}
     - {fileID: 1730382891}
     - {fileID: 1747122272}
     - {fileID: 1751036495}
@@ -16884,7 +16971,6 @@ MonoBehaviour:
     - {fileID: 1805951436}
     - {fileID: 1817167521}
     - {fileID: 1821696134}
-    - {fileID: 0}
     - {fileID: 1845984468}
     - {fileID: 1864981593}
     - {fileID: 1866434708}
@@ -16895,23 +16981,116 @@ MonoBehaviour:
     - {fileID: 1994408915}
     - {fileID: 2002345612}
     - {fileID: 2023574935}
-    - {fileID: 0}
     - {fileID: 2039247266}
     - {fileID: 2044953888}
-    - {fileID: 0}
     - {fileID: 2092296493}
     - {fileID: 2092640346}
     - {fileID: 2097126207}
     - {fileID: 2125479638}
     - {fileID: 2130671819}
     - {fileID: 2140665850}
-    bakedIDs: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    bakedIDs: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     bakedScaleOffset:
-    - {x: 0.027208379, y: 0.031235911, z: -0.0017802357, w: 0.94453865}
-    - {x: 0.008163115, y: 0.008171684, z: 0.049054723, w: 0.9823215}
-    - {x: 0.008163115, y: 0.008171684, z: 0.065078765, w: 0.9823215}
+    - {x: 0.0025548132, y: 0.0029305026, z: 0.8152129, w: 0.9948191}
+    - {x: 0.0028184084, y: 0.0052536908, z: 0.3024427, w: 0.99481004}
+    - {x: 0.00050466607, y: 0.00061967835, z: 0.97345823, w: 0.9948281}
+    - {x: 0.0005039614, y: 0.0005829087, z: 0.9694522, w: 0.9948283}
+    - {x: 0.0005053657, y: 0.0006389561, z: 0.97746426, w: 0.99482805}
+    - {x: 0.0032560194, y: 0.002953971, z: 0.85126424, w: 0.994819}
+    - {x: 0.0025402792, y: 0.0029067483, z: 0.8973361, w: 0.9948192}
+    - {x: 0.018077016, y: 0.019068977, z: 0.5487526, w: 0.97867334}
+    - {x: 0.025627183, y: 0.029395565, z: 0.17942692, w: 0.9727005}
+    - {x: 0.054204307, y: 0.06034622, z: 0.47173586, w: 0.94070846}
+    - {x: 0.05416275, y: 0.062127363, z: 0.82934326, w: 0.97286505}
+    - {x: 0.003259383, y: 0.004160246, z: 0.89322907, w: 0.9936321}
+    - {x: 0.01351391, y: 0.014714281, z: 0.66256416, w: 0.9809294}
+    - {x: 0.005838557, y: 0.007073138, z: 0.27829838, w: 0.99076885}
+    - {x: 0.013226272, y: 0.014434293, z: 0.18965545, w: 0.97889614}
+    - {x: 0.0049484293, y: 0.0071769385, z: 0.88122106, w: 0.9906703}
+    - {x: 0.010604827, y: 0.012560675, z: 0.29422426, w: 0.9877094}
+    - {x: 0.008140266, y: 0.0033136492, z: 0.9169699, w: 0.9925719}
+    - {x: 0.006567009, y: 0.00755702, z: 0.5828483, w: 0.98789805}
+    - {x: 0.008938908, y: 0.010048458, z: 0.304398, w: 0.98326546}
+    - {x: 0.0025548132, y: 0.0029305026, z: 0.8112069, w: 0.9948191}
+    - {x: 0.0028184084, y: 0.0052536908, z: 0.3064487, w: 0.99481004}
+    - {x: 0.00050472614, y: 0.00061967835, z: 0.9714552, w: 0.9948281}
+    - {x: 0.0005039014, y: 0.0005829087, z: 0.96744925, w: 0.9948283}
+    - {x: 0.0005053657, y: 0.0006389561, z: 0.9794673, w: 0.99482805}
+    - {x: 0.0032560194, y: 0.002953971, z: 0.8472582, w: 0.994819}
+    - {x: 0.0025402792, y: 0.0029067483, z: 0.90134215, w: 0.9948192}
+    - {x: 0.018077016, y: 0.019068977, z: 0.85521233, w: 0.9763758}
+    - {x: 0.025627183, y: 0.029395565, z: 0.17341791, w: 0.9727005}
+    - {x: 0.054204687, y: 0.06034622, z: 0.46172047, w: 0.94070846}
+    - {x: 0.05416275, y: 0.062127363, z: 0.8333492, w: 0.97286505}
+    - {x: 0.003259383, y: 0.004160246, z: 0.88922304, w: 0.9936321}
+    - {x: 0.01351391, y: 0.014714281, z: 0.52635986, w: 0.9809294}
+    - {x: 0.005838557, y: 0.007073138, z: 0.27228937, w: 0.99076885}
+    - {x: 0.013226272, y: 0.014434293, z: 0.17563443, w: 0.97889614}
+    - {x: 0.0049484293, y: 0.0071769385, z: 0.877215, w: 0.9906703}
+    - {x: 0.010604827, y: 0.012560675, z: 0.29823026, w: 0.9877094}
+    - {x: 0.008140266, y: 0.0033136492, z: 0.90895784, w: 0.9925719}
+    - {x: 0.006567009, y: 0.00755702, z: 0.5748363, w: 0.98789805}
+    - {x: 0.008938908, y: 0.010048458, z: 0.294383, w: 0.98326546}
+    - {x: 0.0025548132, y: 0.0029305026, z: 0.31446174, w: 0.9948191}
+    - {x: 0.0028184084, y: 0.0052536908, z: 0.3104547, w: 0.99481004}
+    - {x: 0.00050466607, y: 0.00061967835, z: 0.97546124, w: 0.9948281}
+    - {x: 0.0005039614, y: 0.0005829087, z: 0.9213801, w: 0.9948283}
+    - {x: 0.0005053657, y: 0.0006389561, z: 0.9814703, w: 0.99482805}
+    - {x: 0.0032560194, y: 0.002953971, z: 0.84325224, w: 0.994819}
+    - {x: 0.0025402792, y: 0.0029067483, z: 0.9053482, w: 0.9948192}
+    - {x: 0.018077016, y: 0.019068977, z: 0.92331445, w: 0.97867334}
+    - {x: 0.025627268, y: 0.029395565, z: 0.18543586, w: 0.9727005}
+    - {x: 0.054204497, y: 0.06034622, z: 0.45170566, w: 0.94070846}
+    - {x: 0.05416275, y: 0.062127363, z: 0.83735526, w: 0.97286505}
+    - {x: 0.003259383, y: 0.004160246, z: 0.885217, w: 0.9936321}
+    - {x: 0.01351391, y: 0.014714281, z: 0.6765852, w: 0.9809294}
+    - {x: 0.0058385185, y: 0.007073138, z: 0.28430742, w: 0.99076885}
+    - {x: 0.013226272, y: 0.014434293, z: 0.20367649, w: 0.97889614}
+    - {x: 0.0049484293, y: 0.0071769385, z: 0.873209, w: 0.9906703}
+    - {x: 0.010604827, y: 0.012560675, z: 0.29021826, w: 0.9877094}
+    - {x: 0.008140266, y: 0.0033136492, z: 0.91296387, w: 0.9925719}
+    - {x: 0.0065669487, y: 0.00755702, z: 0.59086037, w: 0.98789805}
+    - {x: 0.008938908, y: 0.010048458, z: 0.28436798, w: 0.98326546}
+    - {x: 0.002527199, y: 0.0028932958, z: 0.82322496, w: 0.9948192}
+    - {x: 0.014635244, y: 0.018003898, z: 0.14616215, w: 0.9832726}
+    - {x: 0.012548621, y: 0.01465858, z: 0.086129196, w: 0.98334295}
+    - {x: 0.0065599494, y: 0.0075111263, z: 0.8031792, w: 0.9833136}
+    - {x: 0.0045197867, y: 0.0055823345, z: 0.14421633, w: 0.99483055}
+    - {x: 0.006522854, y: 0.007482614, z: 0.22633952, w: 0.992533}
+    - {x: 0.008855897, y: 0.009920452, z: 0.264362, w: 0.9833042}
+    - {x: 0.010597471, y: 0.013918283, z: 0.23030412, w: 0.9832886}
+    - {x: 0.01463224, y: 0.015324054, z: 0.4646399, w: 0.9809855}
+    - {x: 0.0045365104, y: 0.0074957963, z: 0.99547553, w: 0.99250376}
+    - {x: 0.0065624556, y: 0.0076000807, z: 0.5407856, w: 0.98331326}
+    - {x: 0.037724547, y: 0.042518336, z: 0.578721, w: 0.94411886}
+    - {x: 0.002527259, y: 0.0028932958, z: 0.81921893, w: 0.9948192}
+    - {x: 0.014635244, y: 0.018003898, z: 0.13013811, w: 0.9832726}
+    - {x: 0.012548621, y: 0.01465858, z: 0.072108164, w: 0.98334295}
+    - {x: 0.0065599494, y: 0.0075111263, z: 0.9594135, w: 0.9833136}
+    - {x: 0.0045198016, y: 0.0055823345, z: 0.15022534, w: 0.99483055}
+    - {x: 0.006522854, y: 0.007482614, z: 0.23435153, w: 0.992533}
+    - {x: 0.008855897, y: 0.009920452, z: 0.27437702, w: 0.9833042}
+    - {x: 0.010597471, y: 0.013918283, z: 0.24232215, w: 0.9832886}
+    - {x: 0.01463224, y: 0.015324054, z: 0.48066393, w: 0.9809855}
+    - {x: 0.002527199, y: 0.0028932958, z: 0.827231, w: 0.9948192}
+    - {x: 0.014635237, y: 0.018003898, z: 0.11411409, w: 0.9832726}
+    - {x: 0.012548621, y: 0.01465858, z: 0.10015023, w: 0.98334295}
+    - {x: 0.0065598893, y: 0.0075111263, z: 0.5668247, w: 0.9833136}
+    - {x: 0.0045197867, y: 0.0055823345, z: 0.13820732, w: 0.99483055}
+    - {x: 0.006522854, y: 0.007482614, z: 0.21832749, w: 0.992533}
+    - {x: 0.008855897, y: 0.009920452, z: 0.25434697, w: 0.9833042}
+    - {x: 0.010597471, y: 0.013918283, z: 0.2182861, w: 0.9832886}
+    - {x: 0.01463224, y: 0.015324054, z: 0.44861585, w: 0.9809855}
+    - {x: 0.020651836, y: 0.02369097, z: 0.5988177, w: 0.97406024}
+    - {x: 0.020651776, y: 0.02369097, z: 0.8431843, w: 0.76498497}
+    - {x: 0.004700023, y: 0.0075866203, z: 0.12008553, w: 0.9931422}
+    - {x: 0.004700023, y: 0.0075866203, z: 0.11407652, w: 0.9931422}
+    - {x: 0.0047000153, y: 0.0075866203, z: 0.12609455, w: 0.9931422}
+    - {x: 0.0047000153, y: 0.0075866203, z: 0.13210356, w: 0.9931422}
+    - {x: 0.02720836, y: 0.031235978, z: 0.8414847, w: 0.73316586}
+    - {x: 0.008163135, y: 0.008171779, z: 0.9584188, w: 0.9915116}
     - {x: 0.044115193, y: 0.050603654, z: 0.6178945, w: 0.8925532}
-    - {x: 0.018324016, y: 0.021036463, z: 0.35333285, w: 0.979669}
+    - {x: 0.018324016, y: 0.021036463, z: 0.98227626, w: 0.6465271}
     - {x: 0.07113167, y: 0.081773385, z: 0.86715055, w: 0.7097588}
     - {x: 0.06579857, y: 0.0766082, z: 0.77704835, w: 0.7327408}
     - {x: 0.10343553, y: 0.11765734, z: 0.7791688, w: 0.40896037}
@@ -16920,36 +17099,34 @@ MonoBehaviour:
     - {x: 0.20950106, y: 0.24107063, z: 0.7791688, w: 0}
     - {x: 0.1481506, y: 0.1711152, z: 0.7771433, w: 0.2389012}
     - {x: 0.039912008, y: 0.04595628, z: 0.7050576, w: 0.8937392}
-    - {x: 0.018324016, y: 0.021036463, z: 0.37135988, w: 0.979669}
-    - {x: 0.02620779, y: 0.030261895, z: 0.93829584, w: 0.68108094}
+    - {x: 0.018324016, y: 0.021036396, z: 0.9362072, w: 0.76829624}
+    - {x: 0.02620779, y: 0.030261895, z: 0.6238241, w: 0.94299936}
     - {x: 0.025362218, y: 0.029192084, z: 0.8714524, w: 0.9237666}
-    - {x: 0.02720836, y: 0.031235944, z: 0.9236079, w: 0.37704873}
-    - {x: 0.01431657, y: 0.016449036, z: 0.76996136, w: 0.97967196}
+    - {x: 0.027208425, y: 0.031235978, z: 0.969677, w: 0.9353485}
     - {x: 0.033691965, y: 0.038794234, z: 0.046069104, w: 0.9442849}
     - {x: 0.018324016, y: 0.021036463, z: 0.31727877, w: 0.979669}
-    - {x: 0.018323982, y: 0.021036463, z: 0.38938698, w: 0.979669}
-    - {x: 0.013469005, y: 0.015461508, z: 0.6863992, w: 0.98032063}
-    - {x: 0.0055841864, y: 0.0068122814, z: 0.10345821, w: 0.98249143}
-    - {x: 0.024665609, y: 0.02729218, z: -0.0026496258, w: 0.97351855}
+    - {x: 0.018324012, y: 0.021036463, z: 0.024840124, w: 0.94520605}
+    - {x: 0.013469005, y: 0.015461508, z: 0.7605104, w: 0.98032063}
+    - {x: 0.0055841957, y: 0.00681236, z: 0.25368354, w: 0.993979}
+    - {x: 0.02466561, y: 0.02729218, z: 0.019383425, w: 0.97351855}
     - {x: 0.045867246, y: 0.052706063, z: 0.08794038, w: 0.8912172}
     - {x: 0.040686607, y: 0.045813892, z: 0.70148164, w: 0.9356633}
     - {x: 0.060473632, y: 0.069046736, z: 0.8370738, w: 0.8567814}
-    - {x: 0.013469068, y: 0.015461508, z: 0.52014977, w: 0.98032063}
+    - {x: 0.013469005, y: 0.015461508, z: 0.69040525, w: 0.98032063}
     - {x: 0.040173836, y: 0.045870863, z: 0.9531577, w: 0.46380046}
     - {x: 0.040173836, y: 0.045870896, z: 0.9511547, w: 0.89114106}
     - {x: 0.0617677, y: 0.07088238, z: 0.84115374, w: 0.7879276}
-    - {x: 0.013462978, y: 0.01569402, z: 0.7424935, w: 0.9803212}
+    - {x: 0.013462994, y: 0.015693955, z: 0.057465915, w: 0.9826188}
     - {x: 0.0617677, y: 0.07088238, z: 0.90124387, w: 0.7879276}
-    - {x: 0.01634451, y: 0.018812712, z: 0.40741584, w: 0.9796675}
+    - {x: 0.01634451, y: 0.018812712, z: 0.33530766, w: 0.9796675}
     - {x: 0.03814991, y: 0.043919027, z: 0.9603804, w: 0.5524824}
     - {x: 0.09173309, y: 0.10525484, z: 0.7771084, w: 0.6294567}
-    - {x: 0.022336809, y: 0.025579592, z: 0.5997562, w: 0.9728413}
+    - {x: 0.022336809, y: 0.025579592, z: 0.8321047, w: 0.9682463}
     - {x: 0.036258083, y: 0.041212954, z: 0.1800073, w: 0.9417091}
-    - {x: 0.02889339, y: 0.032534484, z: 0.5763289, w: 0.94142544}
+    - {x: 0.02889339, y: 0.032534517, z: 0.92284864, w: 0.376233}
     - {x: 0.036258083, y: 0.041212954, z: 0.24810944, w: 0.9417091}
-    - {x: 0.025794845, y: 0.027766272, z: 0.84326494, w: 0.76278}
     - {x: 0.034765452, y: 0.03767301, z: 0.38510302, w: 0.94268453}
-    - {x: 0.01634451, y: 0.018812712, z: 0.45548794, w: 0.9796675}
+    - {x: 0.016344544, y: 0.018812712, z: 0.38337976, w: 0.9796675}
     - {x: 0.044115253, y: 0.050603654, z: 0.35349783, w: 0.8925532}
     - {x: 0.03814991, y: 0.043919027, z: 0.9623834, w: 0.76845026}
     - {x: 0.037175816, y: 0.042084817, z: 0.11177516, w: 0.9415724}
@@ -16959,96 +17136,171 @@ MonoBehaviour:
     - {x: 0.040173836, y: 0.045870863, z: 0.9531577, w: 0.37649432}
     - {x: 0.036251076, y: 0.041901078, z: 0.74278116, w: 0.8910386}
     - {x: 0.09582408, y: 0.10991219, z: 0.86524224, w: 0.5214755}
-    - {x: 0.013462978, y: 0.01569402, z: 0.7284725, w: 0.9803212}
+    - {x: 0.013462994, y: 0.015693955, z: 0.043444883, w: 0.9826188}
     - {x: 0.040686607, y: 0.045813892, z: 0.7375357, w: 0.9356633}
     - {x: 0.045867227, y: 0.052706063, z: 0.22013868, w: 0.8912172}
-    - {x: 0.0055471933, y: 0.006375331, z: 0.0854358, w: 0.98254603}
-    - {x: 0.013462978, y: 0.01569402, z: 0.7004304, w: 0.9803212}
-    - {x: 0.022777578, y: 0.026120532, z: 0.019297073, w: 0.9733128}
-    - {x: 0.0146674365, y: 0.015355846, z: 0.7837454, w: 0.9795458}
-    - {x: 0.016710317, y: 0.01882116, z: 0.48755002, w: 0.9797128}
+    - {x: 0.005547184, y: 0.0063754045, z: 0.18158002, w: 0.99403363}
+    - {x: 0.013462978, y: 0.01569402, z: 0.77454156, w: 0.9803212}
+    - {x: 0.022777522, y: 0.026120532, z: 0.6402285, w: 0.9733128}
+    - {x: 0.014667453, y: 0.0153557705, z: 0.16081099, w: 0.98184335}
+    - {x: 0.01671035, y: 0.01882116, z: 0.41544184, w: 0.9797128}
     - {x: 0.045867227, y: 0.052706063, z: 0.17607258, w: 0.8912172}
-    - {x: 0.0055471933, y: 0.006375331, z: 0.073417775, w: 0.98254603}
-    - {x: 0.013469005, y: 0.015461508, z: 0.6723782, w: 0.98032063}
+    - {x: 0.0055472027, y: 0.0063754045, z: 0.15554096, w: 0.99403363}
+    - {x: 0.013469068, y: 0.015461508, z: 0.7464893, w: 0.98032063}
     - {x: 0.039835382, y: 0.04583669, z: 0.8951675, w: 0.92110044}
-    - {x: 0.0055841864, y: 0.0068122814, z: 0.11547624, w: 0.98249143}
+    - {x: 0.0055841957, y: 0.00681236, z: 0.26570156, w: 0.993979}
     - {x: 0.044115253, y: 0.050603654, z: 0.30943173, w: 0.8925532}
     - {x: 0.050116625, y: 0.057490036, z: 0.93637836, w: 0.7110554}
-    - {x: 0.0055471933, y: 0.006375331, z: 0.07942679, w: 0.98254603}
-    - {x: 0.024665637, y: 0.02729218, z: 0.9688076, w: 0.971221}
+    - {x: 0.005547184, y: 0.0063754045, z: 0.17557101, w: 0.99403363}
+    - {x: 0.024665609, y: 0.02729218, z: -0.0026496258, w: 0.97351855}
     - {x: 0.037650142, y: 0.043231323, z: 0.9614422, w: 0.5100517}
     - {x: 0.03609447, y: 0.041630283, z: 0.66063285, w: 0.9392635}
     - {x: 0.045867246, y: 0.052706063, z: 0.9372143, w: 0.62929875}
-    - {x: 0.02028827, y: 0.023243995, z: 0.024889918, w: 0.9452659}
-    - {x: 0.022336744, y: 0.025579592, z: 0.57772315, w: 0.9728413}
-    - {x: 0.013462978, y: 0.01569402, z: 0.71445143, w: 0.9803212}
-    - {x: 0.007275359, y: 0.009298919, z: 0.9605327, w: 0.979883}
-    - {x: 0.024545798, y: 0.030427918, z: 0.8328558, w: 0.9665863}
-    - {x: 0.013469068, y: 0.015461508, z: 0.64433604, w: 0.98032063}
+    - {x: 0.022336809, y: 0.025579592, z: 0.81007165, w: 0.9682463}
+    - {x: 0.013462978, y: 0.01569402, z: 0.7885626, w: 0.9803212}
+    - {x: 0.007275359, y: 0.009298919, z: 0.56594086, w: 0.9913707}
+    - {x: 0.013469005, y: 0.015461508, z: 0.7184473, w: 0.98032063}
     - {x: 0.044115253, y: 0.050603654, z: 0.48569614, w: 0.8925532}
     - {x: 0.044115253, y: 0.050603654, z: 0.44163004, w: 0.8925532}
     - {x: 0.044115253, y: 0.050603654, z: 0.26536563, w: 0.8925532}
     - {x: 0.045867227, y: 0.052706063, z: 0.13200648, w: 0.8912172}
     - {x: 0.025362218, y: 0.029192152, z: 0.89749146, w: 0.9651221}
     - {x: 0.039835315, y: 0.045836624, z: 0.9612667, w: 0.81081903}
-    - {x: 0.02720836, y: 0.031235978, z: 0.87152976, w: 0.9652164}
+    - {x: 0.02720836, y: 0.031235911, z: 0.961665, w: 0.854935}
     - {x: 0.04586723, y: 0.052706063, z: 0.043874286, w: 0.8912172}
-    - {x: 0.025794845, y: 0.027766336, z: 0.84326494, w: 0.73520964}
+    - {x: 0.025794845, y: 0.027766336, z: 0.87330997, w: 0.9672602}
     - {x: 0.04068668, y: 0.04581396, z: 0.9318271, w: 0.9333657}
     - {x: 0.04615901, y: 0.05295193, z: -0.0010593132, w: 0.892524}
-    - {x: 0.020288285, y: 0.023243995, z: 0.92223597, w: 0.9774313}
     - {x: 0.044115253, y: 0.050603654, z: 0.39756393, w: 0.8925532}
-    - {x: 0.013469005, y: 0.015461508, z: 0.53417087, w: 0.98032063}
+    - {x: 0.013469005, y: 0.015461508, z: 0.7044263, w: 0.98032063}
     - {x: 0.03601083, y: 0.04130287, z: 0.1459365, w: 0.94166315}
-    - {x: 0.007275359, y: 0.009298919, z: 0.85637647, w: 0.979883}
+    - {x: 0.0072753346, y: 0.009298919, z: 0.24746315, w: 0.9913707}
     - {x: 0.044875048, y: 0.051469754, z: 0.660146, w: 0.8904721}
     - {x: 0.069624305, y: 0.07986065, z: 0.86930394, w: 0.6318208}
-    - {x: 0.01634451, y: 0.018812712, z: 0.42343986, w: 0.9796675}
-    - {x: 0.018323949, y: 0.021036463, z: 0.9422162, w: 0.97737145}
-    - {x: 0.02889339, y: 0.032534484, z: 0.628407, w: 0.94142544}
-    - {x: 0.007275359, y: 0.009298919, z: 0.79828936, w: 0.979883}
-    - {x: 0.01431657, y: 0.016449036, z: 0.7559403, w: 0.97967196}
+    - {x: 0.01634451, y: 0.018812712, z: 0.3513317, w: 0.9796675}
+    - {x: 0.018324016, y: 0.021036463, z: 0.9402132, w: 0.97737145}
+    - {x: 0.02889339, y: 0.032534484, z: 0.9368697, w: 0.679507}
     - {x: 0.036258083, y: 0.041212954, z: 0.28216052, w: 0.9417091}
-    - {x: 0.024665637, y: 0.02729218, z: 0.6202848, w: 0.971221}
+    - {x: 0.024665637, y: 0.02729218, z: 0.6182818, w: 0.971221}
     - {x: 0.0617677, y: 0.07088245, z: 0.7770576, w: 0.80630785}
-    - {x: 0.01634451, y: 0.018812712, z: 0.4394639, w: 0.9796675}
-    - {x: 0.007275359, y: 0.009298919, z: 0.8623855, w: 0.979883}
+    - {x: 0.01634451, y: 0.018812712, z: 0.36735573, w: 0.9796675}
+    - {x: 0.007275359, y: 0.009298919, z: 0.5399018, w: 0.9913707}
     - {x: 0.044115193, y: 0.050603654, z: 0.52976227, w: 0.8925532}
     - {x: 0.044115253, y: 0.050603654, z: 0.57382834, w: 0.8925532}
-    - {x: 0.0072752624, y: 0.009298919, z: 0.9925809, w: 0.979883}
     - {x: 0.039835382, y: 0.045836624, z: 0.8330744, w: 0.923398}
     - {x: 0.03609444, y: 0.039068427, z: 0.35016716, w: 0.94172865}
-    - {x: 0.016710317, y: 0.01882116, z: 0.5035741, w: 0.9797128}
+    - {x: 0.016710317, y: 0.01882116, z: 0.4314659, w: 0.9797128}
     - {x: 0.03625105, y: 0.041901078, z: 0.07778369, w: 0.9415843}
     - {x: 0.025362218, y: 0.029192084, z: 0.80935925, w: 0.9398493}
-    - {x: 0.016344544, y: 0.018812712, z: 0.47151196, w: 0.9796675}
-    - {x: 0.025362218, y: 0.029192084, z: 0.80935925, w: 0.9674197}
+    - {x: 0.01634451, y: 0.018812712, z: 0.3994038, w: 0.9796675}
+    - {x: 0.025362218, y: 0.029192152, z: 0.9695996, w: 0.9651221}
     - {x: 0.03223998, y: 0.036977064, z: 0.45156133, w: 0.943003}
-    - {x: 0.02720836, y: 0.031235911, z: 0.95966196, w: 0.5953141}
-    - {x: 0.0055471933, y: 0.006375331, z: 0.09144481, w: 0.98254603}
-    - {x: 0.0055841864, y: 0.0068122814, z: 0.10946723, w: 0.98249143}
-    - {x: 0.020288285, y: 0.023243995, z: 0.5476741, w: 0.9774313}
+    - {x: 0.02720836, y: 0.031235911, z: 0.59711814, w: 0.94224113}
+    - {x: 0.005547184, y: 0.0063754045, z: 0.18758903, w: 0.99403363}
+    - {x: 0.0055841957, y: 0.00681236, z: 0.25969255, w: 0.993979}
     - {x: 0.03223995, y: 0.036977064, z: 0.5156575, w: 0.943003}
-    - {x: 0.0055841864, y: 0.0068122814, z: 0.0974492, w: 0.98249143}
+    - {x: 0.0055841957, y: 0.00681236, z: 0.21162045, w: 0.993979}
     - {x: 0.03223998, y: 0.036977064, z: 0.41951326, w: 0.943003}
-    - {x: 0.013469068, y: 0.015461508, z: 0.6583571, w: 0.98032063}
-    - {x: 0.007275359, y: 0.009298919, z: 0.8042984, w: 0.979883}
+    - {x: 0.013469068, y: 0.015461508, z: 0.73246825, w: 0.98032063}
+    - {x: 0.007275359, y: 0.009298919, z: 0.24145412, w: 0.9913707}
     - {x: 0.032240015, y: 0.036977064, z: 0.48360938, w: 0.943003}
-    - {x: 0.026211202, y: 0.030416586, z: 0.9643347, w: 0.6810744}
-    - {x: 0.008163115, y: 0.008171684, z: 0.041042704, w: 0.9823215}
+    - {x: 0.026211219, y: 0.030416586, z: -0.0011134648, w: 0.9452903}
+    - {x: 0.008163135, y: 0.008171779, z: 0.80218446, w: 0.9915116}
     - {x: 0.036258083, y: 0.041212954, z: 0.21405837, w: 0.9417091}
     - {x: 0.061767764, y: 0.070882395, z: 0.9232769, w: 0.23881793}
-    - {x: 0.02835675, y: 0.029978497, z: 0.9609252, w: 0.8543147}
     - {x: 0.03717584, y: 0.042084817, z: 0.77476966, w: 0.9392749}
-    - {x: 0.03298645, y: 0.037972804, z: 0.5458918, w: 0.9409104}
-    - {x: 0.008163115, y: 0.008171684, z: 0.057066742, w: 0.9823215}
+    - {x: 0.032202557, y: 0.036802854, z: 0.54652756, w: 0.9416613}
     - {x: 0.040173836, y: 0.045870863, z: 0.9531577, w: 0.4201474}
-    - {x: 0.028893461, y: 0.032534484, z: 0.9689177, w: 0.94142544}
+    - {x: 0.02889339, y: 0.032534484, z: 0.96290874, w: 0.679507}
     - {x: 0.057801057, y: 0.06643615, z: 0.8952011, w: 0.85681087}
     - {x: 0.034769975, y: 0.037865587, z: 0.3170007, w: 0.94267637}
-    - {x: 0.02889339, y: 0.032534484, z: 0.60236794, w: 0.94142544}
-    - {x: 0.018324016, y: 0.021036463, z: 0.3353058, w: 0.979669}
+    - {x: 0.02889339, y: 0.032534484, z: 0.9589027, w: 0.5944984}
+    - {x: 0.018324016, y: 0.021036463, z: 0.98227626, w: 0.62584937}
     bakedVertexColorMesh:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -17658,7 +17910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 924738424
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -19895,6 +20147,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PictureCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 485093814288682685, guid: 0a476969a274ae54590dd0104401b6f4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2839707458639459854, guid: 0a476969a274ae54590dd0104401b6f4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -21848,7 +22104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 982156698
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -22781,7 +23037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 1434372007
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -23576,7 +23832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -133508340
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -23903,7 +24159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -2121239261
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -24411,7 +24667,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -1603326573
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -25422,7 +25678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 1263555386
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -25739,7 +25995,6 @@ RectTransform:
   - {fileID: 523664}
   - {fileID: 1170887554}
   - {fileID: 255779877}
-  - {fileID: 2076979935}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -25776,10 +26031,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -26212,7 +26467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: 1810101572
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -28129,7 +28384,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1969846851}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 84269228483331504, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: audioSource
@@ -28241,11 +28496,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_AnchorMax.x
@@ -28265,23 +28520,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1161
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 653
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_LocalPosition.x
@@ -28301,23 +28556,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 580.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 326.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -28376,11 +28631,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
---- !u!224 &2076979935 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8043473867578471746, guid: 9946ac74bfb1af3408c8f7a3eaae74ee, type: 3}
-  m_PrefabInstance: {fileID: 2076979934}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2080521686
 GameObject:
   m_ObjectHideFlags: 0
@@ -28414,7 +28664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -736738322
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -28854,7 +29104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
   UID: -1996382780
   color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 1
+  intensity: 1.2
   shadowSpread: 0.05
   cutoff: 10
   realisticFalloff: 0
@@ -29778,6 +30028,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 330585546}
   - {fileID: 145932439}
+  - {fileID: 2076979934}
   - {fileID: 1969846851}
   - {fileID: 832575519}
   - {fileID: 1919448824}
