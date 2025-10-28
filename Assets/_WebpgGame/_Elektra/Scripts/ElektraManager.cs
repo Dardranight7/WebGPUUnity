@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ElektraManager : MonoBehaviour
 {
@@ -98,7 +100,23 @@ public class ElektraManager : MonoBehaviour
             message =  $" Te faltan {remaining} actividades.{detailedProgress}";
             return false;
         }
-
     }
-
+    public void LoadLevelAsync(string targetSceneName)
+    {
+        // Here you can set the target scene ID for your LoadingScreenManager 
+        SceneData.nextSceneId = targetSceneName;
+        
+        // Use the LoadLevelAsync coroutine we created earlier
+        StartCoroutine(LoadSceneAsync(SceneData.baseLoadSceneId));
+    }
+    
+    // The core coroutine to load the next scene without freezing the game
+    private IEnumerator LoadSceneAsync(string sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        while (!operation.isDone)
+        {
+            yield return null; 
+        }
+    }
 }

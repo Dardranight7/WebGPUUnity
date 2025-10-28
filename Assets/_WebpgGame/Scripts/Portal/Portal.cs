@@ -40,7 +40,7 @@ public class Portal : MonoBehaviour
             MochiCourtain.Singleton.LoadSceneWithCourtain(toScene,1);
         }
         else
-            SceneManager.LoadScene(toScene);
+            ElektraManager.Instance.LoadLevelAsync(toScene);
     }
 
     private void ChanceScene(string nextScene)

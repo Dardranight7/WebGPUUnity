@@ -6,6 +6,6 @@ public class LoadScene : MonoBehaviour
 {
      public void LoadSceneWithString(string toScene)
      {
-          SceneManager.LoadScene(toScene);
+          ElektraManager.Instance.LoadLevelAsync(toScene);
      }
 }
