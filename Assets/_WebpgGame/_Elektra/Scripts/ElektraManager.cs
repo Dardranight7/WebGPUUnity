@@ -102,15 +102,12 @@ public class ElektraManager : MonoBehaviour
         }
     }
     public void LoadLevelAsync(string targetSceneName)
-    {
-        // Here you can set the target scene ID for your LoadingScreenManager 
+    { 
         SceneData.nextSceneId = targetSceneName;
         
-        // Use the LoadLevelAsync coroutine we created earlier
         StartCoroutine(LoadSceneAsync(SceneData.baseLoadSceneId));
     }
     
-    // The core coroutine to load the next scene without freezing the game
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
