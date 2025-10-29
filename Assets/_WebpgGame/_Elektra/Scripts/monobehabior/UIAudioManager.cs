@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(AudioSource))]
+// [RequireComponent(typeof(AudioSource))]
 public class UIAudioManager : MonoBehaviour
 {
 
     public static UIAudioManager Instance;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
     
     [Header("UI Sound Effects")]
     public AudioClip clickSound;
