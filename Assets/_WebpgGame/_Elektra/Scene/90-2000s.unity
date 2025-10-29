@@ -1455,6 +1455,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2863279871812272115, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3052299852014674338, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_Name
       value: GeneralUI
@@ -1473,6 +1477,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3100875166015324360, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629380851376198537, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7574090157790128221, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
@@ -1579,11 +1587,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967a77526f6c5e1439157fd3e73cee7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UIWorld::PopUpInformationScript
---- !u!328 &81690676 stripped
-VideoPlayer:
-  m_CorrespondingSourceObject: {fileID: 1259424576442593725, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+--- !u!114 &81690676 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 708188008512054837, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
   m_PrefabInstance: {fileID: 81690674}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a213bb686238e084bb4f6b282d870da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UIWorld::VideoTvImageController
 --- !u!114 &81690677 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6360047595569973409, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
@@ -2444,7 +2458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetVidedPlayer
+      value: SetVideoPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -2545,6 +2559,10 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_StringArgument
       value: Activity21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: VideoTvImageController, UIWorld
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -2795,7 +2813,7 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 176339794}
+      objectReference: {fileID: 149987768}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -2842,7 +2860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetVidedPlayer
+      value: SetVideoPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -2943,6 +2961,10 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_StringArgument
       value: Activity21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: VideoTvImageController, UIWorld
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -6858,7 +6880,7 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 452836344}
+      objectReference: {fileID: 149987768}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -6905,7 +6927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetVidedPlayer
+      value: SetVideoPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -7006,6 +7028,10 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_StringArgument
       value: Activity21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: VideoTvImageController, UIWorld
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -7574,7 +7600,7 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 616133395}
+      objectReference: {fileID: 149987768}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -7621,7 +7647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetVidedPlayer
+      value: SetVideoPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -7722,6 +7748,10 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_StringArgument
       value: Activity21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: VideoTvImageController, UIWorld
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -9605,7 +9635,7 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 853202005}
+      objectReference: {fileID: 149987768}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -9652,7 +9682,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetVidedPlayer
+      value: SetVideoPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -9753,6 +9783,10 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_StringArgument
       value: Activity21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: VideoTvImageController, UIWorld
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -13348,7 +13382,7 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1146282302}
+      objectReference: {fileID: 149987768}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -13395,7 +13429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetVidedPlayer
+      value: SetVideoPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -13496,6 +13530,10 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_StringArgument
       value: Activity21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: VideoTvImageController, UIWorld
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -20178,7 +20216,7 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1397075794}
+      objectReference: {fileID: 149987768}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -20225,7 +20263,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetVidedPlayer
+      value: SetVideoPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -20326,6 +20364,10 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_StringArgument
       value: Activity21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: VideoTvImageController, UIWorld
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -21440,7 +21482,7 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1515169379}
+      objectReference: {fileID: 149987768}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -21487,7 +21529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetVidedPlayer
+      value: SetVideoPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -21588,6 +21630,10 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_StringArgument
       value: Activity21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: VideoTvImageController, UIWorld
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName

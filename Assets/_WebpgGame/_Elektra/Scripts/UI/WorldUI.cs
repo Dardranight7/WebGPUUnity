@@ -246,9 +246,9 @@ public class WorldUI : MonoBehaviour
         audioSource.clip = audio;
     }
     
-    public void SetVidedPlayer(VideoPlayer videoPlayer)
+    public void SetVideoPlayer(VideoTvImageController tvController)
     {
-        videoPlayer.clip = videoClip;
+        tvController.SetVideoClip(videoClip);
     }
 
     public void SetInfPicture(PopUpInformationScript infoCanvasPicture)

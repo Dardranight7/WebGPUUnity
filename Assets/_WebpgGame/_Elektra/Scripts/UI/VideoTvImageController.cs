@@ -1,43 +1,50 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class VideoTvImageController : MonoBehaviour
 {
-    [SerializeField] private Image loadingImage;
-    [SerializeField] private Sprite[] tvsSprites;
+    [SerializeField] private TvModule[] tvsModules;
+
+    private TvModule selectedModule;
     void Start()
     {
-        Sprite spriteResourcePath = GetSpriteForScene(SceneData.nextSceneId);
-        LoadAndApplySprite(spriteResourcePath);
+        GetSelectedTvModule(SceneData.nextSceneId);
     }
-
-    private Sprite GetSpriteForScene(string sceneName)
+    public void SetVideoClip(VideoClip videoClip)
+    {
+        selectedModule.SetClip(videoClip);
+    }
+    private void GetSelectedTvModule(string sceneName)
     {
         switch (sceneName)
         {
             case "50s-60s":
-                return tvsSprites[0];
+                selectedModule =  tvsModules[0];
+                break;
             case "70-80s":
-                return tvsSprites[1];
+                selectedModule =  tvsModules[1];
+                break;
             case "90-2000s":
-                return tvsSprites[2];
+                selectedModule =  tvsModules[2];
+                break;
             case "2010-2025s":
-                return tvsSprites[3];
+                selectedModule =  tvsModules[3];
+                break;
             default:
-                return tvsSprites[0]; 
+                selectedModule =  tvsModules[0]; 
+                break;
         }
     }
-
-    private void LoadAndApplySprite([CanBeNull] Sprite resource)
+    public void ShowTv()
     {
-        if (resource != null)
-        {
-            loadingImage.sprite = resource;
-        }
-        else
-        {
-            Debug.LogError("Error: No se pudo cargar el Sprite en la ruta: " + resource);
-        }
+        selectedModule.ShowTv();
+    }
+    public void HideTv()
+    {
+        selectedModule.HideTv();
     }
 }

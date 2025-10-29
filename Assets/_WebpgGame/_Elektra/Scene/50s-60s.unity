@@ -2313,8 +2313,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0000047701665, y: 0.999262, z: -0.03841334, w: -0.00012408833}
-  m_LocalPosition: {x: 0.12882741, y: 1.3071454, z: 3.2737792}
+  m_LocalRotation: {x: 0.1521234, y: 0, z: 0, w: 0.98836154}
+  m_LocalPosition: {x: 0.12847877, y: 2.02171, z: -2.6056066}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2995,22 +2995,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1425448168578437659, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 1641110296, guid: 999d073ed3bdd584aa7bc0adebcf8314, type: 3}
-    - target: {fileID: 1425448168578437659, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_Color.b
-      value: 0.7735849
-      objectReference: {fileID: 0}
-    - target: {fileID: 1425448168578437659, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_Color.g
-      value: 0.7735849
-      objectReference: {fileID: 0}
-    - target: {fileID: 1425448168578437659, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_Color.r
-      value: 0.7735849
-      objectReference: {fileID: 0}
     - target: {fileID: 2192015615534251862, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3051,10 +3035,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5353314633755823877, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 355312219, guid: 999d073ed3bdd584aa7bc0adebcf8314, type: 3}
     - target: {fileID: 7574090157790128221, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3102,30 +3082,6 @@ PrefabInstance:
     - target: {fileID: 8305385695343331784, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8546482600469790207, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_text
-      value: '50 - 60s '
-      objectReference: {fileID: 0}
-    - target: {fileID: 8546482600469790207, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_fontSize
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 8546482600469790207, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8546482600469790207, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 8546482600469790207, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_VerticalAlignment
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 8546482600469790207, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-      propertyPath: m_HorizontalAlignment
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8827700912826008695, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3205,6 +3161,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967a77526f6c5e1439157fd3e73cee7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UIWorld::PopUpInformationScript
+--- !u!114 &436807674 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 708188008512054837, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+  m_PrefabInstance: {fileID: 436807670}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a213bb686238e084bb4f6b282d870da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UIWorld::VideoTvImageController
 --- !u!4 &438658470 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ee4c7d1e7f7980c4f8457f3b95012774, type: 3}
@@ -8528,6 +8495,10 @@ PrefabInstance:
       value: ShowUI
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetVideoPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: SetScene
       objectReference: {fileID: 0}
@@ -8570,7 +8541,7 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 802712242917696494}
+      objectReference: {fileID: 436807674}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgument
       value: 
@@ -8590,6 +8561,10 @@ PrefabInstance:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_StringArgument
       value: 50s-60s
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
+      propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: VideoTvImageController, UIWorld
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -14821,11 +14796,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be59bc6995164bc4e9d63d3385d2bdd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UIWorld::ElektraActivity
---- !u!328 &802712242917696494 stripped
-VideoPlayer:
-  m_CorrespondingSourceObject: {fileID: 1259424576442593725, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
-  m_PrefabInstance: {fileID: 436807670}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4419366528262728696 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7908360504806333816, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
