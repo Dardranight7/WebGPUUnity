@@ -672,6 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25fe7343399b7154aad850b04aee08fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FinishTrigger
+  placeOffset: 0.5
 --- !u!65 &315370734
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -991,6 +992,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b097c389c25194e89c0431712c3db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SurfaceFollowCamera
+  target: {fileID: 7321620997353598532}
+  targetSlider: {fileID: 0}
+  distance: 2
+  height: 1
+  followSmooth: 8
+  lookSmooth: 10
+  cinematicMode: 0
+  cinematicOrbitSpeed: 25
 --- !u!1 &362867938
 GameObject:
   m_ObjectHideFlags: 0
@@ -1416,37 +1425,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &520867400
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 520867401}
-  m_Layer: 16
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &520867401
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 520867400}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.17, y: -1.474, z: -0.038}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7321620997353598532}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &542693454
 GameObject:
   m_ObjectHideFlags: 0
@@ -63427,6 +63405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1082393620}
+  - component: {fileID: 1082393621}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -63449,6 +63428,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1082393621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082393618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c277a5692330f94682c26e98371d276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RaceManager
+  player: {fileID: 0}
+  bots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  racers:
+  - {fileID: 7589770804648820219}
+  - {fileID: 1023642741}
+  - {fileID: 1275397620}
+  - {fileID: 1151980964}
+  mainCamera: {fileID: 349560052}
+  countdownContainer: {fileID: 4158501191923230810}
+  countdownSeconds: 3
+  positionsUI: {fileID: 0}
+  resultsUI: {fileID: 0}
+  raceStarted: 0
+  raceFinished: 0
 --- !u!1 &1085706068
 GameObject:
   m_ObjectHideFlags: 0
@@ -186093,6 +186101,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4d6181e45d9374ea9b56260f2bfd7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaypointPath
+  points:
+  - {fileID: 1592275210}
+  - {fileID: 272473472}
+  - {fileID: 855464935}
+  - {fileID: 1368160041}
+  - {fileID: 1656067525}
+  - {fileID: 183829221}
+  - {fileID: 1081371852}
+  - {fileID: 1940395103}
+  - {fileID: 1037741649}
+  - {fileID: 1881628061}
+  - {fileID: 903926266}
 --- !u!4 &1731535158
 Transform:
   m_ObjectHideFlags: 0
@@ -186135,6 +186155,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c5e1bfee239f14da5e66d412e35b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrackPath
+  points:
+  - {fileID: 1592275210}
+  - {fileID: 272473472}
+  - {fileID: 855464935}
+  - {fileID: 1368160041}
+  - {fileID: 1656067525}
+  - {fileID: 183829221}
+  - {fileID: 1958272989}
+  - {fileID: 1081371852}
+  - {fileID: 1940395103}
+  - {fileID: 1511220072}
+  - {fileID: 894735170}
+  - {fileID: 1597466429}
+  - {fileID: 1037741649}
+  - {fileID: 1881628061}
+  - {fileID: 903926266}
+  closedLoop: 0
+  segLen:
+  - 6.7433925
+  - 6.980093
+  - 7.887127
+  - 6.0469217
+  - 8.077537
+  - 2.3726354
+  - 2.9892151
+  - 9.346018
+  - 4.102351
+  - 4.27094
+  - 6.549294
+  - 4.7557325
+  - 7.4049325
+  - 3.273912
+  accLen:
+  - 0
+  - 6.7433925
+  - 13.723486
+  - 21.610613
+  - 27.657536
+  - 35.735073
+  - 38.107708
+  - 41.096924
+  - 50.44294
+  - 54.54529
+  - 58.81623
+  - 65.365524
+  - 70.121254
+  - 77.526184
+  - 80.800095
+  <TotalLength>k__BackingField: 80.800095
 --- !u!1 &1732614546
 GameObject:
   m_ObjectHideFlags: 0
@@ -249248,7 +249317,6 @@ GameObject:
   - component: {fileID: 3816518606695019219}
   - component: {fileID: 4447332163403540114}
   - component: {fileID: 8886534723772312894}
-  - component: {fileID: 8886534723772312895}
   m_Layer: 16
   m_Name: UI_minigames
   m_TagString: Untagged
@@ -253090,7 +253158,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3898180683913571224}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
   m_Name: 
@@ -255175,7 +255243,7 @@ Transform:
   m_GameObject: {fileID: 7589770804648820219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.39, z: 1.84}
+  m_LocalPosition: {x: -0, y: -0.39, z: 1.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -255184,7 +255252,6 @@ Transform:
   - {fileID: 498079161042651796}
   - {fileID: 8797105895977809690}
   - {fileID: 349560050}
-  - {fileID: 520867401}
   m_Father: {fileID: 4306671118277521652}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7349859497693240723
@@ -255624,7 +255691,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7589770804648820219}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d2171f0f84fdbf408a441dda6e6e4c3, type: 3}
   m_Name: 
@@ -255931,7 +255998,7 @@ Rigidbody:
   m_GameObject: {fileID: 7589770804648820219}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0.5
+  m_LinearDamping: 1
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -256002,23 +256069,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7589770804648820219}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1dd87124d9de0d4788d12c73e43e0d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSurfaceInput
-  moveSpeed: 10
-  maxSpeed: 8
-  groundDrag: 5
-  slopeLimit: 45
-  slideSpeed: 10
-  groundCheck: {fileID: 520867401}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
-  joystick: {fileID: 8886534723772312895}
-  useTouchControls: 1
+  speed: 10
 --- !u!114 &8211187490353387153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256695,22 +256751,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8886534723772312895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2170551171867948931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eab6098be41459742934923f1c0a4001, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VirtualJoystickAlpinaria
-  handleRange: 50
-  deadZone: 0.1
-  background: {fileID: 742284504438031018}
-  handle: {fileID: 7721035576284199031}
 --- !u!1 &8893014451603742393
 GameObject:
   m_ObjectHideFlags: 0
