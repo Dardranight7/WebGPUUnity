@@ -34,7 +34,6 @@ public class MochiCourtain : MonoBehaviour
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Screen.SetResolution(1280, 720, false);
     }
 
     private void OnDestroy()

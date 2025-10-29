@@ -140,7 +140,7 @@ public class Backend : MonoBehaviour
         }), Result);
     }
 
-    public void Register(string email, string password, string name, string secondName, string userName, string phone, string city, string documentType, string documentNumber, System.Action<Response> Result = null)
+    public void Register(string email, string password, string name, string secondName, string userName, string phone, string city, string documentType, string documentNumber, System.Action<Response> Result = null, System.Action<string> OnError = null)
     {
         HacerPeticionPOST(Petition.register, JsonConvert.SerializeObject(new RegisterAlpinaUserDTO
         {
@@ -154,7 +154,7 @@ public class Backend : MonoBehaviour
             city = city,
             documentType = documentType,
             documentNumber = documentNumber,
-        }), Result);
+        }), Result, OnError);
     }
 
     public void UpdateData(object data, System.Action<Response> Result = null)
@@ -201,7 +201,7 @@ public class Backend : MonoBehaviour
     private static string endpoint = "https://fanschevrolet-backend-production-eeec.up.railway.app/api/";  // Cambia esta URL por la de tu API
 
     // Método para hacer la solicitud POST
-    public void HacerPeticionPOST(Petition petition, string jsonData, System.Action<Response> Result = null)
+    public void HacerPeticionPOST(Petition petition, string jsonData, System.Action<Response> Result = null, System.Action<string> OnError = null)
     {
         // Los datos que vas a enviar (por ejemplo, un JSON)
         // Asegúrate de que los datos se puedan serializar correctamente en JSON
@@ -248,11 +248,11 @@ public class Backend : MonoBehaviour
                 break;
         }
         // Llama a la corutina que maneja la solicitud
-        StartCoroutine(PostRequest(endpoint + plus, jsonData, Result));
+        StartCoroutine(PostRequest(endpoint + plus, jsonData, Result, OnError));
     }
 
     // Corutina para realizar la solicitud POST
-    IEnumerator PostRequest(string url, string jsonData,  System.Action<Response> Result = null)
+    IEnumerator PostRequest(string url, string jsonData,  System.Action<Response> Result = null, System.Action<string> OnError = null)
     {
         // Crea un objeto UnityWebRequest y configura los parámetros
         UnityWebRequest request = new UnityWebRequest(url, "POST");
@@ -277,7 +277,14 @@ public class Backend : MonoBehaviour
             try
             {
                 Response response = JsonConvert.DeserializeObject<Response>(request.downloadHandler.text);
-                Result?.Invoke(response);
+                if (response != null)
+                {
+                    Result?.Invoke(response);
+                }
+                else
+                {
+                    OnError?.Invoke("Error al procesar la respuesta del servidor");
+                }
             }
             catch
             {
@@ -290,6 +297,7 @@ public class Backend : MonoBehaviour
         {
             // Si hubo un error, muestra el error
             Debug.LogError("Error en la solicitud: " + request.error);
+            OnError?.Invoke(request.error);
         }        
     }
 

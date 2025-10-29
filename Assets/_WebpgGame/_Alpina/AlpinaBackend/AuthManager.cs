@@ -23,10 +23,9 @@ public class AuthManager : MonoBehaviour
     [SerializeField] Sprite Errorimage, RegisterImage;
     [SerializeField] Image InputImage, InputPassword;
     [SerializeField] GameObject textincorrect;
-    [SerializeField] GameObject MuteIconMain, MuteIconGeneral;
+    [SerializeField] GameObject MuteIconMain, MuteIconGeneral, PopupError;
+    [SerializeField] TextMeshProUGUI PopupErrorText;
     //[SerializeField] FormValidator formValidator;
-
-    [SerializeField] TextMeshProUGUI textoCodigoAmigo;
 
     public static System.Action OnNeedToUpdateProfile;
     public static System.Action OnNeedToShowLogin;
@@ -129,6 +128,8 @@ public class AuthManager : MonoBehaviour
     {
         if (!TC.isOn || !TC2.isOn)
         {
+            PopupError.SetActive(true);
+            PopupErrorText.text = "Error en el registro. Debes aceptar los términos y condiciones.";
             return;
         }
         Backend.singleton.Register(registerEmail.text, registerPassword.text, nombre.text, apellido.text, registerUserName.text ,phone.text, city.text, documentType.options[documentType.value].text, numeroDocumento.text, (a) =>
@@ -140,13 +141,17 @@ public class AuthManager : MonoBehaviour
                 Backend.singleton.playerProfile = datos;
                 Backend.OnPlayerProfileUpdate?.Invoke();
                 MochiCourtain.Singleton.LoadSceneWithCourtain("0",1);
+                MainMenu.SetActive(false);
             }
             else if (a.code == 2) 
             {
-                emailFieldImage.sprite = IncorrectImage;
-                Text.text = "";
-                PlaceHolderEmail.text = "Error, el Email ya ha sido registrado antes";
+                PopupError.SetActive(true);
+                PopupErrorText.text = "Error, el Email ya ha sido registrado antes";
             }
+        }, (a) =>
+        {
+            PopupError.SetActive(true);
+            PopupErrorText.text = a;
         });
     }
 }
