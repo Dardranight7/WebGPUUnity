@@ -14,14 +14,12 @@ public class RaceManager : MonoBehaviour
     [SerializeField] public List<BotAlpinaria> bots = new List<BotAlpinaria>();
     
     
-    
+    [Header("UI")]
     public TextMeshProUGUI countDownText;
-    private string go = "¡YA!";
+    [SerializeField] private string go = "¡YA!";
     
+    [Header("Cuenta regresiva")]
     public float timeCountdown = 3f;
-
-    public bool raceStarted = false;
-    
     
     
     
@@ -35,7 +33,27 @@ public class RaceManager : MonoBehaviour
         if (countDownText != null)
             countDownText.gameObject.SetActive(false);
         
+        //Aseguramos que todos esten en modo espera antes de iniciar el countdown
+        PrepareContestants();
+        
         StartCoroutine(InitialCountDown());
+    }
+
+    private void PrepareContestants()
+    {
+        if (playerInput == null)
+            playerInput = FindObjectOfType<PlayerSurfaceInput>();
+        
+        if (playerInput != null)
+            playerInput.OnRacePrepare();
+        if (bots != null)
+        {
+            foreach (var bot in bots)
+            {
+                if (bot == null) continue;
+                bot.OnRacePrepare();
+            }
+        }
     }
 
     private IEnumerator InitialCountDown()
@@ -69,24 +87,31 @@ public class RaceManager : MonoBehaviour
         if (!initialRace || finishRace) return;
         
         timeRace += Time.deltaTime;
+        // Aquí puedes agregar verificación de fin de carrera si lo necesitas
+        // Ejemplo:
+        // if (playerInput != null && playerInput.Finished()) EndRace();
+        // foreach (var bot in bots) if (bot != null && bot.End()) EndRace();
         VerifyFinishRace();
     }
 
     public void StartRace()
     {
         initialRace = true;
+        finishRace = false;
+        timeRace = 0f;
+        
+        if (playerInput != null)
+            playerInput.OnRaceStart();
 
         if ( bots != null && bots.Count > 0)
         {   
             foreach (BotAlpinaria bot in bots)
             {
-                bot.ResetBot();
+                if (bot == null) continue;
+                bot.OnRaceStart();
             }
             
         }
-        
-        finishRace = false;
-        timeRace = 0f;
        
         
         Debug.Log("¡Carrera iniciada!");
@@ -113,8 +138,20 @@ public class RaceManager : MonoBehaviour
 
     void EndRace()
     {
+        if (finishRace) return;
         finishRace = true;
-        raceStarted = false;
+
+        // Si quieres detener a todos al terminar:
+        if (playerInput != null) playerInput.OnRaceStop();
+        if (bots != null)
+        {
+            foreach (var bot in bots)
+            {
+                if (bot == null) continue;
+                bot.OnRaceStop();
+            }
+        }
+
         Debug.Log("=== CARRERA FINALIZADA ===");
     }
 }

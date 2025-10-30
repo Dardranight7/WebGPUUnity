@@ -28,7 +28,9 @@ public class PlayerSurfaceInput : MonoBehaviour
     private float progresoSpline = 0f; // Posición actual en el spline (0 a 1)
     private float posicionLateral = 0f; // Posición lateral (-1 a 1)
     private float horizontalMovement = 0;
-    
+
+    private bool canMove = false;
+    private bool savedUseGravity = true;
 
     void Start()
     {
@@ -43,6 +45,26 @@ public class PlayerSurfaceInput : MonoBehaviour
         {
             InicializationSpline();
         }
+
+        OnRacePrepare();
+    }
+    
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        inputActions = new ThirdPerson();
+        inputActions.Enable();
+        inputActions.Player.Move.performed += OnMove;
+        inputActions.Player.Move.canceled += OnMove;
+        //Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.visible = false;
+    }
+    
+    private void OnDestroy()
+    {
+        inputActions.Player.Move.performed -= OnMove;
+        inputActions.Player.Move.canceled -= OnMove;
+        inputActions.Disable();
     }
     
     void InicializationSpline()
@@ -54,6 +76,22 @@ public class PlayerSurfaceInput : MonoBehaviour
 
     void FixedUpdate()
     {
+        //Código antiguo
+        /*if (splineContainer == null)
+        {
+            MovementWithOutSpline();
+            return;
+        }
+
+        MovementWithSpline();*/
+        
+        if (!canMove)
+        {
+            // Mantener quieto mientras espera el GO
+            rb.linearVelocity = Vector3.zero;
+            return;
+        }
+
         if (splineContainer == null)
         {
             MovementWithOutSpline();
@@ -182,22 +220,7 @@ public class PlayerSurfaceInput : MonoBehaviour
         return mejorProgreso;
     }
     
-    private void Awake()
-    {
-        inputActions = new ThirdPerson();
-        inputActions.Enable();
-        inputActions.Player.Move.performed += OnMove;
-        inputActions.Player.Move.canceled += OnMove;
-        //Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.visible = false;
-    }
-
-    private void OnDestroy()
-    {
-        inputActions.Player.Move.performed -= OnMove;
-        inputActions.Player.Move.canceled -= OnMove;
-        inputActions.Disable();
-    }
+  
     
 
    // float horizontalMovement = 0;
@@ -207,6 +230,26 @@ public class PlayerSurfaceInput : MonoBehaviour
     {
         Vector2 vector2 = movement.ReadValue<Vector2>();
         horizontalMovement = vector2.x;
+    }
+    
+    public void OnRacePrepare()
+    {
+        canMove = false;
+        rb.linearVelocity = Vector3.zero;
+        rb.useGravity = false; // no se deslice antes de tiempo
+    }
+
+    public void OnRaceStart()
+    {
+        ReiniciarEnSpline();
+        canMove = true;
+        rb.useGravity = savedUseGravity; // restaura la gravedad que configuraste
+    }
+
+    public void OnRaceStop()
+    {
+        canMove = false;
+        rb.linearVelocity = Vector3.zero;
     }
     
     // Métodos públicos útiles

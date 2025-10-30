@@ -9,6 +9,7 @@ public class BotAlpinaria : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private RaceManager raceManager;
   
     
     
@@ -56,6 +57,8 @@ public class BotAlpinaria : MonoBehaviour
     private float errorActual = 0f;
     private float personalidad;
     
+    private bool canMove = false;
+    
     public enum TipoDificultad
     {
         Facil,
@@ -66,13 +69,16 @@ public class BotAlpinaria : MonoBehaviour
 
     void Start()
     {
-        if (rb == null)
-            rb = GetComponent<Rigidbody>();
-            
+        if (rb == null) rb = GetComponent<Rigidbody>();
+        
         rb.freezeRotation = true;
-        
-        
+        rb.useGravity = false;
+
+
         InitialBot();
+        InitialInSpline();
+        
+        canMove = false;
     }
 
     void InitialBot()
@@ -148,6 +154,7 @@ public class BotAlpinaria : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!canMove) return;             // Espera hasta el GO
         if (splineContainer == null) return;
         
         Decitions();
@@ -290,6 +297,27 @@ public class BotAlpinaria : MonoBehaviour
         
         return mejorProgreso;
     }
+    
+    public void OnRacePrepare()
+    {
+        canMove = false;
+        // Mantente quieto hasta el GO
+        if (rb != null) rb.linearVelocity = Vector3.zero;
+    }
+    
+    public void OnRaceStart()
+    {
+        // Reposicionar/Reset si quieres que arranquen desde el inicio del spline
+        ResetBot();
+        canMove = true;
+    }
+
+    public void OnRaceStop()
+    {
+        canMove = false;
+        if (rb != null) rb.linearVelocity = Vector3.zero;
+    }
+
 
     public float GetProgress()
     {
