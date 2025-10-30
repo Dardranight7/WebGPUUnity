@@ -71895,7 +71895,7 @@ AudioSource:
   m_GameObject: {fileID: 173161405472869063}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 480535516563859261, guid: c1a9d64cae068fb488aa157935762ed5, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: fa2253a22b02e8e4b9f35604ec4dfd06, type: 3}
   m_PlayOnAwake: 1
@@ -71994,6 +71994,14 @@ PrefabInstance:
     - target: {fileID: 620739993529068607, guid: 254c14a9ca8f1c94495cbcebcf6128e0, type: 3}
       propertyPath: m_Name
       value: SFXManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1904597418258953828, guid: 254c14a9ca8f1c94495cbcebcf6128e0, type: 3}
+      propertyPath: mixer
+      value: 
+      objectReference: {fileID: 24100000, guid: c1a9d64cae068fb488aa157935762ed5, type: 2}
+    - target: {fileID: 1904597418258953828, guid: 254c14a9ca8f1c94495cbcebcf6128e0, type: 3}
+      propertyPath: sfxVolumeParam
+      value: SFXVol
       objectReference: {fileID: 0}
     - target: {fileID: 6884735564942945612, guid: 254c14a9ca8f1c94495cbcebcf6128e0, type: 3}
       propertyPath: m_LocalPosition.x
