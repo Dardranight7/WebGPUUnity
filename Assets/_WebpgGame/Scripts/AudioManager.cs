@@ -100,12 +100,6 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip, volumeScale);
     }
 
-    public void PlaySFXAtPoint(AudioClip clip, Vector3 position, float volume = 1f)
-    {
-        if (clip == null) return;
-        AudioSource.PlayClipAtPoint(clip, position, volume);
-    }
-
     // Métodos para control desde UI (conversión a dB)
     public void SetMusicVolume(float normalized)
     {

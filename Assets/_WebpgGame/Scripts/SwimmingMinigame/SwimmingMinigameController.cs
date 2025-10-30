@@ -378,7 +378,7 @@ public class SwimmingMinigameController : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             // Usamos PlaySFXAtPoint con spatialBlend = 1 (posicional)
-            AudioManager.Instance.PlaySFXAtPoint(clip, position, volume);
+            AudioManager.Instance.PlaySFX(clip, volume);
             return;
         }
 
