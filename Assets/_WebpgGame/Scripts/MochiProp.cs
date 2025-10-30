@@ -1,3 +1,5 @@
+
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MochiProp : MonoBehaviour
@@ -19,6 +21,24 @@ public class MochiProp : MonoBehaviour
     private void OnEnable()
     {
         DisableIfNotOwned();
+
+    }
+
+    public class UpdateEquip
+    {
+        public string serial;
+        public List<int> userEquip;
+    }
+
+    public void EquipItem()
+    {
+        //TODO update Backend.singleton.playerProfile.userEquip
+
+        Backend.singleton.UpdateData(new UpdateEquip
+        {
+            serial = Backend.singleton.playerProfile.serial,
+            userEquip = Backend.singleton.playerProfile.userEquip
+        });
     }
 
     private void OnDestroy()
