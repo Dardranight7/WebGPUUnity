@@ -35,9 +35,9 @@ public class ClickableObject : MonoBehaviour,IPointerClickHandler
         if (gameObject.CompareTag($"pictures"))
         {
             infoCanvasPicture.ShowUI();
-            //infoCanvasPicture.gameObject.SetActive(true);
             infoCanvasPicture.SetPicture(new PopUpInfo
             {
+                description = description,
                 image =  image,
             });
             return;
