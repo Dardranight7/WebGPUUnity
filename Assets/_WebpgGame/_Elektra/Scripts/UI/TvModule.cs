@@ -10,6 +10,10 @@ public class TvModule : MonoBehaviour
     {
         _videoPlayer.clip = videoClip;
     }
+    public void SetClip(string videoClip)
+    {
+        _videoPlayer.url = videoClip;
+    }
     public void ShowTv()
     {
         gameObject.SetActive(true);

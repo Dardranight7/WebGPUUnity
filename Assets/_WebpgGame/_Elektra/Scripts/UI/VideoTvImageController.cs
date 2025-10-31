@@ -14,9 +14,13 @@ public class VideoTvImageController : MonoBehaviour
     {
         GetSelectedTvModule(SceneData.nextSceneId);
     }
-    public void SetVideoClip(VideoClip videoClip)
+    public void SetVideoClipURL(VideoClip videoClip)
     {
         selectedModule.SetClip(videoClip);
+    }
+    public void SetVideoClipURL(string videoClipURL)
+    {
+        selectedModule.SetClip(videoClipURL);
     }
     private void GetSelectedTvModule(string sceneName)
     {

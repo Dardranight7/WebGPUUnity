@@ -28,7 +28,8 @@ public class WorldUI : MonoBehaviour
     [TextArea]
     public string text;
     public AudioClip audio;
-    public VideoClip videoClip;
+    // public VideoClip videoClip;
+    public string videoClipURL;
     
     [Header("Behavior")]
     public Transform player;
@@ -248,7 +249,7 @@ public class WorldUI : MonoBehaviour
     
     public void SetVideoPlayer(VideoTvImageController tvController)
     {
-        tvController.SetVideoClip(videoClip);
+        tvController.SetVideoClipURL(videoClipURL);
     }
 
     public void SetInfPicture(PopUpInformationScript infoCanvasPicture)
