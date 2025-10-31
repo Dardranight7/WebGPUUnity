@@ -45,15 +45,65 @@ public class RaceManager : MonoBehaviour
     private bool _initialRace = false;
     private bool _finishRace = false;
     private float _timeRace = 0f;
+    
+    [Header("Audios")]
+    //private AudioManager audioManager;
+    private AudioSource audioSource;
+    private AudioManager audioManager;
+    public AudioClip audioWin;
+    public AudioClip audioLose;
+    public AudioClip audioCountdown; 
+    [Range(0f, 1f)] public float sfxVolume = 1f;
+    
+    public bool playMusicOnStart = false;
+    public bool stopMusicOnFinish = false;
+    public AudioClip backgroundMusic;
+    
+    
+    private void Awake()
+    {
+        if (mainCamera == null) mainCamera = Camera.main;
+
+        // Buscar AudioManager (como en tu GameManager)
+        if (audioManager == null) audioManager = AudioManager.Instance;
+        if (audioManager == null) audioManager = FindObjectOfType<AudioManager>();
+
+        // Crear/asegurar un AudioSource 2D de respaldo para SFX si hiciera falta
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.playOnAwake = false;
+        audioSource.loop = false;
+        audioSource.spatialBlend = 0f; // 2D
+        audioSource.volume = 1f;
+    }
+    
 
     void Start()
     {
-        if (countDownText != null)
-            countDownText.gameObject.SetActive(false);
+        
+        if (countDownText != null) countDownText.gameObject.SetActive(false);
+        if (resultsUI != null) resultsUI.SetActive(false);
+        if (panelWin != null) panelWin.SetActive(false);
+        if (panelLose != null) panelLose.SetActive(false);
 
-        //Aseguramos que todos esten en modo espera antes de iniciar el countdown
+        // Música de fondo (opcional y simple)
+        if (playMusicOnStart && backgroundMusic != null)
+        {
+            if (audioManager != null) audioManager.PlayMusic(backgroundMusic, 1f);
+            else
+            {
+                // respaldo: reproducir en el mismo sfxFallback en loop (no ideal, pero funcional)
+                audioSource.Stop();
+                audioSource.clip = backgroundMusic;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        }
+
         PrepareContestants();
-
         StartCoroutine(InitialCountDown());
     }
 
@@ -76,19 +126,45 @@ public class RaceManager : MonoBehaviour
     private IEnumerator InitialCountDown()
     {
         if (countDownText != null)
+        {
+           
             countDownText.gameObject.SetActive(true);
-
+        }
+        
         //countDown 3 2 1 ya!
-        for (int i = 3; i > 0; i--)
+        
+        // Reproducir SFX de cuenta regresiva
+        if (audioCountdown != null)
+        {
+            if (audioManager != null) audioManager.PlaySFX(audioCountdown, sfxVolume);
+            else audioSource.PlayOneShot(audioCountdown, sfxVolume);
+        }
+        
+        float remainingTime = timeCountdown;
+        
+        while (remainingTime > 0)
         {
             if (countDownText != null)
-                countDownText.text = i.ToString();
+                countDownText.text = Mathf.CeilToInt(remainingTime).ToString();
 
             yield return new WaitForSeconds(1f);
+            remainingTime -= 1f;
         }
+        /*for (int i = 3; i > 0; i--)
+        {
+            
+            if (countDownText != null)
+                countDownText.text = i.ToString();
+            yield return new WaitForSeconds(1f);
+        }*/
 
         if (countDownText != null)
+        {
             countDownText.text = go;
+            yield return new WaitForSeconds(0.5f);
+            countDownText.gameObject.SetActive(false);
+        }
+            
 
         yield return new WaitForSeconds(1f);
 
@@ -97,6 +173,8 @@ public class RaceManager : MonoBehaviour
 
         if (countDownText != null)
             countDownText.gameObject.SetActive(false);
+        
+        
     }
 
     void Update()
@@ -170,6 +248,25 @@ public class RaceManager : MonoBehaviour
         yield return StartCoroutine(PanCameraWin(GetMoveRoot(winner)));
         
         ShowResult(playerWon);
+        
+        // Detener música si lo configuraste
+        audioSource.Stop();
+        audioManager.StopMusic();
+
+        // Reproducir SFX de resultado una sola vez
+        if (playerWon && audioWin != null)
+        {
+            if (audioManager != null) audioManager.PlaySFX(audioWin, sfxVolume);
+            else audioSource.PlayOneShot(audioWin, sfxVolume);
+        }
+        else if (!playerWon && audioLose != null)
+        {
+            if (audioManager != null) audioManager.PlaySFX(audioLose, sfxVolume);
+            else audioSource.PlayOneShot(audioLose, sfxVolume);
+        }
+        
+        if (playerWon && audioWin != null)  audioSource.PlayOneShot(audioWin);
+        else if (!playerWon && audioLose != null) audioSource.PlayOneShot(audioLose);
         
         Debug.Log(playerWon ? "¡Has ganado la carrera!" : "Has perdido la carrera.");
         
@@ -372,6 +469,7 @@ public class RaceManager : MonoBehaviour
         if (panelWin != null) panelWin.SetActive(playerWon);
         if (panelLose != null) panelLose.SetActive(!playerWon);
     }
+    
 }
         
     
