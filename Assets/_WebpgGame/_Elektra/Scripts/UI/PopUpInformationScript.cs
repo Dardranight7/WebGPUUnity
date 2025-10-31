@@ -28,29 +28,29 @@ public class PopUpInformationScript : MonoBehaviour
     {
         picture.sprite = popUpInfo.image;
         
-        RectTransform rect = picture.GetComponent<RectTransform>();
-        
-        // Configurar anchors al centro
-        rect.anchorMin = new Vector2(0.5f, 0.5f);
-        rect.anchorMax = new Vector2(0.5f, 0.5f);
-        
-        // Configurar pivot al centro
-        rect.pivot = new Vector2(0.5f, 0.5f);
-        
-        // Posición en 0,0 (centro)
-        rect.anchoredPosition = Vector2.zero;
-        
-        picture.SetNativeSize();
-        RectTransform parentRect = rect.parent.GetComponent<RectTransform>();
-
-        float maxWidth = parentRect.rect.width;
-        float maxHeight = parentRect.rect.height;
-
-        float scaleWidth = maxWidth / rect.sizeDelta.x;
-        float scaleHeight = maxHeight / rect.sizeDelta.y;
-
-        float scale = Mathf.Min(scaleWidth, scaleHeight, 1f);
-        rect.sizeDelta *= scale;
+        // RectTransform rect = picture.GetComponent<RectTransform>();
+        //
+        // // Configurar anchors al centro
+        // rect.anchorMin = new Vector2(0.5f, 0.5f);
+        // rect.anchorMax = new Vector2(0.5f, 0.5f);
+        //
+        // // Configurar pivot al centro
+        // rect.pivot = new Vector2(0.5f, 0.5f);
+        //
+        // // Posición en 0,0 (centro)
+        // rect.anchoredPosition = Vector2.zero;
+        //
+        // picture.SetNativeSize();
+        // RectTransform parentRect = rect.parent.GetComponent<RectTransform>();
+        //
+        // float maxWidth = parentRect.rect.width;
+        // float maxHeight = parentRect.rect.height;
+        //
+        // float scaleWidth = maxWidth / rect.sizeDelta.x;
+        // float scaleHeight = maxHeight / rect.sizeDelta.y;
+        //
+        // float scale = Mathf.Min(scaleWidth, scaleHeight, 1f);
+        // rect.sizeDelta *= scale;
 
     }
     public void ShowUI()
