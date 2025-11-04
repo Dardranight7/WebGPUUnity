@@ -120,9 +120,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 89603183533160198}
-        m_TargetAssemblyTypeName: UnityEngine.Video.VideoPlayer, UnityEngine
-        m_MethodName: Pause
+      - m_Target: {fileID: 8795704066027687394}
+        m_TargetAssemblyTypeName: TvModule, UIWorld
+        m_MethodName: StopVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -289,6 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UIWorld::TvModule
   _videoPlayer: {fileID: 89603183533160198}
+  _rawImage: {fileID: 0}
 --- !u!1 &223984287553099875
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,9 +755,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6610655820296038246}
-        m_TargetAssemblyTypeName: UnityEngine.Video.VideoPlayer, UnityEngine
-        m_MethodName: Play
+      - m_Target: {fileID: 2666819520268692150}
+        m_TargetAssemblyTypeName: TvModule, UIWorld
+        m_MethodName: PlayVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1047,9 +1048,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 89603183533160198}
-        m_TargetAssemblyTypeName: UnityEngine.Video.VideoPlayer, UnityEngine
-        m_MethodName: Pause
+      - m_Target: {fileID: 8795704066027687394}
+        m_TargetAssemblyTypeName: TvModule, UIWorld
+        m_MethodName: StopVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2981,6 +2982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UIWorld::TvModule
   _videoPlayer: {fileID: 6610655820296038246}
+  _rawImage: {fileID: 0}
 --- !u!1 &5916891724795003865
 GameObject:
   m_ObjectHideFlags: 0
@@ -3803,9 +3805,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6610655820296038246}
-        m_TargetAssemblyTypeName: UnityEngine.Video.VideoPlayer, UnityEngine
-        m_MethodName: Pause
+      - m_Target: {fileID: 2666819520268692150}
+        m_TargetAssemblyTypeName: TvModule, UIWorld
+        m_MethodName: StopVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4117,9 +4119,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6610655820296038246}
-        m_TargetAssemblyTypeName: UnityEngine.Video.VideoPlayer, UnityEngine
-        m_MethodName: Pause
+      - m_Target: {fileID: 2666819520268692150}
+        m_TargetAssemblyTypeName: TvModule, UIWorld
+        m_MethodName: StopVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4662,6 +4664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UIWorld::TvModule
   _videoPlayer: {fileID: 562768780554318256}
+  _rawImage: {fileID: 0}
 --- !u!1 &7307229032376774572
 GameObject:
   m_ObjectHideFlags: 0
@@ -5305,6 +5308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UIWorld::TvModule
   _videoPlayer: {fileID: 522540617584110155}
+  _rawImage: {fileID: 0}
 --- !u!1 &8090428719223566807
 GameObject:
   m_ObjectHideFlags: 0

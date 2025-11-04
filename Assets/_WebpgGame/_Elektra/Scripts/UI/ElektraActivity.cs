@@ -11,6 +11,7 @@ public class ElektraActivity : MonoBehaviour
     public TMP_Text title;
     public TMP_Text year;
     public TMP_Text informatioText;
+    [SerializeField] private GameObject textContainer;
     
     public WorldUI worldUI;
 
@@ -24,6 +25,11 @@ public class ElektraActivity : MonoBehaviour
         {
             ShowMeCompleted();
         }
+    }
+
+    private void OnEnable()
+    {
+        textContainer.SetActive(false);
     }
 
     void ShowMeCompleted()
@@ -52,7 +58,11 @@ public class ElektraActivity : MonoBehaviour
         worldUI = tempWorldUI;
         title.text = worldUI.title;
         year.text = worldUI.year;
-        informatioText.text = worldUI.text;
+        if (!string.IsNullOrEmpty(worldUI.text))
+        {
+            textContainer.SetActive(true);
+            informatioText.text = worldUI.text;    
+        }
     }
 
     public void PlayClickSound()

@@ -96,9 +96,9 @@ public class AgesContainer : MonoBehaviour
                 signAlert.SetActive(false);
                 break;
             case StatusScene.ALERT:
-                background.sprite = alert;
-                text.color = new Color(0.9f, 0.8f, 0.2f);
-                signAlert.SetActive(true);
+                // background.sprite = alert;
+                // text.color = new Color(0.9f, 0.8f, 0.2f);
+                // signAlert.SetActive(true);
                 break;
             case StatusScene.FINISH:
                 signAlert.SetActive(false);
