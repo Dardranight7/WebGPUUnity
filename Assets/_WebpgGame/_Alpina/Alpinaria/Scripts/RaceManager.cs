@@ -271,38 +271,7 @@ public class RaceManager : MonoBehaviour
         Debug.Log(playerWon ? "¡Has ganado la carrera!" : "Has perdido la carrera.");
         
     }
-
-
-/*void VerifyFinishRace()
-{
-    // Verificar si el jugador terminó
-    if (playerInput != null && playerInput.Finished() && !_finishRace)
-    {
-        if (resultsUI != null)
-        {
-            resultsUI.SetActive(true);
-            if (panelWin != null)
-                panelWin.SetActive(true);
-        }
-        EndRace();
-    }
-
-    // Verificar si algún bot terminó
-    for (int i = 0; i < bots.Count; i++)
-    {
-        if (bots[i] != null && bots[i].End() && !_finishRace)
-        {
-            if (resultsUI != null)
-            {
-                resultsUI.SetActive(true);
-                if (panelLose != null)
-                    panelLose.SetActive(true);
-            }
-            EndRace();
-            break;  // Termina al primer bot que llegue (ajusta si quieres todos)
-        }
-    }
-}*/
+    
 
     void EndRace()
     {

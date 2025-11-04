@@ -338,7 +338,7 @@ public class BotAlpinaria : MonoBehaviour
 
     public bool End()
     {
-        return progresoSpline >= 0.99f;
+        return progresoSpline >= 0.999f;
     }
 
     void OnDrawGizmos()
