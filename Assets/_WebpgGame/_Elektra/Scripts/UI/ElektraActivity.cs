@@ -29,7 +29,7 @@ public class ElektraActivity : MonoBehaviour
 
     private void OnEnable()
     {
-        textContainer.SetActive(false);
+        textContainer?.SetActive(false);
     }
 
     void ShowMeCompleted()

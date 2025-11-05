@@ -34,6 +34,7 @@ public class TvModule : MonoBehaviour
     }
     public void HideTv()
     {
+        _videoPlayer.Pause();
         _videoPlayer.clip = null;
         gameObject.SetActive(false);
     }
@@ -42,7 +43,10 @@ public class TvModule : MonoBehaviour
     {
         _videoPlayer.Prepare();
     }
-
+    public void ResumeVideo()
+    {
+        _videoPlayer.Play();
+    }
     public void StopVideo()
     {
         _rawImage.color = Color.black;
