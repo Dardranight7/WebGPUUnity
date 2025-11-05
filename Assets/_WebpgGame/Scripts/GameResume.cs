@@ -13,6 +13,8 @@ public class GameResume : MonoBehaviour
     private void OnEnable()
     {
         Indexes = JsonConvert.DeserializeObject<List<int>>(PlayerPrefs.GetString("WinnerYogoNado"));
+        int minigameIndex = PlayerPrefs.GetInt("MinigameIndex");
+
         if (PlayerPrefs.GetInt("Tournament", 0) > 0)
         {
             string pointsString = PlayerPrefs.GetString("TournamentPoints");
@@ -131,7 +133,7 @@ public class GameResume : MonoBehaviour
             tournamentParent.gameObject.SetActive(false);
             if (Indexes[3] == 0)
             {
-                int minigameIndex = PlayerPrefs.GetInt("MinigameIndex");
+                minigameIndex = PlayerPrefs.GetInt("MinigameIndex",0);
                 if (minigameIndex == 0)
                 {
                     var obj = new
@@ -192,7 +194,6 @@ public class GameResume : MonoBehaviour
             //not is tournament
         }
 
-        int minigameIndex = PlayerPrefs.GetInt("MinigameIndex");
         if (minigameIndex == 0)
         {
             var obj = new
