@@ -131,6 +131,56 @@ public class GameResume : MonoBehaviour
             tournamentParent.gameObject.SetActive(false);
             if (Indexes[3] == 0)
             {
+                int minigameIndex = PlayerPrefs.GetInt("MinigameIndex");
+                if (minigameIndex == 0)
+                {
+                    var obj = new
+                    {
+                        serial = Backend.singleton.playerProfile.serial,
+                        minigame1WinCount = Backend.singleton.playerProfile.minigame1WinCount + 1,
+                    };
+                    Backend.singleton.UpdateData(obj, (a) =>
+                    {
+                        Backend.singleton.playerProfile.minigame1WinCount ++;
+                    });
+                }
+                else if (minigameIndex == 1)
+                {
+                    var obj = new
+                    {
+                        serial = Backend.singleton.playerProfile.serial,
+                        minigame2WinCount = Backend.singleton.playerProfile.minigame2WinCount + 1,
+                    };
+                    Backend.singleton.UpdateData(obj, (a) =>
+                    {
+                        Backend.singleton.playerProfile.minigame2WinCount++;
+                    });
+                }
+                else if (minigameIndex == 2)
+                {
+                    var obj = new
+                    {
+                        serial = Backend.singleton.playerProfile.serial,
+                        minigame3WinCount = Backend.singleton.playerProfile.minigame3WinCount + 1,
+                    };
+                    Backend.singleton.UpdateData(obj, (a) =>
+                    {
+                        Backend.singleton.playerProfile.minigame3WinCount++;
+                    });
+                }
+                else if (minigameIndex == 3)
+                {
+                    var obj = new
+                    {
+                        serial = Backend.singleton.playerProfile.serial,
+                        minigame4WinCount = Backend.singleton.playerProfile.minigame4WinCount + 1,
+                    };
+                    Backend.singleton.UpdateData(obj, (a) =>
+                    {
+                        Backend.singleton.playerProfile.minigame4WinCount++;
+                    });
+                }
+
                 winnerParent.gameObject.SetActive(true);
                 looseParent.gameObject.SetActive(false);
             }
@@ -141,6 +191,57 @@ public class GameResume : MonoBehaviour
             }
             //not is tournament
         }
+
+        int minigameIndex = PlayerPrefs.GetInt("MinigameIndex");
+        if (minigameIndex == 0)
+        {
+            var obj = new
+            {
+                serial = Backend.singleton.playerProfile.serial,
+                minigame1PlayCount = Backend.singleton.playerProfile.minigame1PlayCount + 1,
+            };
+            Backend.singleton.UpdateData(obj, (a) =>
+            {
+                Backend.singleton.playerProfile.minigame1PlayCount++;
+            });
+        }
+        else if (minigameIndex == 1)
+        {
+            var obj = new
+            {
+                serial = Backend.singleton.playerProfile.serial,
+                minigame2PlayCount = Backend.singleton.playerProfile.minigame2PlayCount + 1,
+            };
+            Backend.singleton.UpdateData(obj, (a) =>
+            {
+                Backend.singleton.playerProfile.minigame2PlayCount++;
+            });
+        }
+        else if (minigameIndex == 2)
+        {
+            var obj = new
+            {
+                serial = Backend.singleton.playerProfile.serial,
+                minigame3PlayCount = Backend.singleton.playerProfile.minigame3PlayCount + 1,
+            };
+            Backend.singleton.UpdateData(obj, (a) =>
+            {
+                Backend.singleton.playerProfile.minigame3PlayCount++;
+            });
+        }
+        else if (minigameIndex == 3)
+        {
+            var obj = new
+            {
+                serial = Backend.singleton.playerProfile.serial,
+                minigame4PlayCount = Backend.singleton.playerProfile.minigame4PlayCount + 1,
+            };
+            Backend.singleton.UpdateData(obj, (a) =>
+            {
+                Backend.singleton.playerProfile.minigame4PlayCount++;
+            });
+        }
+
         if (Indexes[3] == 0)
         {
             //Player

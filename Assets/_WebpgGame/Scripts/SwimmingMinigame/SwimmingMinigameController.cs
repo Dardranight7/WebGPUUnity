@@ -54,6 +54,7 @@ public class SwimmingMinigameController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // No hay gravedad
         zPosition = transform.position.x;
+        PlayerPrefs.SetInt("MinigameIndex", 0);
     }
 
     void Update()

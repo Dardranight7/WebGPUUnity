@@ -27,11 +27,25 @@ public class TournamentManager : MonoBehaviour
 
     public void StartTournament()
     {
+        Backend.singleton.UpdateData(new UpdateTournamentCount
+        {
+            serial = Backend.singleton.playerProfile.serial,
+            tournamentPlayCount = Backend.singleton.playerProfile.tournamentPlayCount + 1
+        }, (a) => 
+        {
+            Backend.singleton.playerProfile.tournamentPlayCount++;
+        });
         PlayerPrefs.SetInt("Tournament", 1);
         int randomTournament = Random.Range(0, tournaments.Count);
         PlayerPrefs.SetInt("TournamentIndex", randomTournament);
         PlayerPrefs.SetInt("TournamentRonda", 1);
         MochiCourtain.Singleton.LoadSceneWithCourtain(tournaments[randomTournament].sceneNames[0],1);
+    }
+
+    public class UpdateTournamentCount
+    {
+        public string serial;
+        public int tournamentPlayCount;
     }
 
     public void LoadNextGameUsingCourtain()
