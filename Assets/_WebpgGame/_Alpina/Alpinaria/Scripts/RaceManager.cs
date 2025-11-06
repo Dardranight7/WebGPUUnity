@@ -127,13 +127,14 @@ public class RaceManager : MonoBehaviour
     {
         if (countDownText != null)
         {
-           
             countDownText.gameObject.SetActive(true);
+            countDownText.text = Mathf.CeilToInt(timeCountdown).ToString();
         }
-        
-        //countDown 3 2 1 ya!
+
+        yield return null;
         
         // Reproducir SFX de cuenta regresiva
+        
         if (audioCountdown != null)
         {
             if (audioManager != null) audioManager.PlaySFX(audioCountdown, sfxVolume);
@@ -150,13 +151,6 @@ public class RaceManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             remainingTime -= 1f;
         }
-        /*for (int i = 3; i > 0; i--)
-        {
-            
-            if (countDownText != null)
-                countDownText.text = i.ToString();
-            yield return new WaitForSeconds(1f);
-        }*/
 
         if (countDownText != null)
         {

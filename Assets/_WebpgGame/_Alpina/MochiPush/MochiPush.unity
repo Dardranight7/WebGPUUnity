@@ -62465,6 +62465,7 @@ GameObject:
   m_Component:
   - component: {fileID: 739016877}
   - component: {fileID: 739016876}
+  - component: {fileID: 739016878}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -62484,14 +62485,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb6016638597994fbaa960b263df415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  musicSource: {fileID: 0}
+  musicSource: {fileID: 739016878}
   sfxSource: {fileID: 0}
   musicMixerGroup: {fileID: 480535516563859261, guid: c1a9d64cae068fb488aa157935762ed5, type: 2}
   sfxMixerGroup: {fileID: 9122051293587227014, guid: c1a9d64cae068fb488aa157935762ed5, type: 2}
   mixer: {fileID: 24100000, guid: c1a9d64cae068fb488aa157935762ed5, type: 2}
   musicParam: MusicVol
   sfxParam: SFXVol
-  backgroundMusic: {fileID: 0}
+  backgroundMusic: {fileID: 8300000, guid: 204f2f18c73346e45b297e1f40a92145, type: 3}
   playMusicOnStart: 1
   musicVolume: 1
 --- !u!4 &739016877
@@ -62509,6 +62510,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &739016878
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739016875}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 204f2f18c73346e45b297e1f40a92145, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &897490556
 GameObject:
   m_ObjectHideFlags: 0
@@ -185532,6 +185630,9 @@ MonoBehaviour:
   panDuration: 2
   stopBotsOnEnd: 1
   checkEvery: 0.25
+  audioSource: {fileID: 739016878}
+  victoryClip: {fileID: 8300000, guid: 67c6b592524a40c49b737cb5f3a13f71, type: 3}
+  loseClip: {fileID: 8300000, guid: f6744de5421b3cb4eb1bc8ec1ff975af, type: 3}
 --- !u!4 &1468404143
 Transform:
   m_ObjectHideFlags: 0
@@ -189117,6 +189218,8 @@ MonoBehaviour:
   animLerpSpeed: 5
   ParameterAnimation: 
   mochiAnimationManager: {fileID: 4087234454357515152}
+  audioSource: {fileID: 739016878}
+  pushClip: {fileID: 8300000, guid: 852424a7a649c59429153f594c416972, type: 3}
 --- !u!222 &8381824239347311205
 CanvasRenderer:
   m_ObjectHideFlags: 0
