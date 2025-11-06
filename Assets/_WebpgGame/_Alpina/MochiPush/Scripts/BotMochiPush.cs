@@ -1,296 +1,387 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(CollisionMochiPush))]
 public class BotMochiPush : MonoBehaviour
 {
-    [Header("Referencias")]
-    [SerializeField] GameManagerMochiPush gameManager;    
-    [SerializeField] Transform arenaCenter;
-    [SerializeField] float arenaRadius = 12f;
+    [Header("Referencias (si están vacías se intentan auto-asignar)")]
+    public GameManagerMochiPush gameManager;
+    public GameObject arenaCenter;
+    public float arenaRadius = 12f;
 
-    [Header("Movimiento (más natural)")]
-    public float moveSpeed = 1f;            
-    public float acceleration = 2f;          
-    public float rotateSpeed = 2f;           
+    [Header("Movimiento")]
+    public float moveSpeed = 4.0f;
+    public float acceleration = 20f;   // unidades/s^2, para MoveTowards en velocity
+    public float rotateSpeed = 10f;
 
-    [Header("Micro-variación de trayectoria")]
-    public float jitterAmplitude = 0.25f;     
-    public float jitterFrequency = 0.9f;     
+    [Header("Wander (patrullar)")]
+    public float wanderSpeedMultiplier = 0.85f;
+    public float wanderPointRefreshMin = 1.6f;
+    public float wanderPointRefreshMax = 2.6f;
+    public float wanderReachRadius = 0.45f;
 
-    [Header("Empujón (solo de frente)")]
-    public float pushForce = 1.0f;            // Empujón pequeño
-    public float pushRange = 1.2f;
-    [Range(0f, 90f)] public float frontAngle = 35f;
+    [Header("Detección y Ataque")]
+    public float detectionRadius = 5.0f;      // radio para buscar rivales
+    public float attackDuration = 3.0f;       // tiempo que dura el ataque
+    public float recheckTargetsEvery = 0.25f; // cada cuanto revalida el target
+
+    [Header("Empujón (contacto real)")]
+    public float pushForce = 5.0f;
+    [Tooltip("Distancia entre puntos más cercanos de colliders para considerar contacto (en metros).")]
+    public float pushContactThreshold = 0.08f; // ~8 cm, ajustar según escala
+    [Range(0, 90)] public float frontAngle = 35f;
     public float pushCooldown = 0.6f;
 
-    [Header("Borde")]
-    public float edgeSafeMargin = 2f;         // Si está cerca del borde, vuelve al centro con prioridad
+    [Header("Separación / borde")]
+    public float separationRadius = 1.2f;
+    public float separationStrength = 2.5f;
+    public float edgeSafeMargin = 2f;
 
-    [Header("Evitar pegado")]
-    public float separationRadius = 0.9f;     // Radio para repulsión suave entre bots
-    public float separationStrength = 2.2f;   // Intensidad de repulsión
+    [Header("Arrival / anti-órbita")]
+    public float arriveRadius = 1.7f;
+    public float stopRadius = 0.55f;
+    public float tangentialBrake = 6.5f;
+    public float antiOrbitRadius = 3.0f;
 
-    [Header("Desatascador")]
-    public float stuckCheckTime = 0.8f;       // Tiempo sin moverse para aplicar nudge
-    public float stuckMinDistance = 0.05f;    // Distancia mínima de movimiento para resetear
-    public float unstuckImpulse = 2.0f;       // Impulso lateral para desatascar
-
-    [Header("Cambio de objetivo")]
-    public float maxFocusTime = 5.0f;         // Si no progresa en 5s, cambia de objetivo
-    public float progressEpsilon = 0.2f;      // Umbral de mejora de distancia para considerar progreso
-    public float avoidSameTargetCooldown = 3f;// Evita volver al mismo objetivo inmediatamente
+    [Header("Debug")]
+    public bool debugLogs = false;
 
     Rigidbody _rb;
+    Collider _col;
     CollisionMochiPush _self;
+
+    enum State { Wander, Attack }
+    State _state = State.Wander;
+
+    // Attack state
     CollisionMochiPush _target;
+    float _attackTimer;
+    float _pushCd;
+    float _nextTargetCheck;
 
-    float _nextRepath;
-    float _cd;
-
-    // Estado para naturalidad
-    Vector3 _lastPos;
-    float _stuckTimer;
-
-    // Estado de "progreso" y cambio de objetivo
-    float _focusTimer;
-    float _bestDistanceThisFocus = float.MaxValue;
-    readonly Dictionary<int, float> _avoidTargetUntil = new Dictionary<int, float>();
-
-    // Ruido lateral estable por instancia
-    float _noiseSeed;
+    // Wander state
+    Vector3 _wanderPoint;
+    float _wanderRefreshTimer;
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _col = GetComponent<Collider>();
         _self = GetComponent<CollisionMochiPush>();
 
         
 
-        _noiseSeed = (Mathf.Abs(GetInstanceID()) % 1000) * 0.137f; // semilla estable por objeto
+        // Si tienes bloqueadas posiciones (FreezePositionX/Z) eso impide que el bot se mueva.
+        // Permitimos solo FreezeRotationX|Z por estabilidad.
+        RigidbodyConstraints desired = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        if ((_rb.constraints & (RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ)) != 0)
+        {
+            Debug.LogWarning($"[BotMochiPush] Se detectaron constraints de POSICIÓN en {name}. Se quitarán para permitir movimiento XZ. (Se conservarán rotaciones bloqueadas)");
+            _rb.constraints = (_rb.constraints & ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ)) | desired;
+        }
+        else
+        {
+            _rb.constraints = (_rb.constraints | desired);
+        }
     }
 
     void Start()
     {
-        if (!arenaCenter && gameManager) arenaCenter = gameManager.arenaCenter;
-        if (arenaRadius <= 0f && gameManager) arenaRadius = gameManager.arenaRadius;
-
-        _lastPos = transform.position;
+        PickNewWanderPoint();
+        if (debugLogs) Debug.Log($"[Bot] {name} start wanderPoint -> {_wanderPoint}");
     }
 
     void FixedUpdate()
     {
-        if (_self.Eliminated) return;
+        if (_self != null && _self.Eliminated) return;
 
-        // Reevaluar objetivo periódicamente
-        if (Time.time >= _nextRepath || _target == null || !_target.gameObject.activeInHierarchy)
+        // si estamos muy cerca del borde volvemos al centro
+        if (IsNearEdge(out var dirToCenter))
         {
-            AcquireTarget();
-            _nextRepath = Time.time + Random.Range(0.25f, 0.4f);
-        }
-
-        UpdateFocusAndMaybeSwitchTarget();
-
-        // Dirección base
-        Vector3 dir = Vector3.zero;
-
-        // 1) Evitar borde (máxima prioridad)
-        if (arenaCenter && arenaRadius > 0f)
-        {
-            Vector2 flatFromCenter = new Vector2(transform.position.x - arenaCenter.position.x,
-                                                 transform.position.z - arenaCenter.position.z);
-            float distEdge = flatFromCenter.magnitude;
-
-            if (distEdge > (arenaRadius - edgeSafeMargin))
-            {
-                Vector3 toCenter = arenaCenter.position - transform.position;
-                dir = new Vector3(toCenter.x, 0f, toCenter.z).normalized;
-            }
-        }
-
-        // 2) Perseguir objetivo (sin orbitar)
-        if (dir == Vector3.zero && _target != null && _target.gameObject.activeInHierarchy)
-        {
-            Vector3 toTarget = _target.transform.position - transform.position;
-            Vector3 toTargetFlat = new Vector3(toTarget.x, 0f, toTarget.z);
-            float dist = toTargetFlat.magnitude;
-
-            // Micro variación lateral con Perlin para que no parezca robótico (no orbita)
-            Vector3 baseDir = toTargetFlat.sqrMagnitude > 0.001f ? toTargetFlat.normalized : transform.forward;
-            Vector3 lateral = Vector3.Cross(Vector3.up, baseDir); // derecha
-            float n = Mathf.PerlinNoise(Time.time * jitterFrequency + _noiseSeed, 0f) * 2f - 1f; // [-1,1]
-            Vector3 jitter = lateral * (n * jitterAmplitude);
-
-            // Mantener una ligera distancia objetivo para no chocar y quedarse pegado
-            float desiredApproach = Mathf.Max(0.9f, pushRange * 0.9f);
-            Vector3 forwardBias = baseDir * Mathf.Clamp01((dist - desiredApproach) / Mathf.Max(0.001f, desiredApproach));
-
-            dir = (baseDir + jitter + forwardBias).normalized;
-        }
-
-        // 3) Separación local (repulsión suave)
-        if (separationRadius > 0.05f)
-        {
-            var cols = Physics.OverlapSphere(transform.position, separationRadius, ~0, QueryTriggerInteraction.Ignore);
-            Vector3 repulse = Vector3.zero;
-            foreach (var c in cols)
-            {
-                if (c.attachedRigidbody == null || c.attachedRigidbody == _rb) continue;
-                if (!c.TryGetComponent<CollisionMochiPush>(out var other)) continue;
-                if (other == _self || !other.gameObject.activeInHierarchy) continue;
-
-                Vector3 away = transform.position - other.transform.position;
-                Vector3 awayFlat = new Vector3(away.x, 0f, away.z);
-                float d = Mathf.Max(awayFlat.magnitude, 0.001f);
-                float strength = separationStrength / Mathf.Max(d, 0.25f);
-                repulse += awayFlat.normalized * strength;
-            }
-            if (repulse != Vector3.zero)
-                dir = (dir + repulse).normalized;
-        }
-
-        // 4) Aplicar movimiento físico (velocidad con aceleración)
-        Vector3 desiredVel = dir != Vector3.zero ? dir.normalized * moveSpeed : Vector3.zero;
-        desiredVel.y = _rb.linearVelocity.y; // conservar gravedad
-        _rb.linearVelocity = Vector3.MoveTowards(_rb.linearVelocity, desiredVel, acceleration * Time.fixedDeltaTime);
-
-        // 5) Rotar suavemente hacia la dirección de movimiento horizontal (evita quedarse "girado")
-        Vector3 flatVel = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
-        if (flatVel.sqrMagnitude > 0.01f)
-        {
-            Quaternion look = Quaternion.LookRotation(flatVel.normalized, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, look, rotateSpeed * Time.fixedDeltaTime);
-        }
-
-        // 6) Empujar si corresponde (solo de frente)
-        _cd -= Time.fixedDeltaTime;
-        TryPush();
-
-        // 7) Desatascador si apenas se movió
-        float moved = (transform.position - _lastPos).magnitude;
-        if (moved < stuckMinDistance)
-        {
-            _stuckTimer += Time.fixedDeltaTime;
-            if (_stuckTimer >= stuckCheckTime)
-            {
-                // Pequeño impulso aleatorio lateral
-                Vector2 rnd = Random.insideUnitCircle.normalized;
-                Vector3 nudge = new Vector3(rnd.x, 0f, rnd.y) * unstuckImpulse;
-                _rb.AddForce(nudge, ForceMode.Impulse);
-                _stuckTimer = 0f;
-            }
-        }
-        else
-        {
-            _stuckTimer = 0f;
-        }
-        _lastPos = transform.position;
-    }
-
-    void UpdateFocusAndMaybeSwitchTarget()
-    {
-        if (_target == null || !_target.gameObject.activeInHierarchy)
-        {
-            _focusTimer = 0f;
-            _bestDistanceThisFocus = float.MaxValue;
+            Vector3 smoothedDir = Vector3.Lerp(transform.forward, dirToCenter, 0.5f).normalized;
+            MoveTowards(smoothedDir, moveSpeed);
+            FaceTowards(smoothedDir);
             return;
         }
 
-        // Medir progreso de acercamiento
-        float currentDist = HorizontalDistanceTo(_target.transform.position);
-        if (currentDist + progressEpsilon < _bestDistanceThisFocus)
+        // Estado / detección
+        if (_state == State.Wander)
         {
-            _bestDistanceThisFocus = currentDist;
-            _focusTimer = 0f; // hubo progreso
+            var found = FindNearestCompetitor(detectionRadius);
+            if (found != null && HorizontalDistanceTo(found.transform.position) > separationRadius * 1.2f) 
+            {
+                _target = found;
+                _state = State.Attack;
+                _attackTimer = attackDuration;
+                _nextTargetCheck = Time.time + recheckTargetsEvery;
+                if (debugLogs) Debug.Log($"[Bot] {name} entra en ATTACK a {_target.name}");
+            }
+        }
+        else // Attack
+        {
+            _attackTimer -= Time.fixedDeltaTime;
+            if (Time.time >= _nextTargetCheck)
+            {
+                if (_target == null || !_target.gameObject.activeInHierarchy || _target.Eliminated || HorizontalDistanceTo(_target.transform.position) < separationRadius * 0.8f)
+                    _target = FindNearestCompetitor(detectionRadius);
+                _nextTargetCheck = Time.time + recheckTargetsEvery;
+            }
+            if (_attackTimer <= 0f)
+            {
+                _state = State.Wander;
+                _target = null;
+                if (debugLogs) Debug.Log($"[Bot] {name} vuelve a WANDER");
+            }
+        }
+
+        // Ejecutar comportamiento por estado
+        if (_state == State.Wander) DoWander();
+        else DoAttack();
+    }
+
+    void DoWander()
+    {
+        // refrescar punto si expira o si está cerca
+        _wanderRefreshTimer -= Time.fixedDeltaTime;
+        float dist = HorizontalDistanceTo(_wanderPoint);
+
+        if (Random.value < 0.05f) return;
+
+        if (_wanderRefreshTimer <= 0f || dist <= wanderReachRadius || !IsPointInsideArena(_wanderPoint))
+        {
+            PickNewWanderPoint();
+            dist = HorizontalDistanceTo(_wanderPoint);
+            if (debugLogs) Debug.Log($"[Bot] {name} nuevo wanderPoint -> {_wanderPoint}");
+        }
+
+        Vector3 dir = Flat(_wanderPoint - transform.position);
+        if (dir.sqrMagnitude < 0.0001f) { PickNewWanderPoint(); dir = Flat(_wanderPoint - transform.position); }
+        dir = dir.normalized;
+
+        // arrival: desacelera al acercarse
+        float t = Mathf.InverseLerp(stopRadius, arriveRadius, Mathf.Clamp(dist, stopRadius, arriveRadius));
+        float speed = Mathf.Lerp(moveSpeed * 0.4f, moveSpeed * wanderSpeedMultiplier, t);
+
+        // separación (considera TODOS los otros bots en wander)
+        Vector3 sep = ComputeSeparation(ignoreTarget: null);
+        float sepWeight = 1.2f;
+        Vector3 desired = dir + sep * sepWeight;
+        if (desired.sqrMagnitude < 0.0001f) desired = dir;
+        desired.Normalize();
+        
+        desired = Quaternion.Euler(0, Random.Range(-8f, 8f), 0) * desired;
+
+        MoveTowards(desired, speed);
+        FaceTowards(desired);
+    }
+
+    void DoAttack()
+    {
+        if (_target == null || !_target.gameObject.activeInHierarchy || _target.Eliminated)
+        {
+            // Si no hay target válido, caminar (para no quedarse quieto)
+            DoWander();
+            return;
+        }
+
+        Vector3 toTarget = _target.transform.position - transform.position;
+        Vector3 toTargetFlat = Flat(toTarget);
+        float dist = toTargetFlat.magnitude;
+
+        // Anti-órbita: frenar componente tangencial si se genera
+        if (dist <= antiOrbitRadius && dist > 0.001f)
+        {
+            Vector3 tangent = Vector3.Cross(Vector3.up, toTargetFlat.normalized);
+            Vector3 flatVel = Flat(_rb.linearVelocity);
+            float tangential = Vector3.Dot(flatVel, tangent);
+            _rb.AddForce(-tangent * (tangential * tangentialBrake), ForceMode.Acceleration);
+        }
+
+        // acercarse con arrival
+        Vector3 dir = dist > 0.001f ? toTargetFlat.normalized : transform.forward;
+        float t = Mathf.InverseLerp(stopRadius, arriveRadius, Mathf.Clamp(dist, stopRadius, arriveRadius));
+        float speed = Mathf.Lerp(moveSpeed * 0.45f, moveSpeed, t);
+
+        // separación: IGNORAR el target en la separación para no "huir" de él
+        Vector3 sep = ComputeSeparation(ignoreTarget: _target);
+        float sepWeightAttack = 0.45f; // menos influencia durante el ataque
+        Vector3 desired = dir + sep * sepWeightAttack;
+        if (desired.sqrMagnitude < 0.0001f) desired = dir;
+        desired.Normalize();
+
+        MoveTowards(desired, speed);
+        FaceTowards(desired);
+
+        // intento de empuje: SOLO si colliders prácticamente tocan (ClosestPoint)
+        _pushCd -= Time.fixedDeltaTime;
+        if (_pushCd <= 0f && IsColliderNear(_target, pushContactThreshold))
+        {
+            float ang = Vector3.Angle(transform.forward, toTargetFlat.normalized);
+            if (ang <= frontAngle && _target.TryGetComponent<Rigidbody>(out var trgRb))
+            {
+                if (debugLogs) Debug.Log($"[Bot] {name} empuja a {_target.name} (sep <= {pushContactThreshold})");
+                trgRb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+                _pushCd = pushCooldown;
+            }
+        }
+
+        if (debugLogs && _target != null)
+        {
+            // útil para ver por qué "huyen": imprime separación respecto al target y la fuerza de repulsión aplicada
+            if (_col != null && _target.TryGetComponent<Collider>(out var otherCol))
+            {
+                Vector3 a = _col.ClosestPoint(otherCol.bounds.center);
+                Vector3 b = otherCol.ClosestPoint(_col.bounds.center);
+                float separation = Vector3.Distance(a, b);
+                Debug.Log($"[Bot] {name} sep({_target.name}) = {separation:F3} desiredDir={desired} vel={Flat(_rb.linearVelocity)}");
+            }
+        }
+    }
+
+    void MoveTowards(Vector3 dir, float speed)
+    {
+        Vector3 desiredXZ = (dir != Vector3.zero) ? dir.normalized * speed : Vector3.zero;
+
+        Vector3 flatNow = Flat(_rb.linearVelocity);
+        Vector3 flatNext = Vector3.MoveTowards(flatNow, desiredXZ, acceleration * Time.fixedDeltaTime);
+        _rb.linearVelocity = new Vector3(flatNext.x, _rb.linearVelocity.y, flatNext.z);
+    }
+
+    // Compute separation but optionally ignore the current target so attacker doesn't repel from target.
+    Vector3 ComputeSeparation(CollisionMochiPush ignoreTarget)
+    {
+        if (separationRadius <= 0.01f) return Vector3.zero;
+
+        var cols = Physics.OverlapSphere(transform.position, separationRadius, ~0, QueryTriggerInteraction.Ignore);
+        Vector3 repulse = Vector3.zero; int count = 0;
+
+        foreach (var c in cols)
+        {
+            if (c.attachedRigidbody == null || c.attachedRigidbody == _rb) continue;
+            if (!c.TryGetComponent<CollisionMochiPush>(out var other)) continue;
+            if (other == _self || !other.gameObject.activeInHierarchy) continue;
+            if (ignoreTarget != null && other == ignoreTarget) continue; // <- IGNORA EL TARGET
+
+            Vector3 away = Flat(transform.position - other.transform.position);
+            float d = Mathf.Max(away.magnitude, 0.001f);
+            float str = separationStrength / Mathf.Max(d, 0.25f);
+            // cap individual contribution so one close bot can't dominate
+            float cap = separationStrength * 0.9f;
+            Vector3 contrib = away.normalized * Mathf.Min(str, cap);
+            repulse += contrib;
+            count++;
+        }
+
+        if (count > 0)
+        {
+            Vector3 avg = repulse / count;
+            // limiter global: no más de separationStrength magnitude
+            if (avg.magnitude > separationStrength)
+                avg = avg.normalized * separationStrength;
+            return avg;
+        }
+
+        return Vector3.zero;
+    }
+
+    void FaceTowards(Vector3 fallbackDir)
+    {
+        Vector3 flatVel = Flat(_rb.linearVelocity);
+        Vector3 face = flatVel.sqrMagnitude > 0.01f ? flatVel.normalized
+                      : (fallbackDir.sqrMagnitude > 0.0001f ? fallbackDir.normalized : transform.forward);
+
+        Quaternion look = Quaternion.LookRotation(face, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, look, rotateSpeed * Time.fixedDeltaTime);
+    }
+
+    CollisionMochiPush FindNearestCompetitor(float radius)
+    {
+        CollisionMochiPush bestC = null;
+        float best = float.MaxValue;
+
+        // Preferir la lista del GameManager si está poblada
+        var source = (gameManager != null && gameManager.combatants != null && gameManager.combatants.Count > 0)
+            ? gameManager.combatants.ToArray()
+            : FindObjectsOfType<CollisionMochiPush>(true);
+
+        foreach (var c in source)
+        {
+            if (c == null || c == _self || !c.gameObject.activeInHierarchy || c.Eliminated) continue;
+            float dSq = HorizontalSqrDistanceTo(c.transform.position);
+            if (dSq <= radius * radius && dSq < best) { best = dSq; bestC = c; }
+        }
+
+        return bestC;
+    }
+
+    bool IsColliderNear(CollisionMochiPush other, float threshold)
+    {
+        if (other == null) return false;
+        if (_col == null) _col = GetComponent<Collider>();
+        if (!other.TryGetComponent<Collider>(out var otherCol)) return false;
+
+        // Closest points entre colliders (0 si overlap)
+        Vector3 a = _col.ClosestPoint(otherCol.bounds.center);
+        Vector3 b = otherCol.ClosestPoint(_col.bounds.center);
+        float separation = Vector3.Distance(a, b);
+        if (debugLogs) Debug.Log($"[Bot] {name} sep({other.name}) = {separation:F3}");
+        return separation <= Mathf.Max(0.001f, threshold);
+    }
+
+    bool IsPointInsideArena(Vector3 p)
+    {
+        if (!arenaCenter || arenaRadius <= 0f) return true;
+        Vector3 c = arenaCenter.transform.position;
+        float dx = p.x - c.x, dz = p.z - c.z;
+        float dist = Mathf.Sqrt(dx * dx + dz * dz);
+        return dist <= (arenaRadius - edgeSafeMargin * 0.5f);
+    }
+
+    bool IsNearEdge(out Vector3 dirToCenter)
+    {
+        dirToCenter = Vector3.zero;
+        if (!arenaCenter || arenaRadius <= 0f) return false;
+
+        Vector2 flatFromCenter = new Vector2(transform.position.x - arenaCenter.transform.position.x,
+                                             transform.position.z - arenaCenter.transform.position.z);
+        float dist = flatFromCenter.magnitude;
+        if (dist > (arenaRadius - edgeSafeMargin))
+        {
+            Vector3 toCenter = arenaCenter.transform.position - transform.position;
+            dirToCenter = Flat(toCenter).normalized;
+            return true;
+        }
+        return false;
+    }
+
+    void PickNewWanderPoint()
+    {
+        if (arenaCenter && arenaRadius > 0f)
+        {
+            float maxR = Mathf.Max(0.5f, arenaRadius - edgeSafeMargin - 0.5f);
+            Vector2 rnd = Random.insideUnitCircle * Random.Range(maxR * 0.2f, maxR);
+            _wanderPoint = arenaCenter.transform.position + new Vector3(rnd.x, 0f, rnd.y);
         }
         else
         {
-            _focusTimer += Time.fixedDeltaTime;
+            Vector2 rnd = Random.insideUnitCircle * Random.Range(2f, 6f);
+            _wanderPoint = transform.position + new Vector3(rnd.x, 0f, rnd.y);
         }
-
-        // Si no hubo progreso por demasiado tiempo, cambia de objetivo
-        if (_focusTimer >= maxFocusTime)
-        {
-            int id = _target.GetInstanceID();
-            _avoidTargetUntil[id] = Time.time + avoidSameTargetCooldown;
-
-            AcquireTarget(excludeId: id);
-            _focusTimer = 0f;
-            _bestDistanceThisFocus = float.MaxValue;
-        }
+        _wanderRefreshTimer = Random.Range(wanderPointRefreshMin, wanderPointRefreshMax);
     }
 
-    void AcquireTarget(int excludeId = int.MinValue)
-    {
-        if (!gameManager) return;
-
-        // Candidates: otros combatientes activos
-        var candidates = gameManager.combatants
-            .Where(c => c != null && c != _self && c.gameObject.activeInHierarchy)
-            .ToList();
-
-        // Filtrar evitados temporalmente
-        float now = Time.time;
-        candidates.RemoveAll(c =>
-        {
-            int id = c.GetInstanceID();
-            return id == excludeId || (_avoidTargetUntil.TryGetValue(id, out float until) && now < until);
-        });
-
-        // Si se quedaron sin candidatos por el filtro, vuelve a permitir todos menos el que no existe
-        if (candidates.Count == 0)
-        {
-            candidates = gameManager.combatants
-                .Where(c => c != null && c != _self && c.gameObject.activeInHierarchy)
-                .ToList();
-        }
-
-        float best = float.MaxValue;
-        CollisionMochiPush bestC = null;
-
-        foreach (var c in candidates)
-        {
-            float d = HorizontalSqrDistanceTo(c.transform.position);
-            if (d < best) { best = d; bestC = c; }
-        }
-
-        _target = bestC;
-        _focusTimer = 0f;
-        _bestDistanceThisFocus = float.MaxValue;
-    }
-
-    void TryPush()
-    {
-        if (_cd > 0f || _target == null || !_target.gameObject.activeInHierarchy) return;
-
-        Vector3 toTarget = _target.transform.position - transform.position;
-        Vector3 toTargetFlat = new Vector3(toTarget.x, 0f, toTarget.z);
-        float dist = toTargetFlat.magnitude;
-        if (dist > pushRange) return;
-
-        float angle = Vector3.Angle(transform.forward, toTargetFlat.normalized);
-        if (angle > frontAngle) return; // No empujar con la espalda
-
-        if (_target.TryGetComponent<Rigidbody>(out var trgRb))
-        {
-            trgRb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
-            _cd = pushCooldown;
-        }
-    }
+    Vector3 Flat(Vector3 v) => new Vector3(v.x, 0f, v.z);
 
     float HorizontalDistanceTo(Vector3 worldPos)
     {
-        Vector3 d = worldPos - transform.position;
-        d.y = 0f;
-        return d.magnitude;
+        Vector3 d = worldPos - transform.position; d.y = 0f; return d.magnitude;
     }
 
     float HorizontalSqrDistanceTo(Vector3 worldPos)
     {
-        Vector3 d = worldPos - transform.position;
-        d.y = 0f;
-        return d.sqrMagnitude;
+        Vector3 d = worldPos - transform.position; d.y = 0f; return d.sqrMagnitude;
     }
 }

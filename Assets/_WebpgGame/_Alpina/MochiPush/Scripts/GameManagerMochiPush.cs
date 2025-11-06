@@ -134,4 +134,6 @@ public class GameManagerMochiPush : MonoBehaviour
         if (!c) return;
         combatants.Remove(c);
     }
+    
+    
 }
