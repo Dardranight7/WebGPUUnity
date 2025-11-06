@@ -907,6 +907,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c19982edf9f15f748ae9a1e24c5dd36a, type: 3}
   m_PrefabInstance: {fileID: 76065915}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &83327633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 83327634}
+  - component: {fileID: 83327635}
+  m_Layer: 0
+  m_Name: Collider (19)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &83327634
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83327633}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.091, y: 0.34200004, z: 0.319}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 448052529}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &83327635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83327633}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2929144, y: 1.067932, z: 2.5564618}
+  m_Center: {x: 0.027161121, y: 0.23396611, z: -0.31094992}
 --- !u!1001 &83560933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4564,8 +4617,10 @@ Transform:
   - {fileID: 1747817666}
   - {fileID: 1478191719}
   - {fileID: 2100235738}
+  - {fileID: 83327634}
   - {fileID: 1529203494}
   - {fileID: 1381780312}
+  - {fileID: 754010876}
   - {fileID: 1444835828}
   - {fileID: 1004775930}
   - {fileID: 509801044}
@@ -6665,7 +6720,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 0100000002000000
+  idremap: 0300000004000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
@@ -8154,7 +8209,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.865
+      value: 1.904
       objectReference: {fileID: 0}
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9915,6 +9970,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4646314630694440204, guid: eb4e2bc7523b42e42bf8c40ef405b9b7, type: 3}
   m_PrefabInstance: {fileID: 711288760}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &754010875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 754010876}
+  - component: {fileID: 754010877}
+  m_Layer: 0
+  m_Name: Collider (20)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &754010876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754010875}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.86, y: 0.34200004, z: 5.43}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 448052529}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &754010877
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754010875}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.7233164, y: 1.082449, z: 1.0379478}
+  m_Center: {x: -0.050757885, y: 0.24122459, z: -0.23385471}
 --- !u!1 &776174038
 GameObject:
   m_ObjectHideFlags: 0
@@ -12832,7 +12940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.636
+      value: 5.064
       objectReference: {fileID: 0}
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13001,7 +13109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7421680715008653099, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_Center.z
-      value: 0
+      value: -0.39
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13851,8 +13959,8 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.7233164, y: 2.0336874, z: 1.0379478}
-  m_Center: {x: -0.050757885, y: 0.7168437, z: -0.23385471}
+  m_Size: {x: 3.7233164, y: 2.0336874, z: 0.5629407}
+  m_Center: {x: -0.050757885, y: 0.7168437, z: 0.0036488175}
 --- !u!1001 &1387746961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20365,7 +20473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.15
+      value: -0.058
       objectReference: {fileID: 0}
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -21102,8 +21210,8 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.2929144, y: 1.889072, z: 2.5564618}
-  m_Center: {x: 0.027161121, y: 0.644536, z: -0.31094992}
+  m_Size: {x: 0.63073635, y: 1.8547587, z: 2.5564618}
+  m_Center: {x: -0.3039279, y: 0.6273794, z: -0.31094992}
 --- !u!1001 &2105692072
 PrefabInstance:
   m_ObjectHideFlags: 0

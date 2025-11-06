@@ -573,8 +573,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.019725, y: 2.3981652, z: 0.47373602}
-  m_Center: {x: 0.008975441, y: 0.6990826, z: 0.14410788}
+  m_Size: {x: 1.019725, y: 2.3981652, z: 0.43248808}
+  m_Center: {x: 0.008975441, y: 0.6990826, z: 0.16473185}
 --- !u!33 &38118215
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2438,7 +2438,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: Elektra
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -2844,7 +2844,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: Elektra
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -3474,6 +3474,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b1143fcc7936fb140acc14bf4be79c06, type: 3}
   m_PrefabInstance: {fileID: 201675845}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &210311646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 210311647}
+  - component: {fileID: 210311649}
+  - component: {fileID: 210311648}
+  m_Layer: 0
+  m_Name: Colliders - Electrodomesticos 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &210311647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210311646}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.43332, y: 0.499, z: -4.639}
+  m_LocalScale: {x: 8.227388, y: 1, z: 2.1127026}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1541689435}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &210311648
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210311646}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.60286856, y: 1.1720648, z: 0.7346972}
+  m_Center: {x: -0.18061642, y: 0.08603245, z: 0.067674026}
+--- !u!33 &210311649
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210311646}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &214454964
 GameObject:
   m_ObjectHideFlags: 0
@@ -4939,8 +5001,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17341256, y: 0.06621896, z: -0.011687128, w: 0.98255104}
-  m_LocalPosition: {x: 0.0376862, y: 1.5455827, z: -4.4005265}
+  m_LocalRotation: {x: 0.15212338, y: 0, z: 0, w: 0.98836154}
+  m_LocalPosition: {x: 0.12847877, y: 2.0027099, z: -5.9616976}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6330,8 +6392,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.98204917, y: 1.6995475, z: 0.89675575}
-  m_Center: {x: 0.008975441, y: 0.34977376, z: 0.07667145}
+  m_Size: {x: 0.38217834, y: 1.6995475, z: 0.6109888}
+  m_Center: {x: 0.30891153, y: 0.34977376, z: 0.08824999}
 --- !u!33 &403225340
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6839,7 +6901,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: Elektra
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -7903,7 +7965,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: Elektra
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -8293,8 +8355,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.73744076, y: 1.4999348, z: 0.6780544}
-  m_Center: {x: 0.04617623, y: 0.24996746, z: 0.10935149}
+  m_Size: {x: 0.73744076, y: 1.3219182, z: 0.6780544}
+  m_Center: {x: 0.04617623, y: 0.16095918, z: 0.10935149}
 --- !u!33 &617549099
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -9942,7 +10004,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: Elektra
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -12047,8 +12109,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.29408422, y: 1.3997688, z: 0.85137784}
-  m_Center: {x: 0.059217922, y: 0.19988447, z: 0.13950147}
+  m_Size: {x: 0.29408422, y: 1.3044181, z: 0.45217744}
+  m_Center: {x: 0.059217922, y: 0.1522091, z: 0.13950147}
 --- !u!33 &1059021497
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -13915,7 +13977,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: Elektra
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -14167,7 +14229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3536310214451045017, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_Center.z
-      value: -0.37
+      value: -0.19
       objectReference: {fileID: 0}
     - target: {fileID: 4448083605220018726, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14179,7 +14241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4448083605220018726, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.96
+      value: -5.015
       objectReference: {fileID: 0}
     - target: {fileID: 4448083605220018726, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -17754,7 +17816,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 03000000
+  idremap: 00000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
@@ -19681,7 +19743,7 @@ GameObject:
   - component: {fileID: 1364132786}
   - component: {fileID: 1364132785}
   m_Layer: 0
-  m_Name: Colliders - Tvs 2
+  m_Name: Colliders - Tvs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20398,7 +20460,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: Elektra
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -21712,7 +21774,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: Elektra
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -22039,7 +22101,7 @@ GameObject:
   - component: {fileID: 1522081292}
   - component: {fileID: 1522081291}
   m_Layer: 0
-  m_Name: Colliders - Tvs
+  m_Name: Colliders - Pcs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22079,8 +22141,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.73744076, y: 1.6801186, z: 0.6780544}
-  m_Center: {x: 0.04617623, y: 0.34005928, z: 0.10935149}
+  m_Size: {x: 0.73744076, y: 1.5597317, z: 0.6780544}
+  m_Center: {x: 0.04617623, y: 0.27986586, z: 0.10935149}
 --- !u!33 &1522081292
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -22209,6 +22271,7 @@ Transform:
   - {fileID: 1905022146}
   - {fileID: 1364132784}
   - {fileID: 403225338}
+  - {fileID: 210311647}
   - {fileID: 1522081290}
   - {fileID: 1059021495}
   - {fileID: 617549097}
@@ -26529,7 +26592,7 @@ Transform:
   m_GameObject: {fileID: 1951231497}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1651.8964, y: 0.95672, z: -3826.288}
+  m_LocalPosition: {x: -1651.8964, y: 0.95672, z: -3826.427}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30023,7 +30086,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2140605964}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17341256, y: 0.06621896, z: -0.011687128, w: 0.98255104}
+  m_LocalRotation: {x: 0.15212338, y: 0, z: 0, w: 0.98836154}
   m_LocalPosition: {x: 0.12847877, y: 2.0027099, z: -5.9616976}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
