@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class AgesContainer : MonoBehaviour
 {
     public string sceneAge;
+    
     public int numberActivity;
+    private int _maxActivitiesExpected;
+    
     public Image background;
     public GameObject signAlert;
     public StatusScene statusScene;
@@ -18,26 +21,40 @@ public class AgesContainer : MonoBehaviour
     public GameObject completeAge;
     private void Awake()
     {
+        if (ElektraManager.Instance == null) return;
+        
+        // OBTENER EL MÁXIMO AUTOMÁTICAMENTE
+        _maxActivitiesExpected = ElektraManager.Instance.GetMaxActivitiesForScene(sceneAge);
+        // Si no se encuentra configuración, asume 0 o un valor predeterminado (ej. 25 si es un caso de fallback)
+        if (_maxActivitiesExpected == 0)
+        {
+            Debug.LogWarning($"No se encontró configuración para {sceneAge}. Usando 0 actividades máximas.");
+        }
+        
+        // 1. Obtener el progreso actual
         numberActivity = ElektraManager.Instance.GetActivityCompleted(sceneAge);
+        
         if (SceneManager.GetActiveScene().name != sceneAge)
         {
+            // 2. Usar el valor dinámico (_maxActivitiesExpected)
             if (numberActivity == 0)
             {
                 ImageStatus(statusScene = StatusScene.DESACTIVE);
                 return;
             }
-            if (numberActivity > 0 && numberActivity < 25 )
+            // Condición de alerta: Actividades > 0 Y < Máximo esperado
+            if (numberActivity > 0 && numberActivity < _maxActivitiesExpected) 
             {
                 ImageStatus(statusScene = StatusScene.ALERT);
                 return;
             }
 
-            if (numberActivity == 25)
+            // Condición de finalización: Actividades igual al Máximo esperado
+            if (numberActivity >= _maxActivitiesExpected) // Usar >= por seguridad
             {
                 ImageStatus(statusScene = StatusScene.FINISH);
                 return;
             }
-
         }
         statusScene = StatusScene.SELECT;
         ImageStatus(statusScene);
@@ -57,29 +74,31 @@ public class AgesContainer : MonoBehaviour
     private void UpdateProgress(string scene, int progress)
     {
         Debug.Log($"{sceneAge} {scene}");
-        numberActivity = ElektraManager.Instance.GetActivityCompleted(scene);
-        if (numberActivity == 25 && scene == sceneAge)
+        
+        if (scene == sceneAge)
         {
-            ImageStatus(statusScene = StatusScene.FINISH);
-            ImageStatus(statusScene);
-            completeAge.SetActive(true);
-            Invoke( nameof(DesactiveCompleteAge), 5f);
-            Invoke("LoadLobby", 2f);
-            
+            numberActivity = progress;
+
+            // Condición de finalización dinámica
+            if (numberActivity >= _maxActivitiesExpected) 
+            {
+                ImageStatus(statusScene = StatusScene.FINISH);
+                completeAge.SetActive(true);
+                Invoke( nameof(DesactiveCompleteAge), 5f);
+                Invoke("LoadLobby", 2f);
+            }
         }
     }
 
     private void DesactiveCompleteAge()
     {
         completeAge.SetActive(false);
-        
     }
     
     void LoadLobby()
     {
         SceneManager.LoadScene("Lobby");
     }
-
 
     private void ImageStatus(StatusScene status)
     {
@@ -96,9 +115,9 @@ public class AgesContainer : MonoBehaviour
                 signAlert.SetActive(false);
                 break;
             case StatusScene.ALERT:
-                // background.sprite = alert;
-                // text.color = new Color(0.9f, 0.8f, 0.2f);
-                // signAlert.SetActive(true);
+                background.sprite = alert;
+                text.color = new Color(0.9f, 0.8f, 0.2f);
+                signAlert.SetActive(true);
                 break;
             case StatusScene.FINISH:
                 signAlert.SetActive(false);

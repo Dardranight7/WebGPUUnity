@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,7 +11,7 @@ public class PopUpInformationScript : MonoBehaviour
     public TMP_Text textDescription ;
     public Image picture;
     public GameObject TextBackground;
-    
+    public event Action OnUIHidden;
     public CanvasGroup canvasGroup;
 
     public void SetInformationPicture(PopUpInfo popUpInfo)
@@ -65,7 +66,7 @@ public class PopUpInformationScript : MonoBehaviour
     private IEnumerator FadeOut(float duration)
     {
         float elapsed = 0f;
-        canvasGroup.alpha = 0f;
+        canvasGroup.alpha = 1f; // Asegurar que empieza en 1
 
         while (elapsed < duration)
         {
@@ -76,6 +77,10 @@ public class PopUpInformationScript : MonoBehaviour
         }
 
         canvasGroup.alpha = 0f;
+        
+        //Disparar el evento antes de desactivar
+        OnUIHidden?.Invoke(); 
+        
         gameObject.SetActive(false);
     }
     

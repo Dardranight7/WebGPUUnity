@@ -1231,8 +1231,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1521234, y: 0, z: 0, w: 0.98836154}
-  m_LocalPosition: {x: 0.12847877, y: 2.02171, z: -2.6056066}
+  m_LocalRotation: {x: 0.0000000017162375, y: 0.9992629, z: -0.038387805, w: 0.00000004467493}
+  m_LocalPosition: {x: 0.12847856, y: 1.3785808, z: 4.2031035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2696,10 +2696,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef48e71d073f8745b3dfb7312f56a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Elektra::ElektraManager
-  isCompleteTutorial: 0
-  totalScenes: 4
-  totalActivities: 100
-  activitiesPerScene: 25
+  globalActivityData: {fileID: 11400000, guid: db7664a75e830a34087f0b5a6a37882a, type: 2}
+  sceneConfig: {fileID: 11400000, guid: f5ee71cd1a74b8743ac48799d4a599f1, type: 2}
+  _currentSceneActivitiesCount: 0
 --- !u!4 &575637205
 Transform:
   m_ObjectHideFlags: 0
@@ -11455,12 +11454,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7fa80e7116296f4eb4f49ec1544ee22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: BakeryRuntimeAssembly::ftLightmapsStorage
-  renderSettingsBounces: 5
+  renderSettingsBounces: 4
   renderSettingsGISamples: 16
   renderSettingsGIBackFaceWeight: 1
   renderSettingsTileSize: 512
   renderSettingsPriority: 2
-  renderSettingsTexelsPerUnit: 20
+  renderSettingsTexelsPerUnit: 60
   renderSettingsForceRefresh: 1
   renderSettingsForceRebuildGeometry: 1
   renderSettingsPerformRendering: 1
@@ -11498,13 +11497,13 @@ MonoBehaviour:
   renderSettingsShowPaths: 1
   renderSettingsShowNet: 1
   renderSettingsOcclusionProbes: 0
-  renderSettingsTexelsPerMap: 0
+  renderSettingsTexelsPerMap: 1
   renderSettingsTexelsColor: 1
   renderSettingsTexelsMask: 1
   renderSettingsTexelsDir: 1
   renderSettingsShowDirWarning: 1
   renderSettingsRenderDirMode: 1
-  renderSettingsShowCheckerSettings: 0
+  renderSettingsShowCheckerSettings: 1
   renderSettingsSamplesWarning: 1
   renderSettingsSuppressPopups: 0
   renderSettingsPrefabWarning: 1
@@ -11923,7 +11922,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 00000000
+  idremap: 02000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
@@ -12329,7 +12328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2140605964}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0000047701665, y: 0.999262, z: -0.03841334, w: -0.00012408833}
+  m_LocalRotation: {x: 0.0000000017162375, y: 0.9992629, z: -0.038387805, w: 0.00000004467493}
   m_LocalPosition: {x: 0.12847856, y: 1.3785808, z: 4.2031035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12558,6 +12557,22 @@ PrefabInstance:
       propertyPath: volumenNormal
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 1230317570726961769, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230317570726961769, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230317570726961769, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230317570726961769, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1838085287140368139, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -12622,6 +12637,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1177803073}
+    - target: {fileID: 8076188543472372192, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8386975565968820856, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -51.600098
@@ -12629,6 +12648,26 @@ PrefabInstance:
     - target: {fileID: 8386975565968820856, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -76.68823
+      objectReference: {fileID: 0}
+    - target: {fileID: 8766541969268460595, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814844811096769183, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814844811096769183, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814844811096769183, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814844811096769183, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827700912826008695, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_LocalPosition.x

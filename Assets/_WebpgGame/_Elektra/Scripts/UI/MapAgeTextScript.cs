@@ -10,33 +10,54 @@ public class MapAgeTextScript : MonoBehaviour
     
     void Start()
     {
-        if (SceneManager.GetActiveScene().name != nameSceneScore)
+        // Verificar el Manager antes de continuar
+        if (ElektraManager.Instance == null)
         {
-            this.gameObject.SetActive(false);
+            Debug.LogError("ElektraManager.Instance no encontrado. No se puede actualizar el progreso.");
+            gameObject.SetActive(false);
             return;
         }
 
-        Debug.Log(ElektraManager.Instance._activityCompletadas.Count);
-        score.text = $"{ElektraManager.Instance.GetActivityCompleted(nameSceneScore).ToString()}/25";
+        // Si el objeto no pertenece a la escena que está activa, se desactiva.
+        if (SceneManager.GetActiveScene().name != nameSceneScore)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
 
+        // Obtiene el maximo real de la escena
+        int maxActivities = ElektraManager.Instance.GetMaxActivitiesForScene(nameSceneScore); 
+        int completed = ElektraManager.Instance.GetActivityCompleted(nameSceneScore);
+
+        Debug.Log($"Actividades completadas en {nameSceneScore}: {completed}/{maxActivities}");
+        
+        score.text = $"{completed}/{maxActivities}";
     }
 
     private void OnEnable()
     {
-        ElektraManager.Instance.OnCountCurrent += UpdateProgress;
+        if (ElektraManager.Instance != null)
+        {
+            ElektraManager.Instance.OnCountCurrent += UpdateProgress;
+        }
     }
     private void OnDisable()
     {
-        ElektraManager.Instance.OnCountCurrent -= UpdateProgress;
+        if (ElektraManager.Instance != null)
+        {
+            ElektraManager.Instance.OnCountCurrent -= UpdateProgress;
+        }
     }
 
     private void UpdateProgress(string scene, int progress)
     {
-        score.text = $"{ElektraManager.Instance.GetActivityCompleted(nameSceneScore).ToString()}/25";
+        // Si el evento es para la escena que estamos mostrando, actualizamos.
+        if (scene == nameSceneScore)
+        {
+            // Obtiene el máximo actualizado
+            int maxActivities = ElektraManager.Instance.GetMaxActivitiesForScene(scene); 
+            
+            score.text = $"{progress}/{maxActivities}";
+        }
     }
-}
-
-public enum StateScene
-{
-    active,
 }

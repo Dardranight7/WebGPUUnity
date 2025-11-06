@@ -6,18 +6,28 @@ public class UITutorialScript : MonoBehaviour
     private ElektraManager _manager;
     private void Awake()
     {
-        _manager = GameObject.FindGameObjectWithTag("manager").GetComponent<ElektraManager>();
-        if (!_manager.isCompleteTutorial)
-            gameObject.SetActive(true);
+        _manager = ElektraManager.Instance;
+        if (_manager != null)
+        {
+            if (!_manager.IsTutorialComplete)
+                gameObject.SetActive(true);
+            else
+            {
+                gameObject.SetActive(false);
+            }
+        }
         else
         {
-            gameObject.SetActive(false);
-            
+            Debug.LogError("ElektraManager.Instance no encontrado.");
+            gameObject.SetActive(false); // Desactivar si no hay manager
         }
     }
 
     public void CompletTutorial()
     {
-        _manager.isCompleteTutorial = true;
+        if (_manager != null)
+        {
+            _manager.CompleteTutorial();
+        }
     }
 }

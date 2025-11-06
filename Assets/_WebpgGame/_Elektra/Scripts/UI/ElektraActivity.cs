@@ -8,6 +8,8 @@ public class ElektraActivity : MonoBehaviour
     public string idScene;
     public string idActivity;
 
+    [SerializeField] private PopUpInformationScript popUpReference;
+    
     public TMP_Text title;
     public TMP_Text year;
     public TMP_Text informatioText;
@@ -16,7 +18,6 @@ public class ElektraActivity : MonoBehaviour
     public WorldUI worldUI;
 
     public AudioSource AudioSource;
-
     public void Start()
     {
         string key = $"{idScene}_{idActivity}";
@@ -29,7 +30,15 @@ public class ElektraActivity : MonoBehaviour
 
     private void OnEnable()
     {
-        textContainer?.SetActive(false);
+        if(textContainer != null)
+            textContainer.SetActive(false);
+    }
+    private void OnDisable()
+    {
+        if (popUpReference != null)
+        {
+            popUpReference.OnUIHidden -= ReportActivityOnClose;
+        }
     }
 
     void ShowMeCompleted()
@@ -88,6 +97,51 @@ public class ElektraActivity : MonoBehaviour
         else
         {
             Debug.LogWarning("No se pudo reproducir el audio: El clip es nulo y el AudioSource no tiene un clip asignado.");
+        }
+    }
+    // Método que se llama cuando el usuario INTERACTÚA (clic en el objeto)
+    public void OnInteraction()
+    {
+        // Usamos el SO para saber si la actividad ya fue completada
+        string key = $"{idScene}_{idActivity}";
+        if (popUpReference == null)
+        {
+            Debug.LogError("PopUp Reference is missing or invalid in ElektraActivity " + idActivity);
+            return;
+        }
+        popUpReference.OnUIHidden -= ReportActivityOnClose;
+        
+        if (ElektraManager.Instance.ThisActivityCompleted(key))
+        {
+            // Si ya está completa, podemos mostrar el pop-up nuevamente, 
+            // pero NO nos suscribiremos para reportar la finalización.
+            popUpReference.ShowUI();
+            return; 
+        }
+
+        // Si NO está completada, mostramos y nos suscribimos para el reporte
+        popUpReference.ShowUI();
+        // Suscribirse al evento que cuenta la actividad
+        popUpReference.OnUIHidden += ReportActivityOnClose;
+    }
+    
+    // Método llamado cuando el PopUp se oculta
+    private void ReportActivityOnClose()
+    {
+        // Limpiar la suscripción inmediatamente
+        if (popUpReference != null)
+        {
+            popUpReference.OnUIHidden -= ReportActivityOnClose; 
+        }
+        
+        // Reportar actividad si no está ya completada
+        if (ElektraManager.Instance != null)
+        {
+            string key = $"{idScene}_{idActivity}";
+            if (!ElektraManager.Instance.ThisActivityCompleted(key))
+            {
+                ElektraManager.Instance.ActivityCompleted(idScene, idActivity);
+            }
         }
     }
 }
