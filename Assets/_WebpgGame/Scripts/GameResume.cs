@@ -192,8 +192,8 @@ public class GameResume : MonoBehaviour
             //not is tournament
         }
 
-        int minigameIndex = PlayerPrefs.GetInt("MinigameIndex");
-        if (minigameIndex == 0)
+        int minigameIndexN = PlayerPrefs.GetInt("MinigameIndex");
+        if (minigameIndexN == 0)
         {
             var obj = new
             {
@@ -205,7 +205,7 @@ public class GameResume : MonoBehaviour
                 Backend.singleton.playerProfile.minigame1PlayCount++;
             });
         }
-        else if (minigameIndex == 1)
+        else if (minigameIndexN == 1)
         {
             var obj = new
             {
@@ -217,7 +217,7 @@ public class GameResume : MonoBehaviour
                 Backend.singleton.playerProfile.minigame2PlayCount++;
             });
         }
-        else if (minigameIndex == 2)
+        else if (minigameIndexN == 2)
         {
             var obj = new
             {
@@ -229,7 +229,7 @@ public class GameResume : MonoBehaviour
                 Backend.singleton.playerProfile.minigame3PlayCount++;
             });
         }
-        else if (minigameIndex == 3)
+        else if (minigameIndexN == 3)
         {
             var obj = new
             {

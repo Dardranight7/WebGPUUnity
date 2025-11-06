@@ -27,6 +27,9 @@ public class PlayerControllerMochiPush : MonoBehaviour
     ThirdPerson inputActions;
 
     [SerializeField] MochiAnimationManager mochiAnimationManager;
+    
+    public AudioSource audioSource;
+    public AudioClip pushClip;
 
     private void Awake()
     {
@@ -134,6 +137,10 @@ public class PlayerControllerMochiPush : MonoBehaviour
             if (angle <= frontAngle)
             {
                 other.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+                
+                // Reproducir sonido de empuje
+                if (audioSource != null && pushClip != null)
+                    audioSource.PlayOneShot(pushClip);
             }
         }
     }

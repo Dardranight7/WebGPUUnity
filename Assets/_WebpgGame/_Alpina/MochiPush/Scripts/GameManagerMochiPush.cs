@@ -37,6 +37,11 @@ public class GameManagerMochiPush : MonoBehaviour
     bool _finished;
     float _nextCheck;
     
+    [Header("Audios")]
+    public AudioSource audioSource;
+    public AudioClip victoryClip;
+    public AudioClip loseClip;
+    
     void Start()
     {
         if (resultadosUI) resultadosUI.SetActive(false);
@@ -118,6 +123,17 @@ public class GameManagerMochiPush : MonoBehaviour
         bool playerGano = (winner != null && playerCombatant != null && winner == playerCombatant);
         if (panelGanaste) panelGanaste.SetActive(playerGano);
         if (panelPerdiste) panelPerdiste.SetActive(!playerGano);
+
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+            if (playerGano && victoryClip != null)
+                audioSource.PlayOneShot(victoryClip);
+            else if (!playerGano && loseClip != null)
+                audioSource.PlayOneShot(loseClip);
+            
+        }
+        
 
         
     }
