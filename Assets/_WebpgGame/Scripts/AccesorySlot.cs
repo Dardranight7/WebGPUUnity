@@ -87,6 +87,7 @@ public class AccesorySlot : MonoBehaviour
         }
     }
 
+    
     public void Unlock()
     {
     List<int> inventory = new List<int>();
@@ -138,6 +139,7 @@ public class AccesorySlot : MonoBehaviour
             }
         });
     }
+    
 
     class UpdateInventory
     {

@@ -81,9 +81,8 @@ public class MochisaurView : MonoBehaviour
         
             // Determinar si está comprado
             Sprite bgSprite = Backend.singleton.playerProfile.userInventory.Contains(data.index) ? haveAccesory : dontHave;
-        
-            // Usaremos la nueva función SetupSlot
-            selectedSlot.SetupSlot(bgSprite, data.index, data.type, data.typeIcon); 
+            
+            selectedSlot.SetupSlot(bgSprite, data.index, data.type, data.typeIcon);
         }
     }
     // Función central para equipar un ítem, llamada por AccesorySlot
@@ -105,6 +104,41 @@ public class MochisaurView : MonoBehaviour
     
         // Forzar la actualización visual de TODOS los slots
         UpdateAllAccessorySlotVisuals(); 
+        SendEquippedStateToBackend();
+    }
+    public void SendEquippedStateToBackend()
+    {
+        // 1. Filtrar los IDs válidos del diccionario
+        List<int> currentlyEquippedIDs = new List<int>();
+    
+        foreach (var kvp in equippedAccessoryIDs)
+        {
+            // Solo incluimos IDs que NO sean -1 (el valor de "nada equipado")
+            if (kvp.Value != -1)
+            {
+                currentlyEquippedIDs.Add(kvp.Value);
+            }
+        }
+    
+        // 2. Crear el DTO con los datos del usuario.
+        UpdateEquippedAccessories updateData = new UpdateEquippedAccessories
+        {
+            serial = Backend.singleton.playerProfile.serial,
+            userEquip = currentlyEquippedIDs // Enviamos la lista simple de IDs
+        };
+
+        // 3. Enviar al Backend.
+        Backend.singleton.UpdateData(updateData, (response) =>
+        {
+            if (response.code == 0)
+            {
+                Debug.Log($"Equipped accessories state updated successfully on Backend. Sent {currentlyEquippedIDs.Count} items.");
+            }
+            else
+            {
+                Debug.LogError("Error updating equipped accessories on Backend: " + response.data);
+            }
+        });
     }
     // Llama a la actualización visual en todos los slots instanciados.
     public void UpdateAllAccessorySlotVisuals()
