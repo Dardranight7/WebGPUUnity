@@ -11,18 +11,20 @@ public class MochisaurView : MonoBehaviour
     public GameObject accesoryPrefab;
     public List<AccesorySlot> instancedAccesorySlots = new List<AccesorySlot>();
 
-    public List<AccesoryDatabase> accesoryDatabase = new List<AccesoryDatabase>();
-
     public Transform popupNoFounds, popupBuy;
 
     public AccesorySlot selectedSlot;
-
+    public List<AccesoryDatabase> accessoryDatabase = new List<AccesoryDatabase>();
+    public Dictionary<AccessoryType, int> equippedAccessoryIDs = new Dictionary<AccessoryType, int>();
+    
     [System.Serializable]
     public class AccesoryDatabase
     {
-        public int index;
+        public int index; // El ID único que usas en el inventario
+        public AccessoryType type; //Para filtrar por pestaña
+        // Otros datos que puedas necesitar, como la referencia al prefab/sprite.
+        public Sprite typeIcon;
     }
-
     private void OnEnable()
     {
         //Update mochisaurs using player data
@@ -48,26 +50,69 @@ public class MochisaurView : MonoBehaviour
 
     public void ShowAccesories()
     {
+        // 1. Ocultar todos los slots instanciados
         foreach (var item in instancedMochisaurSlots)
         {
             item.gameObject.SetActive(false);
         }
-        for (int i = 0; i < accesoryDatabase.Count; i++)
+        foreach (var item in instancedAccesorySlots)
         {
+            item.gameObject.SetActive(false);
+        }
+
+        // 2. Mostrar/Instanciar todos los accesorios de la base de datos
+        for (int i = 0; i < accessoryDatabase.Count; i++)
+        {
+            var data = accessoryDatabase[i];
             AccesorySlot selectedSlot;
+        
+            // Reutilización o instanciación del slot de UI
             if (i < instancedAccesorySlots.Count)
             {
                 selectedSlot = instancedAccesorySlots[i];
-                instancedAccesorySlots[i].gameObject.SetActive(true);
+                selectedSlot.gameObject.SetActive(true);
             }
             else
             {
-                AccesorySlot instance = Instantiate(accesoryPrefab, prefabParent).GetComponent<AccesorySlot>();
-                instance.mochisaurView = this;
-                instancedAccesorySlots.Add(instance);
-                selectedSlot = instance;
+                selectedSlot = Instantiate(accesoryPrefab, prefabParent).GetComponent<AccesorySlot>();
+                selectedSlot.mochisaurView = this;
+                instancedAccesorySlots.Add(selectedSlot);
             }
-            selectedSlot.UpdateVisual(Backend.singleton.playerProfile.userInventory.Contains(accesoryDatabase[i].index) ? haveAccesory : dontHave, accesoryDatabase[i].index);
+        
+            // Determinar si está comprado
+            Sprite bgSprite = Backend.singleton.playerProfile.userInventory.Contains(data.index) ? haveAccesory : dontHave;
+        
+            // Usaremos la nueva función SetupSlot
+            selectedSlot.SetupSlot(bgSprite, data.index, data.type, data.typeIcon); 
+        }
+    }
+    // Función central para equipar un ítem, llamada por AccesorySlot
+    public void EquipAccessory(int itemID, AccessoryType type)
+    {
+        // Opción para desequipar: Si el ítem seleccionado es el que ya está equipado, lo desequipamos.
+        if (equippedAccessoryIDs.ContainsKey(type) && equippedAccessoryIDs[type] == itemID)
+        {
+            equippedAccessoryIDs[type] = -1; // -1 significa "nada equipado"
+        }
+        else
+        {
+            // Equipar el nuevo ítem, reemplazando el anterior del mismo tipo
+            equippedAccessoryIDs[type] = itemID;
+        }
+    
+        // Aplicar el cambio al modelo del Mochisaurio (Lógica de instanciar/destruir prefabs)
+        // UpdateMochisaurVisuals(type, equippedAccessoryIDs[type]); 
+    
+        // Forzar la actualización visual de TODOS los slots
+        UpdateAllAccessorySlotVisuals(); 
+    }
+    // Llama a la actualización visual en todos los slots instanciados.
+    public void UpdateAllAccessorySlotVisuals()
+    {
+        foreach (var slot in instancedAccesorySlots)
+        {
+            if(slot.gameObject.activeInHierarchy)
+                slot.UpdateSelectionVisual(); 
         }
     }
 
@@ -108,5 +153,9 @@ public class MochisaurView : MonoBehaviour
             }
         }
     }
-
+}
+public enum AccessoryType {
+    Head,
+    Body,
+    Feet
 }
