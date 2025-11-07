@@ -90,7 +90,7 @@ public class AccesorySlot : MonoBehaviour
     
     public void Unlock()
     {
-    List<int> inventory = new List<int>();
+        List<int> inventory = new List<int>();
         
         inventory = Backend.singleton.playerProfile.userInventory;
         //compra

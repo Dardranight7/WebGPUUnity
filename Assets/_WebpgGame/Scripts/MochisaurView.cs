@@ -14,11 +14,11 @@ public class MochisaurView : MonoBehaviour
     public Transform popupNoFounds, popupBuy;
 
     public AccesorySlot selectedSlot;
-    public List<AccesoryDatabase> accessoryDatabase = new List<AccesoryDatabase>();
+    public List<AccessoryDatabase> accessoryDatabase = new List<AccessoryDatabase>();
     public Dictionary<AccessoryType, int> equippedAccessoryIDs = new Dictionary<AccessoryType, int>();
     
     [System.Serializable]
-    public class AccesoryDatabase
+    public class AccessoryDatabase
     {
         public int index; // El ID único que usas en el inventario
         public AccessoryType type; //Para filtrar por pestaña
@@ -106,40 +106,7 @@ public class MochisaurView : MonoBehaviour
         UpdateAllAccessorySlotVisuals(); 
         SendEquippedStateToBackend();
     }
-    public void SendEquippedStateToBackend()
-    {
-        // 1. Filtrar los IDs válidos del diccionario
-        List<int> currentlyEquippedIDs = new List<int>();
     
-        foreach (var kvp in equippedAccessoryIDs)
-        {
-            // Solo incluimos IDs que NO sean -1 (el valor de "nada equipado")
-            if (kvp.Value != -1)
-            {
-                currentlyEquippedIDs.Add(kvp.Value);
-            }
-        }
-    
-        // 2. Crear el DTO con los datos del usuario.
-        UpdateEquippedAccessories updateData = new UpdateEquippedAccessories
-        {
-            serial = Backend.singleton.playerProfile.serial,
-            userEquip = currentlyEquippedIDs // Enviamos la lista simple de IDs
-        };
-
-        // 3. Enviar al Backend.
-        Backend.singleton.UpdateData(updateData, (response) =>
-        {
-            if (response.code == 0)
-            {
-                Debug.Log($"Equipped accessories state updated successfully on Backend. Sent {currentlyEquippedIDs.Count} items.");
-            }
-            else
-            {
-                Debug.LogError("Error updating equipped accessories on Backend: " + response.data);
-            }
-        });
-    }
     // Llama a la actualización visual en todos los slots instanciados.
     public void UpdateAllAccessorySlotVisuals()
     {
@@ -149,7 +116,37 @@ public class MochisaurView : MonoBehaviour
                 slot.UpdateSelectionVisual(); 
         }
     }
+    public void LoadEquippedStateFromBackend()
+    {
+        // Inicializar el diccionario para garantizar que cada tipo tenga un valor de inicio (-1 o 0)
+        equippedAccessoryIDs.Clear();
+        foreach (AccessoryType type in System.Enum.GetValues(typeof(AccessoryType)))
+        {
+            equippedAccessoryIDs[type] = -1; // -1 significa "nada equipado"
+        }
 
+        // Procesar la lista de IDs equipados del Backend
+        if (Backend.singleton.playerProfile.userEquip != null)
+        {
+            foreach (int equippedItemID in Backend.singleton.playerProfile.userEquip)
+            {
+                // Buscar el tipo de accesorio en la base de datos local
+                AccessoryDatabase itemData = accessoryDatabase.Find(data => data.index == equippedItemID);
+
+                if (itemData != null)
+                {
+                    // Asignar el ID al tipo correcto en el diccionario
+                    equippedAccessoryIDs[itemData.type] = equippedItemID;
+                }
+            }
+        }
+
+        // Opcional: Aplicar el estado al modelo del Mochisaurio aquí
+        // UpdateMochisaurVisuals();
+    
+        // Si estás en la vista de accesorios, actualiza todos los checks
+        UpdateAllAccessorySlotVisuals();
+    }
     public void ShowData(Backend.Response response)
     {
         foreach (var item in instancedAccesorySlots)
@@ -186,7 +183,49 @@ public class MochisaurView : MonoBehaviour
                 selectedSlot.UpdateVisual(Backend.singleton.MochiDB[mochiIndex].image, Backend.singleton.MochiDB[mochiIndex].name, mochiIndex);
             }
         }
+        LoadEquippedStateFromBackend();
     }
+
+    #region UpdateEquipedAcc
+
+    public class UpdateEquip
+    {
+        public string serial;
+        public List<int> userEquip;
+    }
+    public void SendEquippedStateToBackend()
+    {
+        // 1. Filtrar los IDs válidos del diccionario
+        List<int> currentlyEquippedIDs = new List<int>();
+    
+        foreach (var kvp in equippedAccessoryIDs)
+        {
+            // Solo incluimos IDs que NO sean -1 (el valor de "nada equipado")
+            if (kvp.Value != -1)
+            {
+                currentlyEquippedIDs.Add(kvp.Value);
+            }
+        }
+
+        //Crear el DTO con los datos del usuario.
+        UpdateEquip updateData = new UpdateEquip
+        {
+            serial = Backend.singleton.playerProfile.serial,
+            userEquip = currentlyEquippedIDs // Enviamos la lista simple de IDs
+        };
+
+        // 3. Enviar al Backend.
+        Backend.singleton.UpdateData(updateData, (a) =>
+        {
+            if (a.code == 0)
+            {
+                Backend.singleton.playerProfile.userEquip = currentlyEquippedIDs;
+                Backend.OnPlayerProfileUpdate?.Invoke();
+            }
+        });
+    }
+
+    #endregion UpdateEquipedAcc
 }
 public enum AccessoryType {
     Head,

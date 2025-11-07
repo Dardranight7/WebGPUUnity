@@ -41,7 +41,7 @@ public class DetectorManager : MonoBehaviour
         foreach (var detector in detectors)
         {
             if (PlayerPrefs.GetInt(detector.uniqueID, 0) == 0)
-                return; // Aún quedan sin recoger
+                return; // AÃºn quedan sin recoger
         }
 
         // Todos recolectados
