@@ -29,7 +29,7 @@ public class MochiProps : MonoBehaviour
         {
             return;
         }
-        Inventory = Backend.singleton.playerProfile.userInventory;
+        Inventory = Backend.singleton.playerProfile.userEquip;
         OnPropsUpdated?.Invoke();
     }
 
