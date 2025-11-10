@@ -27,6 +27,7 @@ public class WorldUI : MonoBehaviour
     public string year;
     [TextArea]
     public string text;
+    public Sprite miniatureImage;
     public AudioClip audio;
     // public VideoClip videoClip;
     public string videoClipURL;

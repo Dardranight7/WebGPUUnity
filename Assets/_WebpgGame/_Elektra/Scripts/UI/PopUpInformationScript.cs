@@ -22,7 +22,11 @@ public class PopUpInformationScript : MonoBehaviour
         
         
         if (textTitle != null) textTitle.text = popUpInfo.title;
-        if (textYear != null) textYear.text = popUpInfo.year;
+        if (textYear != null)
+        {
+            textYear.gameObject.SetActive(!string.IsNullOrEmpty(popUpInfo.year));
+            textYear.text = popUpInfo.year;
+        }
         if (textDescription != null) textDescription.text = popUpInfo.description;
         picture.sprite = popUpInfo.image;
     }

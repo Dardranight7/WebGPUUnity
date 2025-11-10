@@ -2,6 +2,7 @@ using System;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ElektraActivity : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class ElektraActivity : MonoBehaviour
     public TMP_Text year;
     public TMP_Text informatioText;
     [SerializeField] private GameObject textContainer;
+    [SerializeField] private Image miniatureImage;
     
     public WorldUI worldUI;
 
@@ -66,11 +68,19 @@ public class ElektraActivity : MonoBehaviour
     {
         worldUI = tempWorldUI;
         title.text = worldUI.title;
-        year.text = worldUI.year;
+        if(string.IsNullOrEmpty(worldUI.year))
+            year.gameObject.SetActive(false);
+        else
+        {
+            year.gameObject.SetActive(true);
+            year.text = worldUI.year;    
+        }
+        
         if (!string.IsNullOrEmpty(worldUI.text))
         {
             textContainer.SetActive(true);
-            informatioText.text = worldUI.text;    
+            informatioText.text = worldUI.text;
+            miniatureImage.sprite = worldUI.miniatureImage;
         }
     }
 
