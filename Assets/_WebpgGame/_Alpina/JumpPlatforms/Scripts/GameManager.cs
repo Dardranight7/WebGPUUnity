@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = targetFrameRate;
 
+        PlayerPrefs.SetInt("MinigameIndex", 1);
+
         // Asegurar que los paneles estén OCULTOS al inicio
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         if (WinPanel != null) WinPanel.SetActive(false);
