@@ -26,6 +26,8 @@ public class PlayerSurfaceInput : MonoBehaviour
     // Configuracion para el choque/aturdimiento
     [Header("Interaccion con Obstaculos")]
     [SerializeField] private float tiempoAturdimiento = 0.5f; // Tiempo que el jugador queda quieto
+    [SerializeField] private float bounceForce = 5f; // Fuerza de rebote
+    [SerializeField] private ParticleSystem collisionFXPrefab;
     
     private Rigidbody rb;
     ThirdPerson inputActions;
@@ -35,8 +37,10 @@ public class PlayerSurfaceInput : MonoBehaviour
     private float posicionLateral = 0f; // Posición lateral (-1 a 1)
     private float horizontalMovement = 0;
 
-    private bool canMove = false;
-    private bool isStunned = false; // Controla si el jugador esta aturdido
+    [Header("Stun variables")]
+    [SerializeField] private bool canMove = false;
+    [SerializeField] private bool isStunned = false; // Controla si el jugador esta aturdido
+    [SerializeField] private bool beenStunned = false; // Controla si el jugador fue aturdido anteriormente
     private bool savedUseGravity = true;
     
     #endregion Declarations
@@ -46,6 +50,7 @@ public class PlayerSurfaceInput : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        // Enable InputActions
         inputActions = new ThirdPerson();
         inputActions.Enable();
         inputActions.Player.Move.performed += OnMove;
@@ -82,22 +87,6 @@ public class PlayerSurfaceInput : MonoBehaviour
     
     void FixedUpdate()
     {
-        //Código antiguo
-        /*if (splineContainer == null)
-        {
-            MovementWithOutSpline();
-            return;
-        }
-
-        MovementWithSpline();*/
-        
-        if (!canMove)
-        {
-            // Mantener quieto mientras espera el GO
-            rb.linearVelocity = Vector3.zero;
-            return;
-        }
-
         if (splineContainer == null)
         {
             MovementWithOutSpline();
@@ -114,8 +103,20 @@ public class PlayerSurfaceInput : MonoBehaviour
     }
     void MovementWithOutSpline()
     {
-        // Aplica fuerza en el eje X
-        rb.AddForce(Vector3.right * horizontalMovement * moveSpeed, ForceMode.Acceleration);
+        if (!canMove)
+        {
+            // Mantener quieto mientras espera el GO
+            rb.linearVelocity = Vector3.zero;
+            return;
+        }
+
+        if (beenStunned)// Si esta Stuneado recupera la velocidad el doble de rapido
+        {
+            rb.AddForce(Vector3.right * horizontalMovement * moveSpeed * 2f, ForceMode.Acceleration);
+            beenStunned = false;
+        } 
+        else // Aplica fuerza en el eje X
+            rb.AddForce(Vector3.right * horizontalMovement * moveSpeed, ForceMode.Acceleration);
 
         // Limita la velocidad máxima
         if (Mathf.Abs(rb.linearVelocity.x) > maxSpeed)
@@ -126,6 +127,8 @@ public class PlayerSurfaceInput : MonoBehaviour
 
     void MovementWithSpline()
     {
+        if(!canMove)
+            return;
         //avanzar por spline automaticamente
         float longitudSpline = splineContainer.Spline.GetLength();
         float incrementoProgreso = (forwardSpeed * Time.fixedDeltaTime) / longitudSpline;
@@ -152,7 +155,6 @@ public class PlayerSurfaceInput : MonoBehaviour
         // Limitar velocidad lateral
         LimitarVelocidadLateral();
     }
-    
     
     Vector3 CalcularPosicionEnSpline()
     {
@@ -188,7 +190,6 @@ public class PlayerSurfaceInput : MonoBehaviour
         // Aplicar rotación suavizada
         rb.MoveRotation(Quaternion.Slerp(rb.rotation, rotacionObjetivo, Time.fixedDeltaTime * suavizadoRotacion));
     }
-    
     
     void LimitarVelocidadLateral()
     {
@@ -242,7 +243,8 @@ public class PlayerSurfaceInput : MonoBehaviour
     public void OnRacePrepare()
     {
         canMove = false;
-        isStunned = false; // Nos aseguramos que no esta aturtido en este momento
+        isStunned = true;
+        beenStunned = true;
         rb.linearVelocity = Vector3.zero;
         rb.useGravity = false; // no se deslice antes de tiempo
     }
@@ -251,6 +253,8 @@ public class PlayerSurfaceInput : MonoBehaviour
     {
         ReiniciarEnSpline();
         canMove = true;
+        isStunned = false; // Nos aseguramos que no esta aturtido en este momento
+        beenStunned = false;
         rb.useGravity = savedUseGravity; // restaura la gravedad que configuraste
     }
 
@@ -267,11 +271,36 @@ public class PlayerSurfaceInput : MonoBehaviour
     {
         if (isStunned) return; // Evitar aturdimientos anidados
 
-        // 1. Reducir velocidad de avance
+        // Reducir velocidad de avance
         forwardSpeed *= forwardSlowdownFactor;
         forwardSpeed = Mathf.Max(1f, forwardSpeed); // Asegurar una velocidad mínima
 
-        // 2. Ejecutar la Corrutina de aturdimiento
+        // Aplicar un pequeño rebote hacia atrás
+        Vector3 bounceDirection;
+        if (splineContainer != null)
+        {
+            float3 tangente = splineContainer.EvaluateTangent(progresoSpline);
+            bounceDirection = -tangente; // Rebote en la dirección opuesta al avance
+        }
+        else
+        {
+            // Si no hay spline, rebotar en la dirección opuesta a la velocidad Z global
+            bounceDirection = -transform.forward; // Asumimos que 'forward' es la dirección de avance sin spline
+        }
+        
+        // Aplicar la fuerza de rebote usando AddForce
+        rb.AddForce(bounceDirection.normalized * bounceForce, ForceMode.VelocityChange); // VelocityChange ignora la masa
+        
+        // Rigidbody se detiene completamente antes de rebotar:
+        rb.linearVelocity = Vector3.zero; 
+        rb.AddForce(bounceDirection.normalized * bounceForce, ForceMode.Impulse);
+        
+        if (collisionFXPrefab != null)
+        {
+            // Instanciar el prefab en la posición actual del jugador
+            ParticleSystem fx = Instantiate(collisionFXPrefab, transform.position, Quaternion.identity); 
+            Destroy(fx.gameObject, fx.main.duration); 
+        }
         StartCoroutine(StunRoutine());
     }
 
@@ -282,9 +311,8 @@ public class PlayerSurfaceInput : MonoBehaviour
     {
         isStunned = true;
         // La lógica en FixedUpdate y OnMove se encarga de detener el movimiento.
-        
         yield return new WaitForSeconds(tiempoAturdimiento);
-        
+        beenStunned = true;
         isStunned = false;
     }
     
