@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -5,9 +6,10 @@ using UnityEngine.Splines;
 
 public class PlayerSurfaceInput : MonoBehaviour
 {
+    #region Declarations
     [Header("Configuración del movimiento")]
-    public float moveSpeed = 5f; // Velocidad de movimiento
-    public float forwardSpeed = 8f;
+    public float moveSpeed = 5f; // Velocidad de movimiento lateral
+    public float forwardSpeed = 8f; // Velocidad de avance a lo largo del spline
     public float maxSpeed = 10f; // Velocidad máxima permitida
     public float drag = 2f;  
     
@@ -20,7 +22,11 @@ public class PlayerSurfaceInput : MonoBehaviour
     [Header("Suavizado")]
     [SerializeField] private float suavizadoRotacion = 10f;
     [SerializeField] private float suavizadoPosicion = 5f;
-
+    
+    // Configuracion para el choque/aturdimiento
+    [Header("Interaccion con Obstaculos")]
+    [SerializeField] private float tiempoAturdimiento = 0.5f; // Tiempo que el jugador queda quieto
+    
     private Rigidbody rb;
     ThirdPerson inputActions;
     
@@ -30,15 +36,31 @@ public class PlayerSurfaceInput : MonoBehaviour
     private float horizontalMovement = 0;
 
     private bool canMove = false;
+    private bool isStunned = false; // Controla si el jugador esta aturdido
     private bool savedUseGravity = true;
+    
+    #endregion Declarations
 
-    void Start()
+    #region Unity Functions
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        inputActions = new ThirdPerson();
+        inputActions.Enable();
+        inputActions.Player.Move.performed += OnMove;
+        inputActions.Player.Move.canceled += OnMove;
+        
+        // Almacenar la configuración inicial de gravedad
+        savedUseGravity = usarGravedad;
+        
         rb.freezeRotation = true; // Evita que el personaje gire al chocar
         rb.linearDamping = drag;
         rb.useGravity = usarGravedad;
-        
+    }
+    void Start()
+    {
+        if (rb == null) rb = GetComponent<Rigidbody>();
         
         //iniciar en el spline
         if (splineContainer != null)
@@ -48,32 +70,16 @@ public class PlayerSurfaceInput : MonoBehaviour
 
         OnRacePrepare();
     }
-    
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        inputActions = new ThirdPerson();
-        inputActions.Enable();
-        inputActions.Player.Move.performed += OnMove;
-        inputActions.Player.Move.canceled += OnMove;
-        //Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.visible = false;
-    }
-    
     private void OnDestroy()
     {
-        inputActions.Player.Move.performed -= OnMove;
-        inputActions.Player.Move.canceled -= OnMove;
-        inputActions.Disable();
+        if (inputActions != null)
+        {
+            inputActions.Player.Move.performed -= OnMove;
+            inputActions.Player.Move.canceled -= OnMove;
+            inputActions.Disable();
+        }
     }
     
-    void InicializationSpline()
-    {
-        progresoSpline = EncontrarProgresoMasCercano(transform.position);
-        posicionLateral = 0f;
-        
-    }
-
     void FixedUpdate()
     {
         //Código antiguo
@@ -100,11 +106,14 @@ public class PlayerSurfaceInput : MonoBehaviour
 
         MovementWithSpline();
     }
-    
-
+    #endregion Unity Functions
+    void InicializationSpline()
+    {
+        progresoSpline = EncontrarProgresoMasCercano(transform.position);
+        posicionLateral = 0f;
+    }
     void MovementWithOutSpline()
     {
-        
         // Aplica fuerza en el eje X
         rb.AddForce(Vector3.right * horizontalMovement * moveSpeed, ForceMode.Acceleration);
 
@@ -114,7 +123,6 @@ public class PlayerSurfaceInput : MonoBehaviour
             rb.linearVelocity = new Vector3(Mathf.Sign(rb.linearVelocity.x) * maxSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
         }
     }
-    
 
     void MovementWithSpline()
     {
@@ -219,15 +227,14 @@ public class PlayerSurfaceInput : MonoBehaviour
         
         return mejorProgreso;
     }
-    
-  
-    
-
-   // float horizontalMovement = 0;
-    
-
     public void OnMove(InputAction.CallbackContext movement)
     {
+        // No permitir input si esta stuneado.
+        if (isStunned)
+        {
+            horizontalMovement = 0f;
+            return;
+        }
         Vector2 vector2 = movement.ReadValue<Vector2>();
         horizontalMovement = vector2.x;
     }
@@ -235,6 +242,7 @@ public class PlayerSurfaceInput : MonoBehaviour
     public void OnRacePrepare()
     {
         canMove = false;
+        isStunned = false; // Nos aseguramos que no esta aturtido en este momento
         rb.linearVelocity = Vector3.zero;
         rb.useGravity = false; // no se deslice antes de tiempo
     }
@@ -250,6 +258,34 @@ public class PlayerSurfaceInput : MonoBehaviour
     {
         canMove = false;
         rb.linearVelocity = Vector3.zero;
+    }
+    /// <summary>
+    /// Detiene el movimiento y reduce la velocidad por un tiempo.
+    /// </summary>
+    /// <param name="slowdownFactor">Factor de reduccion de velocidad (e.g., 0.5f para reducir a la mitad)</param>
+    public void HitObstacle(float forwardSlowdownFactor = 0.5f)
+    {
+        if (isStunned) return; // Evitar aturdimientos anidados
+
+        // 1. Reducir velocidad de avance
+        forwardSpeed *= forwardSlowdownFactor;
+        forwardSpeed = Mathf.Max(1f, forwardSpeed); // Asegurar una velocidad mínima
+
+        // 2. Ejecutar la Corrutina de aturdimiento
+        StartCoroutine(StunRoutine());
+    }
+
+    /// <summary>
+    /// Corrutina para manejar el tiempo de aturdimiento.
+    /// </summary>
+    IEnumerator StunRoutine()
+    {
+        isStunned = true;
+        // La lógica en FixedUpdate y OnMove se encarga de detener el movimiento.
+        
+        yield return new WaitForSeconds(tiempoAturdimiento);
+        
+        isStunned = false;
     }
     
     // Métodos públicos útiles

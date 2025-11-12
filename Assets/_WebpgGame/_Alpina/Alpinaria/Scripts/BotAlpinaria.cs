@@ -99,9 +99,6 @@ public class BotAlpinaria : MonoBehaviour
         
         progresoSpline = FindNearestProgress(transform.position);
         posicionLateral = CalculatePositionLateralInitial();
-    
-    
-        Debug.Log($"[{gameObject.name}] Progreso: {progresoSpline:F3}, Lateral: {posicionLateral:F2}, Posición: {transform.position}");
     }
 
     float CalculatePositionLateralInitial()
