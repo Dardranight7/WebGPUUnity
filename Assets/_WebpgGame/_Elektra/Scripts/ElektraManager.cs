@@ -8,6 +8,8 @@ public class ElektraManager : MonoBehaviour
 {
     public static ElektraManager Instance;
 
+    [Header("Interactions Content Url")] 
+    public const string InteractionUrl = "https://elektraeneltiempo.mx/Videos/";
     // Referencia al ScriptableObject de datos
     [Header("Activity Data")]
     [SerializeField] private ActivityDataSO globalActivityData;

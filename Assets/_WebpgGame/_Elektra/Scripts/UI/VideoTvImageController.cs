@@ -24,7 +24,7 @@ public class VideoTvImageController : MonoBehaviour
     }
     public void SetVideoClipURL(string videoClipURL)
     {
-        selectedModule.SetClip(videoClipURL);
+        selectedModule.SetClip(ElektraManager.InteractionUrl + videoClipURL);
     }
     private void GetSelectedTvModule(string sceneName)
     {
