@@ -206,7 +206,7 @@ public class RaceManager : MonoBehaviour
     void VerifyFinishRace()
     {
         // ¿Ganó el jugador?
-        if (playerInput != null && playerInput.Finished() && !_finishRace)
+        if (playerInput != null && playerInput.IsFinished && !_finishRace)
         {
             _finishRace = true; // evita reentradas
             StartCoroutine(FinishSequence(playerInput.transform, true));

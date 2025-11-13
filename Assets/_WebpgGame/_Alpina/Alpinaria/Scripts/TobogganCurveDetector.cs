@@ -25,7 +25,7 @@ public class TobogganCurveDetector : MonoBehaviour
 
     void DetectarCurvaProxima()
     {
-        float progresoActual = playerMovement.ObtenerProgresoActual();
+        float progresoActual = playerMovement.CurrentSplineProgress;
         float longitudSpline = splineContainer.Spline.GetLength();
         float incrementoDeteccion = distanciaDeteccion / longitudSpline;
         

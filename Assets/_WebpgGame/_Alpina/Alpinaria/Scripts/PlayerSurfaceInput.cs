@@ -6,358 +6,360 @@ using UnityEngine.Splines;
 
 public class PlayerSurfaceInput : MonoBehaviour
 {
-    #region Declarations
-    [Header("Configuración del movimiento")]
-    public float moveSpeed = 5f; // Velocidad de movimiento lateral
-    public float forwardSpeed = 8f; // Velocidad de avance a lo largo del spline
-    public float maxSpeed = 10f; // Velocidad máxima permitida
-    public float drag = 2f;
-    private string FakuUpdate;
+    // -----------------------------------------------------------------------
+    //                             CONFIGURATION
+    // -----------------------------------------------------------------------
     
-    [Header("Configuración del Spline")]
+    [Header("Movement Configuration")]
+    [SerializeField] private float moveSpeed = 5f; // Lateral movement speed
+    [SerializeField] private float forwardSpeed = 8f; // Forward speed along the spline
+    [SerializeField] private float maxSpeed = 10f; // Maximum allowed velocity
+    [SerializeField] private float drag = 2f; // Linear Damping for Rigidbody
+
+    [Header("Movement VFX")] 
+    [SerializeField] private ParticleSystem rightSnowTrail;
+    [SerializeField] private ParticleSystem leftSnowTrail;
+    
+    [Header("Spline Configuration")]
     [SerializeField] private SplineContainer splineContainer;
-    [SerializeField] private float anchoTobogan = 3f; // Ancho del tobogán
-    [SerializeField] private float alturaOffset = 0.5f; // Altura sobre el spline
-    [SerializeField] private bool usarGravedad = true;
+    [SerializeField] private float tobogganWidth = 3f; // Width of the path
+    [SerializeField] private float heightOffset = 0.5f; // Height above the spline
+    [SerializeField] private bool useGravity = true; // Initial gravity setting
     
-    [Header("Suavizado")]
-    [SerializeField] private float suavizadoRotacion = 10f;
-    [SerializeField] private float suavizadoPosicion = 5f;
+    [Header("Smoothing")]
+    [SerializeField] private float rotationSmoothness = 10f;
+    [SerializeField] private float positionSmoothness = 5f;
     
-    // Configuracion para el choque/aturdimiento
-    [Header("Interaccion con Obstaculos")]
-    [SerializeField] private float tiempoAturdimiento = 0.5f; // Tiempo que el jugador queda quieto
-    [SerializeField] private float bounceForce = 5f; // Fuerza de rebote
+    [Header("Obstacle Interaction")]
+    [SerializeField] private float stunTime = 0.5f; // Time the player is stunned
+    [SerializeField] private float bounceForce = 5f; // Bounce force applied on hit
     [SerializeField] private ParticleSystem collisionFXPrefab;
     
-    private Rigidbody rb;
-    ThirdPerson inputActions;
+    // -----------------------------------------------------------------------
+    //                            COMPONENTS AND STATE
+    // -----------------------------------------------------------------------
     
-    // Variables del Spline
-    private float progresoSpline = 0f; // Posición actual en el spline (0 a 1)
-    private float posicionLateral = 0f; // Posición lateral (-1 a 1)
-    private float horizontalMovement = 0;
-
-    [Header("Stun variables")]
-    [SerializeField] private bool canMove = false;
-    [SerializeField] private bool isStunned = false; // Controla si el jugador esta aturdido
-    [SerializeField] private bool beenStunned = false; // Controla si el jugador fue aturdido anteriormente
-    private bool savedUseGravity = true;
+    private Rigidbody _rb;
+    private ThirdPerson _inputActions; // Assuming 'ThirdPerson' is your Input Action Map name
     
-    #endregion Declarations
+    // Spline State Variables
+    private float _splineProgress = 0f; // Current position on the spline (0 to 1)
+    private float _lateralPosition = 0f; // Lateral position (-1 to 1)
+    private float _horizontalInput = 0f; // Input value (-1 to 1)
 
-    #region Unity Functions
+    // Stun and State Variables
+    [Header("State variables")]
+    [SerializeField] private bool _canMove = false; // Controls if movement logic runs
+    [SerializeField] private bool _isStunned = false; // Controls if input is blocked
+    
+    // PUBLIC PROPERTIES
+    public float CurrentSplineProgress => _splineProgress;
+    public bool IsFinished => _splineProgress >= 0.99f;
+    public bool IsStunned => _isStunned;
+
+    // -----------------------------------------------------------------------
+    //                            UNITY LIFECYCLE
+    // -----------------------------------------------------------------------
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        // Enable InputActions
-        inputActions = new ThirdPerson();
-        inputActions.Enable();
-        inputActions.Player.Move.performed += OnMove;
-        inputActions.Player.Move.canceled += OnMove;
+        _rb = GetComponent<Rigidbody>();
         
-        // Almacenar la configuración inicial de gravedad
-        savedUseGravity = usarGravedad;
-        
-        rb.freezeRotation = true; // Evita que el personaje gire al chocar
-        rb.linearDamping = drag;
-        rb.useGravity = usarGravedad;
-    }
-    void Start()
-    {
-        if (rb == null) rb = GetComponent<Rigidbody>();
-        
-        //iniciar en el spline
-        if (splineContainer != null)
+        if (_rb == null)
         {
-            InicializationSpline();
+            Debug.LogError("Rigidbody is missing on " + gameObject.name + ". Disabling script.", this);
+            enabled = false;
+            return;
         }
 
-        OnRacePrepare();
+        if (splineContainer == null)
+        {
+            Debug.LogError("SplineContainer is required for this lane-runner script. Disabling script.", this);
+            enabled = false;
+            return;
+        }
+
+        // Rigidbody setup
+        _rb.freezeRotation = true; 
+        _rb.linearDamping = drag;
+        _rb.useGravity = useGravity;
+
+        // Input setup
+        _inputActions = new ThirdPerson();
+        _inputActions.Enable();
+        _inputActions.Player.Move.performed += OnMove;
+        _inputActions.Player.Move.canceled += OnMove;
     }
+
+    void Start()
+    {
+        InitializeSplinePosition();
+        OnRacePrepare(); // Set initial state (waiting for GO)
+    }
+
     private void OnDestroy()
     {
-        if (inputActions != null)
+        if (_inputActions != null)
         {
-            inputActions.Player.Move.performed -= OnMove;
-            inputActions.Player.Move.canceled -= OnMove;
-            inputActions.Disable();
+            _inputActions.Player.Move.performed -= OnMove;
+            _inputActions.Player.Move.canceled -= OnMove;
+            _inputActions.Disable();
         }
     }
     
     void FixedUpdate()
     {
-        if (splineContainer == null)
+        if (!_canMove)
         {
-            MovementWithOutSpline();
+            // Keep Rigidbody stationary when waiting for state change
+            if (_rb.linearVelocity != Vector3.zero) _rb.linearVelocity = Vector3.zero;
             return;
         }
 
-        MovementWithSpline();
+        HandleSplineMovement();
     }
-    #endregion Unity Functions
-    void InicializationSpline()
-    {
-        progresoSpline = EncontrarProgresoMasCercano(transform.position);
-        posicionLateral = 0f;
-    }
-    void MovementWithOutSpline()
-    {
-        if (!canMove)
-        {
-            // Mantener quieto mientras espera el GO
-            rb.linearVelocity = Vector3.zero;
-            return;
-        }
+    
+    // -----------------------------------------------------------------------
+    //                                INPUT
+    // -----------------------------------------------------------------------
 
-        if (beenStunned)// Si esta Stuneado recupera la velocidad el doble de rapido
-        {
-            rb.AddForce(Vector3.right * horizontalMovement * moveSpeed * 2f, ForceMode.Acceleration);
-            beenStunned = false;
-        } 
-        else // Aplica fuerza en el eje X
-            rb.AddForce(Vector3.right * horizontalMovement * moveSpeed, ForceMode.Acceleration);
-
-        // Limita la velocidad máxima
-        if (Mathf.Abs(rb.linearVelocity.x) > maxSpeed)
-        {
-            rb.linearVelocity = new Vector3(Mathf.Sign(rb.linearVelocity.x) * maxSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
-        }
-    }
-
-    void MovementWithSpline()
-    {
-        if(!canMove)
-            return;
-        //avanzar por spline automaticamente
-        float longitudSpline = splineContainer.Spline.GetLength();
-        float incrementoProgreso = (forwardSpeed * Time.fixedDeltaTime) / longitudSpline;
-        progresoSpline += incrementoProgreso;
-        
-        //limitar progreso entre 0 y 1
-        progresoSpline = Mathf.Clamp01(progresoSpline);
-        
-        //mover lateralmente
-        
-        posicionLateral -= horizontalMovement * moveSpeed * Time.fixedDeltaTime;
-        posicionLateral = Mathf.Clamp(posicionLateral, -1f,1f);
-        
-        //calcular posición objetivo del spline
-        Vector3 posicionObjetivo = CalcularPosicionEnSpline();
-        
-        // Mover el Rigidbody hacia la posición objetivo
-        Vector3 direccion = (posicionObjetivo - rb.position);
-        rb.MovePosition(Vector3.Lerp(rb.position, posicionObjetivo, Time.fixedDeltaTime * suavizadoPosicion));
-        
-        // Rotar el jugador en la dirección del spline
-        AjustarRotacion();
-        
-        // Limitar velocidad lateral
-        LimitarVelocidadLateral();
-    }
-    
-    Vector3 CalcularPosicionEnSpline()
-    {
-        // Obtener la posición base en el spline
-        float3 posicionSpline = splineContainer.EvaluatePosition(progresoSpline);
-        
-        // Obtener vectores del spline
-        float3 tangente = splineContainer.EvaluateTangent(progresoSpline);
-        float3 arriba = splineContainer.EvaluateUpVector(progresoSpline);
-        
-        // Calcular el vector derecha (perpendicular al avance)
-        float3 derecha = math.normalize(math.cross(tangente, arriba));
-        
-        // Calcular offset lateral basado en la posición lateral del jugador
-        float3 offsetLateral = derecha * posicionLateral * (anchoTobogan / 2f);
-        
-        // Offset de altura para que el jugador esté sobre el tobogán
-        float3 offsetAltura = arriba * alturaOffset;
-        
-        // Posición final
-        return posicionSpline + offsetLateral + offsetAltura;
-    }
-    
-    void AjustarRotacion()
-    {
-        // Obtener la dirección del spline
-        float3 tangente = splineContainer.EvaluateTangent(progresoSpline);
-        float3 arriba = splineContainer.EvaluateUpVector(progresoSpline);
-        
-        // Crear rotación objetivo
-        Quaternion rotacionObjetivo = Quaternion.LookRotation(tangente, arriba);
-        
-        // Aplicar rotación suavizada
-        rb.MoveRotation(Quaternion.Slerp(rb.rotation, rotacionObjetivo, Time.fixedDeltaTime * suavizadoRotacion));
-    }
-    
-    void LimitarVelocidadLateral()
-    {
-        // Obtener el vector derecha local
-        Vector3 derecha = transform.right;
-        
-        // Calcular velocidad lateral
-        float velocidadLateral = Vector3.Dot(rb.linearVelocity, derecha);
-        
-        // Limitar si excede el máximo
-        if (Mathf.Abs(velocidadLateral) > maxSpeed)
-        {
-            Vector3 velocidadLateralVector = derecha * Mathf.Sign(velocidadLateral) * maxSpeed;
-            Vector3 velocidadOtrasDirecciones = rb.linearVelocity - (derecha * velocidadLateral);
-            rb.linearVelocity = velocidadLateralVector + velocidadOtrasDirecciones;
-        }
-    }
-    
-    float EncontrarProgresoMasCercano(Vector3 posicion)
-    {
-        float mejorDistancia = float.MaxValue;
-        float mejorProgreso = 0f;
-        
-        // Buscar el punto más cercano en el spline
-        for (float t = 0; t <= 1f; t += 0.01f)
-        {
-            Vector3 puntoSpline = splineContainer.EvaluatePosition(t);
-            float distancia = Vector3.Distance(posicion, puntoSpline);
-            
-            if (distancia < mejorDistancia)
-            {
-                mejorDistancia = distancia;
-                mejorProgreso = t;
-            }
-        }
-        
-        return mejorProgreso;
-    }
     public void OnMove(InputAction.CallbackContext movement)
     {
-        // No permitir input si esta stuneado.
-        if (isStunned)
+        // Prevent input if stunned.
+        if (_isStunned)
         {
-            horizontalMovement = 0f;
+            _horizontalInput = 0f;
             return;
         }
         Vector2 vector2 = movement.ReadValue<Vector2>();
-        horizontalMovement = vector2.x;
+        _horizontalInput = vector2.x;
+    }
+
+    // -----------------------------------------------------------------------
+    //                            SPLINE MOVEMENT LOGIC
+    // -----------------------------------------------------------------------
+
+    void InitializeSplinePosition()
+    {
+        // 1. Find the starting progress point
+        _splineProgress = FindClosestProgress(transform.position); 
+        _lateralPosition = 0f; 
+
+        // 2. Teleport the player to the calculated position (Fixes "under slide" issue)
+        transform.position = CalculateSplinePosition();
+        
+        // 3. Set the initial rotation
+        AdjustRotation();
+    }
+
+    void HandleSplineMovement()
+    {
+        // 1. Forward Advance (Longitudinal)
+        float splineLength = splineContainer.Spline.GetLength();
+        float progressIncrement = (forwardSpeed * Time.fixedDeltaTime) / splineLength;
+        _splineProgress += progressIncrement;
+        _splineProgress = Mathf.Clamp01(_splineProgress);
+        
+        // 2. Lateral Movement
+        // Lateral input directly manipulates the lateral position on the track.
+        _lateralPosition -= _horizontalInput * moveSpeed * Time.fixedDeltaTime;
+        _lateralPosition = Mathf.Clamp(_lateralPosition, -1f, 1f);
+        
+        // 3. Calculate Target Position
+        Vector3 targetPosition = CalculateSplinePosition();
+        
+        // 4. Move Rigidbody (Cinematic move with smoothing)
+        _rb.MovePosition(Vector3.Lerp(_rb.position, targetPosition, Time.fixedDeltaTime * positionSmoothness));
+        
+        // 5. Rotation & Velocity Limits
+        AdjustRotation();
+        LimitLateralVelocity();
+        TriggerSnowTrailVfx(true);
     }
     
+    Vector3 CalculateSplinePosition()
+    {
+        float3 splinePosition = splineContainer.EvaluatePosition(_splineProgress);
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        float3 up = splineContainer.EvaluateUpVector(_splineProgress);
+        
+        // Calculate the cross product to find the perpendicular 'right' vector
+        float3 crossProduct = math.cross(tangent, up);
+        
+        float3 right;
+        
+        // Anti-NaN Check: Prevent division by zero if tangent and up are parallel (Fixes NaN error)
+        if (math.lengthsq(crossProduct) < 0.0001f)
+        {
+            // Fallback to a safe vector (global right) if math fails
+            right = new float3(1f, 0f, 0f); 
+        }
+        else
+        {
+            right = math.normalize(crossProduct);
+        }
+
+        // Calculate offsets
+        float3 lateralOffset = right * _lateralPosition * (tobogganWidth / 2f);
+        float3 heightOffsetVector = up * heightOffset;
+        
+        return splinePosition + lateralOffset + heightOffsetVector;
+    }
+    
+    void AdjustRotation()
+    {
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        float3 up = splineContainer.EvaluateUpVector(_splineProgress);
+        
+        Quaternion targetRotation = Quaternion.LookRotation(tangent, up);
+        
+        _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSmoothness));
+    }
+    
+    void LimitLateralVelocity()
+    {
+        // Limits the actual velocity component that is lateral to the track.
+        Vector3 right = transform.right;
+        float lateralVelocity = Vector3.Dot(_rb.linearVelocity, right);
+        
+        if (Mathf.Abs(lateralVelocity) > maxSpeed)
+        {
+            Vector3 lateralVector = right * Mathf.Sign(lateralVelocity) * maxSpeed;
+            Vector3 otherVelocity = _rb.linearVelocity - (right * lateralVelocity);
+            _rb.linearVelocity = lateralVector + otherVelocity;
+        }
+    }
+    
+    float FindClosestProgress(Vector3 position)
+    {
+        float bestDistance = float.MaxValue;
+        float bestProgress = 0f;
+        
+        // Search the spline for the closest point
+        for (float t = 0; t <= 1f; t += 0.01f)
+        {
+            Vector3 splinePoint = splineContainer.EvaluatePosition(t);
+            float distance = Vector3.Distance(position, splinePoint);
+            
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestProgress = t;
+            }
+        }
+        return bestProgress;
+    }
+    
+    // -----------------------------------------------------------------------
+    //                             RACE STATE & STUN
+    // -----------------------------------------------------------------------
+
     public void OnRacePrepare()
     {
-        canMove = false;
-        isStunned = true;
-        beenStunned = true;
-        rb.linearVelocity = Vector3.zero;
-        rb.useGravity = false; // no se deslice antes de tiempo
+        _canMove = false;
+        _isStunned = true; // Block input while preparing
+        _rb.linearVelocity = Vector3.zero;
+        _rb.useGravity = false; // Prevent sliding before start
     }
 
     public void OnRaceStart()
     {
-        ReiniciarEnSpline();
-        canMove = true;
-        isStunned = false; // Nos aseguramos que no esta aturtido en este momento
-        beenStunned = false;
-        rb.useGravity = savedUseGravity; // restaura la gravedad que configuraste
+        ResetOnSpline();
+        _canMove = true;
+        _isStunned = false; 
+        _rb.useGravity = useGravity; // Restore configured gravity
     }
 
     public void OnRaceStop()
     {
-        canMove = false;
-        rb.linearVelocity = Vector3.zero;
+        _canMove = false;
+        _rb.linearVelocity = Vector3.zero;
     }
+
     /// <summary>
-    /// Detiene el movimiento y reduce la velocidad por un tiempo.
+    /// Applies a slowdown and a brief bounce back upon hitting an obstacle.
     /// </summary>
-    /// <param name="slowdownFactor">Factor de reduccion de velocidad (e.g., 0.5f para reducir a la mitad)</param>
     public void HitObstacle(float forwardSlowdownFactor = 0.5f)
     {
-        if (isStunned) return; // Evitar aturdimientos anidados
+        if (_isStunned) return;
 
-        // Reducir velocidad de avance
+        TriggerSnowTrailVfx(false);
+        
+        // Reduce forward speed
         forwardSpeed *= forwardSlowdownFactor;
-        forwardSpeed = Mathf.Max(1f, forwardSpeed); // Asegurar una velocidad mínima
+        forwardSpeed = Mathf.Max(1f, forwardSpeed); 
 
-        // Aplicar un pequeño rebote hacia atrás
-        Vector3 bounceDirection;
-        if (splineContainer != null)
-        {
-            float3 tangente = splineContainer.EvaluateTangent(progresoSpline);
-            bounceDirection = -tangente; // Rebote en la dirección opuesta al avance
-        }
-        else
-        {
-            // Si no hay spline, rebotar en la dirección opuesta a la velocidad Z global
-            bounceDirection = -transform.forward; // Asumimos que 'forward' es la dirección de avance sin spline
-        }
+        // Calculate bounce direction (opposite of spline tangent)
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        Vector3 bounceDirection = -tangent; 
         
-        // Aplicar la fuerza de rebote usando AddForce
-        rb.AddForce(bounceDirection.normalized * bounceForce, ForceMode.VelocityChange); // VelocityChange ignora la masa
+        // 1. Stop current velocity
+        _rb.linearVelocity = Vector3.zero; 
         
-        // Rigidbody se detiene completamente antes de rebotar:
-        rb.linearVelocity = Vector3.zero; 
-        rb.AddForce(bounceDirection.normalized * bounceForce, ForceMode.Impulse);
+        // 2. Apply bounce force (Impulse mode is best for sudden impacts)
+        _rb.AddForce(bounceDirection.normalized * bounceForce, ForceMode.Impulse);
         
         if (collisionFXPrefab != null)
         {
-            // Instanciar el prefab en la posición actual del jugador
             ParticleSystem fx = Instantiate(collisionFXPrefab, transform.position, Quaternion.identity); 
             Destroy(fx.gameObject, fx.main.duration); 
         }
         StartCoroutine(StunRoutine());
     }
 
-    /// <summary>
-    /// Corrutina para manejar el tiempo de aturdimiento.
-    /// </summary>
     IEnumerator StunRoutine()
     {
-        isStunned = true;
-        // La lógica en FixedUpdate y OnMove se encarga de detener el movimiento.
-        yield return new WaitForSeconds(tiempoAturdimiento);
-        beenStunned = true;
-        isStunned = false;
+        _isStunned = true;
+        yield return new WaitForSeconds(stunTime);
+        _isStunned = false;
     }
     
-    // Métodos públicos útiles
-    public void ReiniciarEnSpline()
+    public void ResetOnSpline()
     {
-        progresoSpline = 0f;
-        posicionLateral = 0f;
-        if (splineContainer != null)
+        _splineProgress = 0f;
+        _lateralPosition = 0f;
+        transform.position = CalculateSplinePosition();
+        AdjustRotation();
+    }
+
+    private void TriggerSnowTrailVfx(bool play = true)
+    {
+        if (play)
         {
-            transform.position = CalcularPosicionEnSpline();
+            if(rightSnowTrail.isPlaying) return;
+            rightSnowTrail.Play();
+            leftSnowTrail.Play();
+        }
+        else
+        {
+            rightSnowTrail.Stop();
+            leftSnowTrail.Stop();
         }
     }
 
-    public float ObtenerProgresoActual()
-    {
-        return progresoSpline;
-    }
+    // -----------------------------------------------------------------------
+    //                                GIZMOS
+    // -----------------------------------------------------------------------
 
-    public bool Finished()
-    {
-        return progresoSpline >= 0.99f;
-    }
-
-    // Visualización en el editor
     private void OnDrawGizmos()
     {
         if (splineContainer == null || !Application.isPlaying) return;
 
-        // Dibujar posición objetivo
+        // Draw target position
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(CalcularPosicionEnSpline(), 0.3f);
+        Gizmos.DrawWireSphere(CalculateSplinePosition(), 0.3f);
 
-        // Dibujar límites laterales
-        float3 posicionSpline = splineContainer.EvaluatePosition(progresoSpline);
-        float3 tangente = splineContainer.EvaluateTangent(progresoSpline);
-        float3 arriba = splineContainer.EvaluateUpVector(progresoSpline);
-        float3 derecha = math.normalize(math.cross(tangente, arriba));
+        // Draw lateral limits
+        float3 splinePosition = splineContainer.EvaluatePosition(_splineProgress);
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        float3 up = splineContainer.EvaluateUpVector(_splineProgress);
+        float3 right = math.normalize(math.cross(tangent, up));
 
         Gizmos.color = Color.red;
-        Vector3 bordeIzquierdo = posicionSpline - derecha * (anchoTobogan / 2f);
-        Vector3 bordeDerecho = posicionSpline + derecha * (anchoTobogan / 2f);
+        Vector3 leftBoundary = splinePosition - right * (tobogganWidth / 2f);
+        Vector3 rightBoundary = splinePosition + right * (tobogganWidth / 2f);
         
-        Gizmos.DrawLine(bordeIzquierdo, bordeIzquierdo + (Vector3)arriba * 2f);
-        Gizmos.DrawLine(bordeDerecho, bordeDerecho + (Vector3)arriba * 2f);
+        Gizmos.DrawLine(leftBoundary, leftBoundary + (Vector3)up * 2f);
+        Gizmos.DrawLine(rightBoundary, rightBoundary + (Vector3)up * 2f);
     }
 }
