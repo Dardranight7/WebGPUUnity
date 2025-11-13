@@ -11,7 +11,8 @@ public class PlayerSurfaceInput : MonoBehaviour
     public float moveSpeed = 5f; // Velocidad de movimiento lateral
     public float forwardSpeed = 8f; // Velocidad de avance a lo largo del spline
     public float maxSpeed = 10f; // Velocidad máxima permitida
-    public float drag = 2f;  
+    public float drag = 2f;
+    private string FakuUpdate;
     
     [Header("Configuración del Spline")]
     [SerializeField] private SplineContainer splineContainer;
