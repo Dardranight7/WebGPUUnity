@@ -80,8 +80,8 @@ public class ElektraActivity : MonoBehaviour
         {
             textContainer.SetActive(true);
             informatioText.text = worldUI.text;
-            miniatureImage.sprite = worldUI.miniatureImage;
         }
+        miniatureImage.sprite = worldUI.miniatureImage;
     }
 
     public void PlayClickSound()
