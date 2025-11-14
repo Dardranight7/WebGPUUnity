@@ -17,7 +17,7 @@ public class BotSpawnerAlpinaria : MonoBehaviour
     [SerializeField] private float anchoFormacion = 2f;
     
     [Header("Dificultad de Bots")]
-    [SerializeField] private BotAlpinaria.TipoDificultad dificultadGeneral = BotAlpinaria.TipoDificultad.Normal;
+    [SerializeField] private BotAlpinaria.DifficultyType dificultadGeneral = BotAlpinaria.DifficultyType.Normal;
     [SerializeField] private bool dificultadVariada = true;
     
     private List<GameObject> botsSpawneados = new List<GameObject>();
@@ -61,8 +61,8 @@ public class BotSpawnerAlpinaria : MonoBehaviour
         // Configurar dificultad
         if (dificultadVariada)
         {
-            BotAlpinaria.TipoDificultad[] dificultades = 
-                (BotAlpinaria.TipoDificultad[])System.Enum.GetValues(typeof(BotAlpinaria.TipoDificultad));
+            BotAlpinaria.DifficultyType[] dificultades = 
+                (BotAlpinaria.DifficultyType[])System.Enum.GetValues(typeof(BotAlpinaria.DifficultyType));
             var dificultadField = botAI.GetType().GetField("dificultad",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             dificultadField?.SetValue(botAI, dificultades[Random.Range(0, dificultades.Length)]);

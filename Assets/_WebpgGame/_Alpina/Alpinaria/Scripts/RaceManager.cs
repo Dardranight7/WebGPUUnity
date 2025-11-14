@@ -219,7 +219,7 @@ public class RaceManager : MonoBehaviour
             for (int i = 0; i < bots.Count; i++)
             {
                 var bot = bots[i];
-                if (bot != null && bot.End())
+                if (bot != null && bot.HasFinished())
                 {
                     _finishRace = true; // evita reentradas
                     StartCoroutine(FinishSequence(bot.transform, false));

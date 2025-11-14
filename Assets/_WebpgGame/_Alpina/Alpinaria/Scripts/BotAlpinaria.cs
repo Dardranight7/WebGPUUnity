@@ -1,146 +1,178 @@
 using UnityEngine;
 using UnityEngine.Splines;
 using Unity.Mathematics;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class BotAlpinaria : MonoBehaviour
 {
-    [Header("Referencias")]
+    // -----------------------------------------------------------------------
+    //                             ENUMERATION
+    // -----------------------------------------------------------------------
+    public enum DifficultyType
+    {
+        Easy,
+        Normal,
+        Hard,
+        Expert
+    }
+    
+    // -----------------------------------------------------------------------
+    //                             CONFIGURATION
+    // -----------------------------------------------------------------------
+    
+    [Header("References")]
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private RaceManager raceManager;
   
-    
-    
-    [Header("Configuración de Velocidad")]
+    [Header("Speed Configuration")]
     [SerializeField] private float baseSpeed = 7f;
-    [SerializeField]  private float minSpeed = 5f;
+    [SerializeField] private float minSpeed = 5f;
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float speedVariation = 2f;
     
-   
-    [Header("Configuración de Movimiento Lateral")]
+    [Header("Lateral Movement Config")]
     [SerializeField] private float lateralSpeed = 3f;
-    [SerializeField] private float slideTobogan = 3f;
+    [SerializeField] private float trackWidth = 3f;
     [SerializeField] private float heightOffset = 0.5f;
     
-    
-    [Header("Inteligencia del Bot")]
-    [SerializeField] private float agility = 5f;
+    [Header("Bot Intelligence")]
+    [SerializeField] private float agility = 5f; // Nunca se utiliza
     [SerializeField] private float accuracy = 0.8f;
     [SerializeField] private float distancePrediction = 5f;
-    [SerializeField] private TipoDificultad difficulty = TipoDificultad.Normal;
+    [SerializeField] private DifficultyType difficulty = DifficultyType.Normal; 
     
-    
-    [Header("Comportamiento")]
+    [Header("Behavior Toggles")]
     [SerializeField] private bool edgeAvoidance = true;
     [SerializeField] private bool findOptimalLine = true;
     [SerializeField] private bool makeMistakes = true;
     
+    [Header("Smoothing")]
+    [SerializeField] private float rotationSmoothness = 10f;
+    [SerializeField] private float positionSmoothness = 8f;
     
-    [Header("Configuración Inicial")] // ⭐ NUEVO
-    [SerializeField] private bool positionInitial = true;
-    [SerializeField] private float progresoInicialManual = 0f;
+    // -----------------------------------------------------------------------
+    //                             INTERNAL STATE
+    // -----------------------------------------------------------------------
     
+    private float _splineProgress = 0f;
+    private float _lateralPosition = 0f;
+    private float _currentSpeed;
+    private float _nextErrorTime = 0f;
+    private float _currentError = 0f;
+    private float _personalityFactor;
+    private float _lateralBias = 0f;
     
-    
-    [Header("Suavizado")]
-    [SerializeField] private float rotationSmooth = 10f;
-    [SerializeField] private float positionSmooth = 8f;
-    
-    // Variables internas
-    private float progresoSpline = 0f;
-    private float posicionLateral = 0f;
-    private float velocidadActual;
-    private float tiempoProximoError = 0f;
-    private float errorActual = 0f;
-    private float personalidad;
-    
-    private bool canMove = false;
-    
-    public enum TipoDificultad
-    {
-        Facil,
-        Normal,
-        Dificil,
-        Experto
-    }
+    private bool _canMove = false;
+
+    // -----------------------------------------------------------------------
+    //                            UNITY LIFECYCLE
+    // -----------------------------------------------------------------------
 
     void Start()
     {
         if (rb == null) rb = GetComponent<Rigidbody>();
         
+        // Safety check
+        if (splineContainer == null || rb == null)
+        {
+            Debug.LogError($"Bot {gameObject.name} is missing a critical reference (SplineContainer or Rigidbody). Disabling script.");
+            enabled = false;
+            return;
+        }
+        
         rb.freezeRotation = true;
         rb.useGravity = false;
 
-
-        InitialBot();
-        InitialInSpline();
-        
-        canMove = false;
+        InitializeBot();
+        _canMove = false; 
     }
 
-    void InitialBot()
+    void FixedUpdate()
     {
-        personalidad = Random.Range(0.7f, 1.3f);
-        velocidadActual = baseSpeed * personalidad;
+        if (!_canMove) return;
         
-        ConfigDifficult();
-        
-        if (splineContainer != null)
-        {
-            InitialInSpline();
-        }
+        MakeDecisions();
+        AdvanceInSpline();
+        UpdatePositionAndRotation();
     }
 
-    void InitialInSpline()
+    // -----------------------------------------------------------------------
+    //                            INITIALIZATION
+    // -----------------------------------------------------------------------
+
+    void InitializeBot()
     {
+        // Set a persistent random speed factor for this specific bot
+        _personalityFactor = Random.Range(0.7f, 1.3f);
         
-        progresoSpline = FindNearestProgress(transform.position);
-        posicionLateral = CalculatePositionLateralInitial();
+        ConfigureDifficulty();
+        
+        // Apply personality factor to base speed
+        _currentSpeed = Random.Range(minSpeed, maxSpeed);
+        
+        InitializeSplinePosition();
     }
 
-    float CalculatePositionLateralInitial()
+    void InitializeSplinePosition()
     {
-        float3 posicionSpline = splineContainer.EvaluatePosition(progresoSpline);
-        float3 tangente = splineContainer.EvaluateTangent(progresoSpline);
-        float3 arriba = splineContainer.EvaluateUpVector(progresoSpline);
-        float3 derecha = math.normalize(math.cross(tangente, arriba));
+        // Find nearest progress point on spline
+        _splineProgress = FindNearestProgress(transform.position);
         
-        Vector3 offsetDesdeSpline = transform.position - (Vector3)posicionSpline;
-        float distanciaLateral = Vector3.Dot(offsetDesdeSpline, derecha);
+        // Calculate lateral position based on where the bot started (important for race start placement)
+        _lateralPosition = CalculateInitialLateralPosition();
         
-        float posLateral = distanciaLateral / (slideTobogan / 2f);
-        return Mathf.Clamp(posLateral, -1f, 1f);
+        // Set initial position immediately (Fixes being under the slide)
+        transform.position = CalculateSplinePosition();
+        
+        // Set initial rotation
+        UpdatePositionAndRotation(); 
     }
 
-    void ConfigDifficult()
+    float CalculateInitialLateralPosition()
+    {
+        float3 splinePos = splineContainer.EvaluatePosition(_splineProgress);
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        float3 up = splineContainer.EvaluateUpVector(_splineProgress);
+        
+        // Calculate the 'right' vector (perpendicular to tangent and up)
+        float3 right = math.normalize(math.cross(tangent, up));
+        
+        // Project the position onto the right vector to find lateral distance
+        Vector3 offsetFromSpline = transform.position - (Vector3)splinePos;
+        float lateralDistance = Vector3.Dot(offsetFromSpline, right);
+        
+        // Normalize the distance to the -1 to 1 range
+        float normalizedLateralPos = lateralDistance / (trackWidth / 2f);
+        return Mathf.Clamp(normalizedLateralPos, -1f, 1f);
+    }
+
+    void ConfigureDifficulty()
     {
         switch (difficulty)
         {
-            case TipoDificultad.Facil:
+            case DifficultyType.Easy:
                 baseSpeed *= 0.8f;
                 agility = 3f;
                 accuracy = 0.6f;
                 makeMistakes = true;
                 break;
                 
-            case TipoDificultad.Normal:
+            case DifficultyType.Normal:
                 baseSpeed *= 0.95f;
                 agility = 5f;
                 accuracy = 0.8f;
                 makeMistakes = true;
                 break;
                 
-            case TipoDificultad.Dificil:
+            case DifficultyType.Hard:
                 baseSpeed *= 1.1f;
                 agility = 7f;
                 accuracy = 0.9f;
                 makeMistakes = false;
                 break;
                 
-            case TipoDificultad.Experto:
+            case DifficultyType.Expert:
                 baseSpeed *= 1.2f;
                 agility = 10f;
                 accuracy = 0.95f;
@@ -149,82 +181,84 @@ public class BotAlpinaria : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    // -----------------------------------------------------------------------
+    //                                AI LOGIC
+    // -----------------------------------------------------------------------
+    
+    void MakeDecisions() // Decitions -> MakeDecisions
     {
-        if (!canMove) return;             // Espera hasta el GO
-        if (splineContainer == null) return;
-        
-        Decitions();
-        AdvanceInSpline();
-        UpdatePosition();
-    }
-
-    void Decitions()
-    {
-        float movimientoDeseado = 0f;
+        float desiredMovement = 0f;
         
         if (findOptimalLine)
         {
-            movimientoDeseado += CalculateLine();
+            desiredMovement += CalculateOptimalLineMovement();
         }
         
         if (edgeAvoidance)
         {
-            movimientoDeseado += DodgeEdge();
+            desiredMovement += AvoidEdgeMovement();
         }
         
         if (makeMistakes)
         {
-            movimientoDeseado += SimulateErrors();
+            desiredMovement += SimulateErrors();
         }
         
-        float movimientoFinal = movimientoDeseado * accuracy;
-        posicionLateral += movimientoFinal * lateralSpeed * Time.fixedDeltaTime;
-        posicionLateral = Mathf.Clamp(posicionLateral, -1f, 1f);
+        desiredMovement += _lateralBias * 0.5f;
+        // Apply accuracy factor to the combined desired movement
+        float finalMovement = desiredMovement * accuracy;
+        
+        _lateralPosition += finalMovement * lateralSpeed * Time.fixedDeltaTime;
+        _lateralPosition = Mathf.Clamp(_lateralPosition, -1f, 1f);
     }
 
-    float CalculateLine()
+    float CalculateOptimalLineMovement()
     {
-        float progresoFuturo = progresoSpline + (distancePrediction / splineContainer.Spline.GetLength());
-        progresoFuturo = Mathf.Clamp01(progresoFuturo);
+        float futureProgress = _splineProgress + (distancePrediction / splineContainer.Spline.GetLength());
+        futureProgress = Mathf.Clamp01(futureProgress);
         
-        float3 tangentActual = splineContainer.EvaluateTangent(progresoSpline);
-        float3 tangenteFutura = splineContainer.EvaluateTangent(progresoFuturo);
+        float3 currentTangent = splineContainer.EvaluateTangent(_splineProgress);
+        float3 futureTangent = splineContainer.EvaluateTangent(futureProgress);
         
-        Vector3 cross = Vector3.Cross(tangentActual, tangenteFutura);
-        float intensidadCurva = cross.magnitude;
+        // Cross product indicates the direction of turn (and intensity)
+        Vector3 cross = Vector3.Cross(currentTangent, futureTangent);
+        float curveIntensity = cross.magnitude;
         
-        if (intensidadCurva > 0.1f)
+        if (curveIntensity > 0.1f)
         {
-            bool curvaALaDerecha = cross.y > 0;
+            bool curveToTheRight = cross.y > 0;
             
-            if (curvaALaDerecha)
+            // Try to move to the inside of the curve
+            if (curveToTheRight)
             {
-                return posicionLateral > -0.5f ? -1f : 0f;
+                // If on the right side, move left (-1) if not already inside/center
+                return _lateralPosition > -0.5f ? -1f : 0f;
             }
-            else
+            else // Curve to the left
             {
-                return posicionLateral < 0.5f ? 1f : 0f;
+                // If on the left side, move right (+1) if not already inside/center
+                return _lateralPosition < 0.5f ? 1f : 0f;
             }
         }
         
-        if (Mathf.Abs(posicionLateral) > 0.2f)
+        // If track is straight, return to center
+        if (Mathf.Abs(_lateralPosition) > 0.2f)
         {
-            return -Mathf.Sign(posicionLateral) * 0.5f;
+            return -Mathf.Sign(_lateralPosition) * 0.5f; // Move towards center
         }
         
         return 0f;
     }
 
-    float DodgeEdge()
+    float AvoidEdgeMovement()
     {
-        if (posicionLateral > 0.8f)
+        if (_lateralPosition > 0.8f) // Too far right
         {
-            return -2f;
+            return -2f; // Strong push to the left
         }
-        else if (posicionLateral < -0.8f)
+        else if (_lateralPosition < -0.8f) // Too far left
         {
-            return 2f;
+            return 2f; // Strong push to the right
         }
         
         return 0f;
@@ -232,111 +266,153 @@ public class BotAlpinaria : MonoBehaviour
 
     float SimulateErrors()
     {
-        if (Time.time > tiempoProximoError)
+        if (Time.time > _nextErrorTime)
         {
-            errorActual = Random.Range(-1f, 1f) * (1f - accuracy);
-            tiempoProximoError = Time.time + Random.Range(1f, 3f);
+            // Error magnitude is inverse to accuracy
+            _currentError = Random.Range(-1f, 1f) * (1f - accuracy); 
+            _nextErrorTime = Time.time + Random.Range(1f, 3f);
         }
         
-        return errorActual * 0.3f;
+        // Apply only a fraction of the error to the lateral movement
+        return _currentError * 0.3f; 
     }
+
+    // -----------------------------------------------------------------------
+    //                         SPLINE MOVEMENT EXECUTION
+    // -----------------------------------------------------------------------
 
     void AdvanceInSpline()
     {
-        float longitudSpline = splineContainer.Spline.GetLength();
+        float splineLength = splineContainer.Spline.GetLength();
         
-        velocidadActual = Mathf.Lerp(
-            velocidadActual, 
+        // Introduce small, constant speed variation to make the bot less predictable
+        _currentSpeed = Mathf.Lerp(
+            _currentSpeed, 
             baseSpeed + Random.Range(-speedVariation, speedVariation),
             Time.fixedDeltaTime
         );
-        velocidadActual = Mathf.Clamp(velocidadActual, minSpeed, maxSpeed);
+        _currentSpeed = Mathf.Clamp(_currentSpeed, minSpeed, maxSpeed);
         
-        float incrementoProgreso = (velocidadActual * Time.fixedDeltaTime) / longitudSpline;
-        progresoSpline += incrementoProgreso;
-        progresoSpline = Mathf.Clamp01(progresoSpline);
+        float progressIncrement = (_currentSpeed * Time.fixedDeltaTime) / splineLength;
+        _splineProgress += progressIncrement;
+        _splineProgress = Mathf.Clamp01(_splineProgress);
     }
 
-    void UpdatePosition()
+    void UpdatePositionAndRotation()
     {
-        float3 posicionSpline = splineContainer.EvaluatePosition(progresoSpline);
-        float3 tangente = splineContainer.EvaluateTangent(progresoSpline);
-        float3 arriba = splineContainer.EvaluateUpVector(progresoSpline);
-        float3 derecha = math.normalize(math.cross(tangente, arriba));
+        Vector3 targetPosition = CalculateSplinePosition();
         
-        float3 offsetLateral = derecha * posicionLateral * (slideTobogan / 2f);
-        float3 offsetAltura = arriba * heightOffset;
+        rb.MovePosition(Vector3.Lerp(rb.position, targetPosition, Time.fixedDeltaTime * positionSmoothness));
         
-        Vector3 posicionObjetivo = posicionSpline + offsetLateral + offsetAltura;
+        // Calculate and apply rotation
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        float3 up = splineContainer.EvaluateUpVector(_splineProgress);
         
-        rb.MovePosition(Vector3.Lerp(rb.position, posicionObjetivo, Time.fixedDeltaTime * positionSmooth));
-        
-        Quaternion rotacionObjetivo = Quaternion.LookRotation(tangente, arriba);
-        rb.MoveRotation(Quaternion.Slerp(rb.rotation, rotacionObjetivo, Time.fixedDeltaTime * rotationSmooth));
+        Quaternion targetRotation = Quaternion.LookRotation(tangent, up);
+        rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSmoothness));
     }
-
-    float FindNearestProgress(Vector3 posicion)
+    
+    Vector3 CalculateSplinePosition()
     {
-        float mejorDistancia = float.MaxValue;
-        float mejorProgreso = 0f;
+        float3 splinePos = splineContainer.EvaluatePosition(_splineProgress);
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        float3 up = splineContainer.EvaluateUpVector(_splineProgress);
+        
+        // Calculate the cross product and perform Anti-NaN check
+        float3 crossProduct = math.cross(tangent, up);
+        float3 right;
+        
+        if (math.lengthsq(crossProduct) < 0.0001f)
+        {
+            right = new float3(1f, 0f, 0f); 
+        }
+        else
+        {
+            right = math.normalize(crossProduct);
+        }
+
+        // Calculate offsets
+        float3 lateralOffset = right * _lateralPosition * (trackWidth / 2f);
+        float3 heightOffsetVector = up * heightOffset;
+        
+        return splinePos + lateralOffset + heightOffsetVector;
+    }
+    
+    float FindNearestProgress(Vector3 position)
+    {
+        float bestDistance = float.MaxValue;
+        float bestProgress = 0f;
         
         for (float t = 0; t <= 1f; t += 0.01f)
         {
-            Vector3 puntoSpline = splineContainer.EvaluatePosition(t);
-            float distancia = Vector3.Distance(posicion, puntoSpline);
+            Vector3 splinePoint = splineContainer.EvaluatePosition(t);
+            float distance = Vector3.Distance(position, splinePoint);
             
-            if (distancia < mejorDistancia)
+            if (distance < bestDistance)
             {
-                mejorDistancia = distancia;
-                mejorProgreso = t;
+                bestDistance = distance;
+                bestProgress = t;
             }
         }
-        
-        return mejorProgreso;
+        return bestProgress;
     }
+
+    // -----------------------------------------------------------------------
+    //                         RACE MANAGER CALLBACKS
+    // -----------------------------------------------------------------------
     
     public void OnRacePrepare()
     {
-        canMove = false;
-        // Mantente quieto hasta el GO
+        _canMove = false;
         if (rb != null) rb.linearVelocity = Vector3.zero;
     }
     
     public void OnRaceStart()
     {
-        // Reposicionar/Reset si quieres que arranquen desde el inicio del spline
         ResetBot();
-        canMove = true;
+        _canMove = true;
     }
 
     public void OnRaceStop()
     {
-        canMove = false;
+        _canMove = false;
         if (rb != null) rb.linearVelocity = Vector3.zero;
-    }
-
-
-    public float GetProgress()
-    {
-        return progresoSpline;
     }
 
     public void ResetBot()
     {
-        progresoSpline = 0f;
-        posicionLateral = Random.Range(-0.3f, 0.3f);
-        velocidadActual = baseSpeed * personalidad;
+        _splineProgress = 0f;
+        
+        _lateralPosition = Random.Range(-0.3f, 0.3f);
+        _lateralBias = Random.Range(-1.0f, 1.0f); // Un valor entre -1 y 1
+        
+        _currentSpeed = Random.Range(minSpeed, maxSpeed);
+        
+        InitializeSplinePosition();
     }
 
-    public void AdjustSpeed(float multiplicador)
+    // -----------------------------------------------------------------------
+    //                           PUBLIC ACCESSORS
+    // -----------------------------------------------------------------------
+
+    public float GetProgress()
     {
-        baseSpeed *= multiplicador;
+        return _splineProgress;
     }
 
-    public bool End()
+    public void AdjustSpeed(float multiplier)
     {
-        return progresoSpline >= 0.999f;
+        baseSpeed *= multiplier;
     }
+
+    public bool HasFinished() // End -> HasFinished
+    {
+        return _splineProgress >= 0.999f;
+    }
+
+    // -----------------------------------------------------------------------
+    //                                GIZMOS
+    // -----------------------------------------------------------------------
 
     void OnDrawGizmos()
     {
@@ -345,10 +421,9 @@ public class BotAlpinaria : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, 0.3f);
         
-        float progresoFuturo = Mathf.Clamp01(progresoSpline + (distancePrediction / splineContainer.Spline.GetLength()));
-        Vector3 puntoFuturo = splineContainer.EvaluatePosition(progresoFuturo);
+        float futureProgress = Mathf.Clamp01(_splineProgress + (distancePrediction / splineContainer.Spline.GetLength()));
+        Vector3 futurePoint = splineContainer.EvaluatePosition(futureProgress);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, puntoFuturo);
+        Gizmos.DrawLine(transform.position, futurePoint);
     }
-
 }
