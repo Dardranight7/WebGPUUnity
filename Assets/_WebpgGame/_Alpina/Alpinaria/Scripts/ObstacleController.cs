@@ -14,9 +14,12 @@ public class ObstacleController : MonoBehaviour
             {
                 // Llamar al nuevo método de aturdimiento
                 playerInput.HitObstacle(forwardSlowdownFactor);
-                
-                // TODO
-                // Desactivar colision? hacer efecto en jugador del choque?
+            }
+
+            BotAlpinaria bot = other.GetComponent<BotAlpinaria>();
+            if (bot != null)
+            {
+                bot.HitObstacle(0.5f);
             }
         }
     }

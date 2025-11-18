@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Splines;
 using Unity.Mathematics;
@@ -47,6 +48,10 @@ public class BotAlpinaria : MonoBehaviour
     [SerializeField] private bool findOptimalLine = true;
     [SerializeField] private bool makeMistakes = true;
     
+    [Header("Obstacle Interaction")]
+    [SerializeField] private float stunTime = 0.5f; 
+    [SerializeField] private float bounceForce = 5f;
+    
     [Header("Smoothing")]
     [SerializeField] private float rotationSmoothness = 10f;
     [SerializeField] private float positionSmoothness = 8f;
@@ -64,6 +69,7 @@ public class BotAlpinaria : MonoBehaviour
     private float _lateralBias = 0f;
     
     private bool _canMove = false;
+    private bool _isStunned = false;
 
     // -----------------------------------------------------------------------
     //                            UNITY LIFECYCLE
@@ -90,7 +96,7 @@ public class BotAlpinaria : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!_canMove) return;
+        if (!_canMove || _isStunned) return;
         
         MakeDecisions();
         AdvanceInSpline();
@@ -263,7 +269,7 @@ public class BotAlpinaria : MonoBehaviour
         
         return 0f;
     }
-
+    
     float SimulateErrors()
     {
         if (Time.time > _nextErrorTime)
@@ -358,7 +364,7 @@ public class BotAlpinaria : MonoBehaviour
     }
 
     // -----------------------------------------------------------------------
-    //                         RACE MANAGER CALLBACKS
+    //                         RACE MANAGER CALLBACKS / INTERACTION
     // -----------------------------------------------------------------------
     
     public void OnRacePrepare()
@@ -389,6 +395,41 @@ public class BotAlpinaria : MonoBehaviour
         _currentSpeed = Random.Range(minSpeed, maxSpeed);
         
         InitializeSplinePosition();
+    }
+    /// <summary>
+    /// Implements the obstacle hit logic: slowdown, bounce, and stun.
+    /// </summary>
+    /// <param name="forwardSlowdownFactor">Factor to reduce the base speed by.</param>
+    public void HitObstacle(float forwardSlowdownFactor = 0.5f)
+    {
+        // if (_isStunned) return;
+        //
+        // // Slowdown: Reduce the base speed of the bot
+        // baseSpeed *= forwardSlowdownFactor;
+        // baseSpeed = Mathf.Max(minSpeed, baseSpeed); // Ensure speed doesn't drop below minSpeed
+        //
+        // //Stop and apply impulse opposite to the direction of travel
+        // float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        // Vector3 bounceDirection = -tangent; 
+        //
+        // if (rb != null)
+        // {
+        //     rb.linearVelocity = Vector3.zero; 
+        //     rb.AddForce(bounceDirection.normalized * bounceForce, ForceMode.Impulse);
+        // }
+        //
+        // // 3. Stun: Block decisions and movement execution for a short time
+        // StartCoroutine(StunRoutine());
+    }
+
+    /// <summary>
+    /// Coroutine to handle the stun duration.
+    /// </summary>
+    IEnumerator StunRoutine()
+    {
+        _isStunned = true;
+        yield return new WaitForSeconds(stunTime);
+        _isStunned = false;
     }
 
     // -----------------------------------------------------------------------
