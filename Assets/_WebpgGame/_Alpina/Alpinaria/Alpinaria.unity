@@ -131,6 +131,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlpinariaObstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8867640491770473644, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.48
@@ -403,6 +411,10 @@ PrefabInstance:
     - target: {fileID: 2263239101613086068, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
       propertyPath: m_Name
       value: AlpinariaMiddleObstacle 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2263239101613086068, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 8305781300548018269, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
       propertyPath: m_LocalScale.x
@@ -1571,6 +1583,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlpinariaMiddleObstacle (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2263239101613086068, guid: 16837ddfaace3c64aada5c02023abbea, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 6400682582190236363, guid: 16837ddfaace3c64aada5c02023abbea, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1884,6 +1900,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlpinariaMiddleObstacle 2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2263239101613086068, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 8305781300548018269, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5227
@@ -2095,47 +2115,47 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1772475294}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.726
+      value: 0.7260001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.726
+      value: 0.72600013
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.726
+      value: 0.72599995
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.677
+      value: 0.29573837
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.458
+      value: 0.07845786
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.108
+      value: 0.31056273
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9691934
+      value: 0.97062945
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.021412028
+      value: 0.03238379
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.091084585
+      value: -0.22690816
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.22783647
+      value: -0.073092885
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2153,11 +2173,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gift_1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
+--- !u!4 &441809438 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0d229244c06f1b744a1698130eeee925, type: 3}
+  m_PrefabInstance: {fileID: 441809437}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &449883004
 GameObject:
   m_ObjectHideFlags: 0
@@ -2252,6 +2281,10 @@ PrefabInstance:
     - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_Name
       value: AlpinariaPresent (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6358891101832577655, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_IsActive
@@ -2475,6 +2508,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlpinariaPresent
       objectReference: {fileID: 0}
+    - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2556,6 +2593,10 @@ PrefabInstance:
     - target: {fileID: 2263239101613086068, guid: 16837ddfaace3c64aada5c02023abbea, type: 3}
       propertyPath: m_Name
       value: AlpinariaMiddleObstacle (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2263239101613086068, guid: 16837ddfaace3c64aada5c02023abbea, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 8305781300548018269, guid: 16837ddfaace3c64aada5c02023abbea, type: 3}
       propertyPath: m_LocalScale.x
@@ -63243,6 +63284,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlpinariaPresent
       objectReference: {fileID: 0}
+    - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8867640491770473644, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.87626
@@ -63750,6 +63799,7 @@ Transform:
   - {fileID: 126354906}
   - {fileID: 429464037}
   - {fileID: 6855515}
+  - {fileID: 1798950275}
   - {fileID: 1772475294}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -63871,6 +63921,12 @@ MonoBehaviour:
   edgeAvoidance: 1
   findOptimalLine: 1
   makeMistakes: 1
+  avoidObstacles: 1
+  sphereCastRadius: 1
+  detectionDistance: 10
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   stunTime: 0.5
   bounceForce: 2
   rotationSmoothness: 10
@@ -64492,6 +64548,12 @@ MonoBehaviour:
   edgeAvoidance: 1
   findOptimalLine: 1
   makeMistakes: 1
+  avoidObstacles: 1
+  sphereCastRadius: 1
+  detectionDistance: 10
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   stunTime: 0.5
   bounceForce: 2
   rotationSmoothness: 10
@@ -64557,6 +64619,10 @@ PrefabInstance:
     - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_Name
       value: AlpinariaPresent (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_IsActive
@@ -64746,6 +64812,12 @@ MonoBehaviour:
   edgeAvoidance: 1
   findOptimalLine: 1
   makeMistakes: 1
+  avoidObstacles: 1
+  sphereCastRadius: 1
+  detectionDistance: 10
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   stunTime: 0.5
   bounceForce: 2
   rotationSmoothness: 10
@@ -125376,6 +125448,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlpinariaPresent (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8867640491770473644, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.68263286
@@ -125663,6 +125743,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4815413660001159146, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4492251226640991753, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3771124003703441046, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3441302241763000693, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3194296024238252562, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2328966056143640517, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1640455890263623649, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1186384052761857416, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -990930405140786149, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
       propertyPath: m_Name
       value: Alpinaria
@@ -125695,9 +125811,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -165
       objectReference: {fileID: 0}
+    - target: {fileID: 3992958082528820179, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4438576620294999709, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6583884143837470451, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
       propertyPath: m_ProbeAnchor
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7127262645854479402, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186423231064144550, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9178767639141027626, guid: 2331b958f9916b841b194a309c53e92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -125979,6 +126115,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 977101677}
     m_Modifications:
+    - target: {fileID: 758099588853362542, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 803630829501819802, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -125986,6 +126126,14 @@ PrefabInstance:
     - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_Name
       value: AlpinariaPresent
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358891101832577655, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8867640491770473644, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_LocalScale.x
@@ -126130,6 +126278,10 @@ PrefabInstance:
     - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_Name
       value: AlpinariaPresent
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_IsActive
@@ -186675,6 +186827,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlpinariaPresent
       objectReference: {fileID: 0}
+    - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8867640491770473644, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.68263286
@@ -186795,6 +186955,7 @@ Transform:
   - {fileID: 384798159}
   - {fileID: 145840596}
   - {fileID: 1372760547}
+  - {fileID: 441809438}
   m_Father: {fileID: 977101677}
   m_LocalEulerAnglesHint: {x: -20.549, y: 31.537, z: 29.768}
 --- !u!65 &1772475295
@@ -186966,23 +187127,27 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 977101677}
     m_Modifications:
     - target: {fileID: 2263239101613086068, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
       propertyPath: m_Name
       value: AlpinariaMiddleObstacle 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2263239101613086068, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 8305781300548018269, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.002
+      value: 8.687241
       objectReference: {fileID: 0}
     - target: {fileID: 8305781300548018269, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.298
+      value: 5.44427
       objectReference: {fileID: 0}
     - target: {fileID: 8305781300548018269, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.76
+      value: -0.04034996
       objectReference: {fileID: 0}
     - target: {fileID: 8305781300548018269, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
       propertyPath: m_LocalRotation.w
@@ -187017,6 +187182,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
+--- !u!4 &1798950275 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8305781300548018269, guid: 77ab18fe51b25ec4d80f590aae550498, type: 3}
+  m_PrefabInstance: {fileID: 1798950274}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1811437960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -187240,6 +187410,10 @@ PrefabInstance:
     - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_Name
       value: AlpinariaPresent (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8867640491770473644, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_LocalScale.x
@@ -187622,6 +187796,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlpinariaMiddleObstacle (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2263239101613086068, guid: 16837ddfaace3c64aada5c02023abbea, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 6400682582190236363, guid: 16837ddfaace3c64aada5c02023abbea, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -187860,6 +188038,10 @@ PrefabInstance:
     - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_Name
       value: AlpinariaPresent (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8867640491770473644, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_LocalScale.x
@@ -249209,6 +249391,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlpinariaMiddleObstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 2263239101613086068, guid: 16837ddfaace3c64aada5c02023abbea, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 8305781300548018269, guid: 16837ddfaace3c64aada5c02023abbea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.897
@@ -250180,6 +250366,10 @@ PrefabInstance:
     - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_Name
       value: AlpinariaPresent
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056976946792326640, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 3857171322842034673, guid: f83cf6fd9f69d3c4b85149a14bae7fbe, type: 3}
       propertyPath: m_IsActive
@@ -256744,7 +256934,5 @@ SceneRoots:
   - {fileID: 1505327406}
   - {fileID: 632466825}
   - {fileID: 895281802}
-  - {fileID: 441809437}
-  - {fileID: 1798950274}
   - {fileID: 1364028158}
   - {fileID: 1811437960}

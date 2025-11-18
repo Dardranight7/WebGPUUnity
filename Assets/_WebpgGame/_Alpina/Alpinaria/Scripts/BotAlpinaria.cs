@@ -38,19 +38,26 @@ public class BotAlpinaria : MonoBehaviour
     [SerializeField] private float heightOffset = 0.5f;
     
     [Header("Bot Intelligence")]
-    [SerializeField] private float agility = 5f; // Nunca se utiliza
+    [SerializeField] private float agility = 5f; 
     [SerializeField] private float accuracy = 0.8f;
     [SerializeField] private float distancePrediction = 5f;
-    [SerializeField] private DifficultyType difficulty = DifficultyType.Normal; 
+    [SerializeField] private DifficultyType difficulty = DifficultyType.Normal;
     
     [Header("Behavior Toggles")]
     [SerializeField] private bool edgeAvoidance = true;
     [SerializeField] private bool findOptimalLine = true;
     [SerializeField] private bool makeMistakes = true;
+    [SerializeField] private bool avoidObstacles = true;
+    
+    [Header("Obstacle Detection")]
+    [SerializeField] private float sphereCastRadius = 0.5f;
+    [SerializeField] private float detectionDistance = 10f;
+    [SerializeField] private LayerMask obstacleLayer;
+    
     
     [Header("Obstacle Interaction")]
     [SerializeField] private float stunTime = 0.5f; 
-    [SerializeField] private float bounceForce = 5f;
+    [SerializeField] private float bounceForce = 5f; 
     
     [Header("Smoothing")]
     [SerializeField] private float rotationSmoothness = 10f;
@@ -66,10 +73,17 @@ public class BotAlpinaria : MonoBehaviour
     private float _nextErrorTime = 0f;
     private float _currentError = 0f;
     private float _personalityFactor;
-    private float _lateralBias = 0f;
+    private float _lateralBias = 0f; 
+    
+    private float _preStunBaseSpeed; 
     
     private bool _canMove = false;
-    private bool _isStunned = false;
+    private bool _isStunned = false; 
+    private bool _isInvulnerable = false;
+    // PUBLIC PROPERTIES
+    public float GetProgress() => _splineProgress;
+    public bool HasFinished() => _splineProgress >= 0.999f;
+    public bool IsStunned => _isStunned;
 
     // -----------------------------------------------------------------------
     //                            UNITY LIFECYCLE
@@ -79,10 +93,9 @@ public class BotAlpinaria : MonoBehaviour
     {
         if (rb == null) rb = GetComponent<Rigidbody>();
         
-        // Safety check
         if (splineContainer == null || rb == null)
         {
-            Debug.LogError($"Bot {gameObject.name} is missing a critical reference (SplineContainer or Rigidbody). Disabling script.");
+            Debug.LogError($"Bot {gameObject.name} is missing a critical reference. Disabling script.");
             enabled = false;
             return;
         }
@@ -91,11 +104,13 @@ public class BotAlpinaria : MonoBehaviour
         rb.useGravity = false;
 
         InitializeBot();
+        
         _canMove = false; 
     }
 
     void FixedUpdate()
     {
+        // El bot no toma decisiones ni se mueve si no está en carrera o aturdido.
         if (!_canMove || _isStunned) return;
         
         MakeDecisions();
@@ -109,29 +124,20 @@ public class BotAlpinaria : MonoBehaviour
 
     void InitializeBot()
     {
-        // Set a persistent random speed factor for this specific bot
         _personalityFactor = Random.Range(0.7f, 1.3f);
-        
         ConfigureDifficulty();
-        
-        // Apply personality factor to base speed
-        _currentSpeed = Random.Range(minSpeed, maxSpeed);
+        _currentSpeed = Random.Range(minSpeed, maxSpeed); 
         
         InitializeSplinePosition();
     }
 
     void InitializeSplinePosition()
     {
-        // Find nearest progress point on spline
         _splineProgress = FindNearestProgress(transform.position);
-        
-        // Calculate lateral position based on where the bot started (important for race start placement)
         _lateralPosition = CalculateInitialLateralPosition();
         
-        // Set initial position immediately (Fixes being under the slide)
         transform.position = CalculateSplinePosition();
         
-        // Set initial rotation
         UpdatePositionAndRotation(); 
     }
 
@@ -141,14 +147,11 @@ public class BotAlpinaria : MonoBehaviour
         float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
         float3 up = splineContainer.EvaluateUpVector(_splineProgress);
         
-        // Calculate the 'right' vector (perpendicular to tangent and up)
         float3 right = math.normalize(math.cross(tangent, up));
         
-        // Project the position onto the right vector to find lateral distance
         Vector3 offsetFromSpline = transform.position - (Vector3)splinePos;
         float lateralDistance = Vector3.Dot(offsetFromSpline, right);
         
-        // Normalize the distance to the -1 to 1 range
         float normalizedLateralPos = lateralDistance / (trackWidth / 2f);
         return Mathf.Clamp(normalizedLateralPos, -1f, 1f);
     }
@@ -191,18 +194,33 @@ public class BotAlpinaria : MonoBehaviour
     //                                AI LOGIC
     // -----------------------------------------------------------------------
     
-    void MakeDecisions() // Decitions -> MakeDecisions
+    /// <summary>
+    /// Make decisions of where the ebot needs to move
+    /// </summary>
+    void MakeDecisions()
     {
         float desiredMovement = 0f;
         
-        if (findOptimalLine)
+        if (avoidObstacles)
         {
-            desiredMovement += CalculateOptimalLineMovement();
+            float avoidance = AvoidObstacles();
+            if (avoidance != 0f)
+            {
+                desiredMovement = avoidance;
+            }
         }
-        
-        if (edgeAvoidance)
+        // If needs to avoid obstacle, it prevents other movements
+        if (desiredMovement == 0f)
         {
-            desiredMovement += AvoidEdgeMovement();
+            if (findOptimalLine)
+            {
+                desiredMovement += CalculateOptimalLineMovement();
+            }
+            
+            if (edgeAvoidance)
+            {
+                desiredMovement += AvoidEdgeMovement();
+            }
         }
         
         if (makeMistakes)
@@ -210,14 +228,39 @@ public class BotAlpinaria : MonoBehaviour
             desiredMovement += SimulateErrors();
         }
         
-        desiredMovement += _lateralBias * 0.5f;
-        // Apply accuracy factor to the combined desired movement
+        desiredMovement += _lateralBias * 0.5f; 
+        
         float finalMovement = desiredMovement * accuracy;
         
         _lateralPosition += finalMovement * lateralSpeed * Time.fixedDeltaTime;
         _lateralPosition = Mathf.Clamp(_lateralPosition, -1f, 1f);
     }
 
+    /// <summary>
+    /// Uses a SphereCast to detect obstacles in his way and avoid them.
+    /// </summary>
+    float AvoidObstacles()
+    {
+        Vector3 forward = transform.forward; 
+        
+        // Searchs for obstacle with a SphereCastRadius
+        if (Physics.SphereCast(transform.position, sphereCastRadius, forward, out RaycastHit hit, detectionDistance, obstacleLayer, QueryTriggerInteraction.Collide))
+        {
+            float distancia = Vector3.Dot(transform.right, (hit.point - transform.position));
+            
+            if (distancia > 0)
+            {
+                return -2f;
+            }
+            return 2f;
+        }
+        // If there is no obstacles it sends 0
+        return 0f;
+    }
+    /// <summary>
+    /// Calculate optimal position to move around spline
+    /// </summary>
+    /// <returns></returns>
     float CalculateOptimalLineMovement()
     {
         float futureProgress = _splineProgress + (distancePrediction / splineContainer.Spline.GetLength());
@@ -226,7 +269,6 @@ public class BotAlpinaria : MonoBehaviour
         float3 currentTangent = splineContainer.EvaluateTangent(_splineProgress);
         float3 futureTangent = splineContainer.EvaluateTangent(futureProgress);
         
-        // Cross product indicates the direction of turn (and intensity)
         Vector3 cross = Vector3.Cross(currentTangent, futureTangent);
         float curveIntensity = cross.magnitude;
         
@@ -234,52 +276,52 @@ public class BotAlpinaria : MonoBehaviour
         {
             bool curveToTheRight = cross.y > 0;
             
-            // Try to move to the inside of the curve
             if (curveToTheRight)
             {
-                // If on the right side, move left (-1) if not already inside/center
                 return _lateralPosition > -0.5f ? -1f : 0f;
             }
-            else // Curve to the left
+            else
             {
-                // If on the left side, move right (+1) if not already inside/center
                 return _lateralPosition < 0.5f ? 1f : 0f;
             }
         }
         
-        // If track is straight, return to center
         if (Mathf.Abs(_lateralPosition) > 0.2f)
         {
-            return -Mathf.Sign(_lateralPosition) * 0.5f; // Move towards center
+            return -Mathf.Sign(_lateralPosition) * 0.5f;
         }
         
         return 0f;
     }
-
+    /// <summary>
+    /// avoid to move always on the edge of the ramp
+    /// </summary>
+    /// <returns></returns>
     float AvoidEdgeMovement()
     {
-        if (_lateralPosition > 0.8f) // Too far right
+        if (_lateralPosition > 0.8f)
         {
-            return -2f; // Strong push to the left
+            return -2f;
         }
-        else if (_lateralPosition < -0.8f) // Too far left
+        else if (_lateralPosition < -0.8f)
         {
-            return 2f; // Strong push to the right
+            return 2f;
         }
         
         return 0f;
     }
-    
+    /// <summary>
+    /// Simulate Error, to make the both be more "human"
+    /// </summary>
+    /// <returns></returns>
     float SimulateErrors()
     {
         if (Time.time > _nextErrorTime)
         {
-            // Error magnitude is inverse to accuracy
             _currentError = Random.Range(-1f, 1f) * (1f - accuracy); 
             _nextErrorTime = Time.time + Random.Range(1f, 3f);
         }
         
-        // Apply only a fraction of the error to the lateral movement
         return _currentError * 0.3f; 
     }
 
@@ -291,10 +333,11 @@ public class BotAlpinaria : MonoBehaviour
     {
         float splineLength = splineContainer.Spline.GetLength();
         
-        // Introduce small, constant speed variation to make the bot less predictable
+        float targetSpeed = baseSpeed * _personalityFactor;
+        
         _currentSpeed = Mathf.Lerp(
             _currentSpeed, 
-            baseSpeed + Random.Range(-speedVariation, speedVariation),
+            targetSpeed + Random.Range(-speedVariation, speedVariation),
             Time.fixedDeltaTime
         );
         _currentSpeed = Mathf.Clamp(_currentSpeed, minSpeed, maxSpeed);
@@ -310,7 +353,6 @@ public class BotAlpinaria : MonoBehaviour
         
         rb.MovePosition(Vector3.Lerp(rb.position, targetPosition, Time.fixedDeltaTime * positionSmoothness));
         
-        // Calculate and apply rotation
         float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
         float3 up = splineContainer.EvaluateUpVector(_splineProgress);
         
@@ -324,7 +366,6 @@ public class BotAlpinaria : MonoBehaviour
         float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
         float3 up = splineContainer.EvaluateUpVector(_splineProgress);
         
-        // Calculate the cross product and perform Anti-NaN check
         float3 crossProduct = math.cross(tangent, up);
         float3 right;
         
@@ -337,7 +378,6 @@ public class BotAlpinaria : MonoBehaviour
             right = math.normalize(crossProduct);
         }
 
-        // Calculate offsets
         float3 lateralOffset = right * _lateralPosition * (trackWidth / 2f);
         float3 heightOffsetVector = up * heightOffset;
         
@@ -364,7 +404,7 @@ public class BotAlpinaria : MonoBehaviour
     }
 
     // -----------------------------------------------------------------------
-    //                         RACE MANAGER CALLBACKS / INTERACTION
+    //                         RACE MANAGER CALLBACKS / HIT LOGIC
     // -----------------------------------------------------------------------
     
     public void OnRacePrepare()
@@ -385,70 +425,84 @@ public class BotAlpinaria : MonoBehaviour
         if (rb != null) rb.linearVelocity = Vector3.zero;
     }
 
+    public void HitObstacle(float forwardSlowdownFactor = 0.5f)
+    {
+        // Previene el choque si está aturdido O es invulnerable
+        if (_isStunned || _isInvulnerable) return; 
+
+        _preStunBaseSpeed = baseSpeed; 
+        
+        // Activar inmediatamente la invulnerabilidad para prevenir choques anidados
+        _isInvulnerable = true; 
+        
+        // Slowdown: Reduce la base speed del bot
+        baseSpeed *= forwardSlowdownFactor;
+        baseSpeed = Mathf.Max(minSpeed, baseSpeed); 
+
+        // Rebote
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        Vector3 bounceDirection = -tangent; 
+        
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero; 
+            rb.AddForce(bounceDirection.normalized * bounceForce, ForceMode.Impulse);
+        }
+        
+        // Stun y Cooldown
+        StartCoroutine(StunRoutine());
+    }
+
+    IEnumerator StunRoutine()
+    {
+        _isStunned = true;
+        
+        // Invulnerabilidad dura stunTime + 0.5s extra de seguridad
+        StartCoroutine(InvulnerabilityRoutine(stunTime + 0.5f)); 
+        
+        yield return new WaitForSeconds(stunTime);
+        
+        _isStunned = false;
+        
+        StartCoroutine(RestoreSpeedRoutine());
+    }
+
+    IEnumerator RestoreSpeedRoutine()
+    {
+        float recoveryDuration = 0.5f; 
+        float startTime = Time.time;
+        float startSpeed = baseSpeed;
+        float targetSpeed = _preStunBaseSpeed;
+        
+        while (Time.time < startTime + recoveryDuration)
+        {
+            float t = (Time.time - startTime) / recoveryDuration;
+            
+            baseSpeed = Mathf.Lerp(startSpeed, targetSpeed, t);
+            
+            yield return null;
+        }
+        
+        baseSpeed = targetSpeed;
+    }
+
+    IEnumerator InvulnerabilityRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        
+        _isInvulnerable = false; 
+    }
+
     public void ResetBot()
     {
         _splineProgress = 0f;
         
         _lateralPosition = Random.Range(-0.3f, 0.3f);
-        _lateralBias = Random.Range(-1.0f, 1.0f); // Un valor entre -1 y 1
+        _lateralBias = Random.Range(-1.0f, 1.0f); 
         
         _currentSpeed = Random.Range(minSpeed, maxSpeed);
         
-        InitializeSplinePosition();
-    }
-    /// <summary>
-    /// Implements the obstacle hit logic: slowdown, bounce, and stun.
-    /// </summary>
-    /// <param name="forwardSlowdownFactor">Factor to reduce the base speed by.</param>
-    public void HitObstacle(float forwardSlowdownFactor = 0.5f)
-    {
-        // if (_isStunned) return;
-        //
-        // // Slowdown: Reduce the base speed of the bot
-        // baseSpeed *= forwardSlowdownFactor;
-        // baseSpeed = Mathf.Max(minSpeed, baseSpeed); // Ensure speed doesn't drop below minSpeed
-        //
-        // //Stop and apply impulse opposite to the direction of travel
-        // float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
-        // Vector3 bounceDirection = -tangent; 
-        //
-        // if (rb != null)
-        // {
-        //     rb.linearVelocity = Vector3.zero; 
-        //     rb.AddForce(bounceDirection.normalized * bounceForce, ForceMode.Impulse);
-        // }
-        //
-        // // 3. Stun: Block decisions and movement execution for a short time
-        // StartCoroutine(StunRoutine());
-    }
-
-    /// <summary>
-    /// Coroutine to handle the stun duration.
-    /// </summary>
-    IEnumerator StunRoutine()
-    {
-        _isStunned = true;
-        yield return new WaitForSeconds(stunTime);
-        _isStunned = false;
-    }
-
-    // -----------------------------------------------------------------------
-    //                           PUBLIC ACCESSORS
-    // -----------------------------------------------------------------------
-
-    public float GetProgress()
-    {
-        return _splineProgress;
-    }
-
-    public void AdjustSpeed(float multiplier)
-    {
-        baseSpeed *= multiplier;
-    }
-
-    public bool HasFinished() // End -> HasFinished
-    {
-        return _splineProgress >= 0.999f;
+        InitializeSplinePosition(); 
     }
 
     // -----------------------------------------------------------------------
@@ -458,10 +512,12 @@ public class BotAlpinaria : MonoBehaviour
     void OnDrawGizmos()
     {
         if (splineContainer == null || !Application.isPlaying) return;
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, 0.3f);
         
+        // Draw a sphere thats the range of obstacle detection
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, sphereCastRadius);
+
+        // Draw future point based on prediction distance
         float futureProgress = Mathf.Clamp01(_splineProgress + (distancePrediction / splineContainer.Spline.GetLength()));
         Vector3 futurePoint = splineContainer.EvaluatePosition(futureProgress);
         Gizmos.color = Color.yellow;

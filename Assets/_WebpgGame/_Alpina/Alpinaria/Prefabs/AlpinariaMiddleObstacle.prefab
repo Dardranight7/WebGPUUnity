@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8305781300548018269}
   - component: {fileID: 7883338095152776707}
   - component: {fileID: 626284157927520692}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AlpinariaMiddleObstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,6 +134,10 @@ PrefabInstance:
       value: Ball_1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dea4fe78970f5f442a0201f61f491bde, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dea4fe78970f5f442a0201f61f491bde, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -210,6 +214,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d0656df0d04ea4b4b8dfbcf9dc5fc0eb, type: 3}
       propertyPath: m_Name
       value: Ball_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d0656df0d04ea4b4b8dfbcf9dc5fc0eb, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
