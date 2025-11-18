@@ -36,9 +36,18 @@ public class PopUpInformationScript : MonoBehaviour
         picture.sprite = popUpInfo.image;
         if (!string.IsNullOrEmpty(popUpInfo.description))
         {
-            textDescription.text = popUpInfo.description;
+            if (textTitle != null)
+            {
+                textTitle.text = popUpInfo.title;
+                textTitle?.gameObject.SetActive(true);
+            }
+
+            if (textDescription != null)
+            {
+                textDescription.text = popUpInfo.description;
+                textDescription?.gameObject.SetActive(true);
+            }
             TextBackground?.gameObject.SetActive(true);
-            textDescription?.gameObject.SetActive(true);
         }
     }
     public void ShowUI()

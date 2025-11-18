@@ -37,6 +37,7 @@ public class ClickableObject : MonoBehaviour,IPointerClickHandler
             infoCanvasPicture.ShowUI();
             infoCanvasPicture.SetPicture(new PopUpInfo
             {
+                title = title,
                 description = description,
                 image =  image,
             });

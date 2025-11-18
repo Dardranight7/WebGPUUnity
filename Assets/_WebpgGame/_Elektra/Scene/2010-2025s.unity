@@ -1933,8 +1933,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 637955080}
   - {fileID: 1986899645}
+  - {fileID: 637955080}
   - {fileID: 207287535}
   - {fileID: 980055886}
   - {fileID: 810682023}
@@ -2203,7 +2203,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: 
+      value: "En la actualidad, la educaci\xF3n exige herramientas tecnol\xF3gicas
+        como computadoras, laptops o tablets. Elektra lo entiende y por eso, en este
+        comercial mostr\xF3 de forma divertida c\xF3mo dos familias se preparaban
+        para el nuevo ciclo escolar. As\xED demostramos que equiparse con la tecnolog\xEDa
+        indispensable no solo es accesible, sino tambi\xE9n motivo de ahorro y alegr\xEDa
+        para todos los hogares"
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -2211,7 +2216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: title
-      value: Regreso a clases Elektra
+      value: "Regreso a clases con toda la tecnolog\xEDa"
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: player
@@ -4093,10 +4098,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: text
-      value: "En Elektra encuentras motocicletas Italika, Hero y Benelli. M\xE1s
-        de 55 modelos Italika, dise\xF1o y potencia de Benelli, y la innovaci\xF3n
-        de Hero. Opciones para trabajo, ciudad o aventura, con planes accesibles
-        para que estrenes hoy mismo."
+      value: "En Elektra encuentras la motocicleta perfecta para ti: m\xE1s de 55
+        modelos Italika con opciones para trabajo, ciudad o aventura; el dise\xF1o
+        italiano y la potencia de Benelli; y la innovaci\xF3n tecnol\xF3gica de Hero.
+        Opciones para trabajo, ciudad o aventura, con planes accesibles para que
+        estrenes hoy mismo."
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: year
@@ -4108,7 +4114,7 @@ PrefabInstance:
       objectReference: {fileID: 1284021051, guid: a0a995ca019bdb64fb923ea6f14d275a, type: 3}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: title
-      value: 
+      value: 'Motos para cada estilo: Italika, Hero y Benelli'
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: inputAxisController
@@ -6835,15 +6841,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: 
+      value: "En las \xFAltimas d\xE9cadas, los refrigeradores evolucionaron para
+        ofrecer innovaciones como m\xE1quinas de hielo autom\xE1ticas y pr\xE1cticos
+        dispensadores de agua. Elektra supo acercar todas estas modernidades al p\xFAblico,
+        destac\xE1ndose en su comercial de 2013 por ofrecer precios de contado y
+        en paguitos, entrega inmediata y gratuita."
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
-      value: 2013
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: title
-      value: Elektra
+      value: efrigeradores con toda la modernidad para tu hogar
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: player
@@ -13301,7 +13311,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 0000000001000000
+  idremap: 0200000003000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
@@ -18352,6 +18362,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8346101704300395892, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 215823583348304865, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_text
       value: 
@@ -18359,6 +18373,14 @@ PrefabInstance:
     - target: {fileID: 215823583348304865, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_fontSize
       value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 215823583348304865, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1623954542764034808, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1658562199493111024, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_DataSource
@@ -18395,6 +18417,10 @@ PrefabInstance:
     - target: {fileID: 3100875166015324360, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3972028260295156063, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00019836426
       objectReference: {fileID: 0}
     - target: {fileID: 4629380851376198537, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_IsActive
@@ -18446,6 +18472,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8305385695343331784, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568982651271437705, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827700912826008695, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
@@ -22137,11 +22167,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: text
-      value: "Desde su apertura el 26 de octubre de 2002, Banco Azteca ha evolucionado,
-        se ha fortalecido y se ha posicionado como banca l\xEDder en M\xE9xico, hasta
-        contar al d\xEDa de hoy con m\xE1s de 2 mil sucursales en M\xE9xico y atender
-        a m\xE1s de 23 millones de clientes. Hoy estamos presente en las tiendas
-        Elektra para estar a\xFAn m\xE1s cerca de ti."
+      value: "Banco Azteca abri\xF3 sus puertas el 26 de octubre de 2002 como el
+        primer banco dise\xF1ado especialmente para atender las necesidades de las
+        clases populares mexicanas, facilitando el acceso a servicios financieros
+        antes reservados para unos cuantos. Desde entonces, ha evolucionado y fortalecido
+        su presencia, contando actualmente con m\xE1s de 2 mil sucursales en M\xE9xico
+        y atendiendo a m\xE1s de 23 millones de clientes."
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: year
@@ -22153,7 +22184,7 @@ PrefabInstance:
       objectReference: {fileID: -1808063911, guid: d00edd5fcf5aebb48aa0c7b72ad393ff, type: 3}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: title
-      value: 
+      value: "Banco Azteca \u2014 El banco de tu vida"
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: inputAxisController
@@ -23307,10 +23338,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: description
-      value: "Descubre c\xF3mo nuestra marca ha evolucionado a lo largo de 75 a\xF1os
-        de historia. Un recorrido visual que muestra c\xF3mo cada logotipo marc\xF3
-        cada \xE9poca, hasta llegar al actual, creado en 2010, s\xEDmbolo de la innovaci\xF3n
-        y esencia que nos define hoy."
+      value: "Desde su fundaci\xF3n en 2009, Presta Prenda ha brindando apoyos r\xE1pidos
+        y accesibles a quienes necesitan liquidez. Con m\xE1s de 100 sucursales y
+        cerca de 6 millones de clientes atendidos, Presta Prenda fortalece su presencia
+        al integrarse a las tiendas Elektra, facilitando soluciones financieras seguras
+        y al alcance de todos."
       objectReference: {fileID: 0}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: infoCanvasPicture
@@ -23755,14 +23787,15 @@ PrefabInstance:
       objectReference: {fileID: 781583124, guid: 17de893271ecd054091b4eedb2d89cd5, type: 3}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: title
-      value: 
+      value: "\u201CBuen Fin\u201D \u2014 Estrena todo el a\xF1o con Elektra"
       objectReference: {fileID: 0}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: description
-      value: "En Elektra siempre hay algo que celebrar: promociones, descuentos y
-        ofertas durante todo el a\xF1o. Ya sea A\xF1o Nuevo, D\xEDa de las Madres,
-        Buen Fin o Navidad, siempre encontrar\xE1s precios bajos y facilidades para
-        estrenar lo que m\xE1s te gusta."
+      value: "En Elektra, cada temporada es motivo de celebraci\xF3n gracias a sus
+        constantes promociones, descuentos y ofertas especiales. Ya sea en el Buen
+        Fin, A\xF1o Nuevo, D\xEDa de las Madres o Navidad, siempre encuentras precios
+        bajos y facilidades de pago para que puedas estrenar lo que m\xE1s te gusta
+        cuando t\xFA quieras."
       objectReference: {fileID: 0}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: infoCanvasPicture
@@ -25915,11 +25948,16 @@ PrefabInstance:
       objectReference: {fileID: -2027419359, guid: aea5da16a0cba65499d9e9a35f14eee5, type: 3}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: title
-      value: 
+      value: "\xA1El Mejor Fin lleg\xF3 a Elektra!"
       objectReference: {fileID: 0}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: description
-      value: 
+      value: "No tienes que esperar a El Buen Fin para encontrar precios bajos y
+        grandes promociones. En Elektra, cada d\xEDa est\xE1 lleno de ofertas especiales
+        y facilidades para estrenar lo que m\xE1s te gusta. Visita nuestras redes,
+        el sitio web o cualquier tienda y descubre por qu\xE9 en Elektra siempre
+        vives El Mejor Fin. \xA1Hazlo posible hoy mismo y disfruta de todo lo que
+        tenemos para ti durante todo el a\xF1o!"
       objectReference: {fileID: 0}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: infoCanvasPicture
@@ -29177,14 +29215,15 @@ PrefabInstance:
       objectReference: {fileID: 996695228, guid: 75656f35d28af344a89074b3d5e1c058, type: 3}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: title
-      value: 
+      value: "Presta Prenda \u2014 Soluciones inmediatas para tu tranquilidad"
       objectReference: {fileID: 0}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: description
-      value: "Desde su fundaci\xF3n en 2009, Presta Prenda ha crecido hasta contar
-        con m\xE1s de 100 sucursales en todo M\xE9xico y atender a cerca de 6 millones
-        de clientes; hoy estamos presente en las tiendas Elektra para estar a\xFAn
-        m\xE1s cerca de ti."
+      value: "Desde su fundaci\xF3n en 2009, Presta Prenda ha brindando apoyos r\xE1pidos
+        y accesibles a quienes necesitan liquidez. Con m\xE1s de 100 sucursales y
+        cerca de 6 millones de clientes atendidos, Presta Prenda fortalece su presencia
+        al integrarse a las tiendas Elektra, facilitando soluciones financieras seguras
+        y al alcance de todos."
       objectReference: {fileID: 0}
     - target: {fileID: 3933676378503333327, guid: 156b0c7a1e718f54793d2d9dad9f4161, type: 3}
       propertyPath: infoCanvasPicture
@@ -36762,15 +36801,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: 
+      value: "Elektra fue la primera tienda mexicana en vender pantallas planas,
+        acercando esta innovaci\xF3n a miles de familias y marcando el rumbo del
+        entretenimiento en casa. En 2013, se lanz\xF3 el comercial que puedes ver,
+        reafirmando su vocaci\xF3n de pionero: mensajes directos y comparativos pon\xEDan
+        sobre la mesa los mejores precios del mercado, dejando claro que la tecnolog\xEDa
+        de punta pod\xEDa estar al alcance de todos."
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
-      value: 2013
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: title
-      value: Elektra
+      value: "Pioneros en pantallas planas para M\xE9xico"
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: player
