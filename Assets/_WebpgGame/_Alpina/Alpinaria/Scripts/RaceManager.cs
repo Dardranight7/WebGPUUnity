@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine.Playables;
 
@@ -11,6 +12,7 @@ public class RaceManager : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private PlayableDirector raceTimeline;
     [SerializeField] private GameObject cinematicGO;
+    [SerializeField] private CinemachineCamera playerCam;
     public PlayerSurfaceInput playerInput;
 
     [SerializeField] public List<BotAlpinaria> bots = new List<BotAlpinaria>();
@@ -140,6 +142,7 @@ public class RaceManager : MonoBehaviour
         {
             raceTimeline.Stop();
             cinematicGO.SetActive(false);
+            playerCam.gameObject.SetActive(true);
             Debug.Log("RaceManager: La Timeline no se detuvo sola; se forzó Stop().");
         }
         StartCoroutine(InitialCountDown());

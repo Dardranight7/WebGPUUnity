@@ -46,6 +46,7 @@ public class PlayerSurfaceInput : MonoBehaviour
     private float _splineProgress = 0f; // Current position on the spline (0 to 1)
     private float _lateralPosition = 0f; // Lateral position (-1 to 1)
     private float _horizontalInput = 0f; // Input value (-1 to 1)
+    private float _initialLateralPosition = 0f;
 
     // Stun and State Variables
     [Header("State variables")]
@@ -141,9 +142,10 @@ public class PlayerSurfaceInput : MonoBehaviour
 
     void InitializeSplinePosition()
     {
-        // 1. Find the starting progress point
-        _splineProgress = FindClosestProgress(transform.position); 
-        _lateralPosition = 0f; 
+        // Find the starting progress point
+        _splineProgress = FindClosestProgress(transform.position);
+        _initialLateralPosition = CalculateInitialLateralPosition();
+        _lateralPosition = _initialLateralPosition; 
 
         // 2. Teleport the player to the calculated position (Fixes "under slide" issue)
         transform.position = CalculateSplinePosition();
@@ -151,7 +153,21 @@ public class PlayerSurfaceInput : MonoBehaviour
         // 3. Set the initial rotation
         AdjustRotation();
     }
-
+    
+    float CalculateInitialLateralPosition()
+    {
+        float3 splinePos = splineContainer.EvaluatePosition(_splineProgress);
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        float3 up = splineContainer.EvaluateUpVector(_splineProgress);
+    
+        float3 right = math.normalize(math.cross(tangent, up));
+    
+        Vector3 offsetFromSpline = transform.position - (Vector3)splinePos;
+        float lateralDistance = Vector3.Dot(offsetFromSpline, right);
+    
+        float normalizedLateralPos = lateralDistance / (tobogganWidth / 2f);
+        return Mathf.Clamp(normalizedLateralPos, -1f, 1f);
+    }
     void HandleSplineMovement()
     {
         // 1. Forward Advance (Longitudinal)
@@ -264,10 +280,17 @@ public class PlayerSurfaceInput : MonoBehaviour
 
     public void OnRaceStart()
     {
-        ResetOnSpline();
+        _lateralPosition = _initialLateralPosition; 
+        _splineProgress = 0f; // Solo reseteamos el progreso.
+
+        // Llamada a la función base (que ahora solo usa el estado).
+        StartRaceFromInitialPosition(); 
+    
+        // Resetear input y flags
+        _horizontalInput = 0f; 
         _canMove = true;
         _isStunned = false; 
-        _rb.useGravity = useGravity; // Restore configured gravity
+        _rb.useGravity = useGravity;
     }
 
     public void OnRaceStop()
@@ -313,7 +336,11 @@ public class PlayerSurfaceInput : MonoBehaviour
         yield return new WaitForSeconds(stunTime);
         _isStunned = false;
     }
-    
+    void StartRaceFromInitialPosition()
+    {
+        transform.position = CalculateSplinePosition(); 
+        AdjustRotation();
+    }
     public void ResetOnSpline()
     {
         _splineProgress = 0f;

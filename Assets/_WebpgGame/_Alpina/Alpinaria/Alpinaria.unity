@@ -2083,12 +2083,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349560047}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00012728825, y: -0.9863352, z: 0.16474937, w: 0.00076210505}
-  m_LocalPosition: {x: 3.8370004, y: 24.233408, z: 66.83299}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: 0.09079464, y: 0.88807714, z: -0.19956563, w: 0.4040407}
+  m_LocalPosition: {x: -27.686642, y: -4.871627, z: 0.9311476}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7321620997353598532}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 10.88, y: 7.106, z: 1.348}
 --- !u!114 &349560051
 MonoBehaviour:
@@ -63766,6 +63766,81 @@ Transform:
   - {fileID: 2124288134}
   m_Father: {fileID: 977101677}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &654350375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 654350376}
+  - component: {fileID: 654350377}
+  m_Layer: 16
+  m_Name: PlayerCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &654350376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654350375}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: -0, y: 2.55, z: -4.95}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7321620997353598532}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+--- !u!114 &654350377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654350375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 80.52927
+    OrthographicSize: 5
+    NearClipPlane: 0.3
+    FarClipPlane: 1000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1001 &786834540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64973,6 +65048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RaceManager
   raceTimeline: {fileID: 1560274688}
   cinematicGO: {fileID: 541142070}
+  playerCam: {fileID: 654350377}
   playerInput: {fileID: 8150332367257294519}
   bots:
   - {fileID: 1023642748}
@@ -189807,8 +189883,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110117826}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10157434, y: 0.776589, z: -0.1297217, w: 0.60808265}
-  m_LocalPosition: {x: 17.79, y: -3.8799973, z: -11.940001}
+  m_LocalRotation: {x: 0.09079464, y: 0.88807714, z: -0.19956563, w: 0.4040407}
+  m_LocalPosition: {x: -13.127822, y: -34.278305, z: -15.980002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -256937,8 +257013,8 @@ Transform:
   - {fileID: 498079161042651796}
   - {fileID: 8797105895977809690}
   - {fileID: 520867401}
-  - {fileID: 349560050}
   - {fileID: 1964850343}
+  - {fileID: 654350376}
   m_Father: {fileID: 4306671118277521652}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &7349859497693240723
@@ -258841,6 +258917,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1554547059}
+  - {fileID: 349560050}
   - {fileID: 4306671118277521652}
   - {fileID: 431782679}
   - {fileID: 399296375}
