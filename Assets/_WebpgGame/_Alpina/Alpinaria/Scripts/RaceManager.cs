@@ -2,17 +2,18 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-
-
+using Unity.VisualScripting;
+using UnityEngine.Playables;
 
 public class RaceManager : MonoBehaviour
 {
 
-    [Header("Referencias")] [SerializeField]
+    [Header("Referencias")]
+    [SerializeField] private PlayableDirector raceTimeline;
+    [SerializeField] private GameObject cinematicGO;
     public PlayerSurfaceInput playerInput;
 
     [SerializeField] public List<BotAlpinaria> bots = new List<BotAlpinaria>();
-
 
     [Header("UI")] 
     public TextMeshProUGUI countDownText;
@@ -102,12 +103,47 @@ public class RaceManager : MonoBehaviour
                 audioSource.Play();
             }
         }
-
-        PrepareContestants();
+            
+        if (raceTimeline != null)
+        {
+            StartCoroutine(StartTimelineWatchdog());
+        }
+        else
+        {
+            Debug.LogWarning("RaceManager: No PlayableDirector asignado. Iniciando cuenta regresiva directamente.");
+            PrepareContestants(); // Ya se hizo en Awake, pero para el fallback.
+            StartCoroutine(InitialCountDown());
+        }
+    }
+    
+    /// <summary>
+    /// Espera la duración de la Timeline para iniciar la carrera.
+    /// </summary>
+    IEnumerator StartTimelineWatchdog()
+    {
+        if (raceTimeline == null)
+        {
+            StartCoroutine(InitialCountDown());
+            yield break;
+        }
+    
+        double duration = raceTimeline.duration;
+        
+        if (raceTimeline.state != PlayState.Playing)
+        {
+            raceTimeline.Play();
+        }
+    
+        yield return new WaitForSeconds((float)duration + 0.1f);
+    
+        if (raceTimeline.state == PlayState.Playing)
+        {
+            raceTimeline.Stop();
+            cinematicGO.SetActive(false);
+            Debug.Log("RaceManager: La Timeline no se detuvo sola; se forzó Stop().");
+        }
         StartCoroutine(InitialCountDown());
     }
-
-
     private void PrepareContestants()
     {
 
