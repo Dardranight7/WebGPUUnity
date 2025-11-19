@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMochi : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerMochi : MonoBehaviour
 
     public bool autoUpdateVisual = true;
     public SwimmingMinigameController swimmingMinigameController;
+    [SerializeField] private Image mochiSprite;
     private void OnEnable()
     {
         if (autoUpdateVisual)
@@ -51,6 +53,10 @@ public class PlayerMochi : MonoBehaviour
             MochisList[playerMochiIndex].gameObject.SetActive(true);
             if (swimmingMinigameController != null)
                 swimmingMinigameController.SwimmingPlayerUI.ChangeImage(Backend.singleton.MochiDB[playerMochiIndex].image);
+            if (mochiSprite != null)
+            {
+                mochiSprite.sprite = Backend.singleton.MochiDB[playerMochiIndex].image;
+            }
         }
         else
         {
@@ -60,6 +66,10 @@ public class PlayerMochi : MonoBehaviour
                 MochisList[index].gameObject.SetActive(true);
                 if (swimmingMinigameController != null)
                     swimmingMinigameController.SwimmingPlayerUI.ChangeImage(Backend.singleton.MochiDB[index].image);
+                if (mochiSprite != null)
+                {
+                    mochiSprite.sprite = Backend.singleton.MochiDB[index].image;
+                }
             }
 
             List<MochiProp> mochiProps = new List<MochiProp>(GetComponentsInChildren<MochiProp>(true));
