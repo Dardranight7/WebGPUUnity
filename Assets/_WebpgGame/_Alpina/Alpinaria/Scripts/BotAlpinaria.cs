@@ -63,6 +63,12 @@ public class BotAlpinaria : MonoBehaviour
     [SerializeField] private float rotationSmoothness = 10f;
     [SerializeField] private float positionSmoothness = 8f;
     
+    [Header("Grounding Configuration (Raycast)")]
+    [Tooltip("La distancia que queremos mantener entre el bot y el suelo.")]
+    [SerializeField] private float desiredGroundDistance = 0.5f; 
+    [SerializeField] private LayerMask groundLayer; 
+    [SerializeField] private float raycastMaxDistance = 5f;
+    
     // -----------------------------------------------------------------------
     //                             INTERNAL STATE
     // -----------------------------------------------------------------------
@@ -138,7 +144,7 @@ public class BotAlpinaria : MonoBehaviour
         
         transform.position = CalculateSplinePosition();
         
-        UpdatePositionAndRotation(); 
+        AdjustRotation();
     }
 
     float CalculateInitialLateralPosition()
@@ -353,35 +359,81 @@ public class BotAlpinaria : MonoBehaviour
         
         rb.MovePosition(Vector3.Lerp(rb.position, targetPosition, Time.fixedDeltaTime * positionSmoothness));
         
+        if (rb.rotation.x == 0 && rb.rotation.y == 0 && rb.rotation.z == 0)
+        {
+            AdjustRotation();
+        }
+    }
+    void AdjustRotation()
+    {
         float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
         float3 up = splineContainer.EvaluateUpVector(_splineProgress);
         
         Quaternion targetRotation = Quaternion.LookRotation(tangent, up);
         rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSmoothness));
     }
-    
     Vector3 CalculateSplinePosition()
     {
         float3 splinePos = splineContainer.EvaluatePosition(_splineProgress);
         float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
         float3 up = splineContainer.EvaluateUpVector(_splineProgress);
-        
+        // Calculate the cross product to find the perpendicular 'right' vector
         float3 crossProduct = math.cross(tangent, up);
         float3 right;
         
+        // Anti-NaN Check: Prevent division by zero if tangent and up are parallel (Fixes NaN error)
         if (math.lengthsq(crossProduct) < 0.0001f)
         {
+            // Fallback to a safe vector (global right) if math fails
             right = new float3(1f, 0f, 0f); 
         }
         else
         {
             right = math.normalize(crossProduct);
         }
-
+        // Calculate offsets
         float3 lateralOffset = right * _lateralPosition * (trackWidth / 2f);
-        float3 heightOffsetVector = up * heightOffset;
+        // Position in the track without height adjustment
+        Vector3 trackPosition = (Vector3)splinePos + (Vector3)lateralOffset;
         
-        return splinePos + lateralOffset + heightOffsetVector;
+        RaycastHit hit;
+        // Raycast start point
+        Vector3 rayStart = trackPosition + transform.up;
+        // Raycast Lenght
+        float maxDist = raycastMaxDistance * 2f;
+        Vector3 rayDirection = transform.up * -1 + transform.position;
+        
+        // Launch raycast at needed direction(Down)
+        if (Physics.Raycast(rayStart, rayDirection, out hit, maxDist, groundLayer))
+        {
+            // Actual Character position it's the y position
+            
+            // New Height for the character.
+            float targetY = hit.point.y + desiredGroundDistance;
+            
+            // We use a lerp to make it the movement smooth
+            float smoothedY = Mathf.Lerp(
+                transform.position.y, // Actual height
+                targetY,              // New Height
+                Time.fixedDeltaTime * positionSmoothness * 2f // Smooth Factor
+            );
+            
+            // Set the new Height
+            trackPosition.y = smoothedY;
+
+            // look at TANGENT, with UP alaingned to HIT.NORMAL.
+            Quaternion targetRotation = Quaternion.LookRotation((Vector3)tangent, hit.normal);
+            
+            // Apply smooth rotation
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSmoothness));
+        }
+        else
+        {
+            AdjustRotation();
+            trackPosition.y -= Time.fixedDeltaTime * 10f;
+        }
+       
+        return trackPosition;
     }
     
     float FindNearestProgress(Vector3 position)

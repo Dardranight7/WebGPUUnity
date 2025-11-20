@@ -9,7 +9,7 @@ public class PlayerSurfaceInput : MonoBehaviour
     // -----------------------------------------------------------------------
     //                             CONFIGURATION
     // -----------------------------------------------------------------------
-    
+    [SerializeField] private GameObject testSphere;
     [Header("Movement Configuration")]
     [SerializeField] private float moveSpeed = 5f; // Lateral movement speed
     [SerializeField] private float forwardSpeed = 8f; // Forward speed along the spline
@@ -26,6 +26,12 @@ public class PlayerSurfaceInput : MonoBehaviour
     [SerializeField] private float heightOffset = 0.5f; // Height above the spline
     [SerializeField] private bool useGravity = true; // Initial gravity setting
     
+    [Header("Grounding Configuration")]
+    [Tooltip("La distancia que queremos mantener entre el personaje y el suelo.")]
+    [SerializeField] private float desiredGroundDistance = 0.5f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float raycastMaxDistance = 5f;
+    private bool drawGizmosOnHit = false;
     [Header("Smoothing")]
     [SerializeField] private float rotationSmoothness = 10f;
     [SerializeField] private float positionSmoothness = 5f;
@@ -147,11 +153,11 @@ public class PlayerSurfaceInput : MonoBehaviour
         _initialLateralPosition = CalculateInitialLateralPosition();
         _lateralPosition = _initialLateralPosition; 
 
-        // 2. Teleport the player to the calculated position (Fixes "under slide" issue)
+        // Teleport the player to the calculated position
         transform.position = CalculateSplinePosition();
         
-        // 3. Set the initial rotation
-        AdjustRotation();
+        // Set the initial rotation
+        FallbackRotation();
     }
     
     float CalculateInitialLateralPosition()
@@ -170,24 +176,24 @@ public class PlayerSurfaceInput : MonoBehaviour
     }
     void HandleSplineMovement()
     {
-        // 1. Forward Advance (Longitudinal)
+        // Forward Advance (Longitudinal)
         float splineLength = splineContainer.Spline.GetLength();
         float progressIncrement = (forwardSpeed * Time.fixedDeltaTime) / splineLength;
         _splineProgress += progressIncrement;
         _splineProgress = Mathf.Clamp01(_splineProgress);
         
-        // 2. Lateral Movement
+        // Lateral Movement
         // Lateral input directly manipulates the lateral position on the track.
         _lateralPosition -= _horizontalInput * moveSpeed * Time.fixedDeltaTime;
         _lateralPosition = Mathf.Clamp(_lateralPosition, -1f, 1f);
         
-        // 3. Calculate Target Position
+        // Calculate Target Position
         Vector3 targetPosition = CalculateSplinePosition();
         
-        // 4. Move Rigidbody (Cinematic move with smoothing)
+        // Move Rigidbody (Cinematic move with smoothing)
         _rb.MovePosition(Vector3.Lerp(_rb.position, targetPosition, Time.fixedDeltaTime * positionSmoothness));
         
-        // 5. Rotation & Velocity Limits
+        // Rotation & Velocity Limits
         AdjustRotation();
         LimitLateralVelocity();
         TriggerSnowTrailVfx(true);
@@ -201,7 +207,6 @@ public class PlayerSurfaceInput : MonoBehaviour
         
         // Calculate the cross product to find the perpendicular 'right' vector
         float3 crossProduct = math.cross(tangent, up);
-        
         float3 right;
         
         // Anti-NaN Check: Prevent division by zero if tangent and up are parallel (Fixes NaN error)
@@ -217,11 +222,61 @@ public class PlayerSurfaceInput : MonoBehaviour
 
         // Calculate offsets
         float3 lateralOffset = right * _lateralPosition * (tobogganWidth / 2f);
-        float3 heightOffsetVector = up * heightOffset;
+        // Position in the track without height adjustment
+        Vector3 trackPosition = (Vector3)splinePosition + (Vector3)lateralOffset + (Vector3)up * heightOffset;
         
-        return splinePosition + lateralOffset + heightOffsetVector;
+        RaycastHit hit;
+        // Raycast start point
+        Vector3 rayStart =  transform.position + transform.up;
+        // Raycast Lenght
+        float maxDist = raycastMaxDistance * 2f;
+        Vector3 rayDirection = transform.up * -1 + transform.position;
+        
+        // Launch raycast at needed direction(Down)
+        if (Physics.Raycast(rayStart, rayDirection, out hit, maxDist, groundLayer))
+        {
+            // Actual Character position it's the y position
+            // New Height for the character.
+            float targetY = hit.point.y + desiredGroundDistance;
+            
+            testSphere.transform.position = hit.transform.position;
+            
+            // We use a lerp to make it the movement smooth
+            float smoothedY = Mathf.Lerp(
+                transform.position.y, // Actual height
+                targetY,              // New Height
+                Time.fixedDeltaTime * positionSmoothness * 2f // Smooth Factor
+            );
+            
+            // Set the new Height
+            trackPosition.y = smoothedY;
+            // look at TANGENT, with UP alaingned to HIT.NORMAL.
+            Quaternion targetRotation = Quaternion.LookRotation((Vector3)tangent, hit.normal);
+            // Apply smooth rotation
+            _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSmoothness));
+        }
+        else
+        {
+            // if there is not hit, we adjust the rotation with the spline
+            FallbackRotation();
+            
+            // force player to move down near the spline
+            Vector3 fallVector = -(Vector3)up * Time.fixedDeltaTime * 10f; 
+            trackPosition += fallVector;
+        }
+        
+        return trackPosition;
     }
-    
+    void FallbackRotation()
+    {
+        // Rotación de respaldo: solo usa el UP del spline.
+        float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
+        float3 up = splineContainer.EvaluateUpVector(_splineProgress);
+        
+        Quaternion targetRotation = Quaternion.LookRotation(tangent, up);
+        
+        _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSmoothness));
+    }
     void AdjustRotation()
     {
         float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
@@ -375,7 +430,7 @@ public class PlayerSurfaceInput : MonoBehaviour
         // Draw target position
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(CalculateSplinePosition(), 0.3f);
-
+        
         // Draw lateral limits
         float3 splinePosition = splineContainer.EvaluatePosition(_splineProgress);
         float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
