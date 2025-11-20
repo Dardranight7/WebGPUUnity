@@ -28,6 +28,8 @@ public class InfiniteRunnerObstacles : MonoBehaviour
     public System.Action<int> ReportLoose;
     public List<bool> players = new List<bool>() { false, false, false, false };
 
+    public GameObject EndgameParent, GameParent;
+
     void Start()
     {
         ReportLoose += OnReceiveReport;
@@ -38,6 +40,9 @@ public class InfiniteRunnerObstacles : MonoBehaviour
         }
         obstaclesParent.gameObject.SetActive(true);
         ResetSpawnTimer();
+
+        // Activa el Fog
+        RenderSettings.fog = true;
     }
 
     private void OnDestroy()
@@ -93,7 +98,9 @@ public class InfiniteRunnerObstacles : MonoBehaviour
     IEnumerator LoadAfterTime()
     {
         yield return new WaitForSeconds(3);
-        MochiCourtain.Singleton.LoadSceneWithCourtain("YogoNadoOutro",1);
+        //MochiCourtain.Singleton.LoadSceneWithCourtain("YogoNadoOutro",1);
+        EndgameParent.SetActive(true);
+        GameParent.SetActive(false);
     }
 
     void SpawnObstacle()

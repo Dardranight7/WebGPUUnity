@@ -36,6 +36,19 @@ public class PlayerControllerRB : MonoBehaviour
         //Cursor.visible = false;
     }
 
+    private void OnEnable()
+    {
+        if (inputActions != null)
+        {
+            inputActions.Enable();
+        }
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
     private void OnDestroy()
     {
         inputActions.Player.Move.performed -= OnMove;
