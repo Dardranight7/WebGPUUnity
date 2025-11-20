@@ -24,7 +24,6 @@ public class BotAlpinaria : MonoBehaviour
     [Header("References")]
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private RaceManager raceManager;
   
     [Header("Speed Configuration")]
     [SerializeField] private float baseSpeed = 7f;
@@ -68,6 +67,7 @@ public class BotAlpinaria : MonoBehaviour
     [SerializeField] private float desiredGroundDistance = 0.5f; 
     [SerializeField] private LayerMask groundLayer; 
     [SerializeField] private float raycastMaxDistance = 5f;
+    [SerializeField] private GameObject visualModel;
     
     // -----------------------------------------------------------------------
     //                             INTERNAL STATE
@@ -94,7 +94,7 @@ public class BotAlpinaria : MonoBehaviour
     // -----------------------------------------------------------------------
     //                            UNITY LIFECYCLE
     // -----------------------------------------------------------------------
-
+    
     void Start()
     {
         if (rb == null) rb = GetComponent<Rigidbody>();
@@ -358,11 +358,6 @@ public class BotAlpinaria : MonoBehaviour
         Vector3 targetPosition = CalculateSplinePosition();
         
         rb.MovePosition(Vector3.Lerp(rb.position, targetPosition, Time.fixedDeltaTime * positionSmoothness));
-        
-        if (rb.rotation.x == 0 && rb.rotation.y == 0 && rb.rotation.z == 0)
-        {
-            AdjustRotation();
-        }
     }
     void AdjustRotation()
     {
@@ -374,7 +369,7 @@ public class BotAlpinaria : MonoBehaviour
     }
     Vector3 CalculateSplinePosition()
     {
-        float3 splinePos = splineContainer.EvaluatePosition(_splineProgress);
+        float3 splinePosition = splineContainer.EvaluatePosition(_splineProgress);
         float3 tangent = splineContainer.EvaluateTangent(_splineProgress);
         float3 up = splineContainer.EvaluateUpVector(_splineProgress);
         // Calculate the cross product to find the perpendicular 'right' vector
@@ -394,32 +389,21 @@ public class BotAlpinaria : MonoBehaviour
         // Calculate offsets
         float3 lateralOffset = right * _lateralPosition * (trackWidth / 2f);
         // Position in the track without height adjustment
-        Vector3 trackPosition = (Vector3)splinePos + (Vector3)lateralOffset;
+        Vector3 trackPosition = (Vector3)splinePosition + (Vector3)lateralOffset + (Vector3)up * heightOffset;
         
         RaycastHit hit;
         // Raycast start point
-        Vector3 rayStart = trackPosition + transform.up;
+        Vector3 rayStart = transform.position + transform.up * 2;
         // Raycast Lenght
-        float maxDist = raycastMaxDistance * 2f;
-        Vector3 rayDirection = transform.up * -1 + transform.position;
+        Vector3 rayDirection = transform.up * -1;
         
         // Launch raycast at needed direction(Down)
-        if (Physics.Raycast(rayStart, rayDirection, out hit, maxDist, groundLayer))
+        if (Physics.Raycast(rayStart, rayDirection, out hit, float.PositiveInfinity, groundLayer))
         {
             // Actual Character position it's the y position
+            Debug.DrawRay(rayStart, rayDirection, Color.forestGreen, 0.1f);
             
-            // New Height for the character.
-            float targetY = hit.point.y + desiredGroundDistance;
-            
-            // We use a lerp to make it the movement smooth
-            float smoothedY = Mathf.Lerp(
-                transform.position.y, // Actual height
-                targetY,              // New Height
-                Time.fixedDeltaTime * positionSmoothness * 2f // Smooth Factor
-            );
-            
-            // Set the new Height
-            trackPosition.y = smoothedY;
+            visualModel.transform.position = hit.point;
 
             // look at TANGENT, with UP alaingned to HIT.NORMAL.
             Quaternion targetRotation = Quaternion.LookRotation((Vector3)tangent, hit.normal);
