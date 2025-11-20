@@ -31,6 +31,7 @@ public class PlayerSurfaceInput : MonoBehaviour
     [SerializeField] private float desiredGroundDistance = 0.5f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float raycastMaxDistance = 5f;
+    [SerializeField] private GameObject visualModel;
     private bool drawGizmosOnHit = false;
     [Header("Smoothing")]
     [SerializeField] private float rotationSmoothness = 10f;
@@ -224,32 +225,23 @@ public class PlayerSurfaceInput : MonoBehaviour
         float3 lateralOffset = right * _lateralPosition * (tobogganWidth / 2f);
         // Position in the track without height adjustment
         Vector3 trackPosition = (Vector3)splinePosition + (Vector3)lateralOffset + (Vector3)up * heightOffset;
-        
+
         RaycastHit hit;
         // Raycast start point
-        Vector3 rayStart =  transform.position + transform.up;
+        Vector3 rayStart = transform.position + transform.up * 2;
         // Raycast Lenght
-        float maxDist = raycastMaxDistance * 2f;
-        Vector3 rayDirection = transform.up * -1 + transform.position;
-        
+        Vector3 rayDirection = transform.up * -1;
+
         // Launch raycast at needed direction(Down)
-        if (Physics.Raycast(rayStart, rayDirection, out hit, maxDist, groundLayer))
+        if (Physics.Raycast(rayStart, rayDirection, out hit, float.PositiveInfinity, groundLayer))
         {
             // Actual Character position it's the y position
-            // New Height for the character.
-            float targetY = hit.point.y + desiredGroundDistance;
+            Debug.DrawRay(rayStart, rayDirection, Color.forestGreen, 0.1f);
             
-            testSphere.transform.position = hit.transform.position;
-            
-            // We use a lerp to make it the movement smooth
-            float smoothedY = Mathf.Lerp(
-                transform.position.y, // Actual height
-                targetY,              // New Height
-                Time.fixedDeltaTime * positionSmoothness * 2f // Smooth Factor
-            );
-            
-            // Set the new Height
-            trackPosition.y = smoothedY;
+            testSphere.transform.position = hit.point;
+
+            visualModel.transform.position = hit.point;
+
             // look at TANGENT, with UP alaingned to HIT.NORMAL.
             Quaternion targetRotation = Quaternion.LookRotation((Vector3)tangent, hit.normal);
             // Apply smooth rotation
@@ -257,15 +249,10 @@ public class PlayerSurfaceInput : MonoBehaviour
         }
         else
         {
-            // if there is not hit, we adjust the rotation with the spline
-            FallbackRotation();
-            
-            // force player to move down near the spline
-            Vector3 fallVector = -(Vector3)up * Time.fixedDeltaTime * 10f; 
-            trackPosition += fallVector;
+            Debug.DrawRay(rayStart, rayDirection, Color.darkRed, 0.1f);
         }
-        
-        return trackPosition;
+
+            return trackPosition;
     }
     void FallbackRotation()
     {
