@@ -8,7 +8,6 @@ using UnityEngine.Playables;
 
 public class RaceManager : MonoBehaviour
 {
-
     [Header("Referencias")]
     [SerializeField] private PlayableDirector raceTimeline;
     [SerializeField] private GameObject cinematicGO;
