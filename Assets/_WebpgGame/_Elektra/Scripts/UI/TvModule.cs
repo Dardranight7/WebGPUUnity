@@ -63,7 +63,7 @@ public class TvModule : MonoBehaviour
     {
         if (!_videoPlayer.isPlaying && _videoPlayer.isPrepared) 
         {
-            // 1. Intenta reanudar normalmente (debe funcionar)
+            // Intenta reanudar normalmente (debe funcionar)
             _videoPlayer.Play();
             if(!_videoPlayer.isPlaying)
                 _videoPlayer.frame++; // Descomentar si la línea anterior no funciona.
