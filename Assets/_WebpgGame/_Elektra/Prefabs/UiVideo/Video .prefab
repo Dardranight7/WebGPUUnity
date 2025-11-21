@@ -122,7 +122,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8795704066027687394}
         m_TargetAssemblyTypeName: TvModule, UIWorld
-        m_MethodName: StopVideo
+        m_MethodName: PauseVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -353,9 +353,9 @@ RectTransform:
   - {fileID: 707484848039079747}
   - {fileID: 2327188529190511319}
   - {fileID: 1351027678795919235}
+  - {fileID: 8703161241964300542}
   - {fileID: 3716142289163224925}
   - {fileID: 5879080845493705234}
-  - {fileID: 8703161241964300542}
   - {fileID: 7153772401159116473}
   m_Father: {fileID: 5977268588556924030}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -378,6 +378,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: UIWorld::TvModule
   _videoPlayer: {fileID: 89603183533160198}
   _rawImage: {fileID: 0}
+  resumeBtn: {fileID: 5258096755954991058}
+  playBtn: {fileID: 6841693222292920009}
+  pauseBtn: {fileID: 115003707522675658}
+  musicaDeFondo: {fileID: 0}
+  volumenBajo: 0
+  volumenNormal: 0.2
 --- !u!1 &223984287553099875
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,7 +850,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8524830313711389947}
         m_TargetAssemblyTypeName: TvModule, UIWorld
-        m_MethodName: StopVideo
+        m_MethodName: PauseVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1306,7 +1312,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8795704066027687394}
         m_TargetAssemblyTypeName: TvModule, UIWorld
-        m_MethodName: StopVideo
+        m_MethodName: PauseVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1329,6 +1335,18 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 115003707522675658}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5258096755954991058}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -1477,30 +1495,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: TvModule, UIWorld
         m_MethodName: PlayVideo
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 511891084453262704}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1382209409927605837}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3105,6 +3099,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2870970040054237236}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1844214538232160398}
         m_TargetAssemblyTypeName: VideoTvImageController, UIWorld
         m_MethodName: HideTv
@@ -3448,7 +3454,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8524830313711389947}
         m_TargetAssemblyTypeName: TvModule, UIWorld
-        m_MethodName: StopVideo
+        m_MethodName: PauseVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3471,6 +3477,18 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 511891084453262704}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4322412938866992662}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -3619,30 +3637,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: TvModule, UIWorld
         m_MethodName: ResumeVideo
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 511891084453262704}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 4322412938866992662}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3943,9 +3937,6 @@ MonoBehaviour:
   - {fileID: 2666819520268692150}
   - {fileID: 1670519735790246595}
   - {fileID: 7218066241841109992}
-  musicaDeFondo: {fileID: 0}
-  volumenBajo: 0.3
-  volumenNormal: 1
 --- !u!1 &4804588484606423134
 GameObject:
   m_ObjectHideFlags: 0
@@ -4864,9 +4855,9 @@ RectTransform:
   - {fileID: 5404132388296392445}
   - {fileID: 8420244907352430539}
   - {fileID: 5284228076459868517}
+  - {fileID: 413142620062405630}
   - {fileID: 1768680797482075884}
   - {fileID: 3376880345359561229}
-  - {fileID: 413142620062405630}
   - {fileID: 8969132766199208440}
   - {fileID: 8499039742592805588}
   m_Father: {fileID: 5977268588556924030}
@@ -4890,6 +4881,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: UIWorld::TvModule
   _videoPlayer: {fileID: 6610655820296038246}
   _rawImage: {fileID: 0}
+  resumeBtn: {fileID: 8589798152961264693}
+  playBtn: {fileID: 661076245181375478}
+  pauseBtn: {fileID: 6797709693402494103}
+  musicaDeFondo: {fileID: 0}
+  volumenBajo: 0
+  volumenNormal: 0.2
 --- !u!1 &5916891724795003865
 GameObject:
   m_ObjectHideFlags: 0
@@ -5036,6 +5033,18 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 7902944284355679994}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4630990974709007319}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -5986,7 +5995,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2666819520268692150}
         m_TargetAssemblyTypeName: TvModule, UIWorld
-        m_MethodName: StopVideo
+        m_MethodName: PauseVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6312,7 +6321,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2666819520268692150}
         m_TargetAssemblyTypeName: TvModule, UIWorld
-        m_MethodName: StopVideo
+        m_MethodName: PauseVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6335,6 +6344,18 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 6797709693402494103}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8589798152961264693}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -6764,7 +6785,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7218066241841109992}
         m_TargetAssemblyTypeName: TvModule, UIWorld
-        m_MethodName: StopVideo
+        m_MethodName: PauseVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6915,9 +6936,9 @@ RectTransform:
   - {fileID: 8106502608080012270}
   - {fileID: 2351312483949869081}
   - {fileID: 617705950749637593}
+  - {fileID: 7384729832221253740}
   - {fileID: 6055137583155292847}
   - {fileID: 351559377039172315}
-  - {fileID: 7384729832221253740}
   - {fileID: 4996385817387146934}
   - {fileID: 5763833349590990892}
   m_Father: {fileID: 5977268588556924030}
@@ -6941,6 +6962,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: UIWorld::TvModule
   _videoPlayer: {fileID: 562768780554318256}
   _rawImage: {fileID: 0}
+  resumeBtn: {fileID: 4630990974709007319}
+  playBtn: {fileID: 5925962006405630609}
+  pauseBtn: {fileID: 7902944284355679994}
+  musicaDeFondo: {fileID: 0}
+  volumenBajo: 0
+  volumenNormal: 0.2
 --- !u!1 &7307229032376774572
 GameObject:
   m_ObjectHideFlags: 0
@@ -7568,7 +7595,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1670519735790246595}
         m_TargetAssemblyTypeName: TvModule, UIWorld
-        m_MethodName: StopVideo
+        m_MethodName: PauseVideo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7673,6 +7700,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: UIWorld::TvModule
   _videoPlayer: {fileID: 522540617584110155}
   _rawImage: {fileID: 0}
+  resumeBtn: {fileID: 2870970040054237236}
+  playBtn: {fileID: 7535570516564246737}
+  pauseBtn: {fileID: 6973391098447441698}
+  musicaDeFondo: {fileID: 0}
+  volumenBajo: 0
+  volumenNormal: 0.2
 --- !u!1 &8090428719223566807
 GameObject:
   m_ObjectHideFlags: 0
@@ -7764,7 +7797,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7714513860015721719
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7782,9 +7815,9 @@ RectTransform:
   - {fileID: 5195917826381120753}
   - {fileID: 1493581303779531456}
   - {fileID: 1293957854548225828}
+  - {fileID: 509727623803112822}
   - {fileID: 4238329718869464631}
   - {fileID: 1019150740588038066}
-  - {fileID: 509727623803112822}
   - {fileID: 1609862894116948435}
   m_Father: {fileID: 5977268588556924030}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7807,6 +7840,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: UIWorld::TvModule
   _videoPlayer: {fileID: 1564371154085194161}
   _rawImage: {fileID: 0}
+  resumeBtn: {fileID: 4322412938866992662}
+  playBtn: {fileID: 1382209409927605837}
+  pauseBtn: {fileID: 511891084453262704}
+  musicaDeFondo: {fileID: 0}
+  volumenBajo: 0
+  volumenNormal: 0.2
 --- !u!1 &8464985961431568664
 GameObject:
   m_ObjectHideFlags: 0

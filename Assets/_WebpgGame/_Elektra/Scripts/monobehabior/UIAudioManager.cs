@@ -9,7 +9,7 @@ public class UIAudioManager : MonoBehaviour
 {
 
     public static UIAudioManager Instance;
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] public AudioSource audioSource;
     
     [Header("UI Sound Effects")]
     public AudioClip clickSound;

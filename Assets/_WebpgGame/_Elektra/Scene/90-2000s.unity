@@ -1455,6 +1455,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 534497605203500152, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: musicaDeFondo
+      value: 
+      objectReference: {fileID: 145932440}
     - target: {fileID: 2192015615534251862, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2432,6 +2436,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 361565e5ca0c7ad44a0032fa9a40010e, type: 3}
+--- !u!82 &145932440 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6765907071639809958, guid: 361565e5ca0c7ad44a0032fa9a40010e, type: 3}
+  m_PrefabInstance: {fileID: 145932439}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &149987766
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17198,7 +17207,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 01000000
+  idremap: 00000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0

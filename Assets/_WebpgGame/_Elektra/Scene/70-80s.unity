@@ -2180,11 +2180,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: text
-      value: "En las d\xE9cadas de 1970 y 1980, la llegada de la lavadora revolucion\xF3
-        la vida cotidiana en los hogares mexicanos. Este avance tecnol\xF3gico permiti\xF3
-        ahorrar tiempo y esfuerzo en las tareas dom\xE9sticas, mejorando el bienestar
-        de toda la familia. Gracias a Elektra, miles de familias pudieron adquirir
-        una lavadora y acceder a mayor comodidad sin tener que esperar a\xF1os."
+      value: "Protagonizado por el entra\xF1able Tachidito, este comercial de lavadoras
+        se volvi\xF3 uno de los m\xE1s emblem\xE1ticos de la \xE9poca. El t\xEDtere,
+        con su carisma contagioso y frases ingeniosas, no solo promov\xEDa los bajos
+        precios de Elektra, sino que tambi\xE9n gan\xF3 un lugar como estrella de
+        la televisi\xF3n mexicana durante las coberturas de TV Azteca en Juegos Ol\xEDmpicos
+        y mundiales."
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: year
@@ -2192,7 +2193,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: title
-      value: "Tecnolog\xEDa y bienestar en el hogar mexicano"
+      value: "Nadie vende m\xE1s barato que Elektra, con Tachidito"
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: player
@@ -6887,6 +6888,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 708188008512054837, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: musicaDeFondo
+      value: 
+      objectReference: {fileID: 1569892204}
     - target: {fileID: 2192015615534251862, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -6919,6 +6924,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3838888074428574733, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: musicaDeFondo
+      value: 
+      objectReference: {fileID: 1569892204}
     - target: {fileID: 4629380851376198537, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -7451,15 +7460,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.635
+      value: 2.099
       objectReference: {fileID: 0}
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.883
+      value: -0.084
       objectReference: {fileID: 0}
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.422
+      value: -3.312
       objectReference: {fileID: 0}
     - target: {fileID: 3594225807245146687, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7604,7 +7613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: 50s-60s
+      value: 70-80s
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
@@ -7644,11 +7653,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7421680715008653099, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_Center.x
-      value: 0.12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7421680715008653099, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: m_Center.y
-      value: -0.43
+      value: 0.18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9551,13 +9560,13 @@ Transform:
   m_Children:
   - {fileID: 573474349}
   - {fileID: 989536716}
-  - {fileID: 1264412187}
-  - {fileID: 1557041180}
-  - {fileID: 1299896018}
-  - {fileID: 931351029}
   - {fileID: 377392412}
   - {fileID: 1830140765}
   - {fileID: 359435162}
+  - {fileID: 1264412187}
+  - {fileID: 931351029}
+  - {fileID: 1299896018}
+  - {fileID: 1557041180}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1189050238
@@ -10054,7 +10063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: 50s-60s
+      value: 70-80s
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
@@ -10556,7 +10565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: 50s-60s
+      value: 70-80s
       objectReference: {fileID: 0}
     - target: {fileID: 5049050395348399052, guid: 28350abf0c35d96438bdea918da976e5, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
@@ -13183,7 +13192,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 0300000004000000
+  idremap: 0b0000000c000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
@@ -15964,6 +15973,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 361565e5ca0c7ad44a0032fa9a40010e, type: 3}
+--- !u!82 &1569892204 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6765907071639809958, guid: 361565e5ca0c7ad44a0032fa9a40010e, type: 3}
+  m_PrefabInstance: {fileID: 1569892203}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1575301913
 GameObject:
   m_ObjectHideFlags: 0

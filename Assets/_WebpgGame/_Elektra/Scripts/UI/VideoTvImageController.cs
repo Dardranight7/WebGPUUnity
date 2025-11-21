@@ -8,10 +8,6 @@ using UnityEngine.Video;
 public class VideoTvImageController : MonoBehaviour
 {
     [SerializeField] private TvModule[] tvsModules;
-    [Header("Background Audio Component")]
-    [SerializeField] private AudioSource musicaDeFondo;
-    [SerializeField] private float volumenBajo = 0.3f;
-    [SerializeField] private float volumenNormal = 1.0f;
     
     private TvModule selectedModule;
     void Start()
@@ -50,30 +46,9 @@ public class VideoTvImageController : MonoBehaviour
     public void ShowTv()
     {
         selectedModule.ShowTv();
-        BajarVolumen();
     }
     public void HideTv()
     {
         selectedModule.HideTv();
-        SubirVolumen();
     }
-
-    #region BackgroundAudio Functions
-
-    public void BajarVolumen()
-    {
-        if (musicaDeFondo != null)
-        {
-            musicaDeFondo.volume = volumenBajo;
-        }
-    }
-    public void SubirVolumen()
-    {
-        if (musicaDeFondo != null)
-        {
-            musicaDeFondo.volume = volumenNormal;
-        }
-    }
-
-    #endregion BackgroundAudio Functions
 }

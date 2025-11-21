@@ -84,7 +84,7 @@ public class AgesContainer : MonoBehaviour
             {
                 ImageStatus(statusScene = StatusScene.FINISH);
                 completeAge.SetActive(true);
-                Invoke( nameof(DesactiveCompleteAge), 5f);
+                Invoke( nameof(DesactiveCompleteAge), 10f);
                 Invoke("LoadLobby", 2f);
             }
         }
@@ -97,7 +97,7 @@ public class AgesContainer : MonoBehaviour
     
     void LoadLobby()
     {
-        SceneManager.LoadScene("Lobby");
+        ElektraManager.Instance.LoadLevelAsync("Lobby");
     }
 
     private void ImageStatus(StatusScene status)
