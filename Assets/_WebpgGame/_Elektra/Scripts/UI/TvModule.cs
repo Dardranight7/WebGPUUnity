@@ -44,6 +44,7 @@ public class TvModule : MonoBehaviour
     {
         _rawImage.color = Color.black;
         gameObject.SetActive(true);
+        PlayVideo();
     }
     public void HideTv()
     {
