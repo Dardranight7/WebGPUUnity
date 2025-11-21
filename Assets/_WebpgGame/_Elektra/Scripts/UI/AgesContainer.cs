@@ -83,7 +83,7 @@ public class AgesContainer : MonoBehaviour
             {
                 ImageStatus(statusScene = StatusScene.FINISH);
                 completeAge.SetActive(true);
-                Invoke( nameof(DesactiveCompleteAge), 4f);
+                Invoke( nameof(DesactiveCompleteAge), 6f);
                 Invoke("LoadLobby", 5f);
             }
         }
