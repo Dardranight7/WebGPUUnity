@@ -497,50 +497,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd24e0a4ac2b8b449a1e119b8f90530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Elektra::WorldUI
---- !u!114 &194364000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Lobby_LM0
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 1024
-  bitmask: 1
-  id: 0
-  sortingID: 0
-  isImplicit: 1
-  area: 2959.6165
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: Lobby
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1 &210758198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,8 +1283,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0000000017162375, y: 0.9992629, z: -0.038387805, w: 0.00000004467493}
-  m_LocalPosition: {x: 0.12847856, y: 1.3785808, z: 4.2031035}
+  m_LocalRotation: {x: 0.15212338, y: 0, z: 0, w: 0.98836154}
+  m_LocalPosition: {x: 0.12847877, y: 2.0027099, z: -5.9616976}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3810,6 +3766,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd24e0a4ac2b8b449a1e119b8f90530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Elektra::WorldUI
+--- !u!114 &797296412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Lobby_LM0
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 1024
+  bitmask: 1
+  id: 0
+  sortingID: 0
+  isImplicit: 1
+  area: 2945.2344
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: Lobby
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &798420300
 GameObject:
   m_ObjectHideFlags: 0
@@ -11908,7 +11908,7 @@ MonoBehaviour:
   renderSettingsGIBackFaceWeight: 1
   renderSettingsTileSize: 512
   renderSettingsPriority: 2
-  renderSettingsTexelsPerUnit: 20
+  renderSettingsTexelsPerUnit: 10
   renderSettingsForceRefresh: 1
   renderSettingsForceRebuildGeometry: 1
   renderSettingsPerformRendering: 1
@@ -11952,7 +11952,7 @@ MonoBehaviour:
   renderSettingsTexelsDir: 1
   renderSettingsShowDirWarning: 1
   renderSettingsRenderDirMode: 1
-  renderSettingsShowCheckerSettings: 0
+  renderSettingsShowCheckerSettings: 1
   renderSettingsSamplesWarning: 1
   renderSettingsSuppressPopups: 0
   renderSettingsPrefabWarning: 1
@@ -11982,7 +11982,7 @@ MonoBehaviour:
   renderSettingsRTPVHDR: 0
   renderSettingsRTPVWidth: 640
   renderSettingsRTPVHeight: 360
-  lastBakeTime: 5
+  lastBakeTime: 7
   enlightenWarningShown: 0
   enlightenWarningShown2: 0
   uniqueLights:
@@ -12308,7 +12308,7 @@ MonoBehaviour:
     angle: 30
     UID: 10
   implicitGroups:
-  - {fileID: 194364000}
+  - {fileID: 797296412}
   implicitGroupedObjects:
   - {fileID: 1008248819}
   bounds:
@@ -12349,7 +12349,7 @@ MonoBehaviour:
   - {fileID: 1008248824}
   bakedIDs: 00000000
   bakedScaleOffset:
-  - {x: 1.0014672, y: 1.0014683, z: 0, w: 0}
+  - {x: 1.0014671, y: 1.0014818, z: 0, w: 0}
   bakedVertexOffset: ffffffff
   bakedVertexColorMesh:
   - {fileID: 0}
@@ -12371,7 +12371,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 00000000
+  idremap: 02000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
@@ -12390,7 +12390,7 @@ MonoBehaviour:
     - {fileID: 1008248824}
     bakedIDs: 00000000
     bakedScaleOffset:
-    - {x: 1.0004892, y: 1.0004942, z: 0, w: 0}
+    - {x: 1.0014672, y: 1.0014683, z: 0, w: 0}
     bakedVertexColorMesh:
     - {fileID: 0}
     bakedRenderersTerrain: []
@@ -13123,6 +13123,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1177803073}
+    - target: {fileID: 7958376025508462910, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -92.60791
+      objectReference: {fileID: 0}
+    - target: {fileID: 7958376025508462910, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -73.00598
+      objectReference: {fileID: 0}
     - target: {fileID: 8076188543472372192, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_IsActive
       value: 0
