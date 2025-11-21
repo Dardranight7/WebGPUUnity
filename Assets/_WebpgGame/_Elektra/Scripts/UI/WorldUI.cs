@@ -185,8 +185,16 @@ public class WorldUI : MonoBehaviour
         }
         if (buttonPanelInformation)
         {
+            if (!String.IsNullOrEmpty(year))
+            {
+                buttonPanelInformation.year.gameObject.SetActive(true);
+                buttonPanelInformation.year.text = year;
+            }
+                
+            else
+                buttonPanelInformation.year.gameObject.SetActive(false);
+            
             buttonPanelInformation.title.text = title;
-            buttonPanelInformation.year.text = year;
             buttonPanelInformation.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
             buttonPanelInformation.gameObject.GetComponent<Button>().onClick.AddListener(()=>{
                 OpenSoundEffect();

@@ -73,10 +73,9 @@ public class AgesContainer : MonoBehaviour
 
     private void UpdateProgress(string scene, int progress)
     {
-        Debug.Log($"{sceneAge} {scene}");
-        
         if (scene == sceneAge)
         {
+            Debug.Log($"Updated Scene {sceneAge} {scene}");
             numberActivity = progress;
 
             // Condición de finalización dinámica
@@ -84,8 +83,8 @@ public class AgesContainer : MonoBehaviour
             {
                 ImageStatus(statusScene = StatusScene.FINISH);
                 completeAge.SetActive(true);
-                Invoke( nameof(DesactiveCompleteAge), 10f);
-                Invoke("LoadLobby", 2f);
+                Invoke( nameof(DesactiveCompleteAge), 4f);
+                Invoke("LoadLobby", 5f);
             }
         }
     }

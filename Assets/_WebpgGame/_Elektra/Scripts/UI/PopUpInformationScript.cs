@@ -58,7 +58,6 @@ public class PopUpInformationScript : MonoBehaviour
     public void HideUI()
     {
         StartCoroutine(FadeOut(0.3f));
-
     }
 
     private IEnumerator FadeIn(float duration)
@@ -71,7 +70,6 @@ public class PopUpInformationScript : MonoBehaviour
             elapsed += Time.deltaTime;
             canvasGroup.alpha = Mathf.Clamp01(elapsed / duration);
             yield return null;
-            
         }
         canvasGroup.alpha = 1f;
     }    

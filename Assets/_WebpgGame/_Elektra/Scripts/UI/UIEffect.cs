@@ -1,11 +1,12 @@
 using System.Collections;
+using System;
 using UnityEngine;
 
 public class UIEffect : MonoBehaviour
 {
 
     public CanvasGroup canvasGroup;
-    
+    public event Action OnUIHidden;
     public void ShowUI()
     {
         gameObject.SetActive(true);
@@ -44,7 +45,7 @@ public class UIEffect : MonoBehaviour
             yield return null;
             
         }
-
+        OnUIHidden?.Invoke(); 
         canvasGroup.alpha = 0f;
         gameObject.SetActive(false);
     }
