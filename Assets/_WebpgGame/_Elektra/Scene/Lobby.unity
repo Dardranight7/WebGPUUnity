@@ -5126,31 +5126,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6
+      value: 5.98
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.87741005
+      value: 1.56
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.61479
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
+      value: 9.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5210,7 +5194,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -5897263453089631328, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
+  m_Mesh: {fileID: 6686097678407549244, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
 --- !u!4 &1008248823 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 582d7e691c299d54099c07416c53ba79, type: 3}
@@ -9378,6 +9362,50 @@ Transform:
   - {fileID: 284729269}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1485555305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Lobby_LM0
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
+  resolution: 4096
+  bitmask: 1
+  id: 0
+  sortingID: 0
+  isImplicit: 1
+  area: 2939.2817
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: Lobby
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &1541158990
 GameObject:
   m_ObjectHideFlags: 0
@@ -11727,50 +11755,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
---- !u!114 &2027831495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Lobby_LM0
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryLightmapGroup
-  resolution: 512
-  bitmask: 1
-  id: 0
-  sortingID: 0
-  isImplicit: 1
-  area: 3080.2107
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: Lobby
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &2035652960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11928,7 +11912,7 @@ MonoBehaviour:
   renderSettingsGIBackFaceWeight: 1
   renderSettingsTileSize: 512
   renderSettingsPriority: 2
-  renderSettingsTexelsPerUnit: 10
+  renderSettingsTexelsPerUnit: 60
   renderSettingsForceRefresh: 1
   renderSettingsForceRebuildGeometry: 1
   renderSettingsPerformRendering: 1
@@ -11980,7 +11964,7 @@ MonoBehaviour:
   renderSettingsSplitByTag: 0
   renderSettingsUVPaddingMax: 0
   renderSettingsPostPacking: 1
-  renderSettingsHoleFilling: 0
+  renderSettingsHoleFilling: 1
   renderSettingsBeepOnFinish: 0
   renderSettingsExportTerrainAsHeightmap: 0
   renderSettingsRTXMode: 1
@@ -12002,7 +11986,7 @@ MonoBehaviour:
   renderSettingsRTPVHDR: 0
   renderSettingsRTPVWidth: 640
   renderSettingsRTPVHeight: 360
-  lastBakeTime: 6
+  lastBakeTime: 38
   enlightenWarningShown: 0
   enlightenWarningShown2: 0
   uniqueLights:
@@ -12328,12 +12312,12 @@ MonoBehaviour:
     angle: 30
     UID: 10
   implicitGroups:
-  - {fileID: 2027831495}
+  - {fileID: 1485555305}
   implicitGroupedObjects:
   - {fileID: 1008248819}
   bounds:
-  - m_Center: {x: -0.28902555, y: 3.7054398, z: 4.7543783}
-    m_Extent: {x: 6.025799, y: 3.6154413, z: 11.039768}
+  - m_Center: {x: -0.14827448, y: 3.654275, z: 4.8760014}
+    m_Extent: {x: 6.018537, y: 3.6154416, z: 11.039768}
   hasEmissive: 01
   uvBuffOffsets: 
   uvBuffLengths: 
@@ -12355,8 +12339,9 @@ MonoBehaviour:
   modifiedAssets:
   - meshName:
     - SM_Lobby
-    padding: 07000000
-    unwrapper: 00000000
+    - Text
+    padding: 0300000001000000
+    unwrapper: 0000000000000000
   maps:
   - {fileID: 2800000, guid: 1bb018b181298184e9dab7ad04bf826f, type: 3}
   masks: []
@@ -12369,7 +12354,7 @@ MonoBehaviour:
   - {fileID: 1008248824}
   bakedIDs: 00000000
   bakedScaleOffset:
-  - {x: 1.0034298, y: 1.0034583, z: 0, w: 0}
+  - {x: 1.0004886, y: 1.000538, z: 0, w: 0}
   bakedVertexOffset: ffffffff
   bakedVertexColorMesh:
   - {fileID: 0}
@@ -12410,7 +12395,7 @@ MonoBehaviour:
     - {fileID: 1008248824}
     bakedIDs: 00000000
     bakedScaleOffset:
-    - {x: 1.0014671, y: 1.0014818, z: 0, w: 0}
+    - {x: 1.0034298, y: 1.0034583, z: 0, w: 0}
     bakedVertexColorMesh:
     - {fileID: 0}
     bakedRenderersTerrain: []
