@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -84,7 +85,7 @@ public class AgesContainer : MonoBehaviour
                 ImageStatus(statusScene = StatusScene.FINISH);
                 completeAge.SetActive(true);
                 Invoke( nameof(DesactiveCompleteAge), 6f);
-                Invoke("LoadLobby", 5f);
+                Invoke(nameof(LoadNextScene), 5f);
             }
         }
     }
@@ -93,10 +94,26 @@ public class AgesContainer : MonoBehaviour
     {
         completeAge.SetActive(false);
     }
-    
-    void LoadLobby()
+
+    private void LoadNextScene()
     {
-        ElektraManager.Instance.LoadLevelAsync("Lobby");
+        string nextScene = "Lobby";
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "50s-60s":
+                nextScene = "70-80s";
+                break;
+            case "70-80s":
+                nextScene = "90-2000s";
+                break;
+            case "90-2000s":
+                nextScene = "2010-2025s";
+                break;
+            default:
+                nextScene = "Lobby";
+                break;
+        }
+        ElektraManager.Instance.LoadLevelAsync(nextScene);
     }
 
     private void ImageStatus(StatusScene status)
@@ -123,7 +140,6 @@ public class AgesContainer : MonoBehaviour
                 text.color = new Color(0.6f, 0.13f, 0.11f);
                 background.sprite = finish;
                 break;
-
         }
     }
 
