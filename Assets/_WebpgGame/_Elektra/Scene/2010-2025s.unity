@@ -7704,7 +7704,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9113f3b67cf4d5242ab10c974e07f5fb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 658830863}
   m_SourcePrefab: {fileID: 100100000, guid: 9113f3b67cf4d5242ab10c974e07f5fb, type: 3}
 --- !u!1 &658830858 stripped
 GameObject:
@@ -7721,6 +7724,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9113f3b67cf4d5242ab10c974e07f5fb, type: 3}
   m_PrefabInstance: {fileID: 658830857}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &658830863
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658830858}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4540141586138301370, guid: 9113f3b67cf4d5242ab10c974e07f5fb, type: 3}
 --- !u!1 &662755275
 GameObject:
   m_ObjectHideFlags: 0
@@ -13408,7 +13433,7 @@ MonoBehaviour:
   bakedScaleOffsetTerrain: []
   assetList: []
   uvOverlapAssetList: 
-  idremap: 0000000001000000
+  idremap: 0300000004000000
   usesRealtimeGI: 0
   emptyDirectionTex: {fileID: 0}
   anyVolumes: 0
@@ -18636,7 +18661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5081512502975192725, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5918943343324384538, guid: ff5e8ed40408011479b602f28215d3f6, type: 3}
       propertyPath: m_text
@@ -24389,7 +24414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_StringArgument
-      value: Activity2
+      value: Activity7
       objectReference: {fileID: 0}
     - target: {fileID: 2236773596979815643, guid: 37df46a80e43fb84381ea17df287be1b, type: 3}
       propertyPath: onButtonClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgument
