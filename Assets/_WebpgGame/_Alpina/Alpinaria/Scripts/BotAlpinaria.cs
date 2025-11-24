@@ -411,11 +411,6 @@ public class BotAlpinaria : MonoBehaviour
             // Apply smooth rotation
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSmoothness));
         }
-        else
-        {
-            AdjustRotation();
-            trackPosition.y -= Time.fixedDeltaTime * 10f;
-        }
        
         return trackPosition;
     }

@@ -1,9 +1,11 @@
+using Newtonsoft.Json;
+using System;
 using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.Playables;
 
 public class RaceManager : MonoBehaviour
@@ -466,6 +468,17 @@ public class RaceManager : MonoBehaviour
 
     private void ShowResult(bool playerWon)
     {
+        List<int> Indexes = new List<int>();
+        if (!playerWon)
+        {
+            Indexes = new List<int>() {0,1,2,3};
+        }
+        else
+        {
+
+            Indexes = new List<int>() { 3, 2, 1, 0 };
+        }
+        PlayerPrefs.SetString("WinnerYogoNado", JsonConvert.SerializeObject(Indexes));
         if (resultsUI != null) resultsUI.SetActive(true);
         if (panelWin != null) panelWin.SetActive(playerWon);
         if (panelLose != null) panelLose.SetActive(!playerWon);
