@@ -21,7 +21,7 @@ public class Backend : MonoBehaviour
     const string COUNT_TIME = "count-time/";
     const string GET_RIVAL_USER_DATA = "get-rival-mochi-user-data/";
     const string GET_RANKING = "get-ranking";
-
+    
     public static Backend singleton;
 
     public PlayerProfileDTO playerProfile;
@@ -79,7 +79,7 @@ public class Backend : MonoBehaviour
         // Verificar si el tiempo transcurrido ha superado el tiempo establecido
         if (tiempoTranscurrido >= tiempoEspera)
         {
-            // Llamar a la función UpdateTime
+            // Llamar a la funciÃ³n UpdateTime
             Backend.singleton.CountTime(playerProfile.serial);
 
             // Restablecer el tiempo transcurrido (si quieres que se repita cada X segundos)
@@ -197,14 +197,14 @@ public class Backend : MonoBehaviour
         }), Result);
     }
 
-    // Endpoint de la API (puedes asignarlo desde el Inspector o directamente en el código)
+    // Endpoint de la API (puedes asignarlo desde el Inspector o directamente en el cÃ³digo)
     private static string endpoint = "https://fanschevrolet-backend-production-eeec.up.railway.app/api/";  // Cambia esta URL por la de tu API
 
-    // Método para hacer la solicitud POST
+    // MÃ©todo para hacer la solicitud POST
     public void HacerPeticionPOST(Petition petition, string jsonData, System.Action<Response> Result = null, System.Action<string> OnError = null)
     {
         // Los datos que vas a enviar (por ejemplo, un JSON)
-        // Asegúrate de que los datos se puedan serializar correctamente en JSON
+        // AsegÃºrate de que los datos se puedan serializar correctamente en JSON
         string plus = "";
         switch (petition)
         {
@@ -254,7 +254,7 @@ public class Backend : MonoBehaviour
     // Corutina para realizar la solicitud POST
     IEnumerator PostRequest(string url, string jsonData,  System.Action<Response> Result = null, System.Action<string> OnError = null)
     {
-        // Crea un objeto UnityWebRequest y configura los parámetros
+        // Crea un objeto UnityWebRequest y configura los parÃ¡metros
         UnityWebRequest request = new UnityWebRequest(url, "POST");
 
         // Convierte el string jsonData en un byte array para la solicitud POST
@@ -270,7 +270,7 @@ public class Backend : MonoBehaviour
         // Envia la solicitud y espera la respuesta
         yield return request.SendWebRequest();
 
-        // Verifica si hubo algún error
+        // Verifica si hubo algÃºn error
         if (request.result == UnityWebRequest.Result.Success)
         {
             // Si la solicitud fue exitosa, muestra la respuesta

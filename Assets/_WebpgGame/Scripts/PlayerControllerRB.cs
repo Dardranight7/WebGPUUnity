@@ -8,6 +8,7 @@ public class PlayerControllerRB : MonoBehaviour
     public float moveForce = 20f;       // Fuerza aplicada al moverse
     public float maxSpeed = 6f;         // Velocidad máxima
     public float drag = 2f;             // Freno pasivo
+    public float pushForce = 5f;        // fuerza d empuje
 
     [Header("Referencias")]
     public Transform cameraTransform;   // Cámara para orientación
@@ -26,6 +27,9 @@ public class PlayerControllerRB : MonoBehaviour
 
     [SerializeField] MochiAnimationManager mochiAnimationManager;
 
+    
+    public AudioSource audioSource;
+    public AudioClip pushClip;
     private void Awake()
     {
         inputActions = new ThirdPerson();
@@ -93,7 +97,8 @@ public class PlayerControllerRB : MonoBehaviour
             camRight.Normalize();
 
             // Dirección final de movimiento
-            Vector3 moveDir = camForward * inputDir.z + camRight * inputDir.x;
+            // Vector3 moveDir = camForward * inputDir.z + camRight * inputDir.x;
+            Vector3 moveDir = camRight * inputDir.x;
 
             // Aplica fuerza si no excede la velocidad máxima
             if (rb.linearVelocity.magnitude < maxSpeed)
@@ -130,5 +135,25 @@ public class PlayerControllerRB : MonoBehaviour
         Vector3 vel = rb.linearVelocity;
         vel.y = 0;
         rb.linearVelocity = vel * (1f / (1f + drag * Time.fixedDeltaTime)) + Vector3.up * rb.linearVelocity.y;
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        Rigidbody other = collision.rigidbody;
+        if (other != null && other != rb)
+        {
+            Vector3 toOther = collision.transform.position - transform.position;
+            Vector3 toOtherFlat = new  Vector3(0f, 0f, toOther.z).normalized;
+            float angle = Vector3.Angle(transform.forward, toOtherFlat);
+
+            float frontAngle = 100; // Ángulo frontal para empujar
+            if (angle <= frontAngle)
+            {
+                other.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+                
+                // Reproducir sonido de empuje
+                if (audioSource != null && pushClip != null)
+                    audioSource.PlayOneShot(pushClip);
+            }
+        }
     }
 }

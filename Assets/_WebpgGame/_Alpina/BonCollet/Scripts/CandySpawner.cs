@@ -127,7 +127,8 @@ public class CandySpawner : MonoBehaviour
         if (chosenPrefab == null) return;
 
         Vector2 r = Random.insideUnitCircle * spawnRadius;
-        Vector3 pos = transform.position + new Vector3(r.x, spawnHeight, r.y);
+        // Vector3 pos = transform.position + new Vector3(r.x, spawnHeight, r.y);
+        Vector3 pos = transform.position + new Vector3(0f, spawnHeight, r.y);
 
         var go = Instantiate(chosenPrefab, pos, Quaternion.identity);
         activeCandies.Add(go);

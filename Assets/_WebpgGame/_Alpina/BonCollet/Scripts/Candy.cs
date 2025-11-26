@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,15 +35,23 @@ public class Candy : MonoBehaviour
     }
 
     // Si decides que la gomita se recoja al tocar al player/bot, puedes usar OnTriggerEnter.
-    void OnTriggerEnter(Collider other)
+    // void OnTriggerEnter(Collider other)
+    // {
+    //     // El other puede ser una parte del jugador; buscamos el Collector en los padres.
+    //     var collector = other.GetComponentInParent<Collector>();
+    //     if (collector != null)
+    //     {
+    //         collector.Collect(this);
+    //     }
+    // }
+
+    // Alternativa: podrías usar OnCollisionEnter si prefieres colisiones en vez de trigger.
+    private void OnCollisionEnter(Collision other)
     {
-        // El other puede ser una parte del jugador; buscamos el Collector en los padres.
-        var collector = other.GetComponentInParent<Collector>();
+        var collector = other.gameObject.GetComponentInParent<Collector>();
         if (collector != null)
         {
             collector.Collect(this);
         }
     }
-
-    // Alternativa: podrías usar OnCollisionEnter si prefieres colisiones en vez de trigger.
 }

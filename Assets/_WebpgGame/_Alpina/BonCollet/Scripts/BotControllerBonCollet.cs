@@ -132,7 +132,8 @@ public class BotControllerBonCollet: MonoBehaviour
 
     void ApplyMovement(Vector3 vel)
     {
-        Vector3 move = new Vector3(vel.x, 0f, vel.z) * Time.fixedDeltaTime;
+        // Vector3 move = new Vector3(vel.x, 0f, vel.z) * Time.fixedDeltaTime;
+        Vector3 move = new Vector3(0f, 0f, vel.z) * Time.fixedDeltaTime;
         Vector3 newPos = rb.position + move;
         rb.MovePosition(newPos);
     }
