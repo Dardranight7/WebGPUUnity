@@ -58395,7 +58395,7 @@ MonoBehaviour:
   maxAcceleration: 6
   rotationSpeed: 6
   checkInterval: 1.2
-  reachDistance: 0.5
+  reachDistance: 1
   separationRadius: 2
   separationWeight: 2
   retargetCooldown: 1.5
@@ -117441,8 +117441,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295130367}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12740573, y: -0.65740806, z: 0.11413385, w: 0.7338637}
-  m_LocalPosition: {x: 12.659923, y: 2.2911582, z: -1.8710856}
+  m_LocalRotation: {x: -0.21327777, y: 0.6316855, z: -0.18671305, w: -0.721543}
+  m_LocalPosition: {x: 13.853537, y: 4.419318, z: -1.8548503}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -118239,7 +118239,7 @@ MonoBehaviour:
   maxAcceleration: 6
   rotationSpeed: 6
   checkInterval: 1.2
-  reachDistance: 0.5
+  reachDistance: 1
   separationRadius: 2
   separationWeight: 2
   retargetCooldown: 1.5
@@ -176545,7 +176545,7 @@ MonoBehaviour:
   maxAcceleration: 6
   rotationSpeed: 6
   checkInterval: 1.2
-  reachDistance: 0.5
+  reachDistance: 1
   separationRadius: 2
   separationWeight: 2
   retargetCooldown: 1.5
@@ -176720,6 +176720,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1495077870}
     m_Modifications:
+    - target: {fileID: 1179643755790825476, guid: 98776537786c0b448be8624c7f7c2407, type: 3}
+      propertyPath: _powerUp
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1179643755790825476, guid: 98776537786c0b448be8624c7f7c2407, type: 3}
       propertyPath: lifeTime
       value: 8
@@ -176986,6 +176990,10 @@ PrefabInstance:
     - target: {fileID: 3948773511766154856, guid: 9fdde68aa2488f44d8eb4a1f9fc5c1cf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6807817185756094638, guid: 9fdde68aa2488f44d8eb4a1f9fc5c1cf, type: 3}
+      propertyPath: _powerUp
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6807817185756094638, guid: 9fdde68aa2488f44d8eb4a1f9fc5c1cf, type: 3}
       propertyPath: lifeTime
@@ -177593,6 +177601,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4824029723411618148, guid: fbaeee5cdba580341b18fd4a380ca541, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5282719598020353302, guid: fbaeee5cdba580341b18fd4a380ca541, type: 3}
+      propertyPath: _powerUp
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5282719598020353302, guid: fbaeee5cdba580341b18fd4a380ca541, type: 3}
@@ -236662,6 +236674,10 @@ PrefabInstance:
       value: Candy
       objectReference: {fileID: 0}
     - target: {fileID: 4179252621493132809, guid: 74fb1a30810280748a6cd18ff4df3f5d, type: 3}
+      propertyPath: _powerUp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4179252621493132809, guid: 74fb1a30810280748a6cd18ff4df3f5d, type: 3}
       propertyPath: lifeTime
       value: 8
       objectReference: {fileID: 0}
@@ -236827,6 +236843,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1495077870}
     m_Modifications:
     - target: {fileID: 258524972131397846, guid: 4eec43f98a359964989a23200828dbd3, type: 3}
+      propertyPath: _powerUp
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 258524972131397846, guid: 4eec43f98a359964989a23200828dbd3, type: 3}
       propertyPath: lifeTime
       value: 8
       objectReference: {fileID: 0}
@@ -236969,7 +236989,6 @@ MonoBehaviour:
   moveForce: 20
   maxSpeed: 2.5
   drag: 2
-  pushForce: 2
   cameraTransform: {fileID: 1295130370}
   model3D: {fileID: 3977110363843568466}
   animator: {fileID: 0}
@@ -236977,8 +236996,6 @@ MonoBehaviour:
   animLerpSpeed: 5
   ParameterAnimation: 
   mochiAnimationManager: {fileID: 484875034864149797}
-  audioSource: {fileID: 0}
-  pushClip: {fileID: 0}
 --- !u!222 &6214601301216372731
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -238307,6 +238324,10 @@ PrefabInstance:
     - target: {fileID: 5637205134633015055, guid: 1eb76d65ffefdd2489ce6ff5088d3785, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286705167436955200, guid: 1eb76d65ffefdd2489ce6ff5088d3785, type: 3}
+      propertyPath: _powerUp
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7286705167436955200, guid: 1eb76d65ffefdd2489ce6ff5088d3785, type: 3}
       propertyPath: lifeTime

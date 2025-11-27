@@ -12,6 +12,7 @@ public class BotControllerBonCollet: MonoBehaviour
     public float reachDistance = 0.6f;        // distancia para considerar recogida
     public float separationRadius = 1.0f;     // radio para separación de otros agents
     public float separationWeight = 1.2f;     // fuerza de separación
+    private bool hasPowerUp = false;
 
     [Header("Comportamiento adicional")]
     public float retargetCooldown = 0.4f;     // mínimo tiempo entre cambios de objetivo
@@ -63,7 +64,18 @@ public class BotControllerBonCollet: MonoBehaviour
             yield return new WaitForSeconds(checkInterval);
         }
     }
+    public void UpdateSpeed(float speedFactor)
+    {
+        maxSpeed += (maxSpeed * speedFactor);
+        hasPowerUp = true;
+        StartCoroutine(RestoreSpeed());
+    }
 
+    private IEnumerator RestoreSpeed()
+    {
+        yield return 2f;
+        maxSpeed = 2.5f;
+    }
     void FixedUpdate()
     {
         // posición en XZ
@@ -132,8 +144,7 @@ public class BotControllerBonCollet: MonoBehaviour
 
     void ApplyMovement(Vector3 vel)
     {
-        // Vector3 move = new Vector3(vel.x, 0f, vel.z) * Time.fixedDeltaTime;
-        Vector3 move = new Vector3(0f, 0f, vel.z) * Time.fixedDeltaTime;
+        Vector3 move = new Vector3(vel.x, 0f, vel.z) * Time.fixedDeltaTime;
         Vector3 newPos = rb.position + move;
         rb.MovePosition(newPos);
     }
@@ -231,7 +242,7 @@ public class BotControllerBonCollet: MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, separationRadius);
+        Gizmos.DrawWireSphere(transform.position, reachDistance);
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(transform.position, transform.position + (Vector3.forward * 0.5f));
     }

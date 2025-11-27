@@ -6,11 +6,15 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Candy : MonoBehaviour
 {
-    [Header("Configuración de la gomita")]
-    public int points = 2;       // puntos que da (puede ser negativo)
+    [Header("Configuración de la gomita")] public int points = 2; // puntos que da (puede ser negativo)
     public float lifeTime = 5f; // para prevenir acumulación, se destruye después de cierto tiempo
     public float spawnCooldown = 0f; //Cooldown mínimo en segundos entre apariciones de ESTE TIPO de candy
-    public float spawnIntervalOverride = 0f; //Si > 0, el spawner usará este tiempo (en segundos) como espera después de instanciar esta candy. Si es 0, se usará el spawnInterval global del spawner.
+
+    public float
+        spawnIntervalOverride =
+            0f; //Si > 0, el spawner usará este tiempo (en segundos) como espera después de instanciar esta candy. Si es 0, se usará el spawnInterval global del spawner.
+
+    public PowerUp _powerUp;
 
     public float fallSpeed = 3f;
 
@@ -55,3 +59,10 @@ public class Candy : MonoBehaviour
         }
     }
 }
+
+public enum PowerUp
+    {
+        Speed,
+        Slowness,
+        None
+    }

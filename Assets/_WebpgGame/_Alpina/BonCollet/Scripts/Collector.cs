@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,8 @@ using UnityEngine;
 public class Collector : MonoBehaviour
 {
     public GameManagerBonCollet gameManagerBonCollet; // referencia al GameManager para sumar puntos
-    
+    private PlayerControllerRB playerController;
+    private BotControllerBonCollet botController;
     [Header("Identidad")]
     public string playerName = "Player";
     public bool isBot = false;
@@ -31,6 +33,16 @@ public class Collector : MonoBehaviour
         
         if (gameManagerBonCollet == null)
             gameManagerBonCollet = FindObjectOfType<GameManagerBonCollet>();
+        if (!isBot)
+        {
+            if (playerController == null)
+                playerController = GetComponent<PlayerControllerRB>();
+        }
+        else
+        {
+            if (botController == null)
+                botController = GetComponent<BotControllerBonCollet>();    
+        }
     }
 
     public void Collect(Candy candy)
@@ -48,6 +60,26 @@ public class Collector : MonoBehaviour
             // fallback
             score += candy.points;
         }
+
+        float speedFactor = 1f;
+        switch (candy._powerUp)
+        {
+            case PowerUp.Speed:
+                speedFactor = 1f;
+                break;
+            case PowerUp.Slowness:
+                speedFactor = -1f;
+                break;
+            case PowerUp.None:
+            default:
+                speedFactor = 0f;
+                break;
+        }
+        
+        if (isBot)
+            botController.UpdateSpeed(speedFactor);
+        else
+            playerController.UpdateSpeed(speedFactor);
         
         // reproducir animación de recoger
         if (sfxController != null)
