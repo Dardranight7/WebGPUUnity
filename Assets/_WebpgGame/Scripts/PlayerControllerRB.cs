@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,10 @@ public class PlayerControllerRB : MonoBehaviour
     public float moveForce = 20f;       // Fuerza aplicada al moverse
     public float maxSpeed = 6f;         // Velocidad máxima
     public float drag = 2f;             // Freno pasivo
+    [Header("Push Components")]
+    public float pushForce = 2f; 
+    public AudioSource audioSource;
+    public AudioClip pushClip;
 
     [Header("Referencias")]
     public Transform cameraTransform;   // Cámara para orientación
@@ -76,7 +81,13 @@ public class PlayerControllerRB : MonoBehaviour
 
     public void UpdateSpeed(float speedFactor)
     {
-        maxSpeed = maxSpeed + (maxSpeed * speedFactor);
+        maxSpeed += (maxSpeed * speedFactor);
+        StartCoroutine(RestoreSpeed());
+    }
+    private IEnumerator RestoreSpeed()
+    {
+        yield return 2f;
+        maxSpeed = 2.5f;
     }
     void FixedUpdate()
     {
@@ -134,5 +145,25 @@ public class PlayerControllerRB : MonoBehaviour
         Vector3 vel = rb.linearVelocity;
         vel.y = 0;
         rb.linearVelocity = vel * (1f / (1f + drag * Time.fixedDeltaTime)) + Vector3.up * rb.linearVelocity.y;
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        Rigidbody other = collision.rigidbody;
+        if (other != null && other != rb)
+        {
+            Vector3 toOther = collision.transform.position - transform.position;
+            Vector3 toOtherFlat = new  Vector3(toOther.x, 0f, toOther.z).normalized;
+            float angle = Vector3.Angle(transform.forward, toOtherFlat);
+
+            float frontAngle = 100; // Ángulo frontal para empujar
+            if (angle <= frontAngle)
+            {
+                other.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+                
+                // Reproducir sonido de empuje
+                if (audioSource != null && pushClip != null)
+                    audioSource.PlayOneShot(pushClip);
+            }
+        }
     }
 }

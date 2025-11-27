@@ -19,6 +19,7 @@ public class CameraBonCollet : MonoBehaviour
 
     void Awake()
     {
+        cam = Camera.main;
         startPos = cam.transform.position;
         startRot = cam.transform.rotation;
     }

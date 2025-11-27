@@ -12,7 +12,6 @@ public class BotControllerBonCollet: MonoBehaviour
     public float reachDistance = 0.6f;        // distancia para considerar recogida
     public float separationRadius = 1.0f;     // radio para separación de otros agents
     public float separationWeight = 1.2f;     // fuerza de separación
-    private bool hasPowerUp = false;
 
     [Header("Comportamiento adicional")]
     public float retargetCooldown = 0.4f;     // mínimo tiempo entre cambios de objetivo
@@ -21,6 +20,11 @@ public class BotControllerBonCollet: MonoBehaviour
     public float obstacleAvoidDistance = 0.8f; // distancia de raycast para evitar obstáculos
     public LayerMask obstacleMask;            // layers que consideramos obstáculo
 
+    [Header("Push Components")]
+    public float pushForce = 2f; 
+    public AudioSource audioSource;
+    public AudioClip pushClip;
+    
     Rigidbody rb;
     Collector collector;
     Transform targetCandy;
@@ -67,7 +71,6 @@ public class BotControllerBonCollet: MonoBehaviour
     public void UpdateSpeed(float speedFactor)
     {
         maxSpeed += (maxSpeed * speedFactor);
-        hasPowerUp = true;
         StartCoroutine(RestoreSpeed());
     }
 
@@ -235,6 +238,26 @@ public class BotControllerBonCollet: MonoBehaviour
             targetCandyRb = best.GetComponent<Rigidbody>();
             lastTargetTime = Time.time;
             lastTargetPos = best.position;
+        }
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        Rigidbody other = collision.rigidbody;
+        if (other != null && other != rb)
+        {
+            Vector3 toOther = collision.transform.position - transform.position;
+            Vector3 toOtherFlat = new  Vector3(toOther.x, 0f, toOther.z).normalized;
+            float angle = Vector3.Angle(transform.forward, toOtherFlat);
+
+            float frontAngle = 100; // Ángulo frontal para empujar
+            if (angle <= frontAngle)
+            {
+                other.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+                
+                // Reproducir sonido de empuje
+                if (audioSource != null && pushClip != null)
+                    audioSource.PlayOneShot(pushClip);
+            }
         }
     }
 

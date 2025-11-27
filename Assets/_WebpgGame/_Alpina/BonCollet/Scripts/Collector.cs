@@ -68,7 +68,7 @@ public class Collector : MonoBehaviour
                 speedFactor = 1f;
                 break;
             case PowerUp.Slowness:
-                speedFactor = -1f;
+                speedFactor = -0.5f;
                 break;
             case PowerUp.None:
             default:
