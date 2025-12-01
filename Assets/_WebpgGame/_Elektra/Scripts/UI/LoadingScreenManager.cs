@@ -6,9 +6,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
-
-
+[Serializable]
+public struct TipText
+{
+    public string tittle;
+    public string text;
+}
 public class LoadingScreenManager : MonoBehaviour
 {
     // [SerializeField]private Slider progressBar;
@@ -21,7 +26,8 @@ public class LoadingScreenManager : MonoBehaviour
 
     [Header("List of tips showen to players")] 
     [SerializeField] private TMP_Text tipText;
-    [SerializeField] private string[] tipsLists;
+    [SerializeField] private TMP_Text tipTitleText;
+    [SerializeField] private TipText[] tipsLists;
     [SerializeField] private float tipDisplayTime;
     private int currentIndex = 0;
     private List<int> shuffledIndices = new List<int>();
@@ -74,7 +80,9 @@ public class LoadingScreenManager : MonoBehaviour
     private void UpdateTextTips()
     {
         int nextTip = GetNextUniqueTipIndex();
-        tipText.text = tipsLists[nextTip];
+        TipText nextHint = tipsLists[nextTip];
+        tipTitleText.text = nextHint.tittle;
+        tipText.text = nextHint.text;
     }
     private void InitializeShuffledTips()
     {
