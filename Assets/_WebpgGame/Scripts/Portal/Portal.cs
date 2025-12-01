@@ -28,6 +28,7 @@ public class Portal : MonoBehaviour
     {
         TeleportEvents.OnSceneSeleted -= ChanceScene;
         TeleportEvents.OnPostalActive -= ActivePortal;
+        TeleportEvents.OnPostalDesactive -= DesactivePortal;
     }
 
     private void OnTriggerEnter(Collider other)
