@@ -22,7 +22,9 @@ public class PlayerControllerRB : MonoBehaviour
     [Header("Rotación y Animación")]
     public float rotationSpeed = 10f;   // Qué tan rápido rota hacia la dirección de movimiento
     public float animLerpSpeed = 5f;    // Qué tan rápido interpola el valor de Velocity en el Animator
-
+    [Header("Vfx positions")]
+    [SerializeField] private Transform feetVFXTransform;
+    [SerializeField] private Transform headVFXTransform;
     public string ParameterAnimation;
     
     private Rigidbody rb;
@@ -82,6 +84,15 @@ public class PlayerControllerRB : MonoBehaviour
     public void UpdateSpeed(float speedFactor)
     {
         maxSpeed += (maxSpeed * speedFactor);
+        switch (speedFactor)
+        {
+            case > 0:
+                VfxManager.Instance.SpawnVFX("SpeedGummyVfx", feetVFXTransform);
+                break;
+            case < 0:
+                VfxManager.Instance.SpawnVFX("BadGummyVfx", headVFXTransform);
+                break;
+        }
         StartCoroutine(RestoreSpeed());
     }
     private IEnumerator RestoreSpeed()
@@ -110,10 +121,25 @@ public class PlayerControllerRB : MonoBehaviour
             // Dirección final de movimiento
             Vector3 moveDir = camForward * inputDir.z + camRight * inputDir.x;
 
-            // Aplica fuerza si no excede la velocidad máxima
-            if (rb.linearVelocity.magnitude < maxSpeed)
-                rb.AddForce(moveDir * moveForce, ForceMode.Acceleration);
+            Vector3 flatVelocity = rb.linearVelocity;
+            flatVelocity.y = 0; // Ignorar el componente Y
+            if (flatVelocity.magnitude < maxSpeed)
+            {
+                float currentSpeed = flatVelocity.magnitude;
+                float speedDifference = maxSpeed - currentSpeed;
+    
+                float finalForce = Mathf.Min(moveForce, speedDifference * moveForce);
 
+                rb.AddForce(moveDir * finalForce, ForceMode.Acceleration);
+            }
+            if (flatVelocity.magnitude > maxSpeed)
+            {
+                // Calcular la dirección del movimiento actual sin el componente Y
+                Vector3 limitedVel = flatVelocity.normalized * maxSpeed;
+    
+                // Reaplicar la velocidad limitada, manteniendo la velocidad vertical (Y) original.
+                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            }
             // Rotación suave del modelo hacia la dirección de movimiento
             if (model3D != null)
             {

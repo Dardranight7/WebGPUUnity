@@ -8,7 +8,8 @@ public class Collector : MonoBehaviour
 {
     public GameManagerBonCollet gameManagerBonCollet; // referencia al GameManager para sumar puntos
     private PlayerControllerRB playerController;
-    private BotControllerBonCollet botController;
+    // private BotControllerBonCollet botController;
+    private BotControllerBonCollect botController;
     [Header("Identidad")]
     public string playerName = "Player";
     public bool isBot = false;
@@ -41,7 +42,7 @@ public class Collector : MonoBehaviour
         else
         {
             if (botController == null)
-                botController = GetComponent<BotControllerBonCollet>();    
+                botController = GetComponent<BotControllerBonCollect>();    
         }
     }
 

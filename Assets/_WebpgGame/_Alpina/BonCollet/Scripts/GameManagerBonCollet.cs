@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -189,12 +190,44 @@ public class GameManagerBonCollet : MonoBehaviour
         // actualizar texto inmediato (si tiene)
         if (slot.scoreText != null)
             slot.scoreText.text = slot.score.ToString();
-
+        UpdatePosition();
         // verificar ganador en dinamica por puntos
         //if (slot.score >= pointsToWin)
         //{
-           // OnPlayerWin(slot);
+        // OnPlayerWin(slot);
         //}
+    }
+
+    private void UpdatePosition()
+    {
+        // 1. Clonar la lista y ordenar por score (mayor a menor)
+        List<PlayerSlot> rankedPlayers = new List<PlayerSlot>(players);
+        rankedPlayers.Sort((a, b) => b.score.CompareTo(a.score));
+
+        int position = 1;
+        // Inicializamos con un valor alto para asegurar que el primer jugador sea siempre la posición 1
+        int lastScore = int.MaxValue; 
+
+        for (int i = 0; i < rankedPlayers.Count; i++)
+        {
+            PlayerSlot p = rankedPlayers[i];
+            
+            // Si la puntuación actual es menor que la del jugador anterior, avanzamos de posición.
+            // Si la puntuación es igual, mantiene la misma posición (empate).
+            if (p.score < lastScore)
+            {
+                position = i + 1;
+            }
+            
+            // 2. Actualizar el texto de POSICIÓN (usando positionText)
+            if (p.positionText != null)
+            {
+                p.positionText.text = position.ToString();
+            }
+
+            // Guardar la puntuación actual para la siguiente iteración
+            lastScore = p.score;
+        }
     }
     
     
@@ -445,6 +478,7 @@ public class GameManagerBonCollet : MonoBehaviour
         [Tooltip("Image (UI) tipo Filled que representa la barra de puntos")]
         public Image fillImage;
 
+        public TMP_Text positionText;
         [Tooltip("Texto opcional que muestra los puntos")]
         public Text scoreText;
 
@@ -462,6 +496,11 @@ public class GameManagerBonCollet : MonoBehaviour
         {
             if (collector != null) return collector.playerName;
             return "Unknown";
+        }
+
+        public void UpdatePosition(string position)
+        {
+            scoreText.text = position;
         }
     }
 }
