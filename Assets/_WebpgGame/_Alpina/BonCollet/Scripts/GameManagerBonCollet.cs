@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
 public class GameManagerBonCollet : MonoBehaviour
@@ -17,13 +19,14 @@ public class GameManagerBonCollet : MonoBehaviour
     [Tooltip("Text UI que muestra el tiempo restante de juego")]
     public Text timerText;
     float timeRemaining;
-
-    [Tooltip("Si true, comenzará el paneo inicial y luego iniciará el juego automáticamente")]
-    public bool autoStartWithPan = true;
-
+    [SerializeField] private GameObject tutorialUIGO;
     [Header("Paneo / Cámara")]
-    public CameraBonCollet cameraController; // asignar si quieres paneo y focus al ganador
-    [Tooltip("Duración del paneo inicial antes de iniciar el juego (si autoStartWithPan true)")]
+    [SerializeField] private CinemachineSplineDolly introCameraDolly; // asignar si quieres paneo y focus al ganador
+    [SerializeField] private GameObject miniGameBaseCamera;
+    [SerializeField] private CinemachineCamera finalGameBaseCamera;
+    [SerializeField] private float timeToStartIntro = 5f;
+    
+    [Tooltip("Duración del paneo inicial antes de iniciar el juego")]
     public float startPanDuration = 4f;
 
     [Header("Spawning")]
@@ -44,16 +47,11 @@ public class GameManagerBonCollet : MonoBehaviour
     public GameObject panelLose; //panel que se usa cuando el player principal pierde
     public Transform pedestalSpot; //lugar donde se muestra el player ganador
     
-    [Header("Control de inicio")]
-    [Tooltip("Si true, el juego sólo comenzará cuando se pulse el botón 'Jugar' (OnPlayButton).")]
-    public bool requireButtonToStart = true;
-    
     public AudioClip musicBackgroundClip;
     
     public AudioClip MusicVictoryClip;
     public AudioClip MusicLoseClip;
 
-    public GameObject preUI;
     public GameObject UIControls;
     bool isPreUIActive = true;
     
@@ -68,13 +66,6 @@ public class GameManagerBonCollet : MonoBehaviour
 
     void Start()
     {
-        
-        if (preUI != null)
-        {
-            preUI.SetActive(true);
-            isPreUIActive = true;
-        }
-        
         if (UIControls != null)
             UIControls.SetActive(false);
         
@@ -93,48 +84,29 @@ public class GameManagerBonCollet : MonoBehaviour
             if (p != null) p.EnableCollector(false);
         }
 
-        if (!requireButtonToStart && autoStartWithPan && cameraController != null)
+        if (introCameraDolly != null)
         {
-            // lanzar paneo inicial y luego iniciar juego
-            StartCoroutine(AutoStartWithPanRoutine());
+            // iniciar juego luego del paneo
+            StartCoroutine(WaitFortutorialTime());
         }
     }
-
-    IEnumerator AutoStartWithPanRoutine()
+    IEnumerator WaitFortutorialTime()
     {
-        if (preUI != null) preUI.SetActive(false);
-        isPreUIActive = false;
+        yield return new WaitForSeconds(timeToStartIntro);
         
-        if (UIControls != null) UIControls.SetActive(true);
+        introCameraDolly.enabled = true;
+        if(tutorialUIGO !=null)
+            tutorialUIGO.SetActive(false);
         
-        cameraController.PlayPan();
         yield return new WaitForSeconds(startPanDuration);
+        if (UIControls != null) UIControls.SetActive(true);
+        miniGameBaseCamera.SetActive(true);
         StartGame();
-    }
-
-    // Llamar para iniciar el juego (desde UI button)
-    public void OnPlayButton()
-    {
-        Debug.Log("[GM] OnPlayButton pressed: ocultando preUI y arrancando juego.");
-        if (preUI != null)
-        {
-            preUI.SetActive(false);
-            isPreUIActive = false;
-        }
-            
-        if (UIControls != null)  UIControls.SetActive(true);
-        StartCoroutine(AutoStartWithPanRoutine());
     }
      
     public void StartGame()
     {
         if (gameRunning) return;
-        
-        if (requireButtonToStart && isPreUIActive)
-        {
-            Debug.Log("[GM] StartGame llamado pero PreUI está activo y se requiere botón para iniciar. Abortando.");
-            return;
-        }
 
         gameRunning = true;
         timeRemaining = Mathf.Max(0.1f, gameDuration);
@@ -148,24 +120,8 @@ public class GameManagerBonCollet : MonoBehaviour
             UpdatePlayerUIImmediate(p);
             p.EnableCollector(true);
         }
-
         if (spawner != null)
             spawner.StartSpawning();
-    }
-
-   
-
-    // Llamar para terminar manualmente
-    public void EndGame()
-    {
-        if (!gameRunning) return;
-        gameRunning = false;
-
-        if (spawner != null && stopSpawningOnWin)
-            spawner.StopSpawning();
-
-        foreach (var p in players)
-            p.EnableCollector(false);
     }
 
     // Called by Collector when it collects a candy
@@ -200,7 +156,7 @@ public class GameManagerBonCollet : MonoBehaviour
 
     private void UpdatePosition()
     {
-        // 1. Clonar la lista y ordenar por score (mayor a menor)
+        // Clonar la lista y ordenar por score (mayor a menor)
         List<PlayerSlot> rankedPlayers = new List<PlayerSlot>(players);
         rankedPlayers.Sort((a, b) => b.score.CompareTo(a.score));
 
@@ -230,77 +186,66 @@ public class GameManagerBonCollet : MonoBehaviour
         }
     }
     
-    
-    void OnPlayerWin(PlayerSlot winner)
-    {
-        if (!gameRunning) return;
-        gameRunning = false;
-
-        if (spawner != null && stopSpawningOnWin)
-            spawner.StopSpawning();
-
-        // detener movimiento de todos
-        foreach (var p in players)
-            p.EnableCollector(false);
-        
-        // cámara hacia ganador si existe
-        if (cameraController != null && winner != null && winner.collector != null)
-        {
-            cameraController.FocusOnWinner(winner.collector.transform);
-        }
-        
-        
-        Debug.Log("GameManagerBonCollet - Ganador: " + (winner != null ? winner.GetName() + " (" + winner.score + " pts)" : "Nadie"));
-
-        // Aquí puedes invocar UI final (panel de victoria), reproducir efectos, etc.
-        if (winner != null)
-        {
-            AudioManager.Instance.StopMusic();
-            AudioManager.Instance.PlaySFX(MusicVictoryClip);
-            resultsPanel.SetActive(true);
-            
-            if (winner != null && winner.collector != null && !winner.collector.isBot)
-            {
-            
-                // el jugador principal ha ganado
-                if (panelWin != null)
-                    panelWin.SetActive(true);
-                if (panelLose != null)
-                    panelLose.SetActive(false);
-            
-            }
-            else
-            {
-            
-                // el jugador principal ha perdido
-                if (panelWin != null)
-                    panelWin.SetActive(false);
-                if (panelLose != null)
-                    panelLose.SetActive(true);
-            }
-            
-            
-            if (pedestalSpot != null && winner.collector != null)
-            {
-                // mover el ganador al pedestal
-                winner.collector.transform.position = pedestalSpot.position;
-                winner.collector.transform.rotation = pedestalSpot.rotation;
-            }
-        }
-    }
+    // void OnPlayerWin(PlayerSlot winner)
+    // {
+    //     if (!gameRunning) return;
+    //     gameRunning = false;
+    //
+    //     if (spawner != null && stopSpawningOnWin)
+    //         spawner.StopSpawning();
+    //
+    //     // detener movimiento de todos
+    //     foreach (var p in players)
+    //         p.EnableCollector(false);
+    //     
+    //     // cámara hacia ganador si existe
+    //     if (introCameraDolly != null && winner != null && winner.collector != null)
+    //     {
+    //         introCameraDolly.FocusOnWinner(winner.collector.transform);
+    //     }
+    //     
+    //     
+    //     Debug.Log("GameManagerBonCollet - Ganador: " + (winner != null ? winner.GetName() + " (" + winner.score + " pts)" : "Nadie"));
+    //
+    //     // Aquí puedes invocar UI final (panel de victoria), reproducir efectos, etc.
+    //     if (winner != null)
+    //     {
+    //         AudioManager.Instance.StopMusic();
+    //         AudioManager.Instance.PlaySFX(MusicVictoryClip);
+    //         resultsPanel.SetActive(true);
+    //         
+    //         if (winner != null && winner.collector != null && !winner.collector.isBot)
+    //         {
+    //         
+    //             // el jugador principal ha ganado
+    //             if (panelWin != null)
+    //                 panelWin.SetActive(true);
+    //             if (panelLose != null)
+    //                 panelLose.SetActive(false);
+    //         
+    //         }
+    //         else
+    //         {
+    //         
+    //             // el jugador principal ha perdido
+    //             if (panelWin != null)
+    //                 panelWin.SetActive(false);
+    //             if (panelLose != null)
+    //                 panelLose.SetActive(true);
+    //         }
+    //         
+    //         
+    //         if (pedestalSpot != null && winner.collector != null)
+    //         {
+    //             // mover el ganador al pedestal
+    //             winner.collector.transform.position = pedestalSpot.position;
+    //             winner.collector.transform.rotation = pedestalSpot.rotation;
+    //         }
+    //     }
+    // }
 
     void Update()
     {
-        //Esta parte llena la barra de la dinamica por puntos 
-        // interpolar fillAmount para cada slot (suavizado visual)
-        /*foreach (var p in players)
-        {
-            if (p.fillImage == null) continue;
-            // targetFill puede actualizarse en AddScore
-            p.currentFill = Mathf.Lerp(p.currentFill, p.targetFill, Mathf.Clamp01(uiFillLerpSpeed * Time.deltaTime));
-            p.fillImage.fillAmount = p.currentFill;
-        }*/
-        
         //Dinamica de juego por tiempo
         //timer
         if (gameRunning)
@@ -373,9 +318,13 @@ public class GameManagerBonCollet : MonoBehaviour
             p.EnableCollector(false);
         
         // cámara hacia ganador si existe (paneo)
-        if (cameraController != null && winner.collector != null)
+        if (introCameraDolly != null && winner.collector != null)
         {
-            cameraController.FocusOnWinner(winner.collector.transform);
+            // introCameraDolly.FocusOnWinner(winner.collector.transform);
+            //TODO: Create a Virtual Camera to focus winner player
+            
+            finalGameBaseCamera.Target.TrackingTarget = winner.collector.transform;
+            finalGameBaseCamera.gameObject.SetActive(true);
         }
 
         // esperar un tiempo para dejar que se vea el paneo
