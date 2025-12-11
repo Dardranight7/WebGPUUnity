@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Cinemachine;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -55,6 +56,7 @@ public class GameManagerBonCollet : MonoBehaviour
     public GameObject UIControls;
     bool isPreUIActive = true;
     
+    [Header("EndGame Outro Components")]
     //secuencia de victoria para dinamica de juego por tiempo 
     public float winPanDuration = 3f;
     [SerializeField] private Transform podiumPosition;
@@ -324,10 +326,13 @@ public class GameManagerBonCollet : MonoBehaviour
         {
             // introCameraDolly.FocusOnWinner(winner.collector.transform);
             //TODO: Create a Virtual Camera to focus winner player
+            podiumGameObject.SetActive(true);
+            winner.collector.transform.SetParent(podiumPosition, worldPositionStays: false);
+            winner.collector.transform.localPosition = Vector3.zero;
+            winner.collector.transform.localRotation = quaternion.identity;
+            
             miniGameBaseCamera.gameObject.SetActive(false);
             finalGameBaseCamera.gameObject.SetActive(true);
-            winner.collector.transform.position = podiumPosition.position;
-            winner.collector.transform.rotation = podiumPosition.rotation;
         }
 
         // esperar un tiempo para dejar que se vea el paneo

@@ -178358,7 +178358,7 @@ MonoBehaviour:
   MusicLoseClip: {fileID: 8300000, guid: f6744de5421b3cb4eb1bc8ec1ff975af, type: 3}
   UIControls: {fileID: 2583658281994565881}
   winPanDuration: 6
-  podiumPosition: {fileID: 52342651940091201}
+  podiumPosition: {fileID: 1561489609}
   podiumGameObject: {fileID: 2035193523}
 --- !u!4 &694317412
 Transform:
@@ -180358,6 +180358,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4493585093827132993, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
+--- !u!4 &1561489609 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5979928996656641218, guid: 65f87070366aae9499b0327b57bd04e5, type: 3}
+  m_PrefabInstance: {fileID: 52342651940091200}
+  m_PrefabAsset: {fileID: 0}
 --- !u!850595691 &1568778033
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -239649,10 +239654,6 @@ PrefabInstance:
     - target: {fileID: 5426834101816707943, guid: 65f87070366aae9499b0327b57bd04e5, type: 3}
       propertyPath: m_Name
       value: EndGamePodium
-      objectReference: {fileID: 0}
-    - target: {fileID: 5426834101816707943, guid: 65f87070366aae9499b0327b57bd04e5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
