@@ -57,6 +57,8 @@ public class GameManagerBonCollet : MonoBehaviour
     
     //secuencia de victoria para dinamica de juego por tiempo 
     public float winPanDuration = 3f;
+    [SerializeField] private Transform podiumPosition;
+    [SerializeField] private GameObject podiumGameObject;
     
 
     //public GameObject PlayerPrefab;
@@ -322,9 +324,10 @@ public class GameManagerBonCollet : MonoBehaviour
         {
             // introCameraDolly.FocusOnWinner(winner.collector.transform);
             //TODO: Create a Virtual Camera to focus winner player
-            
-            finalGameBaseCamera.Target.TrackingTarget = winner.collector.transform;
+            miniGameBaseCamera.gameObject.SetActive(false);
             finalGameBaseCamera.gameObject.SetActive(true);
+            winner.collector.transform.position = podiumPosition.position;
+            winner.collector.transform.rotation = podiumPosition.rotation;
         }
 
         // esperar un tiempo para dejar que se vea el paneo

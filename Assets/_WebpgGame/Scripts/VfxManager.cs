@@ -12,7 +12,7 @@ public class VfxManager : MonoBehaviour
     // Dictionary used to handle vfxs
     private Dictionary<string, GameObject> vfxDictionary;
 
-    private float vfxDestroyTime = 5f;
+    private float vfxDestroyTime = 2f;
     private void Awake()
     {
         if (Instance == null)
@@ -73,7 +73,7 @@ public class VfxManager : MonoBehaviour
             }
             else
             {
-                // If there's no ParticleSystem and clean up after 5 seconds
+                // If there's no ParticleSystem and clean up after X seconds
                 Destroy(spawnedVFX, vfxDestroyTime); 
             }
 
