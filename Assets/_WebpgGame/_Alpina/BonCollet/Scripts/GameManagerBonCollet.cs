@@ -59,8 +59,9 @@ public class GameManagerBonCollet : MonoBehaviour
     [Header("EndGame Outro Components")]
     //secuencia de victoria para dinamica de juego por tiempo 
     public float winPanDuration = 3f;
-    [SerializeField] private Transform podiumPosition;
     [SerializeField] private GameObject podiumGameObject;
+    [SerializeField] private PlayerMochi mochiwinnerView;
+    private string winnerMochiId;
     
 
     //public GameObject PlayerPrefab;
@@ -287,6 +288,8 @@ public class GameManagerBonCollet : MonoBehaviour
     PlayerSlot DetermineWinnerByScore()
     {
         PlayerSlot best = null;
+
+        
         int bestScore = int.MinValue;
         foreach (var p in players)
         {
@@ -297,6 +300,7 @@ public class GameManagerBonCollet : MonoBehaviour
                 best = p;
             }
         }
+        winnerMochiId = best.collector.mochiId;
         return best;
     }
 
@@ -316,25 +320,24 @@ public class GameManagerBonCollet : MonoBehaviour
         // detener spawner
         if (spawner != null && stopSpawningOnWin)
             spawner.StopSpawning();
-
-        // detener movimiento de todos
-        foreach (var p in players)
-            p.EnableCollector(false);
         
         // cámara hacia ganador si existe (paneo)
         if (introCameraDolly != null && winner.collector != null)
         {
             // introCameraDolly.FocusOnWinner(winner.collector.transform);
             //TODO: Create a Virtual Camera to focus winner player
+            if (!winner.collector.isBot)
+                mochiwinnerView.isPlayerMochi = true;
+            else
+                mochiwinnerView.mochiIndexPref = winner.collector.mochiId;
+             
             podiumGameObject.SetActive(true);
-            winner.collector.transform.SetParent(podiumPosition, worldPositionStays: false);
-            winner.collector.transform.localPosition = Vector3.zero;
-            winner.collector.transform.localRotation = quaternion.identity;
-            
             miniGameBaseCamera.gameObject.SetActive(false);
             finalGameBaseCamera.gameObject.SetActive(true);
         }
-
+        // detener movimiento de todos
+        foreach (var p in players)
+            p.EnableCollector(false);
         // esperar un tiempo para dejar que se vea el paneo
         if (winPanDuration > 0f)
             yield return new WaitForSeconds(winPanDuration);
@@ -364,20 +367,6 @@ public class GameManagerBonCollet : MonoBehaviour
                 }
             }
         }
-
-        // reproducir música de victoria 
-        /*if (MusicVictoryClip != null)
-        {
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.StopMusic();
-                AudioManager.Instance.PlaySFX(MusicVictoryClip);
-            }
-            else
-            {
-                Debug.LogWarning("[GM] AudioManager.Instance no encontrado: MusicVictoryClip no reproducido.");
-            }
-        }*/
 
         // mostrar panel de resultados
         if (resultsPanel != null)

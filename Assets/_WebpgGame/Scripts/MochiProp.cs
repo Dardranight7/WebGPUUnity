@@ -32,13 +32,12 @@ public class MochiProp : MonoBehaviour
 
     public void DisableIfNotOwned()
     {
-        if (MochiProps.instance.Inventory.Contains(index))
-        {
-            gameObject.SetActive(true);
-        }
+        if(MochiProps.instance != null)
+            if (MochiProps.instance.Inventory.Contains(index))
+            {
+                gameObject.SetActive(true);
+            }
         else
-        {
             gameObject.SetActive(false);
-        }
     }
 }

@@ -12,6 +12,7 @@ public class Collector : MonoBehaviour
     private BotControllerBonCollect botController;
     [Header("Identidad")]
     public string playerName = "Player";
+    public string mochiId;
     public bool isBot = false;
 
     [HideInInspector]
@@ -42,7 +43,9 @@ public class Collector : MonoBehaviour
         else
         {
             if (botController == null)
-                botController = GetComponent<BotControllerBonCollect>();    
+                botController = GetComponent<BotControllerBonCollect>();
+            
+            mochiId = botController.transform.GetComponentInChildren<PlayerMochi>().mochiIndexPref;
         }
     }
 

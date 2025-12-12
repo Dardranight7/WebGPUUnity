@@ -61179,10 +61179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -67358,6 +67358,10 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: isPlayerMochi
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: mochiIndexPref
+      value: mochiBot1
       objectReference: {fileID: 0}
     - target: {fileID: 985918626212790962, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: m_Layer
@@ -119414,6 +119418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Collector
   gameManagerBonCollet: {fileID: 694317411}
   playerName: 
+  mochiId: 
   isBot: 1
   score: 0
   animator: {fileID: 0}
@@ -119480,7 +119485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10bf31831dca95f40b50f52fd2939808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BotControllerBonCollect
-  maxSpeed: 2.5
+  maxSpeed: 2.8
   maxAcceleration: 5
   rotationSpeed: 6
   checkInterval: 1.2
@@ -119603,6 +119608,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2124705421725058983, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
+--- !u!114 &372608875 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4507115421445229808, guid: 65f87070366aae9499b0327b57bd04e5, type: 3}
+  m_PrefabInstance: {fileID: 52342651940091200}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42556f19ea0b9ae458c2771c0d4cfa83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMochi
 --- !u!1 &373314685 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6335250783087129314, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
@@ -126218,6 +126234,10 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: isPlayerMochi
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: mochiIndexPref
+      value: mochiBot2
       objectReference: {fileID: 0}
     - target: {fileID: 985918626212790962, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: m_Layer
@@ -178358,8 +178378,8 @@ MonoBehaviour:
   MusicLoseClip: {fileID: 8300000, guid: f6744de5421b3cb4eb1bc8ec1ff975af, type: 3}
   UIControls: {fileID: 2583658281994565881}
   winPanDuration: 6
-  podiumPosition: {fileID: 1561489609}
   podiumGameObject: {fileID: 2035193523}
+  mochiwinnerView: {fileID: 372608875}
 --- !u!4 &694317412
 Transform:
   m_ObjectHideFlags: 0
@@ -178984,6 +179004,34 @@ PrefabInstance:
     - target: {fileID: -7515429101286732190, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7219076460700332019, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.36753544
+      objectReference: {fileID: 0}
+    - target: {fileID: -7219076460700332019, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.43584606
+      objectReference: {fileID: 0}
+    - target: {fileID: -7219076460700332019, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5857178
+      objectReference: {fileID: 0}
+    - target: {fileID: -7219076460700332019, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5760996
+      objectReference: {fileID: 0}
+    - target: {fileID: -7219076460700332019, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -95.592
+      objectReference: {fileID: 0}
+    - target: {fileID: -7219076460700332019, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -47.32202
+      objectReference: {fileID: 0}
+    - target: {fileID: -7219076460700332019, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -63.351013
       objectReference: {fileID: 0}
     - target: {fileID: -6093592463355912122, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -179731,10 +179779,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1849899679}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 595.1035, y: 595.1}
+  m_SizeDelta: {x: -666.154, y: -263.426}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1305125375
 MonoBehaviour:
@@ -180358,11 +180406,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4493585093827132993, guid: 8bc3903a8b5005042bd52c5aa58b6ddc, type: 3}
---- !u!4 &1561489609 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5979928996656641218, guid: 65f87070366aae9499b0327b57bd04e5, type: 3}
-  m_PrefabInstance: {fileID: 52342651940091200}
-  m_PrefabAsset: {fileID: 0}
 --- !u!850595691 &1568778033
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -180907,6 +180950,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Collector
   gameManagerBonCollet: {fileID: 694317411}
   playerName: 
+  mochiId: 
   isBot: 1
   score: 0
   animator: {fileID: 0}
@@ -180973,7 +181017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10bf31831dca95f40b50f52fd2939808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BotControllerBonCollect
-  maxSpeed: 2.5
+  maxSpeed: 2.8
   maxAcceleration: 5
   rotationSpeed: 6
   checkInterval: 1.2
@@ -187432,6 +187476,10 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: isPlayerMochi
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: mochiIndexPref
+      value: mochiBot3
       objectReference: {fileID: 0}
     - target: {fileID: 985918626212790962, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: m_Layer
@@ -239389,7 +239437,7 @@ Transform:
   m_GameObject: {fileID: 2074623003}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.4}
+  m_LocalPosition: {x: 0, y: 0.115, z: -0.4}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -239447,6 +239495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Collector
   gameManagerBonCollet: {fileID: 694317411}
   playerName: 
+  mochiId: 
   isBot: 1
   score: 0
   animator: {fileID: 0}
@@ -239513,7 +239562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10bf31831dca95f40b50f52fd2939808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BotControllerBonCollect
-  maxSpeed: 2.5
+  maxSpeed: 2.8
   maxAcceleration: 5
   rotationSpeed: 6
   checkInterval: 1.2
@@ -239559,7 +239608,7 @@ Transform:
   m_GameObject: {fileID: 2097185115}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.75191796, z: -0, w: -0.6592567}
-  m_LocalPosition: {x: 0, y: 0.785, z: 0.541}
+  m_LocalPosition: {x: -0.013, y: 0.785, z: 0.639}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -239654,6 +239703,10 @@ PrefabInstance:
     - target: {fileID: 5426834101816707943, guid: 65f87070366aae9499b0327b57bd04e5, type: 3}
       propertyPath: m_Name
       value: EndGamePodium
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426834101816707943, guid: 65f87070366aae9499b0327b57bd04e5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -300194,6 +300247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Collector
   gameManagerBonCollet: {fileID: 694317411}
   playerName: Player
+  mochiId: 
   isBot: 0
   score: 0
   animator: {fileID: 0}
