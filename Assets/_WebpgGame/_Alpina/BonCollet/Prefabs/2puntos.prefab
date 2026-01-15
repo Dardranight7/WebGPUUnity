@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 5282719598020353302}
   m_Layer: 0
   m_Name: 2puntos
-  m_TagString: candy
+  m_TagString: Candy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -228,7 +228,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!114 &5282719598020353302
 MonoBehaviour:
@@ -242,10 +242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 035d546592bc5fa4585a1a57c05769ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Candy
-  points: 2
-  lifeTime: 25
+  points: 10
+  lifeTime: 8
   spawnCooldown: 0
   candyVisuals: []
-  spawnIntervalOverride: 0
+  spawnIntervalOverride: 7
   _powerUp: 0
   fallSpeed: 3

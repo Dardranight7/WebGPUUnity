@@ -65,18 +65,18 @@ public class Collector : MonoBehaviour
             score += candy.points;
         }
 
-        float speedFactor = 1f;
+        float speedFactor = 0f;
         switch (candy._powerUp)
         {
             case PowerUp.Speed:
-                speedFactor = 1f;
+                speedFactor = 1.5f;
                 break;
             case PowerUp.Slowness:
                 speedFactor = -0.5f;
                 break;
             case PowerUp.None:
             default:
-                speedFactor = 0f;
+                speedFactor = 1f;
                 break;
         }
         
