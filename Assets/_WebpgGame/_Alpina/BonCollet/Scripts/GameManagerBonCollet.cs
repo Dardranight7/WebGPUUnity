@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TMPro;
 using Unity.Cinemachine;
 using Unity.Mathematics;
@@ -47,7 +48,7 @@ public class GameManagerBonCollet : MonoBehaviour
     public GameObject panelWin; //panel que se usa cuando el player principal gana
     public GameObject panelLose; //panel que se usa cuando el player principal pierde
     public Transform pedestalSpot; //lugar donde se muestra el player ganador
-    
+    [SerializeField] private TournamentManager tournamentManager;
     public AudioClip musicBackgroundClip;
     
     public AudioClip MusicVictoryClip;
@@ -325,7 +326,6 @@ public class GameManagerBonCollet : MonoBehaviour
         if (introCameraDolly != null && winner.collector != null)
         {
             // introCameraDolly.FocusOnWinner(winner.collector.transform);
-            //TODO: Create a Virtual Camera to focus winner player
             if (!winner.collector.isBot)
                 mochiwinnerView.isPlayerMochi = true;
             else
@@ -370,7 +370,7 @@ public class GameManagerBonCollet : MonoBehaviour
 
         // mostrar panel de resultados
         if (resultsPanel != null)
-            resultsPanel.SetActive(true);
+            ShowResult(winnerisPlayer);
 
         // determinar si el ganador es el player principal (no es bot) para mostrar win/lose
         if (winner.collector != null && !winner.collector.isBot)
@@ -390,8 +390,27 @@ public class GameManagerBonCollet : MonoBehaviour
             winner.collector.transform.position = pedestalSpot.position;
             winner.collector.transform.rotation = pedestalSpot.rotation;
         }
+
+        yield return new WaitForSeconds(5f);
+        tournamentManager.LoadNextGameUsingCourtain();
     }
-    
+    private void ShowResult(bool playerWon)
+    {
+        List<int> Indexes = new List<int>();
+        if (!playerWon)
+        {
+            Indexes = new List<int>() {0,1,2,3};
+        }
+        else
+        {
+
+            Indexes = new List<int>() { 3, 2, 1, 0 };
+        }
+        PlayerPrefs.SetString("WinnerYogoNado", JsonConvert.SerializeObject(Indexes));
+        if (resultsPanel != null) resultsPanel.SetActive(true);
+        if (panelWin != null) panelWin.SetActive(playerWon);
+        if (panelLose != null) panelLose.SetActive(!playerWon);
+    }
 
     // Actualizar UI sin interpolación (uso al inicio o reseteo)
     void UpdatePlayerUIImmediate(PlayerSlot slot)

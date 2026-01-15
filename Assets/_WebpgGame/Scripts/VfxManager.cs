@@ -12,7 +12,7 @@ public class VfxManager : MonoBehaviour
     // Dictionary used to handle vfxs
     private Dictionary<string, GameObject> vfxDictionary;
 
-    private float vfxDestroyTime = 2f;
+    private float vfxDestroyTime = 1.5f;
     private void Awake()
     {
         if (Instance == null)
@@ -98,7 +98,7 @@ public class VfxManager : MonoBehaviour
         // Check for the VFX in the dictionary
         if (vfxDictionary.TryGetValue(identifier, out GameObject vfxPrefab))
         {
-            GameObject spawnedVFX = Instantiate(vfxPrefab, parent);
+            GameObject spawnedVFX = Instantiate(vfxPrefab, parent.position, parent.rotation);
             
             //TODO: ObjectPooling
             ParticleSystem ps = spawnedVFX.GetComponent<ParticleSystem>();

@@ -33,6 +33,7 @@ public class RaceManager : MonoBehaviour
     [Header("Paneo cámara final")] 
     public Camera mainCamera;
     public Transform finishPoint;
+    [SerializeField] private GameObject endCinemachineCam;
     public float closeHold = 0.5f; //plano cerrado antes de inicar el zoom out
     public float toCloseDuration = 0.35f; //Duración para moverse suavemente desde la posición actual de la cámara al plano cerrado
     public Vector3 wideOffsetLocal = new Vector3(0.0f, 3.5f, 7.5f); //Plano abierto
@@ -278,7 +279,7 @@ public class RaceManager : MonoBehaviour
 
         yield return new WaitForFixedUpdate();
         yield return new WaitForEndOfFrame();
-        
+        endCinemachineCam.SetActive(true);
         yield return StartCoroutine(PanCameraWin(GetMoveRoot(winner)));
         
         ShowResult(playerWon);

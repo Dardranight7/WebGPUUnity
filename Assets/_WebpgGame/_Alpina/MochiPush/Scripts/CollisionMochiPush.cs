@@ -7,7 +7,9 @@ public class CollisionMochiPush : MonoBehaviour
     [Header("Referencias")]
     public GameManagerMochiPush gameManager;  // Asigna por Inspector
     public Transform arenaCenter;             // Si no se asigna, toma del GameManager
-    public float arenaRadius = 12f;           // Si no se asigna, toma del GameManager
+    public float arenaRadius = 12f;         // Si no se asigna, toma del GameManager
+    [SerializeField] private GameObject KOUIGo;
+    [SerializeField] private GameObject DeadCamera;
 
     [Header("Jugador o Bot")]
     public bool isHuman = false;              // Marca true solo en el Player
@@ -66,8 +68,10 @@ public class CollisionMochiPush : MonoBehaviour
     public void Eliminate()
     {
         if (Eliminated) return;
+        if(isHuman)
+            DeadCamera.SetActive(true);
         Eliminated = true;
-
+        KOUIGo.SetActive(true);
         // Notificar y “sacarlo del juego”
         if (gameManager) gameManager.NotifyEliminated(this);
 
@@ -78,8 +82,10 @@ public class CollisionMochiPush : MonoBehaviour
     // KillZone opcional debajo de la isla
     void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.CompareTag("MochiPushBoundary"))
+            return;
         if (Eliminated) return;
-
+            
         if (other.CompareTag("KillZone"))
             Eliminate();
     }

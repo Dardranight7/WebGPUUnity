@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerControllerMochiPush : MonoBehaviour
@@ -20,6 +22,16 @@ public class PlayerControllerMochiPush : MonoBehaviour
     public float rotationSpeed = 10f;   // Qué tan rápido rota hacia la dirección de movimiento
     public float animLerpSpeed = 5f;    // Qué tan rápido interpola el valor de Velocity en el Animator
 
+    [Header("Sistema de Estamina")] 
+    [SerializeField] private Image staminaUiImage;
+    public float maxStamina = 100f;
+    public float currentStamina;
+    public float staminaRegenRate = 15f;
+    public float staminaCostPerPush = 30f;
+    public float maxPushMultiplier = 1.5f;
+    
+    private bool isStunned = false;
+    
     public string ParameterAnimation;
     
     private Rigidbody rb;
@@ -37,8 +49,18 @@ public class PlayerControllerMochiPush : MonoBehaviour
         inputActions.Enable();
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.canceled += OnMove;
-        //Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.visible = false;
+    }
+
+    private void OnEnable()
+    {
+        EventBus<PlayerExitZoneSignal>.OnEvent += HandleExitZone;
+        EventBus<StunSignal>.OnEvent += HandleStun;
+    }
+
+    private void OnDisable()
+    {
+        EventBus<PlayerExitZoneSignal>.OnEvent -= HandleExitZone;
+        EventBus<StunSignal>.OnEvent -= HandleStun;
     }
 
     private void OnDestroy()
@@ -50,6 +72,7 @@ public class PlayerControllerMochiPush : MonoBehaviour
 
     void Start()
     {
+        currentStamina = maxStamina;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Evita que el rigidbody se voltee
         if (cameraTransform == null)
@@ -68,6 +91,13 @@ public class PlayerControllerMochiPush : MonoBehaviour
 
     void FixedUpdate()
     {
+        
+        if (currentStamina < maxStamina)
+        {
+            currentStamina += staminaRegenRate * Time.deltaTime;
+            currentStamina = Mathf.Min(currentStamina, maxStamina);
+        }
+        if (isStunned) return;
         Vector3 inputDir = new Vector3(h, 0f, v).normalized;
 
         if (inputDir.magnitude >= 0.1f)
@@ -83,7 +113,9 @@ public class PlayerControllerMochiPush : MonoBehaviour
             camRight.y = 0f;
             camForward.Normalize();
             camRight.Normalize();
-
+            // Update de la estamina visualmente en la UI
+            if (staminaUiImage != null)
+                staminaUiImage.fillAmount = currentStamina / maxStamina;
             // Dirección final de movimiento
             Vector3 moveDir = camForward * inputDir.z + camRight * inputDir.x;
 
@@ -123,26 +155,98 @@ public class PlayerControllerMochiPush : MonoBehaviour
         vel.y = 0;
         rb.linearVelocity = vel * (1f / (1f + drag * Time.fixedDeltaTime)) + Vector3.up * rb.linearVelocity.y;
     }
+    void HandleStun(StunSignal signal) {
+        if (signal.activator == gameObject) return; // Si yo lo activé, no me aturdo
+        StartCoroutine(StunRoutine(signal.duration));
+    }
 
+    IEnumerator StunRoutine(float time) {
+        isStunned = true;
+        animVelocity = 0; // Detener animación
+        rb.linearVelocity = Vector3.zero; // Detener movimiento físico
+        yield return new WaitForSeconds(time);
+        isStunned = false;
+    }
     private void OnCollisionStay(Collision collision)
     {
-        Rigidbody other = collision.rigidbody;
-        if (other != null && other != rb)
-        {
-            Vector3 toOther = collision.transform.position - transform.position;
-            Vector3 toOtherFlat = new  Vector3(toOther.x, 0f, toOther.z).normalized;
-            float angle = Vector3.Angle(transform.forward, toOtherFlat);
+        if (collision.gameObject.CompareTag("MochiPushBoundary"))
+        return;
 
-            float frontAngle = 100; // Ángulo frontal para empujar
-            if (angle <= frontAngle)
+    Rigidbody other = collision.rigidbody;
+
+    if (other != null && other != rb)
+    {
+        Vector3 toOther = collision.transform.position - transform.position;
+        Vector3 toOtherFlat = new Vector3(toOther.x, 0f, toOther.z).normalized;
+        float angle = Vector3.Angle(transform.forward, toOtherFlat);
+
+        if (angle <= 100 && currentStamina > 5f)
+        {
+            float staminaFactor = Mathf.Lerp(0.5f, maxPushMultiplier, currentStamina / maxStamina);
+            float calculatedForce = pushForce * staminaFactor;
+            
+            // Revisamos si el otro objeto tambien es un luchador (Bot o Player)
+            bool isOtherPushing = false;
+            
+            // Intentamos obtener el script del Bot o de otro Jugador
+            if (collision.gameObject.TryGetComponent<BotMochiPush>(out var bot))
             {
-                other.AddForce(transform.forward * pushForce, ForceMode.Impulse);
-                
-                // Reproducir sonido de empuje
-                if (audioSource != null && pushClip != null)
-                    audioSource.PlayOneShot(pushClip);
+                // Si el bot nos está mirando (ángulo entre forwards es cercano a -1)
+                if (Vector3.Dot(transform.forward, collision.transform.forward) < -0.5f)
+                    isOtherPushing = true;
             }
+            else if (collision.gameObject.TryGetComponent<PlayerControllerMochiPush>(out var otherPlayer))
+            {
+                if (Vector3.Dot(transform.forward, collision.transform.forward) < -0.5f)
+                    isOtherPushing = true;
+            }
+
+            if (isOtherPushing)
+            {
+                calculatedForce *= 0.5f; // Reducción a la mitad por choque mutuo
+            }
+            // ---------------------------------------
+
+            other.AddForce(transform.forward * calculatedForce, ForceMode.Impulse);
+            
+            currentStamina -= staminaCostPerPush;
+            currentStamina = Mathf.Max(currentStamina, 0);
+
+            if (audioSource != null && pushClip != null && !audioSource.isPlaying)
+                audioSource.PlayOneShot(pushClip);
         }
+    }
+    }
+    /// <summary>
+    /// If signal its no This Gameobject we stop
+    /// If this script has no Rigidbody assigned we stop
+    /// Then:
+    /// First Stops all forces
+    /// Second enable gravity if disabled
+    /// Third w8 for kill zone to trigger
+    /// </summary>
+    /// <param name="signal">Gameobject to controll how is going to handle the event</param>
+    private void HandleExitZone(PlayerExitZoneSignal signal)
+    {
+        if (signal.player != gameObject)
+            return;
+
+        if (rb == null)
+        {
+            Debug.LogWarning($"PlayerControllerMochiPush - {gameObject.name}- has no ridigbody assigned to script");   
+            return;
+        }
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.useGravity = true;
+        rb.isKinematic = false;
+        rb.constraints = RigidbodyConstraints.None;
+        inputActions.Disable();
+
+        animVelocity = 0;
+        if(animator != null)
+            animator.SetFloat(ParameterAnimation,0);
+        this.enabled = false;
     }
 }
 

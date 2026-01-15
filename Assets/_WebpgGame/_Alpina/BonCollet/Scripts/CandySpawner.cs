@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -171,5 +172,11 @@ public class CandySpawner : MonoBehaviour
         //velocidad de caida
         var candy = go.GetComponent<Candy>();
         if (candy != null) candy.fallSpeed = fallSpeed;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position,spawnRadius);
     }
 }

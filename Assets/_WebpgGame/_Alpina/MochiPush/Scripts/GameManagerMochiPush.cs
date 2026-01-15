@@ -8,7 +8,8 @@ public class GameManagerMochiPush : MonoBehaviour
     [Header("Arena")]
     public Transform arenaCenter;
     public float arenaRadius = 12f;
-
+    [SerializeField] private TournamentManager tournamentManager;
+    
     [Header("Participantes")]
     [Tooltip("Arrastra aquí el CollisionMochiPush del jugador principal.")]
     public CollisionMochiPush playerCombatant;
@@ -134,7 +135,8 @@ public class GameManagerMochiPush : MonoBehaviour
             
         }
         
-
+        yield return new WaitForSeconds(5f);
+        tournamentManager.LoadNextGameUsingCourtain();
         
     }
 
