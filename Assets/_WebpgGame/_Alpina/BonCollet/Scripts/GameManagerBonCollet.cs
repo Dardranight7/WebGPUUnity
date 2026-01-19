@@ -49,8 +49,13 @@ public class GameManagerBonCollet : MonoBehaviour
     public GameObject panelLose; //panel que se usa cuando el player principal pierde
     public Transform pedestalSpot; //lugar donde se muestra el player ganador
     [SerializeField] private TournamentManager tournamentManager;
-    public AudioClip musicBackgroundClip;
     
+    [Header("Audios")]
+    private AudioSource audioSource;
+    private AudioManager audioManager;
+    
+    public bool playMusicOnStart = false;
+    public AudioClip backgroundMusic;
     public AudioClip MusicVictoryClip;
     public AudioClip MusicLoseClip;
 
@@ -63,15 +68,25 @@ public class GameManagerBonCollet : MonoBehaviour
     [SerializeField] private GameObject podiumGameObject;
     [SerializeField] private PlayerMochi mochiwinnerView;
     private string winnerMochiId;
-    
 
     //public GameObject PlayerPrefab;
 
     // Estado interno
     bool gameRunning = false;
 
+    private void Awake()
+    {
+        // Buscar AudioManager (como en tu GameManager)
+        if (audioManager == null) audioManager = AudioManager.Instance;
+        if (audioManager == null) audioManager = FindObjectOfType<AudioManager>();
+    }
+
     void Start()
     {
+        if (playMusicOnStart && backgroundMusic != null)
+        {
+            if (audioManager != null) audioManager.PlayMusic(backgroundMusic, 1f);
+        }
         if (UIControls != null)
             UIControls.SetActive(false);
         

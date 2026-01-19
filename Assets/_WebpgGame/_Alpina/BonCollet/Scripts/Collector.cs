@@ -69,10 +69,10 @@ public class Collector : MonoBehaviour
         switch (candy._powerUp)
         {
             case PowerUp.Speed:
-                speedFactor = 1.5f;
+                speedFactor = 2f;
                 break;
             case PowerUp.Slowness:
-                speedFactor = -0.5f;
+                speedFactor = -0.8f;
                 break;
             case PowerUp.None:
             default:

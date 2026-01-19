@@ -86,10 +86,10 @@ public class PlayerControllerRB : MonoBehaviour
         maxSpeed += (maxSpeed * speedFactor);
         switch (speedFactor)
         {
-            case > 0:
+            case > 1f:
                 VfxManager.Instance.SpawnVFX("SpeedGummyVfx", feetVFXTransform);
                 break;
-            case < 0:
+            case < 0f:
                 VfxManager.Instance.SpawnVFX("BadGummyVfx", headVFXTransform);
                 break;
         }
