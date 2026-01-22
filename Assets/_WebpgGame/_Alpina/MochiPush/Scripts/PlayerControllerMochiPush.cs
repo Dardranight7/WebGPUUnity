@@ -162,61 +162,114 @@ public class PlayerControllerMochiPush : MonoBehaviour
 
     IEnumerator StunRoutine(float time) {
         isStunned = true;
+        VfxManager.Instance.SpawnVFX("MegaStun", transform);
         animVelocity = 0; // Detener animación
         rb.linearVelocity = Vector3.zero; // Detener movimiento físico
         yield return new WaitForSeconds(time);
         isStunned = false;
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+       if (other.gameObject.CompareTag("MochiPushBoundary"))
+            return;
+
+        Rigidbody collisionRB = other.rigidbody;
+
+        if (collisionRB != null && collisionRB != rb)
+        {
+            Vector3 toOther = other.transform.position - transform.position;
+            Vector3 toOtherFlat = new Vector3(toOther.x, 0f, toOther.z).normalized;
+            float angle = Vector3.Angle(transform.forward, toOtherFlat);
+
+            if (angle <= 100 && currentStamina > 5f)
+            {
+                float staminaFactor = Mathf.Lerp(0.5f, maxPushMultiplier, currentStamina / maxStamina);
+                float calculatedForce = pushForce * staminaFactor;
+            
+                // Revisamos si el otro objeto tambien es un luchador (Bot o Player)
+                bool isOtherPushing = false;
+            
+                // Intentamos obtener el script del Bot o de otro Jugador
+                if (other.gameObject.TryGetComponent<BotMochiPush>(out var bot))
+                {
+                    // Si el bot nos está mirando (ángulo entre forwards es cercano a -1)
+                    if (Vector3.Dot(transform.forward, other.transform.forward) < -0.5f)
+                        isOtherPushing = true;
+                }
+                else if (other.gameObject.TryGetComponent<PlayerControllerMochiPush>(out var otherPlayer))
+                {
+                    if (Vector3.Dot(transform.forward, other.transform.forward) < -0.5f)
+                        isOtherPushing = true;
+                }
+
+                if (isOtherPushing)
+                {
+                    calculatedForce *= 0.5f; // Reducción a la mitad por choque mutuo
+                }
+                // ---------------------------------------
+
+                collisionRB.AddForce(transform.forward * calculatedForce, ForceMode.Impulse);
+            
+                currentStamina -= staminaCostPerPush;
+                currentStamina = Mathf.Max(currentStamina, 0);
+
+                if (audioSource != null && pushClip != null && !audioSource.isPlaying)
+                    audioSource.PlayOneShot(pushClip);
+            }
+        }
+    }
+    /*
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("MochiPushBoundary"))
-        return;
+            return;
 
-    Rigidbody other = collision.rigidbody;
+        Rigidbody other = collision.rigidbody;
 
-    if (other != null && other != rb)
-    {
-        Vector3 toOther = collision.transform.position - transform.position;
-        Vector3 toOtherFlat = new Vector3(toOther.x, 0f, toOther.z).normalized;
-        float angle = Vector3.Angle(transform.forward, toOtherFlat);
-
-        if (angle <= 100 && currentStamina > 5f)
+        if (other != null && other != rb)
         {
-            float staminaFactor = Mathf.Lerp(0.5f, maxPushMultiplier, currentStamina / maxStamina);
-            float calculatedForce = pushForce * staminaFactor;
-            
-            // Revisamos si el otro objeto tambien es un luchador (Bot o Player)
-            bool isOtherPushing = false;
-            
-            // Intentamos obtener el script del Bot o de otro Jugador
-            if (collision.gameObject.TryGetComponent<BotMochiPush>(out var bot))
-            {
-                // Si el bot nos está mirando (ángulo entre forwards es cercano a -1)
-                if (Vector3.Dot(transform.forward, collision.transform.forward) < -0.5f)
-                    isOtherPushing = true;
-            }
-            else if (collision.gameObject.TryGetComponent<PlayerControllerMochiPush>(out var otherPlayer))
-            {
-                if (Vector3.Dot(transform.forward, collision.transform.forward) < -0.5f)
-                    isOtherPushing = true;
-            }
+            Vector3 toOther = collision.transform.position - transform.position;
+            Vector3 toOtherFlat = new Vector3(toOther.x, 0f, toOther.z).normalized;
+            float angle = Vector3.Angle(transform.forward, toOtherFlat);
 
-            if (isOtherPushing)
+            if (angle <= 100 && currentStamina > 5f)
             {
-                calculatedForce *= 0.5f; // Reducción a la mitad por choque mutuo
-            }
-            // ---------------------------------------
-
-            other.AddForce(transform.forward * calculatedForce, ForceMode.Impulse);
+                float staminaFactor = Mathf.Lerp(0.5f, maxPushMultiplier, currentStamina / maxStamina);
+                float calculatedForce = pushForce * staminaFactor;
             
-            currentStamina -= staminaCostPerPush;
-            currentStamina = Mathf.Max(currentStamina, 0);
+                // Revisamos si el otro objeto tambien es un luchador (Bot o Player)
+                bool isOtherPushing = false;
+            
+                // Intentamos obtener el script del Bot o de otro Jugador
+                if (collision.gameObject.TryGetComponent<BotMochiPush>(out var bot))
+                {
+                    // Si el bot nos está mirando (ángulo entre forwards es cercano a -1)
+                    if (Vector3.Dot(transform.forward, collision.transform.forward) < -0.5f)
+                        isOtherPushing = true;
+                }
+                else if (collision.gameObject.TryGetComponent<PlayerControllerMochiPush>(out var otherPlayer))
+                {
+                    if (Vector3.Dot(transform.forward, collision.transform.forward) < -0.5f)
+                        isOtherPushing = true;
+                }
 
-            if (audioSource != null && pushClip != null && !audioSource.isPlaying)
-                audioSource.PlayOneShot(pushClip);
+                if (isOtherPushing)
+                {
+                    calculatedForce *= 0.5f; // Reducción a la mitad por choque mutuo
+                }
+                // ---------------------------------------
+
+                other.AddForce(transform.forward * calculatedForce, ForceMode.Impulse);
+            
+                currentStamina -= staminaCostPerPush;
+                currentStamina = Mathf.Max(currentStamina, 0);
+
+                if (audioSource != null && pushClip != null && !audioSource.isPlaying)
+                    audioSource.PlayOneShot(pushClip);
+            }
         }
-    }
-    }
+    }*/
     /// <summary>
     /// If signal its no This Gameobject we stop
     /// If this script has no Rigidbody assigned we stop

@@ -100,7 +100,6 @@ public class BotMochiPush : MonoBehaviour
         RigidbodyConstraints desired = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         if ((_rb.constraints & (RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ)) != 0)
         {
-            Debug.LogWarning($"[BotMochiPush] Se detectaron constraints de POSICIÓN en {name}. Se quitarán para permitir movimiento XZ. (Se conservarán rotaciones bloqueadas)");
             _rb.constraints = (_rb.constraints & ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ)) | desired;
         }
         else
@@ -113,7 +112,6 @@ public class BotMochiPush : MonoBehaviour
     {
         currentStamina = maxStamina;
         PickNewWanderPoint();
-        if (debugLogs) Debug.Log($"[Bot] {name} start wanderPoint -> {_wanderPoint}");
     }
 
     void FixedUpdate()
@@ -122,7 +120,7 @@ public class BotMochiPush : MonoBehaviour
         if (_isStunned) return;
         if (_self != null && _self.Eliminated) return;
 
-        // PRIORIDAD MAXIMA: Evitando el borde
+        //Evitando el borde
         if (IsNearEdge(out var dirToCenter))
         {
             // Si el bot esta en peligro, ignoramos el ataque y volvemos al centro
@@ -163,6 +161,7 @@ public class BotMochiPush : MonoBehaviour
 
     IEnumerator BotStunRoutine(float time) {
         _isStunned = true;
+        VfxManager.Instance.SpawnVFX("MegaStun", transform);
         _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0); // Solo frenar en XZ
         yield return new WaitForSeconds(time);
         _isStunned = false;
@@ -226,17 +225,23 @@ public class BotMochiPush : MonoBehaviour
             _state = State.Wander;
             return;
         }
-
+        
         // Mejora de movimiento
         Vector3 toTarget = _target.transform.position - transform.position;
-        Vector3 dir = Flat(toTarget).normalized;
+        Vector3 dirToTarget = Flat(toTarget).normalized;
     
+        Vector3 separation = ComputeSeparation(_target);
+        
+        Vector3 finalDir = dirToTarget;
+        if (separation.sqrMagnitude > 0.01f)
+        {
+            finalDir = Vector3.Lerp(dirToTarget, separation, 0.5f).normalized;
+        }
         // Si el target está muy lejos, usamos velocidad de patrulla, si está cerca, velocidad de ataque
         float speed = (toTarget.magnitude > detectionRadius * 0.5f) ? moveSpeed * 0.8f : moveSpeed;
-    
-        MoveTowards(dir, speed);
-        FaceTowards(dir);
 
+        MoveTowards(finalDir, speed);
+        FaceTowards(dirToTarget);
         // Utilizamos la logica de la estamina para realizar el empuje
         _pushCd -= Time.fixedDeltaTime;
         if (_pushCd <= 0f && IsColliderNear(_target, pushContactThreshold))
@@ -257,10 +262,9 @@ public class BotMochiPush : MonoBehaviour
                 // Consumir estamina
                 currentStamina -= staminaCostPerPush;
                 currentStamina = Mathf.Max(currentStamina, 0);
-            
                 _pushCd = pushCooldown;
-            
-                if(debugLogs) Debug.Log($"{name} empujó con fuerza: {finalPush} (Estamina: {currentStamina})");
+                _target = null;
+                PickNewWanderPoint();
             }
         }
     }
@@ -277,8 +281,7 @@ public class BotMochiPush : MonoBehaviour
     // Compute separation but optionally ignore the current target so attacker doesn't repel from target.
     Vector3 ComputeSeparation(CollisionMochiPush ignoreTarget)
     {
-        // Reducimos el radio de separacion para que no parezca que tiene miedo del jugador
-        float dynamicSeparationRadius = separationRadius * 0.5f; 
+        float dynamicSeparationRadius = separationRadius; 
     
         var cols = Physics.OverlapSphere(transform.position, dynamicSeparationRadius, ~0, QueryTriggerInteraction.Ignore);
         Vector3 repulse = Vector3.zero; 
@@ -290,8 +293,12 @@ public class BotMochiPush : MonoBehaviour
             if (ignoreTarget != null && c.gameObject == ignoreTarget.gameObject) continue;
 
             Vector3 away = Flat(transform.position - c.transform.position);
+            float dist = away.magnitude;
+            
+            // Si están casi uno encima del otro (dist < 0.5), la fuerza de repulsión es masiva
+            float force = (dist < 0.5f) ? 10f : (10f / Mathf.Max(dist, 0.1f));
             // La fuerza de repulsión ahora es inversamente proporcional a la distancia pero con un tope
-            repulse += away.normalized / Mathf.Max(away.magnitude, 0.1f);
+            repulse += away.normalized * force;
             count++;
         }
 
@@ -322,7 +329,11 @@ public class BotMochiPush : MonoBehaviour
         {
             if (c == null || c == _self || !c.gameObject.activeInHierarchy || c.Eliminated) continue;
             float dSq = HorizontalSqrDistanceTo(c.transform.position);
-            if (dSq <= radius * radius && dSq < best) { best = dSq; bestC = c; }
+            if (dSq <= radius && dSq < best)
+            {
+                best = dSq; 
+                bestC = c;
+            }
         }
 
         return bestC;
@@ -373,7 +384,7 @@ public class BotMochiPush : MonoBehaviour
         if (arenaCenter && arenaRadius > 0f)
         {
             // Buscamos al rival mas cercano
-            CollisionMochiPush nearestRival = FindNearestCompetitor(detectionRadius * 1.5f);
+            CollisionMochiPush nearestRival = FindNearestCompetitor(detectionRadius);
 
             if (nearestRival != null)
             {
@@ -388,7 +399,7 @@ public class BotMochiPush : MonoBehaviour
             else
             {
                 // Si no hay nadie cerca, patrullar el area central de la arena
-                float safeR = arenaRadius * 0.5f;
+                float safeR = arenaRadius;
                 Vector2 rnd = Random.insideUnitCircle * safeR;
                 _wanderPoint = arenaCenter.transform.position + new Vector3(rnd.x, 0f, rnd.y);
             }

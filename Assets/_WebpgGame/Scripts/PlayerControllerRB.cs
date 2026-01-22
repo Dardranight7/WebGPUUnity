@@ -22,7 +22,9 @@ public class PlayerControllerRB : MonoBehaviour
     [Header("Rotación y Animación")]
     public float rotationSpeed = 10f;   // Qué tan rápido rota hacia la dirección de movimiento
     public float animLerpSpeed = 5f;    // Qué tan rápido interpola el valor de Velocity en el Animator
-    [Header("Vfx positions")]
+
+    [Header("Vfx positions")] 
+    [SerializeField] private GameObject fxPlayerSelected;
     [SerializeField] private Transform feetVFXTransform;
     [SerializeField] private Transform headVFXTransform;
     public string ParameterAnimation;
@@ -54,6 +56,7 @@ public class PlayerControllerRB : MonoBehaviour
     private void OnDisable()
     {
         inputActions.Disable();
+        fxPlayerSelected.SetActive(false);
     }
 
     private void OnDestroy()
@@ -69,6 +72,7 @@ public class PlayerControllerRB : MonoBehaviour
         rb.freezeRotation = true; // Evita que el rigidbody se voltee
         if (cameraTransform == null)
             cameraTransform = Camera.main.transform;
+        fxPlayerSelected.SetActive(true);
     }
 
     float h = 0;
@@ -172,7 +176,7 @@ public class PlayerControllerRB : MonoBehaviour
         vel.y = 0;
         rb.linearVelocity = vel * (1f / (1f + drag * Time.fixedDeltaTime)) + Vector3.up * rb.linearVelocity.y;
     }
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         Rigidbody other = collision.rigidbody;
         if (other != null && other != rb)

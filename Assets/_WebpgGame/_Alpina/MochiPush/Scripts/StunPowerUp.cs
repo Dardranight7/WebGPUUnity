@@ -1,9 +1,16 @@
+using System;
 using UnityEngine;
 
 public class StunPowerUp : MonoBehaviour
 {
-    public float stunDuration = 3f;
-    public GameObject pickUpEffect;
+    [SerializeField] private float stunDuration = 3f;
+    [SerializeField] private GameObject pickUpEffect;
+
+    private GameObject currentParent;
+    private void Start()
+    {
+        currentParent = transform.parent.gameObject;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,7 +24,8 @@ public class StunPowerUp : MonoBehaviour
             if (pickUpEffect != null)
                 Instantiate(pickUpEffect, transform.position, Quaternion.identity);
 
-            Destroy(gameObject);
+            
+            Destroy(currentParent);
         }
     }
 }
