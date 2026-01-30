@@ -371,6 +371,12 @@ public class Backend : MonoBehaviour
         public string username;
     }
 
+    public class UpdateUnlockedMochisDTO
+    {
+        public string serial;
+        public string unlockedMochis;
+    }
+
     [System.Serializable]
     public class PlayerProfileDTO
     {

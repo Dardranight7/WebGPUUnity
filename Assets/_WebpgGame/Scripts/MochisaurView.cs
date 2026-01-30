@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MochisaurView : MonoBehaviour
 {
+    private int MOCHI_COST = 50;
+
     public Transform prefabParent;
     public GameObject mochisaurPrefab;
     public List<MochisaurSlot> instancedMochisaurSlots = new List<MochisaurSlot>();
@@ -16,7 +18,7 @@ public class MochisaurView : MonoBehaviour
     public AccesorySlot selectedSlot;
     public List<AccessoryDatabase> accessoryDatabase = new List<AccessoryDatabase>();
     public Dictionary<AccessoryType, int> equippedAccessoryIDs = new Dictionary<AccessoryType, int>();
-    
+
     [System.Serializable]
     public class AccessoryDatabase
     {
@@ -36,10 +38,81 @@ public class MochisaurView : MonoBehaviour
         selectedSlot.Unlock();
     }
 
+    public void BuySelectedMochi(int index)
+    {
+        // Aquí vamos a hardcodear el costo de los mochis por simplicidad.
+        if (!(Backend.singleton.playerProfile.gems / 12 >= MOCHI_COST))
+        {
+            // No se puede comprar
+            return;
+        }
+
+        Backend.singleton.GetUserData(Backend.singleton.playerProfile.serial, (a)=>UnlockMochi(a,index));
+    }
+    public void UnlockMochi(Backend.Response response, int index)
+    {
+        if (response.code == 0)
+        {
+            List<int> indexes = JsonConvert.DeserializeObject<List<int>>(Backend.singleton.playerProfile.unlockedMochis);
+            if (!indexes.Contains(index))
+                indexes.Add(index);
+            else
+            {
+                // If u need can handle already unlocked mochi here
+                // at this moment only return without doing anything salu2 luiseros
+                return;
+            }
+            Backend.singleton.UpdateData(new Backend.UpdateUnlockedMochisDTO()
+            {
+                serial = Backend.singleton.playerProfile.serial,
+                unlockedMochis = JsonConvert.SerializeObject(indexes)
+
+            }, (a) =>
+            {
+                if (a.code == 0)
+                {
+                    Backend.singleton.playerProfile.unlockedMochis = JsonConvert.SerializeObject(indexes);
+                    Backend.singleton.UpdateData(new UpdateGems
+                    {
+                        serial = Backend.singleton.playerProfile.serial,
+                        gems = Backend.singleton.playerProfile.gems - (MOCHI_COST * 12)
+                    }, (b =>
+                    {
+                        if (b.code == 0)
+                        {
+                            Backend.singleton.playerProfile.gems = Backend.singleton.playerProfile.gems - collection[index].cost;
+                            Backend.singleton.GetUserData(Backend.singleton.Serial, (c) =>
+                            {
+                                Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(c.data);
+                                Backend.singleton.playerProfile = datos;
+                                Backend.OnPlayerProfileUpdate?.Invoke();
+                            });
+                        }
+                        else
+                        {
+                            Debug.Log(b);
+                        }
+                    }));
+                }
+                else
+                {
+                    Debug.Log(a);
+                }
+            });
+        }
+    }
+
+    class UpdateGems
+    {
+        public string serial;
+        public int gems;
+    }
+
     public void Reload()
     {
         Backend.singleton.GetUserData(Backend.singleton.playerProfile.serial, ShowData);
     }
+
 
     public void OpenApp()
     {
