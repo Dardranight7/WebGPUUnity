@@ -34,6 +34,7 @@ public class Backend : MonoBehaviour
     {
         public string name;
         public Sprite image;
+        public bool isVisible;
     }
 
     public enum Petition

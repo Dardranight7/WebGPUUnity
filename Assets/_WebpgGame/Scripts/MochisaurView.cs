@@ -9,11 +9,12 @@ public class MochisaurView : MonoBehaviour
     public Transform prefabParent;
     public GameObject mochisaurPrefab;
     public List<MochisaurSlot> instancedMochisaurSlots = new List<MochisaurSlot>();
+    public MochisaurSlot selectedMochiSlot;
 
     public GameObject accesoryPrefab;
     public List<AccesorySlot> instancedAccesorySlots = new List<AccesorySlot>();
 
-    public Transform popupNoFounds, popupBuy;
+    public Transform popupNoFounds, popupBuy,popupBuyMochi;
 
     public AccesorySlot selectedSlot;
     public List<AccessoryDatabase> accessoryDatabase = new List<AccessoryDatabase>();
@@ -37,8 +38,7 @@ public class MochisaurView : MonoBehaviour
     {
         selectedSlot.Unlock();
     }
-
-    public void BuySelectedMochi(int index)
+    public void BuySelectedMochi()
     {
         // Aquí vamos a hardcodear el costo de los mochis por simplicidad.
         if (!(Backend.singleton.playerProfile.gems / 12 >= MOCHI_COST))
@@ -47,7 +47,7 @@ public class MochisaurView : MonoBehaviour
             return;
         }
 
-        Backend.singleton.GetUserData(Backend.singleton.playerProfile.serial, (a)=>UnlockMochi(a,index));
+        Backend.singleton.GetUserData(Backend.singleton.playerProfile.serial, (a)=>UnlockMochi(a,selectedMochiSlot.index));
     }
     public void UnlockMochi(Backend.Response response, int index)
     {
@@ -81,6 +81,7 @@ public class MochisaurView : MonoBehaviour
                         if (b.code == 0)
                         {
                             Backend.singleton.playerProfile.gems = Backend.singleton.playerProfile.gems - MOCHI_COST;
+                            popupBuyMochi.gameObject.SetActive(false);
                             Backend.singleton.GetUserData(Backend.singleton.Serial, (c) =>
                             {
                                 Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(c.data);
@@ -236,24 +237,35 @@ public class MochisaurView : MonoBehaviour
                 mochi.gameObject.SetActive(false);
             }
 
-            List<int> indexes = JsonConvert.DeserializeObject<List<int>>(datos.unlockedMochis);
-
-            for (int i = 0; i < indexes.Count; i++)
+            List<int> unlockedIds = JsonConvert.DeserializeObject<List<int>>(datos.unlockedMochis);
+            HashSet<int> unlockedSet = new HashSet<int>(unlockedIds);//Set list to Hashset to fast search
+            
+            var allMochis = Backend.singleton.MochiDB;
+            int activeSlotIndex = 0;
+            for (int i = 0; i < allMochis.Count; i++)
             {
-                int mochiIndex = indexes[i];
-                MochisaurSlot selectedSlot;
-                if (i < instancedMochisaurSlots.Count)
+                if(!allMochis[i].isVisible)
+                    continue;
+                
+                MochisaurSlot selectedSlotMochi;
+                bool isUnlocked = unlockedSet.Contains(i);
+                
+                if (activeSlotIndex < instancedMochisaurSlots.Count)
                 {
-                    selectedSlot = instancedMochisaurSlots[i];
-                    instancedMochisaurSlots[i].gameObject.SetActive(true);
+                    selectedSlotMochi = instancedMochisaurSlots[activeSlotIndex];
                 }
                 else
                 {
                     MochisaurSlot instance = Instantiate(mochisaurPrefab, prefabParent).GetComponent<MochisaurSlot>();
                     instancedMochisaurSlots.Add(instance);
-                    selectedSlot = instance;
+                    selectedSlotMochi = instance;
                 }
-                selectedSlot.UpdateVisual(Backend.singleton.MochiDB[mochiIndex].image, Backend.singleton.MochiDB[mochiIndex].name, mochiIndex);
+                
+                selectedSlotMochi.gameObject.SetActive(true);
+                selectedSlotMochi.mochisaurView = this;
+                selectedSlotMochi.UpdateVisual(Backend.singleton.MochiDB[i].image, Backend.singleton.MochiDB[i].name, i,isUnlocked);
+
+                activeSlotIndex++;
             }
         }
         LoadEquippedStateFromBackend();

@@ -5,16 +5,36 @@ using UnityEngine.UI;
 
 public class MochisaurSlot : MonoBehaviour
 {
+    public Button Btn;
+    public MochisaurView mochisaurView;
     public TextMeshProUGUI MochiName;
     public Image Image;
-    public Button Btn;
-
-    public void UpdateVisual(Sprite sprite, string name, int index)
+    public TextMeshProUGUI costText;
+    public Transform cost, bought;
+    public int index = 0;
+    
+    public void UpdateVisual(Sprite sprite, string name, int index, bool isUnlocked)
     {
+        this.index = index;
         Image.sprite = sprite;
         MochiName.text = name;
         Btn.onClick.RemoveAllListeners();
-        Btn.onClick.AddListener(()=>ChangeSelected(index));
+        bought.gameObject.SetActive(isUnlocked);
+        cost.gameObject.SetActive(!isUnlocked);
+        
+        costText.gameObject.SetActive(!isUnlocked);
+        costText.text = "50";
+        if (isUnlocked)
+            Btn.onClick.AddListener(()=>ChangeSelected(index));
+        else
+            Btn.onClick.AddListener(()=> TryToUnlock(index));
+    }
+
+    public void UnlockMochi()
+    {
+        cost.gameObject.SetActive(false);
+        costText.gameObject.SetActive(false);
+        bought.gameObject.SetActive(true);
     }
 
     public void ChangeSelected(int index)
@@ -37,5 +57,18 @@ public class MochisaurSlot : MonoBehaviour
                 Debug.LogError("Failed to update selected Mochi: " + response.message);
             }
         });
+    }
+
+    private void TryToUnlock(int id)
+    {
+        if (Backend.singleton.playerProfile.gems / 12 >= 50)
+        {
+            mochisaurView.selectedMochiSlot = this;
+            mochisaurView.popupBuyMochi.gameObject.SetActive(true);
+        }
+        else
+        {
+            mochisaurView.popupNoFounds.gameObject.SetActive(true);
+        }
     }
 }

@@ -56,7 +56,8 @@ public class PlayerControllerRB : MonoBehaviour
     private void OnDisable()
     {
         inputActions.Disable();
-        fxPlayerSelected.SetActive(false);
+        if(fxPlayerSelected)
+            fxPlayerSelected.SetActive(false);
     }
 
     private void OnDestroy()
@@ -72,7 +73,8 @@ public class PlayerControllerRB : MonoBehaviour
         rb.freezeRotation = true; // Evita que el rigidbody se voltee
         if (cameraTransform == null)
             cameraTransform = Camera.main.transform;
-        fxPlayerSelected.SetActive(true);
+        if(fxPlayerSelected)
+            fxPlayerSelected.SetActive(true);
     }
 
     float h = 0;
