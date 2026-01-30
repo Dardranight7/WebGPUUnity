@@ -7,6 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerControllerMochiPush : MonoBehaviour
 {
+    [SerializeField] private CollisionMochiPush _self;
     [Header("Movimiento")]
     public float moveForce = 20f;       // Fuerza aplicada al moverse
     public float maxSpeed = 6f;         // Velocidad máxima
@@ -91,7 +92,8 @@ public class PlayerControllerMochiPush : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+        if(!_self.canMove)
+            return;
         if (currentStamina < maxStamina)
         {
             currentStamina += staminaRegenRate * Time.deltaTime;

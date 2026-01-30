@@ -1,149 +1,269 @@
 using System;
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(CollisionMochiPush))]
 public class BotMochiPush : MonoBehaviour
 {
-    [Header("Referencias (si están vacías se intentan auto-asignar)")]
+    #region Declarations
+
+    [SerializeField] private bool ShowGizmos = false; 
+    
+    //Basic Components
     public GameManagerMochiPush gameManager;
-    public GameObject arenaCenter;
-    public float arenaRadius = 12f;
-
+    private Rigidbody _rb;
+    private CollisionMochiPush _self;
+    
     [Header("Movimiento")]
-    private Vector3 _moveVelocity;
-    public float moveSpeed = 4.0f;
-    public float acceleration = 20f;   // unidades/s^2, para MoveTowards en velocity
-    public float rotateSpeed = 10f;
+    [SerializeField] private float moveSpeed = 1.5f;
+    [SerializeField] private float acceleration = 1.5f;   // unidades/s^2, para MoveTowards en velocity
+    [SerializeField] private float rotateSpeed = 10f;
     
-    [Header("Sistema de Estamina")]
+    //Components used for Stamina or energi mechanic
+    [Header("Stamina System")]
     [SerializeField] private Image staminaUiImage;
-    public float maxStamina = 100f;
-    public float currentStamina;
-    public float staminaRegenRate = 15f;
-    public float staminaCostPerPush = 30f;
-    public float maxPushMultiplier = 1.5f;
+    [SerializeField] private float maxStamina = 100f;
+    [SerializeField] private float currentStamina;
+    [SerializeField] private float staminaRegenRate = 15f;
+    [SerializeField] private float staminaCostPerPush = 30f;
+    [SerializeField] private float maxPushMultiplier = 1.5f;
+    [Header("Arena Components")]
+    //Area of displacement components
+    [SerializeField] private Transform arenaCenterGO;
+    [SerializeField] private float arenaRadius = 2f;
+    [SerializeField] private float edgeSafeMargin = 0.3f;
     
-    private bool _isStunned = false;
-    
-    [Header("Wander (patrullar)")]
-    public float wanderSpeedMultiplier = 0.85f;
-    public float wanderPointRefreshMin = 1.6f;
-    public float wanderPointRefreshMax = 2.6f;
-    public float wanderReachRadius = 0.45f;
-
-    [Header("Detección y Ataque")]
-    public float detectionRadius = 5.0f;      // radio para buscar rivales
-    public float attackDuration = 3.0f;       // tiempo que dura el ataque
-    public float recheckTargetsEvery = 0.25f; // cada cuanto revalida el target
-
-    [Header("Empujón (contacto real)")]
-    public float pushForce = 5.0f;
-    [Tooltip("Distancia entre puntos más cercanos de colliders para considerar contacto (en metros).")]
-    public float pushContactThreshold = 0.08f; // ~8 cm, ajustar según escala
-    [Range(0, 90)] public float frontAngle = 35f;
-    public float pushCooldown = 0.6f;
-
-    [Header("Separación / borde")]
-    public float separationRadius = 1.2f;
-    public float separationStrength = 2.5f;
-    public float edgeSafeMargin = 2f;
-
-    [Header("Arrival / anti-órbita")]
-    public float arriveRadius = 1.7f;
-    public float stopRadius = 0.55f;
-    public float tangentialBrake = 6.5f;
-    public float antiOrbitRadius = 3.0f;
-
-    [Header("Debug")]
-    public bool debugLogs = false;
-
-    Rigidbody _rb;
-    Collider _col;
-    CollisionMochiPush _self;
-
-    enum State { Wander, Attack }
-    State _state = State.Wander;
-
-    // Attack state
-    CollisionMochiPush _target;
-    float _attackTimer;
-    float _pushCd;
-    float _nextTargetCheck;
-
     // Wander state
-    Vector3 _wanderPoint;
-    float _wanderRefreshTimer;
+    [Header("Wander System")]
+    [SerializeField] private bool isWaiting = false;
+    [SerializeField] private bool _isRecoveringFromHit = false;
+    [SerializeField] private float postAttackWaitTime = 1.2f;
+    [SerializeField] private Vector3 _wanderPoint;
+    [SerializeField] private  float wanderSpeedMultiplier = 0.85f;
+    [SerializeField] private  float wanderPointRefreshMin = 1.6f;
+    [SerializeField] private  float wanderPointRefreshMax = 2.6f;
+    [SerializeField] private  float wanderReachRadius = 0.45f;
+    // Attack State
+    [Header("Ataque")]
+    public float attackRange = 1.2f; // Range to switch from Wander to Attack
+    public float attackSpeedMultiplier = 1.5f;
+    public float loseTargetMultiplier = 1.5f;
+    public float stopDistance = 0.2f;
+    public Transform targetEnemy; // Next Target
+    
+    //Status System
+    [Serializable] public enum BotState { Patrolling, Attacking, Recovering }
+    public BotState currentState = BotState.Patrolling;
+    private bool _isStunned = false;
+    #endregion
 
-    private void OnEnable()
-    {
-        EventBus<StunSignal>.OnEvent += HandleStun;
-    }
-
-    private void OnDisable()
-    {
-        EventBus<StunSignal>.OnEvent -= HandleStun;
-    }
-
+    #region UnityFunctions
+    
+    private void OnEnable() => EventBus<StunSignal>.OnEvent += HandleStun;
+    private void OnDisable() => EventBus<StunSignal>.OnEvent -= HandleStun;
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _col = GetComponent<Collider>();
         _self = GetComponent<CollisionMochiPush>();
-
-        // Si tienes bloqueadas posiciones (FreezePositionX/Z) eso impide que el bot se mueva.
-        // Permitimos solo FreezeRotationX|Z por estabilidad.
-        RigidbodyConstraints desired = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        if ((_rb.constraints & (RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ)) != 0)
-        {
-            _rb.constraints = (_rb.constraints & ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ)) | desired;
-        }
-        else
-        {
-            _rb.constraints = (_rb.constraints | desired);
-        }
+        if (!gameManager)
+            gameManager = FindFirstObjectByType<GameManagerMochiPush>();
     }
-
-    void Start()
-    {
-        currentStamina = maxStamina;
-        PickNewWanderPoint();
-    }
+    void Start() => currentStamina = maxStamina;
 
     void FixedUpdate()
     {
+        if(!_self.canMove)
+            return;
         RegenerateStamina();
-        if (_isStunned) return;
-        if (_self != null && _self.Eliminated) return;
+        if (_isStunned || (_self != null && _self.Eliminated)) return;
 
-        //Evitando el borde
+        bool isTired = currentStamina < (maxStamina * 0.2f); // if less than 20% stamin, bot its tired
+
+        if (isTired)
+        {
+            DoWander();
+            return;
+        }
+        //Avoid the edges
         if (IsNearEdge(out var dirToCenter))
         {
-            // Si el bot esta en peligro, ignoramos el ataque y volvemos al centro
-            MoveTowards(dirToCenter, moveSpeed);
-            FaceTowards(dirToCenter);
-            return; 
+            currentState = BotState.Recovering;
+            MoveAndFace(dirToCenter, moveSpeed * 1.1f);
+            return;
         }
-        
-        bool isTired = currentStamina < (maxStamina * 0.2f); // si tiene menos del 20% de estamina, determinamos que esta cansado
 
-        if (_state == State.Wander)
+        CheckEnemies();
+
+        if (currentState == BotState.Attacking && targetEnemy != null && !isTired)
         {
-            HandleWanderTransitions(isTired);
+            isWaiting = false;
+            Vector3 dir = targetEnemy.position - transform.position;
+            dir.y = 0f;
+            float distSq = dir.sqrMagnitude;
+
+            if (distSq < stopDistance)
+            {
+                // Frenar suavemente si ya estamos "encima" del enemigo para evitar jitter
+                _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0);
+                FaceTowards(dir);
+            }
+            else
+            {
+                MoveAndFace(dir.normalized, moveSpeed * attackSpeedMultiplier);
+            }
         }
-        else // State.Attack
+        // 3. PATRULLA
+        else
         {
-            HandleAttackTransitions(isTired);
+            DoWander();
         }
-        
-        if (_state == State.Wander) DoWander();
-        else DoAttack();
+        // if (currentState == BotState.Attacking)
+        // {
+        //     //Look for attacking state and no movement detected to reset movement and prevent stuck
+        //     if (_rb.linearVelocity.magnitude < 0.1f)
+        //     {
+        //         currentState = BotState.Patrolling;
+        //         targetEnemy = null;
+        //     }
+        // }
     }
-    void RegenerateStamina() 
+
+    #endregion
+
+    #region Wandering
+    /// <summary>
+    /// Do wandering arround the walking Area
+    /// </summary>
+    private void DoWander()
+    {
+        if (isWaiting) return;
+
+        Vector3 dirToTarget = (_wanderPoint - transform.position);
+        dirToTarget.y = 0;
+
+        if (dirToTarget.sqrMagnitude < wanderReachRadius)
+            StartCoroutine(WaitAndSelectNewPoint());
+        else
+            MoveAndFace(dirToTarget.normalized, moveSpeed * wanderSpeedMultiplier);
+    }
+    IEnumerator WaitAndSelectNewPoint()
+    {
+        isWaiting = true;
+        _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0); // Frenar al llegar
+        yield return new WaitForSeconds(Random.Range(wanderPointRefreshMin, wanderPointRefreshMax)); // Tiempo de espera aleatorio
+        GetRandomPointInArena();
+        isWaiting = false;
+    }
+    /// <summary>
+    /// Select a new Wander Point
+    /// Its uses the arenaCenter and Radius to prevent bot select a point to far or outside the Walking Area
+    /// </summary>
+    private void GetRandomPointInArena()
+    {
+        // Generamos un punto aleatorio dentro de un círculo de radio 1
+        Vector2 randomCirclePoint = Random.insideUnitCircle;
+    
+        // Lo escalamos al tamaño de la arena (restando el margen de seguridad)
+        float safeRadius = arenaRadius - (edgeSafeMargin * 1.5f);
+        Vector3 randomPos = new Vector3(randomCirclePoint.x * safeRadius, 0, randomCirclePoint.y * safeRadius);
+
+        // Lo sumamos a la posición del centro de la arena
+        _wanderPoint = arenaCenterGO.transform.position + randomPos;
+    }
+    #endregion
+
+    #region Attacking
+    void CheckEnemies()
+    {
+        if (_isRecoveringFromHit || currentStamina < staminaCostPerPush)
+        {
+            currentState = BotState.Recovering;
+            return;
+        }
+        if (targetEnemy != null)
+        {
+            CollisionMochiPush enemyScript = targetEnemy.GetComponent<CollisionMochiPush>();
+            float distSq = (targetEnemy.position - transform.position).sqrMagnitude;
+
+            // Histéresis: Ahora comparamos distancia al cuadrado contra rango al cuadrado
+            if (enemyScript.Eliminated || distSq > loseTargetMultiplier) 
+            {
+                targetEnemy = null;
+                currentState = BotState.Patrolling;
+            }
+            return;
+        }
+
+        // Buscar el más cercano de la lista
+        float closestDistSq = attackRange * attackRange;
+        foreach (var mochi in gameManager.combatants)
+        {
+            if (mochi.transform == this.transform || mochi.Eliminated) continue;
+            float dSq = (mochi.transform.position - transform.position).sqrMagnitude;
+        
+            if (dSq < closestDistSq)
+            {
+                closestDistSq = dSq;
+                targetEnemy = mochi.transform;
+                currentState = BotState.Attacking;
+            
+                // IMPORTANTE: Si estábamos esperando en un punto de patrulla, cancelamos la espera
+                isWaiting = false; 
+            }
+        }
+    }
+    public void NotifyHitSuccessful()
+    {
+        if (_isRecoveringFromHit) return;
+
+        // Consumir estamina como el player
+        currentStamina -= staminaCostPerPush;
+        currentStamina = Mathf.Max(currentStamina, 0);
+
+        // Iniciar retroceso y cambio a patrulla
+        StartCoroutine(PostAttackRoutine());
+    }
+
+    private IEnumerator PostAttackRoutine()
+    {
+        _isRecoveringFromHit = true;
+        targetEnemy = null; 
+        currentState = BotState.Patrolling;
+
+        // Pequeño tiempo de "aturdimiento propio" o descanso tras el golpe
+        _rb.linearVelocity = Vector3.zero; 
+        yield return new WaitForSeconds(postAttackWaitTime);
+        
+        _isRecoveringFromHit = false;
+        GetRandomPointInArena(); // Buscar nuevo rumbo lejos del enemigo anterior
+    }
+
+    public float GetCalculatedPushForce(float basePushForce)
+    {
+        // Fórmula exacta del Player: factor basado en estamina
+        float staminaFactor = Mathf.Lerp(0.5f, maxPushMultiplier, currentStamina / maxStamina);
+        return basePushForce * staminaFactor;
+    }
+    #endregion
+
+    #region Stun System
+    private void HandleStun(StunSignal signal) {
+        if (signal.activator == gameObject) return;
+        StartCoroutine(BotStunRoutine(signal.duration));
+    }
+    private IEnumerator BotStunRoutine(float time) {
+        _isStunned = true;
+        VfxManager.Instance.SpawnVFX("MegaStun", transform);
+        _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0); // Solo frenar en XZ
+        yield return new WaitForSeconds(time);
+        _isStunned = false;
+    }
+    #endregion
+    #region Stamina system
+    private void RegenerateStamina() 
     {
         // Update de la estamina visualmente en la UI
         if(staminaUiImage != null)
@@ -154,273 +274,80 @@ public class BotMochiPush : MonoBehaviour
             currentStamina = Mathf.Min(currentStamina, maxStamina);
         }
     }
-    void HandleStun(StunSignal signal) {
-        if (signal.activator == gameObject) return;
-        StartCoroutine(BotStunRoutine(signal.duration));
-    }
-
-    IEnumerator BotStunRoutine(float time) {
-        _isStunned = true;
-        VfxManager.Instance.SpawnVFX("MegaStun", transform);
-        _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0); // Solo frenar en XZ
-        yield return new WaitForSeconds(time);
-        _isStunned = false;
-    }
-    void HandleWanderTransitions(bool isTired)
+    #endregion
+    #region Movement Helpers
+    private void MoveAndFace(Vector3 dir, float speed)
     {
-        // Solo busca un rival si no esta cansado
-        if (!isTired)
-        {
-            var found = FindNearestCompetitor(detectionRadius);
-            if (found != null) 
-            {
-                _target = found;
-                _state = State.Attack;
-                _attackTimer = attackDuration;
-            }
-        }
+        MoveTowards(dir, speed);
+        FaceTowards(dir);
     }
 
-    void HandleAttackTransitions(bool isTired)
+    private void MoveTowards(Vector3 dir, float speed)
     {
-        _attackTimer -= Time.fixedDeltaTime;
-
-        // Si se cansa, el tiempo se agota o el target muere entonces vuelve a patrullar
-        if (isTired || _attackTimer <= 0f || _target == null || _target.Eliminated)
-        {
-            _state = State.Wander;
-            _target = null;
-            PickNewWanderPoint();
-        }
+        Vector3 targetVelocity = dir.normalized * speed;
+        targetVelocity.y = _rb.linearVelocity.y; // Mantener gravedad
+        _rb.linearVelocity = targetVelocity;
     }
 
-    void DoWander()
+    void FaceTowards(Vector3 targetDir)
     {
-        _wanderRefreshTimer -= Time.fixedDeltaTime;
-        float dist = HorizontalDistanceTo(_wanderPoint);
-
-        if (_wanderRefreshTimer <= 0f || dist <= wanderReachRadius)
-        {
-            PickNewWanderPoint();
-        }
-
-        Vector3 dirToPoint = (_wanderPoint - transform.position).normalized;
-    
-        // Mezclamos la dirección al punto con una pequeña fuerza de separación
-        // pero con un peso muy bajo (0.3f) para que no parezca que huye
-        Vector3 sep = ComputeSeparation(null);
-        Vector3 finalDir = Vector3.Lerp(dirToPoint, sep, 0.3f).normalized;
-
-        float speed = moveSpeed * wanderSpeedMultiplier;
-    
-        // Aplicamos el movimiento suavizado que definimos anteriormente
-        MoveTowards(finalDir, speed);
-        FaceTowards(finalDir);
-    }
-
-    void DoAttack()
-    {
-        if (_target == null || _target.Eliminated)
-        {
-            _state = State.Wander;
-            return;
-        }
+        Vector3 face = new Vector3(targetDir.x, 0f, targetDir.z);
+        if (face.sqrMagnitude < 0.01f) return; // Umbral de estabilidad
         
-        // Mejora de movimiento
-        Vector3 toTarget = _target.transform.position - transform.position;
-        Vector3 dirToTarget = Flat(toTarget).normalized;
-    
-        Vector3 separation = ComputeSeparation(_target);
-        
-        Vector3 finalDir = dirToTarget;
-        if (separation.sqrMagnitude > 0.01f)
-        {
-            finalDir = Vector3.Lerp(dirToTarget, separation, 0.5f).normalized;
-        }
-        // Si el target está muy lejos, usamos velocidad de patrulla, si está cerca, velocidad de ataque
-        float speed = (toTarget.magnitude > detectionRadius * 0.5f) ? moveSpeed * 0.8f : moveSpeed;
-
-        MoveTowards(finalDir, speed);
-        FaceTowards(dirToTarget);
-        // Utilizamos la logica de la estamina para realizar el empuje
-        _pushCd -= Time.fixedDeltaTime;
-        if (_pushCd <= 0f && IsColliderNear(_target, pushContactThreshold))
-        {
-            float ang = Vector3.Angle(transform.forward, Flat(toTarget).normalized);
-            if (ang <= frontAngle && _target.TryGetComponent<Rigidbody>(out var trgRb))
-            {
-                // Calcular fuerza basada en estamina - minimo 50% de la fuerza base, maximo 150%
-                float staminaFactor = Mathf.Lerp(0.5f, maxPushMultiplier, currentStamina / maxStamina);
-                float finalPush = pushForce * staminaFactor;
-                // Si el objetivo nos está mirando de frente, reducimos la fuerza
-                if (Vector3.Dot(transform.forward, _target.transform.forward) < -0.5f)
-                {
-                    finalPush *= 0.5f;
-                }
-                trgRb.AddForce(transform.forward * finalPush, ForceMode.Impulse);
-            
-                // Consumir estamina
-                currentStamina -= staminaCostPerPush;
-                currentStamina = Mathf.Max(currentStamina, 0);
-                _pushCd = pushCooldown;
-                _target = null;
-                PickNewWanderPoint();
-            }
-        }
-    }
-
-    void MoveTowards(Vector3 dir, float speed)
-    {
-        Vector3 desiredXZ = (dir != Vector3.zero) ? dir.normalized * speed : Vector3.zero;
-
-        Vector3 flatNow = Flat(_rb.linearVelocity);
-        Vector3 flatNext = Vector3.MoveTowards(flatNow, desiredXZ, acceleration * Time.fixedDeltaTime);
-        _rb.linearVelocity = new Vector3(flatNext.x, _rb.linearVelocity.y, flatNext.z);
-    }
-
-    // Compute separation but optionally ignore the current target so attacker doesn't repel from target.
-    Vector3 ComputeSeparation(CollisionMochiPush ignoreTarget)
-    {
-        float dynamicSeparationRadius = separationRadius; 
-    
-        var cols = Physics.OverlapSphere(transform.position, dynamicSeparationRadius, ~0, QueryTriggerInteraction.Ignore);
-        Vector3 repulse = Vector3.zero; 
-        int count = 0;
-
-        foreach (var c in cols)
-        {
-            if (c.attachedRigidbody == null || c.attachedRigidbody == _rb) continue;
-            if (ignoreTarget != null && c.gameObject == ignoreTarget.gameObject) continue;
-
-            Vector3 away = Flat(transform.position - c.transform.position);
-            float dist = away.magnitude;
-            
-            // Si están casi uno encima del otro (dist < 0.5), la fuerza de repulsión es masiva
-            float force = (dist < 0.5f) ? 10f : (10f / Mathf.Max(dist, 0.1f));
-            // La fuerza de repulsión ahora es inversamente proporcional a la distancia pero con un tope
-            repulse += away.normalized * force;
-            count++;
-        }
-
-        return (count > 0) ? (repulse / count) * separationStrength : Vector3.zero;
-    }
-
-    void FaceTowards(Vector3 fallbackDir)
-    {
-        Vector3 flatVel = Flat(_rb.linearVelocity);
-        Vector3 face = flatVel.sqrMagnitude > 0.01f ? flatVel.normalized
-                      : (fallbackDir.sqrMagnitude > 0.0001f ? fallbackDir.normalized : transform.forward);
-
-        Quaternion look = Quaternion.LookRotation(face, Vector3.up);
+        Quaternion look = Quaternion.LookRotation(face.normalized, Vector3.up);
+        // Usar fixedDeltaTime para rotación en FixedUpdate
         transform.rotation = Quaternion.Slerp(transform.rotation, look, rotateSpeed * Time.fixedDeltaTime);
     }
-
-    CollisionMochiPush FindNearestCompetitor(float radius)
-    {
-        CollisionMochiPush bestC = null;
-        float best = float.MaxValue;
-
-        // Preferir la lista del GameManager si está poblada
-        var source = (gameManager != null && gameManager.combatants != null && gameManager.combatants.Count > 0)
-            ? gameManager.combatants.ToArray()
-            : FindObjectsOfType<CollisionMochiPush>(true);
-
-        foreach (var c in source)
-        {
-            if (c == null || c == _self || !c.gameObject.activeInHierarchy || c.Eliminated) continue;
-            float dSq = HorizontalSqrDistanceTo(c.transform.position);
-            if (dSq <= radius && dSq < best)
-            {
-                best = dSq; 
-                bestC = c;
-            }
-        }
-
-        return bestC;
-    }
-
-    bool IsColliderNear(CollisionMochiPush other, float threshold)
-    {
-        if (other == null) return false;
-        if (_col == null) _col = GetComponent<Collider>();
-        if (!other.TryGetComponent<Collider>(out var otherCol)) return false;
-
-        // Closest points entre colliders (0 si overlap)
-        Vector3 a = _col.ClosestPoint(otherCol.bounds.center);
-        Vector3 b = otherCol.ClosestPoint(_col.bounds.center);
-        float separation = Vector3.Distance(a, b);
-        if (debugLogs) Debug.Log($"[Bot] {name} sep({other.name}) = {separation:F3}");
-        return separation <= Mathf.Max(0.001f, threshold);
-    }
-
-    bool IsPointInsideArena(Vector3 p)
-    {
-        if (!arenaCenter || arenaRadius <= 0f) return true;
-        Vector3 c = arenaCenter.transform.position;
-        float dx = p.x - c.x, dz = p.z - c.z;
-        float dist = Mathf.Sqrt(dx * dx + dz * dz);
-        return dist <= (arenaRadius - edgeSafeMargin * 0.5f);
-    }
-
+    #endregion
+    #region Extra Functions
     bool IsNearEdge(out Vector3 dirToCenter)
     {
         dirToCenter = Vector3.zero;
-        if (!arenaCenter || arenaRadius <= 0f) return false;
+        Vector3 offset = transform.position - arenaCenterGO.transform.position;
+        offset.y = 0;
 
-        Vector2 flatFromCenter = new Vector2(transform.position.x - arenaCenter.transform.position.x,
-                                             transform.position.z - arenaCenter.transform.position.z);
-        float dist = flatFromCenter.magnitude;
-        if (dist > (arenaRadius - edgeSafeMargin))
+        float dangerStartDistance = arenaRadius - edgeSafeMargin;
+        if (offset.sqrMagnitude > (dangerStartDistance * dangerStartDistance))
         {
-            Vector3 toCenter = arenaCenter.transform.position - transform.position;
-            dirToCenter = Flat(toCenter).normalized;
+            Debug.DrawRay(transform.position, -offset.normalized * 2f, Color.magenta); // Flecha visual hacia el centro
+            dirToCenter = -offset.normalized;
             return true;
         }
+
         return false;
     }
+    #endregion
+    #region Gizmos
 
-    void PickNewWanderPoint()
+    private void OnDrawGizmosSelected()
     {
-        if (arenaCenter && arenaRadius > 0f)
+        if (ShowGizmos)
         {
-            // Buscamos al rival mas cercano
-            CollisionMochiPush nearestRival = FindNearestCompetitor(detectionRadius);
+            // Círculo del Radio Total de la Arena
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(arenaCenterGO ? arenaCenterGO.position : Vector3.zero, arenaRadius);
 
-            if (nearestRival != null)
-            {
-                // El siguiente punto de patrulla será cerca del rival encontrado
-                Vector3 targetPos = nearestRival.transform.position;
-                Vector3 dirFromTarget = (transform.position - targetPos).normalized;
+            // Círculo de la Zona Segura (donde empieza el IsNearEdge)
+            Gizmos.color = Color.red;
+            float safeDist = arenaRadius - edgeSafeMargin;
+            Gizmos.DrawWireSphere(arenaCenterGO ? arenaCenterGO.position : Vector3.zero, safeDist);
 
-                // Buscamos un punto cercano pero no el mismo del rival, para que parezca un amague
-                Vector3 sideStep = Quaternion.Euler(0, Random.Range(60, 120) * (Random.value > 0.5f ? 1 : -1), 0) * dirFromTarget;
-                _wanderPoint = targetPos + (sideStep * Random.Range(2f, 4f));
-            }
-            else
+            // Rango de Detección de Ataque
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+            // Rango de Pérdida de Objetivo (VERDE)
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, attackRange * loseTargetMultiplier);
+            
+            // Punto de Wander actual
+            if (currentState == BotState.Patrolling)
             {
-                // Si no hay nadie cerca, patrullar el area central de la arena
-                float safeR = arenaRadius;
-                Vector2 rnd = Random.insideUnitCircle * safeR;
-                _wanderPoint = arenaCenter.transform.position + new Vector3(rnd.x, 0f, rnd.y);
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(transform.position, _wanderPoint);
+                Gizmos.DrawSphere(_wanderPoint, 0.1f);
             }
         }
-
-        // Si el punto quedó fuera de la arena, volver al centro
-        if (!IsPointInsideArena(_wanderPoint)) 
-            _wanderPoint = arenaCenter.transform.position;
-
-        _wanderRefreshTimer = Random.Range(wanderPointRefreshMin, wanderPointRefreshMax);
     }
 
-    Vector3 Flat(Vector3 v) => new Vector3(v.x, 0f, v.z);
-
-    float HorizontalDistanceTo(Vector3 worldPos)
-    {
-        Vector3 d = worldPos - transform.position; d.y = 0f; return d.magnitude;
-    }
-
-    float HorizontalSqrDistanceTo(Vector3 worldPos)
-    {
-        Vector3 d = worldPos - transform.position; d.y = 0f; return d.sqrMagnitude;
-    }
+    #endregion
 }

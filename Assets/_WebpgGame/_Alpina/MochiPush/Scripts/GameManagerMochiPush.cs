@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class GameManagerMochiPush : MonoBehaviour
@@ -13,10 +14,19 @@ public class GameManagerMochiPush : MonoBehaviour
     [Header("Participantes")]
     [Tooltip("Arrastra aquí el CollisionMochiPush del jugador principal.")]
     public CollisionMochiPush playerCombatant;
-
-    [Tooltip("Se puede llenar por Inspector o se autollenará en Start.")]
     public List<CollisionMochiPush> combatants = new List<CollisionMochiPush>();
-
+    
+    [Header("Start Game Components")]
+    [SerializeField] private GameObject tutorialUIGO;
+    [SerializeField] private GameObject UIControls;
+    [SerializeField] private CinemachineSplineDolly introCameraDolly;
+    [SerializeField] private GameObject miniGameBaseCamera;
+    
+    [SerializeField] private float timeToStartIntro = 5f;
+    [SerializeField] private float startPanDuration = 4f;
+    [SerializeField] private PowerUpSpawner spawner;
+    bool gameRunning = false;
+    
     [Header("UI Resultados")]
     public GameObject resultadosUI;   
     public GameObject panelGanaste;   
@@ -46,11 +56,19 @@ public class GameManagerMochiPush : MonoBehaviour
     void Start()
     {
         if (resultadosUI) resultadosUI.SetActive(false);
+        if (UIControls != null)
+            UIControls.SetActive(false);
+        SwitchBotPlayerState(false);
+        if (introCameraDolly != null)
+        {
+            // iniciar juego luego del paneo
+            StartCoroutine(WaitFortutorialTime());
+        }
     }
 
     void Update()
     {
-        if (_finished) return;
+        if (_finished || !gameRunning) return;
 
         if (Time.time >= _nextCheck)
         {
@@ -153,5 +171,37 @@ public class GameManagerMochiPush : MonoBehaviour
         combatants.Remove(c);
     }
     
-    
+    IEnumerator WaitFortutorialTime()
+    {
+        yield return new WaitForSeconds(timeToStartIntro);
+        
+        introCameraDolly.enabled = true;
+        if(tutorialUIGO !=null)
+            tutorialUIGO.SetActive(false);
+        
+        yield return new WaitForSeconds(startPanDuration);
+        if (UIControls != null) UIControls.SetActive(true);
+        miniGameBaseCamera.SetActive(true);
+        StartGame();
+    }
+    public void StartGame()
+    {
+        gameRunning = true;
+
+        SwitchBotPlayerState(true);
+        
+        if (spawner != null)
+            spawner.StartCoroutine();
+    }
+
+    private void SwitchBotPlayerState(bool state)
+    {
+        foreach (var p in combatants)
+        {
+            p.canMove = state;
+            p.enabled = state;
+        }
+        playerCombatant.canMove = state;    
+        playerCombatant.enabled = state;
+    }
 }

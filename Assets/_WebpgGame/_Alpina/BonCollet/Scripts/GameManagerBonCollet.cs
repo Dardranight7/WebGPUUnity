@@ -73,7 +73,6 @@ public class GameManagerBonCollet : MonoBehaviour
 
     // Estado interno
     bool gameRunning = false;
-
     private void Awake()
     {
         // Buscar AudioManager (como en tu GameManager)
