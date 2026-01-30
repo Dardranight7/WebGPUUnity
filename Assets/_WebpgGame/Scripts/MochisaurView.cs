@@ -80,7 +80,7 @@ public class MochisaurView : MonoBehaviour
                     {
                         if (b.code == 0)
                         {
-                            Backend.singleton.playerProfile.gems = Backend.singleton.playerProfile.gems - collection[index].cost;
+                            Backend.singleton.playerProfile.gems = Backend.singleton.playerProfile.gems - MOCHI_COST;
                             Backend.singleton.GetUserData(Backend.singleton.Serial, (c) =>
                             {
                                 Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(c.data);
