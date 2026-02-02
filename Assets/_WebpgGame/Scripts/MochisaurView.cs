@@ -72,28 +72,30 @@ public class MochisaurView : MonoBehaviour
                 if (a.code == 0)
                 {
                     Backend.singleton.playerProfile.unlockedMochis = JsonConvert.SerializeObject(indexes);
-                    Backend.singleton.UpdateData(new UpdateGems
-                    {
-                        serial = Backend.singleton.playerProfile.serial,
-                        gems = Backend.singleton.playerProfile.gems - (MOCHI_COST * 12)
-                    }, (b =>
-                    {
-                        if (b.code == 0)
+                    if(index != 40)
+                        Backend.singleton.UpdateData(new UpdateGems
                         {
-                            Backend.singleton.playerProfile.gems = Backend.singleton.playerProfile.gems - MOCHI_COST;
-                            popupBuyMochi.gameObject.SetActive(false);
-                            Backend.singleton.GetUserData(Backend.singleton.Serial, (c) =>
+                            
+                            serial = Backend.singleton.playerProfile.serial,
+                            gems = Backend.singleton.playerProfile.gems - (MOCHI_COST * 12)
+                        }, (b =>
+                        {
+                            if (b.code == 0)
                             {
-                                Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(c.data);
-                                Backend.singleton.playerProfile = datos;
-                                Backend.OnPlayerProfileUpdate?.Invoke();
-                            });
-                        }
-                        else
-                        {
-                            Debug.Log(b);
-                        }
-                    }));
+                                Backend.singleton.playerProfile.gems = Backend.singleton.playerProfile.gems - MOCHI_COST;
+                                popupBuyMochi.gameObject.SetActive(false);
+                                Backend.singleton.GetUserData(Backend.singleton.Serial, (c) =>
+                                {
+                                    Backend.PlayerProfileDTO datos = JsonConvert.DeserializeObject<Backend.PlayerProfileDTO>(c.data);
+                                    Backend.singleton.playerProfile = datos;
+                                    Backend.OnPlayerProfileUpdate?.Invoke();
+                                });
+                            }
+                            else
+                            {
+                                Debug.Log(b);
+                            }
+                        }));
                 }
                 else
                 {
@@ -263,7 +265,11 @@ public class MochisaurView : MonoBehaviour
                 
                 selectedSlotMochi.gameObject.SetActive(true);
                 selectedSlotMochi.mochisaurView = this;
-                selectedSlotMochi.UpdateVisual(Backend.singleton.MochiDB[i].image, Backend.singleton.MochiDB[i].name, i,isUnlocked);
+                
+                if(i == 40)
+                    selectedSlotMochi.UpdateVisual(Backend.singleton.MochiDB[i].image, Backend.singleton.MochiDB[i].name, i, isUnlocked,true);
+                else
+                    selectedSlotMochi.UpdateVisual(Backend.singleton.MochiDB[i].image, Backend.singleton.MochiDB[i].name, i, isUnlocked);
 
                 activeSlotIndex++;
             }

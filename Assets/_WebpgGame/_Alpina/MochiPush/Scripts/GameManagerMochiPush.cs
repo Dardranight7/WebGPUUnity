@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 
 public class GameManagerMochiPush : MonoBehaviour
 {
     [Header("Arena")]
-    public Transform arenaCenter;
-    public float arenaRadius = 12f;
     [SerializeField] private TournamentManager tournamentManager;
     
     [Header("Participantes")]
@@ -17,6 +16,10 @@ public class GameManagerMochiPush : MonoBehaviour
     public List<CollisionMochiPush> combatants = new List<CollisionMochiPush>();
     
     [Header("Start Game Components")]
+    [SerializeField] private float gameDuration = 180f;
+    [SerializeField] private float timeRemaining;
+    public TMP_Text timerText;
+    
     [SerializeField] private GameObject tutorialUIGO;
     [SerializeField] private GameObject UIControls;
     [SerializeField] private CinemachineSplineDolly introCameraDolly;
@@ -45,16 +48,27 @@ public class GameManagerMochiPush : MonoBehaviour
     [Header("Chequeo de victoria")]
     public float checkEvery = 0.25f;
 
-    bool _finished;
+    [SerializeField] private bool _finished = false;
     float _nextCheck;
     
     [Header("Audios")]
-    public AudioSource audioSource;
+    private AudioManager audioManager;
+    
+    public AudioClip backgroundMusic;
     public AudioClip victoryClip;
     public AudioClip loseClip;
     
+    private void Awake()
+    {
+        // Buscar AudioManager (como en tu GameManager)
+        if (audioManager == null) audioManager = AudioManager.Instance;
+        if (audioManager == null) audioManager = FindObjectOfType<AudioManager>();
+    }
     void Start()
     {
+        if(backgroundMusic!=null)
+            if (audioManager != null) 
+                audioManager.PlayMusic(backgroundMusic, 1f);
         if (resultadosUI) resultadosUI.SetActive(false);
         if (UIControls != null)
             UIControls.SetActive(false);
@@ -64,19 +78,36 @@ public class GameManagerMochiPush : MonoBehaviour
             // iniciar juego luego del paneo
             StartCoroutine(WaitFortutorialTime());
         }
+        timeRemaining = gameDuration;
+        UpdateTimerUI(timeRemaining);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (_finished || !gameRunning) return;
 
+        timeRemaining -= Time.deltaTime;
+        UpdateTimerUI(timeRemaining);
+
+        if (timeRemaining <= 0)
+        {
+            CheckWinCondition();
+        }
         if (Time.time >= _nextCheck)
         {
             CheckWinCondition();
             _nextCheck = Time.time + checkEvery;
         }
     }
-
+    void UpdateTimerUI(float seconds)
+    {
+        if (timerText == null) return;
+        seconds = Mathf.Max(0f, seconds);
+        int s = Mathf.CeilToInt(seconds);
+        int mins = s / 60;
+        int secs = s % 60;
+        timerText.text = string.Format("{0:00}:{1:00}", mins, secs);
+    }
     // Llama esto desde CollisionMochiPush.Eliminate()
     public void NotifyEliminated(CollisionMochiPush who)
     {
@@ -87,7 +118,6 @@ public class GameManagerMochiPush : MonoBehaviour
     void CheckWinCondition()
     {
         if (_finished) return;
-
         // “En pie en la plataforma” = activo y no Eliminated
         var vivos = combatants
             .Where(c => c != null && c.gameObject.activeInHierarchy && !c.Eliminated)
@@ -99,9 +129,13 @@ public class GameManagerMochiPush : MonoBehaviour
             CollisionMochiPush winner = vivos.Count == 1 ? vivos[0] : null;
             StartCoroutine(EndSequence(winner));
         }
+        else if(timeRemaining <= 0)
+        {
+            StartCoroutine(EndSequence());
+        }
     }
 
-    IEnumerator EndSequence(CollisionMochiPush winner)
+    IEnumerator EndSequence(CollisionMochiPush winner = null)
     {
         if (stopBotsOnEnd)
         {
@@ -143,13 +177,12 @@ public class GameManagerMochiPush : MonoBehaviour
         if (panelGanaste) panelGanaste.SetActive(playerGano);
         if (panelPerdiste) panelPerdiste.SetActive(!playerGano);
 
-        if (audioSource != null)
+        if (audioManager != null)
         {
-            audioSource.Stop();
             if (playerGano && victoryClip != null)
-                audioSource.PlayOneShot(victoryClip);
+                audioManager.PlayMusic(victoryClip);
             else if (!playerGano && loseClip != null)
-                audioSource.PlayOneShot(loseClip);
+                audioManager.PlayMusic(loseClip);
             
         }
         

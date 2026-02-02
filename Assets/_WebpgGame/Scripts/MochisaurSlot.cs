@@ -7,23 +7,43 @@ public class MochisaurSlot : MonoBehaviour
 {
     public Button Btn;
     public MochisaurView mochisaurView;
-    public TextMeshProUGUI MochiName;
+    public TextMeshProUGUI MochiName,unLockText;
     public Image Image;
     public TextMeshProUGUI costText;
     public Transform cost, bought;
     public int index = 0;
     
-    public void UpdateVisual(Sprite sprite, string name, int index, bool isUnlocked)
+    public void UpdateVisual(Sprite sprite, string name, int index, bool isUnlocked, bool isFree = false)
     {
         this.index = index;
         Image.sprite = sprite;
         MochiName.text = name;
         Btn.onClick.RemoveAllListeners();
-        bought.gameObject.SetActive(isUnlocked);
-        cost.gameObject.SetActive(!isUnlocked);
         
-        costText.gameObject.SetActive(!isUnlocked);
-        costText.text = "50";
+        if (!isUnlocked)
+        {
+            if (isFree)
+            {
+                unLockText.gameObject.SetActive(true);
+                costText.gameObject.SetActive(false);
+                cost.gameObject.SetActive(false);
+            }
+            else
+            {
+                unLockText.gameObject.SetActive(false);
+                costText.gameObject.SetActive(true);
+                cost.gameObject.SetActive(true);
+                costText.text = "50";
+            }
+        }
+        else
+        {
+            costText.gameObject.SetActive(false);
+            cost.gameObject.SetActive(false);
+            unLockText.gameObject.SetActive(false);
+            
+        }
+        bought.gameObject.SetActive(isUnlocked);
         if (isUnlocked)
             Btn.onClick.AddListener(()=>ChangeSelected(index));
         else

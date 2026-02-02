@@ -5,11 +5,13 @@ public class StunPowerUp : MonoBehaviour
 {
     [SerializeField] private float stunDuration = 3f;
     [SerializeField] private GameObject pickUpEffect;
+    [SerializeField] private PowerUpSpawner spawner;
 
     private GameObject currentParent;
-    private void Start()
+    public void SetupPowerUp(PowerUpSpawner spawner)
     {
         currentParent = transform.parent.gameObject;
+        this.spawner = spawner;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,7 +26,7 @@ public class StunPowerUp : MonoBehaviour
             if (pickUpEffect != null)
                 Instantiate(pickUpEffect, transform.position, Quaternion.identity);
 
-            
+            spawner.DeletePowerup();
             Destroy(currentParent);
         }
     }
