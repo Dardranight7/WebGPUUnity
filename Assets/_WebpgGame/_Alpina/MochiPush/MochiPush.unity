@@ -665,6 +665,224 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4661593248573732, guid: cd8a919d250921a47b55356e13bc37f4, type: 3}
   m_PrefabInstance: {fileID: 79058695}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &92179631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 92179633}
+  - component: {fileID: 92179632}
+  m_Layer: 0
+  m_Name: Backend
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &92179632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92179631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2240aa1b345764642bcd1703e4f2e72e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Alpina::Backend
+  Serial: 
+  playerProfile:
+    serial: 
+    nombre: 
+    apellido: 
+    email: 
+    userName: 
+    password: 
+    documentType: 
+    documentNumber: 
+    phone: 
+    city: 
+    dataProcessingConsent: 0
+    acceptedTermsAndConditions: 0
+    completedTutorial: 0
+    minigame1PlayCount: 0
+    minigame2PlayCount: 0
+    minigame3PlayCount: 0
+    minigame4PlayCount: 0
+    tournamentPlayCount: 0
+    minigame1WinCount: 0
+    minigame2WinCount: 0
+    minigame3WinCount: 0
+    minigame4WinCount: 0
+    tournamentWinCount: 0
+    pcConnectionCount: 0
+    mobileConnectionCount: 0
+    gems: 0
+    mochiPoints: 0
+    unlockedMochis: 
+    userInventory: 
+    userEquip: 
+    activeMochiIndex: 0
+    consecutiveDaysStreak: 0
+    connectedTime: 0
+    loginCount: 0
+    disconectCount: 0
+  MochiDB:
+  - name: "Tortufl\xF3n"
+    image: {fileID: 21300000, guid: 20d29102ea1e4744fb7f9d0857a0d3d6, type: 3}
+    isVisible: 1
+  - name: Rexnardo
+    image: {fileID: 21300000, guid: 3ddf67d49f9dca447a7629f89bfff28b, type: 3}
+    isVisible: 1
+  - name: "Susad\xE1ctila"
+    image: {fileID: 21300000, guid: ba8e2d1342333224998358e52ca0ccc5, type: 3}
+    isVisible: 1
+  - name: "Teodor\xE1ctilo"
+    image: {fileID: 21300000, guid: 7fbc25112102cc44494f860f7716074c, type: 3}
+    isVisible: 1
+  - name: Bebesauria
+    image: {fileID: 21300000, guid: 69510d8ff0d773449bdc75265a3c31af, type: 3}
+    isVisible: 1
+  - name: Panchasauria
+    image: {fileID: 21300000, guid: 0770c55b7185a8448ae2ebd8bb0f7eda, type: 3}
+    isVisible: 1
+  - name: "Miguelod\xF3n"
+    image: {fileID: 21300000, guid: 8e0ea651276f0c444b16c39036913d91, type: 3}
+    isVisible: 1
+  - name: Brontofonso
+    image: {fileID: 21300000, guid: 9a71e994bc5d1ee4d85befc33bedd671, type: 3}
+    isVisible: 1
+  - name: Bombonita
+    image: {fileID: 21300000, guid: 584c0996d44f13c4e82ecd1196679e18, type: 3}
+    isVisible: 1
+  - name: Rugilina
+    image: {fileID: 21300000, guid: c615ced596f991f41a0d778cd926fda9, type: 3}
+    isVisible: 1
+  - name: "Clarad\xF3n"
+    image: {fileID: 21300000, guid: 44d9ee8c0848028459095e6c903b6bb8, type: 3}
+    isVisible: 1
+  - name: Dragolino
+    image: {fileID: 21300000, guid: 37b78fa18483c7841b4d2f5a18374a85, type: 3}
+    isVisible: 1
+  - name: Fersaurio
+    image: {fileID: 21300000, guid: d4e1040f0c54fbd4db0f669284f8bcb1, type: 3}
+    isVisible: 1
+  - name: Churrosaurio
+    image: {fileID: 21300000, guid: ce0b0dfc65b62284d9d830716b13fe75, type: 3}
+    isVisible: 1
+  - name: Chiquiraptor
+    image: {fileID: 21300000, guid: b2668a981163b684dab4d4f332226b22, type: 3}
+    isVisible: 1
+  - name: Blunko
+    image: {fileID: 21300000, guid: 765283e888022e7408666e2e82e5964b, type: 3}
+    isVisible: 1
+  - name: Fresauria
+    image: {fileID: 21300000, guid: 125e05f14db61014b8b0020ec974dd8c, type: 3}
+    isVisible: 1
+  - name: Federaptor
+    image: {fileID: 21300000, guid: bc665c2548ce53d46bd8cc928e676a2a, type: 3}
+    isVisible: 1
+  - name: "Chispl\xF3n"
+    image: {fileID: 21300000, guid: fa8a8e51eb396944899841d88e85d935, type: 3}
+    isVisible: 1
+  - name: Yogurcio
+    image: {fileID: 21300000, guid: 1cce011e652868f4e84573ef8616fd72, type: 3}
+    isVisible: 1
+  - name: Pompolita
+    image: {fileID: 21300000, guid: f7e91f1b4cc853e41ace51ac3a0450f2, type: 3}
+    isVisible: 1
+  - name: "Gordeli\xF3n"
+    image: {fileID: 21300000, guid: 7ab26aa9bf1a651409ae2b077aa360e1, type: 3}
+    isVisible: 1
+  - name: Ronquisaurio
+    image: {fileID: 21300000, guid: 7b638a408ebe2fd4e9119a62e1403f71, type: 3}
+    isVisible: 1
+  - name: "Jimmylod\xF3n"
+    image: {fileID: 21300000, guid: 69cd786e9e716104ca6723452549825e, type: 3}
+    isVisible: 1
+  - name: Lulisauria
+    image: {fileID: 21300000, guid: cf18d16b021750d4ba1f00b172f05188, type: 3}
+    isVisible: 0
+  - name: Ferodina
+    image: {fileID: 21300000, guid: 0116838e3f4abd142a3e4bc723f46c4b, type: 3}
+    isVisible: 0
+  - name: "Chavel\xF3n"
+    image: {fileID: 21300000, guid: d6931fc7a2d75fe4fb74b2725e558ed6, type: 3}
+    isVisible: 0
+  - name: Chubito
+    image: {fileID: 21300000, guid: f3e9eb017a0868a49abb925968a4055c, type: 3}
+    isVisible: 0
+  - name: Bonyurtina
+    image: {fileID: 21300000, guid: 20582664fdbc2364a94d6fa5c91b434e, type: 3}
+    isVisible: 0
+  - name: Tronkolia
+    image: {fileID: 21300000, guid: 29bb57f8e1c9d6e4cb3a4194eb27a3ab, type: 3}
+    isVisible: 0
+  - name: Juanosaurio
+    image: {fileID: 21300000, guid: e823f5a6b18a0354bb225918611fa894, type: 3}
+    isVisible: 0
+  - name: Veloriska
+    image: {fileID: 21300000, guid: cf0ec3fec1394d0488af2a891b05f1e6, type: 3}
+    isVisible: 0
+  - name: Manchilo
+    image: {fileID: 21300000, guid: e211caca473a3694796f2ce382dc9ed6, type: 3}
+    isVisible: 0
+  - name: Capisaurio
+    image: {fileID: 21300000, guid: a21927391d146b349a9ea4a65a805ad7, type: 3}
+    isVisible: 0
+  - name: Cocolauria
+    image: {fileID: 21300000, guid: a2c79984072a27b49832b8ebb7798f09, type: 3}
+    isVisible: 0
+  - name: Chispadita
+    image: {fileID: 21300000, guid: 4403deccb50d1f7459d598fa0b32524e, type: 3}
+    isVisible: 0
+  - name: Aplastadina
+    image: {fileID: 21300000, guid: 2959737a24b18254295b654feec3b361, type: 3}
+    isVisible: 1
+  - name: Dinalina
+    image: {fileID: 21300000, guid: 2205e8955c6f67e4c81f4fc7b1b981f9, type: 3}
+    isVisible: 0
+  - name: Sauricio
+    image: {fileID: 21300000, guid: ead508fca1dd3fc438f81352bafb7f6a, type: 3}
+    isVisible: 0
+  - name: Titosaurio
+    image: {fileID: 21300000, guid: 032036182377c074f95dbdee10656b67, type: 3}
+    isVisible: 1
+  - name: Pulpol
+    image: {fileID: 21300000, guid: e75f61d4ec6960046bc5caefbb971f95, type: 3}
+    isVisible: 1
+  - name: Mantonio
+    image: {fileID: 21300000, guid: 413f97645dc1e294f82c25581b2b2636, type: 3}
+    isVisible: 1
+  - name: Medusina
+    image: {fileID: 21300000, guid: b9ac386ebe9d6194499e4342f722966b, type: 3}
+    isVisible: 1
+  - name: Martincho
+    image: {fileID: 21300000, guid: b59aefecad793714fb5fb85e23d047bd, type: 3}
+    isVisible: 1
+  - name: Tortulina
+    image: {fileID: 21300000, guid: 973e99408c479ba4fa8302e596c815d8, type: 3}
+    isVisible: 1
+  tiempoEspera: 5
+--- !u!4 &92179633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92179631}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 553.9817, y: 390.33337, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &123134127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1217,6 +1435,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4661593248573732, guid: cd8a919d250921a47b55356e13bc37f4, type: 3}
   m_PrefabInstance: {fileID: 198449051}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &203252300 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7090626250019933778, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
+  m_PrefabInstance: {fileID: 5442335258715768413}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &214018906
 GameObject:
   m_ObjectHideFlags: 0
@@ -8899,7 +9128,7 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: mochiSprite
       value: 
-      objectReference: {fileID: 907547807}
+      objectReference: {fileID: 203252300}
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: isPlayerMochi
       value: 0
@@ -8907,6 +9136,10 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: mochiIndexPref
       value: mochiBot3
+      objectReference: {fileID: 0}
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: forceRandomizeMochi
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 985918626212790962, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: m_Layer
@@ -63608,6 +63841,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &678471952 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7090626250019933778, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
+  m_PrefabInstance: {fileID: 2157694272290003884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &739016875
 GameObject:
   m_ObjectHideFlags: 0
@@ -64233,17 +64477,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6909032447335022299, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
   m_PrefabInstance: {fileID: 5442335258715768413}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &907547807 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7807040715065081500, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
-  m_PrefabInstance: {fileID: 5442335258715768413}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &908229049
 GameObject:
   m_ObjectHideFlags: 0
@@ -71029,7 +71262,7 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: mochiSprite
       value: 
-      objectReference: {fileID: 1405474697}
+      objectReference: {fileID: 2070939876}
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: isPlayerMochi
       value: 0
@@ -71037,6 +71270,10 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: mochiIndexPref
       value: mochiBot2
+      objectReference: {fileID: 0}
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: forceRandomizeMochi
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 985918626212790962, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: m_Layer
@@ -125580,7 +125817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1148313795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125936,6 +126173,142 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177555596}
+  m_CullTransparentMesh: 1
+--- !u!1 &1197061081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1197061082}
+  - component: {fileID: 1197061084}
+  - component: {fileID: 1197061083}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1197061082
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197061081}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1292867098}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 68.307, y: -215.02974}
+  m_SizeDelta: {x: 64.7357, y: 42.6315}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1197061083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197061081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: P1
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 1a43674c840640c45852f094f7ca55d7, type: 2}
+  m_sharedMaterial: {fileID: 5858908193339867244, guid: 1a43674c840640c45852f094f7ca55d7, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 40
+  m_fontSizeBase: 40
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1197061084
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197061081}
   m_CullTransparentMesh: 1
 --- !u!1001 &1206615834
 PrefabInstance:
@@ -194438,7 +194811,7 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: mochiSprite
       value: 
-      objectReference: {fileID: 1586739480}
+      objectReference: {fileID: 678471952}
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: isPlayerMochi
       value: 0
@@ -194446,6 +194819,10 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: mochiIndexPref
       value: mochiBot1
+      objectReference: {fileID: 0}
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: forceRandomizeMochi
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 985918626212790962, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: m_Layer
@@ -248624,17 +249001,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6909032447335022299, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
   m_PrefabInstance: {fileID: 4245145383833597481}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1292867100 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7807040715065081500, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
-  m_PrefabInstance: {fileID: 4245145383833597481}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &1306101267
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -249947,17 +250313,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6909032447335022299, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
   m_PrefabInstance: {fileID: 368030731404348635}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1405474697 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7807040715065081500, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
-  m_PrefabInstance: {fileID: 368030731404348635}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &1425551475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -250193,7 +250548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627e5136fcbf1914e85262831ebabbdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManagerMochiPush
-  tournamentManager: {fileID: 7831110582073188352, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+  tournamentManager: {fileID: 1506970619}
   playerCombatant: {fileID: 8276545221202126716}
   combatants:
   - {fileID: 587708475}
@@ -250213,7 +250568,7 @@ MonoBehaviour:
   resultadosUI: {fileID: 241387965}
   panelGanaste: {fileID: 241387972}
   panelPerdiste: {fileID: 241387968}
-  podiumCamera: {fileID: 0}
+  podiumCamera: {fileID: 1610310139}
   cameraPanner: {fileID: 1618925762}
   panDistance: 5.5
   panHeight: 3
@@ -250560,6 +250915,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8136866503314322709, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
   m_PrefabInstance: {fileID: 1506970617}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1506970619 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7831110582073188352, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
+  m_PrefabInstance: {fileID: 1506970617}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a01eb618cdca354a9c586bb962c5e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TournamentManager
 --- !u!1 &1515730814
 GameObject:
   m_ObjectHideFlags: 0
@@ -250715,17 +251081,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6909032447335022299, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
   m_PrefabInstance: {fileID: 2157694272290003884}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1586739480 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7807040715065081500, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
-  m_PrefabInstance: {fileID: 2157694272290003884}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1590080462 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1918599725395649084, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
@@ -250875,7 +251230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1610310140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251083,8 +251438,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1618925757}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12180995, y: -0.59205186, z: 0.09112549, w: 0.79141206}
-  m_LocalPosition: {x: 2.164503, y: 0.9580186, z: -0.46345827}
+  m_LocalRotation: {x: 0.21898197, y: 0.73547953, z: -0.27897727, w: 0.5773114}
+  m_LocalPosition: {x: -26.03882, y: -6.1733227, z: -2.9888504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -253272,6 +253627,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.4420163, y: 0.24105918, z: 0.20852436}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2044311349 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7090626250019933778, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
+  m_PrefabInstance: {fileID: 4245145383833597481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &2058176201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -253582,6 +253948,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.4420163, y: 0.24105918, z: 0.20852436}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2070939876 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7090626250019933778, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
+  m_PrefabInstance: {fileID: 368030731404348635}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &2086289278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -254774,7 +255151,7 @@ PrefabInstance:
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: mochiSprite
       value: 
-      objectReference: {fileID: 1292867100}
+      objectReference: {fileID: 2044311349}
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: mochiIndexPref
       value: mochiBot
@@ -258030,7 +258407,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6909032447335022299, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1197061082}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
 --- !u!1 &4245145383833597482 stripped
@@ -262521,6 +262901,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1618925760}
+  - {fileID: 92179633}
   - {fileID: 1240412976}
   - {fileID: 4036246215884882235}
   - {fileID: 1539969856}
