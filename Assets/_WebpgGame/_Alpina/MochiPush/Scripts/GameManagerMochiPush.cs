@@ -23,6 +23,7 @@ public class GameManagerMochiPush : MonoBehaviour
     [SerializeField] private GameObject tutorialUIGO;
     [SerializeField] private GameObject UIControls;
     [SerializeField] private CinemachineSplineDolly introCameraDolly;
+    [SerializeField] private GameObject introCinemachineCamera;
     [SerializeField] private GameObject miniGameBaseCamera;
     
     [SerializeField] private float timeToStartIntro = 5f;
@@ -40,7 +41,7 @@ public class GameManagerMochiPush : MonoBehaviour
     public float panDistance = 5.5f;
     public float panHeight = 3.0f;
     public float panArcDeg = 35f;
-    public float panDuration = 2.0f;
+    public float panDuration = 3.0f;
 
     [Header("Al finalizar")]
     public bool stopBotsOnEnd = true;  
@@ -123,14 +124,15 @@ public class GameManagerMochiPush : MonoBehaviour
             .Where(c => c != null && c.gameObject.activeInHierarchy && !c.Eliminated)
             .ToList();
 
-        if (vivos.Count <= 1)
+        if (vivos.Count == 1)
         {
             _finished = true;
-            CollisionMochiPush winner = vivos.Count == 1 ? vivos[0] : null;
+            CollisionMochiPush winner = vivos[0];
             StartCoroutine(EndSequence(winner));
         }
         else if(timeRemaining <= 0)
         {
+            _finished = true;
             StartCoroutine(EndSequence());
         }
     }
@@ -208,13 +210,16 @@ public class GameManagerMochiPush : MonoBehaviour
     {
         yield return new WaitForSeconds(timeToStartIntro);
         
+        introCinemachineCamera.gameObject.SetActive(true);
         introCameraDolly.enabled = true;
+        
         if(tutorialUIGO !=null)
             tutorialUIGO.SetActive(false);
         
         yield return new WaitForSeconds(startPanDuration);
         if (UIControls != null) UIControls.SetActive(true);
         miniGameBaseCamera.SetActive(true);
+        introCinemachineCamera.gameObject.SetActive(false);
         StartGame();
     }
     public void StartGame()

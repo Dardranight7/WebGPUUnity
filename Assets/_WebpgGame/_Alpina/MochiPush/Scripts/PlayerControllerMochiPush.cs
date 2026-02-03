@@ -164,11 +164,13 @@ public class PlayerControllerMochiPush : MonoBehaviour
 
     IEnumerator StunRoutine(float time) {
         isStunned = true;
+        _self.canPush = false;
         VfxManager.Instance.SpawnVFX("MegaStun", transform);
         animVelocity = 0; // Detener animación
         rb.linearVelocity = Vector3.zero; // Detener movimiento físico
         yield return new WaitForSeconds(time);
         isStunned = false;
+        _self.canPush = true;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -221,57 +223,6 @@ public class PlayerControllerMochiPush : MonoBehaviour
             }
         }
     }
-    /*
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("MochiPushBoundary"))
-            return;
-
-        Rigidbody other = collision.rigidbody;
-
-        if (other != null && other != rb)
-        {
-            Vector3 toOther = collision.transform.position - transform.position;
-            Vector3 toOtherFlat = new Vector3(toOther.x, 0f, toOther.z).normalized;
-            float angle = Vector3.Angle(transform.forward, toOtherFlat);
-
-            if (angle <= 100 && currentStamina > 5f)
-            {
-                float staminaFactor = Mathf.Lerp(0.5f, maxPushMultiplier, currentStamina / maxStamina);
-                float calculatedForce = pushForce * staminaFactor;
-            
-                // Revisamos si el otro objeto tambien es un luchador (Bot o Player)
-                bool isOtherPushing = false;
-            
-                // Intentamos obtener el script del Bot o de otro Jugador
-                if (collision.gameObject.TryGetComponent<BotMochiPush>(out var bot))
-                {
-                    // Si el bot nos está mirando (ángulo entre forwards es cercano a -1)
-                    if (Vector3.Dot(transform.forward, collision.transform.forward) < -0.5f)
-                        isOtherPushing = true;
-                }
-                else if (collision.gameObject.TryGetComponent<PlayerControllerMochiPush>(out var otherPlayer))
-                {
-                    if (Vector3.Dot(transform.forward, collision.transform.forward) < -0.5f)
-                        isOtherPushing = true;
-                }
-
-                if (isOtherPushing)
-                {
-                    calculatedForce *= 0.5f; // Reducción a la mitad por choque mutuo
-                }
-                // ---------------------------------------
-
-                other.AddForce(transform.forward * calculatedForce, ForceMode.Impulse);
-            
-                currentStamina -= staminaCostPerPush;
-                currentStamina = Mathf.Max(currentStamina, 0);
-
-                if (audioSource != null && pushClip != null && !audioSource.isPlaying)
-                    audioSource.PlayOneShot(pushClip);
-            }
-        }
-    }*/
     /// <summary>
     /// If signal its no This Gameobject we stop
     /// If this script has no Rigidbody assigned we stop

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // “Combatant” de tu juego. Decide cuándo está FUERA de la plataforma y notifica al GameManager.
 [RequireComponent(typeof(Rigidbody))]
@@ -20,7 +21,7 @@ public class CollisionMochiPush : MonoBehaviour
     [Header("Física de Empuje")]
     public float pushForce = 5f;        // Fuerza base del impacto
     public float recoilForce = 2f;      // Fuerza que recibe el que choca
-    private bool canBePushed = true;    // Para evitar rebotes infinitos
+    public bool canPush = true;    // Para evitar rebotes infinitos
     
     [Header("Reglas de eliminación")]
     public float extraRadiusMargin = 0.4f;    // Tolerancia por colisionadores
@@ -80,7 +81,7 @@ public class CollisionMochiPush : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (Eliminated || !canBePushed) return;
+        if (Eliminated || !canPush) return;
 
         // Buscamos si el otro objeto también es un Mochi
         CollisionMochiPush other = collision.gameObject.GetComponent<CollisionMochiPush>();
@@ -106,15 +107,15 @@ public class CollisionMochiPush : MonoBehaviour
                 _rb.AddForce(-direction * recoilForce, ForceMode.Impulse);
             
             // Pequeña pausa para no procesar 100 choques por segundo
-            StartCoroutine(PushCooldown());
+            // StartCoroutine(PushCooldown());
         }
     }
-    IEnumerator PushCooldown()
-    {
-        canBePushed = false;
-        yield return new WaitForSeconds(coldownToNextPush);
-        canBePushed = true;
-    }
+    // IEnumerator PushCooldown()
+    // {
+    //     canPush = false;
+    //     yield return new WaitForSeconds(coldownToNextPush);
+    //     canPush = true;
+    // }
     // KillZone opcional debajo de la isla
     void OnTriggerEnter(Collider other)
     {

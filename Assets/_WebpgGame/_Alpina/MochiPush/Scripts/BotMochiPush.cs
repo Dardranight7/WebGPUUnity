@@ -115,20 +115,11 @@ public class BotMochiPush : MonoBehaviour
                 MoveAndFace(dir.normalized, moveSpeed * attackSpeedMultiplier);
             }
         }
-        // 3. PATRULLA
+        // PATRULLA
         else
         {
             DoWander();
         }
-        // if (currentState == BotState.Attacking)
-        // {
-        //     //Look for attacking state and no movement detected to reset movement and prevent stuck
-        //     if (_rb.linearVelocity.magnitude < 0.1f)
-        //     {
-        //         currentState = BotState.Patrolling;
-        //         targetEnemy = null;
-        //     }
-        // }
     }
 
     #endregion
@@ -256,10 +247,12 @@ public class BotMochiPush : MonoBehaviour
     }
     private IEnumerator BotStunRoutine(float time) {
         _isStunned = true;
+        _self.canPush = false;
         VfxManager.Instance.SpawnVFX("MegaStun", transform);
         _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0); // Solo frenar en XZ
         yield return new WaitForSeconds(time);
         _isStunned = false;
+        _self.canPush = true;
     }
     #endregion
     #region Stamina system
