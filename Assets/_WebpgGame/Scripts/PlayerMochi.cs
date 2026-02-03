@@ -29,9 +29,13 @@ public class PlayerMochi : MonoBehaviour
 
     public void UpdateVisual()
     {
+        List<MochiProp> mochiProps = new List<MochiProp>(GetComponentsInChildren<MochiProp>(true));
+        List<int> propMochiIndex = new List<int>();
+        
         if (forceRandomizeMochi)
         {
             int randomIndex = Random.Range(0, MochisList.Count);
+            propMochiIndex.Add(Random.Range(0,mochiProps.Count));
             PlayerPrefs.SetInt(mochiIndexPref, randomIndex);
         }
 
@@ -42,6 +46,7 @@ public class PlayerMochi : MonoBehaviour
         if (isPlayerMochi)
         {
             int playerMochiIndex;
+            
             if (Backend.singleton == null)
             {
                 playerMochiIndex = 0;
@@ -49,6 +54,7 @@ public class PlayerMochi : MonoBehaviour
             else
             {
                 playerMochiIndex = Backend.singleton.playerProfile.activeMochiIndex;
+                propMochiIndex = Backend.singleton.playerProfile.userEquip;
             }
             MochisList[playerMochiIndex].gameObject.SetActive(true);
             if (swimmingMinigameController != null)
@@ -71,12 +77,15 @@ public class PlayerMochi : MonoBehaviour
                     mochiSprite.sprite = Backend.singleton.MochiDB[index].image;
                 }
             }
-
-            List<MochiProp> mochiProps = new List<MochiProp>(GetComponentsInChildren<MochiProp>(true));
-            foreach (var prop in mochiProps)
-            {
-                prop.gameObject.SetActive(false);
-            }
         }
+        foreach (var prop in mochiProps)
+        {
+            int currentPropIndex = prop.GetComponent<MochiProp>().index;
+            if(propMochiIndex.Contains(currentPropIndex))
+                prop.gameObject.SetActive(true);
+            else    
+                prop.gameObject.SetActive(false);
+        }
+        
     }
 }
