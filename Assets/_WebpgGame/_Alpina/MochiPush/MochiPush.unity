@@ -8897,6 +8897,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: mochiSprite
+      value: 
+      objectReference: {fileID: 907547807}
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: isPlayerMochi
       value: 0
       objectReference: {fileID: 0}
@@ -64229,6 +64233,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6909032447335022299, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
   m_PrefabInstance: {fileID: 5442335258715768413}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &907547807 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7807040715065081500, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
+  m_PrefabInstance: {fileID: 5442335258715768413}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &908229049
 GameObject:
   m_ObjectHideFlags: 0
@@ -71011,6 +71026,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: mochiSprite
+      value: 
+      objectReference: {fileID: 1405474697}
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: isPlayerMochi
       value: 0
@@ -125561,7 +125580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1148313795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194417,6 +194436,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: mochiSprite
+      value: 
+      objectReference: {fileID: 1586739480}
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: isPlayerMochi
       value: 0
       objectReference: {fileID: 0}
@@ -248601,6 +248624,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6909032447335022299, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
   m_PrefabInstance: {fileID: 4245145383833597481}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1292867100 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7807040715065081500, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
+  m_PrefabInstance: {fileID: 4245145383833597481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &1306101267
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -249913,6 +249947,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6909032447335022299, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
   m_PrefabInstance: {fileID: 368030731404348635}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1405474697 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7807040715065081500, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
+  m_PrefabInstance: {fileID: 368030731404348635}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &1425551475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -250168,6 +250213,7 @@ MonoBehaviour:
   resultadosUI: {fileID: 241387965}
   panelGanaste: {fileID: 241387972}
   panelPerdiste: {fileID: 241387968}
+  podiumCamera: {fileID: 0}
   cameraPanner: {fileID: 1618925762}
   panDistance: 5.5
   panHeight: 3
@@ -250452,14 +250498,6 @@ PrefabInstance:
       propertyPath: tournamentWinnerParent
       value: 
       objectReference: {fileID: 241387970}
-    - target: {fileID: 7831110582073188352, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
-      propertyPath: tournaments.Array.data[0].sceneNames.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7831110582073188352, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
-      propertyPath: 'tournaments.Array.data[0].sceneNames.Array.data[3]'
-      value: BonCollect
-      objectReference: {fileID: 0}
     - target: {fileID: 8136866503314322709, guid: 2b48405ed528728458d29b2ac0d01654, type: 3}
       propertyPath: m_LocalScale.x
       value: 0
@@ -250677,6 +250715,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6909032447335022299, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
   m_PrefabInstance: {fileID: 2157694272290003884}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1586739480 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7807040715065081500, guid: be3a5544eb798834ebf58cbb5eaaf671, type: 3}
+  m_PrefabInstance: {fileID: 2157694272290003884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1590080462 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1918599725395649084, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
@@ -254722,6 +254771,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7375877618773893003}
     m_Modifications:
+    - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
+      propertyPath: mochiSprite
+      value: 
+      objectReference: {fileID: 1292867100}
     - target: {fileID: 985696059579807336, guid: 4cfc069f54a176546b4443d234c57c2a, type: 3}
       propertyPath: mochiIndexPref
       value: mochiBot

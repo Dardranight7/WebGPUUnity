@@ -34,7 +34,8 @@ public class GameManagerMochiPush : MonoBehaviour
     [Header("UI Resultados")]
     public GameObject resultadosUI;   
     public GameObject panelGanaste;   
-    public GameObject panelPerdiste;  
+    public GameObject panelPerdiste;
+    public GameObject podiumCamera;
 
     [Header("Cámara (paneo final)")]
     public CameraFollowMochiPush cameraPanner;
@@ -70,7 +71,11 @@ public class GameManagerMochiPush : MonoBehaviour
         if(backgroundMusic!=null)
             if (audioManager != null) 
                 audioManager.PlayMusic(backgroundMusic, 1f);
-        if (resultadosUI) resultadosUI.SetActive(false);
+        if (resultadosUI)
+        {
+            resultadosUI.SetActive(false);
+            podiumCamera.SetActive(false);
+        }
         if (UIControls != null)
             UIControls.SetActive(false);
         SwitchBotPlayerState(false);
@@ -172,8 +177,13 @@ public class GameManagerMochiPush : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
         }
 
+
+        if (resultadosUI && podiumCamera)
+        {
+            resultadosUI.SetActive(true);
+            podiumCamera.SetActive(true);
+        }
         
-        if (resultadosUI) resultadosUI.SetActive(true);
 
         bool playerGano = (winner != null && playerCombatant != null && winner == playerCombatant);
         if (panelGanaste) panelGanaste.SetActive(playerGano);
